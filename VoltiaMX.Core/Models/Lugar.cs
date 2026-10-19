@@ -24,6 +24,16 @@ public class Lugar
 
     public string? Municipio { get; set; }
 
+    /// <summary>
+    /// La persona eligió "No sé mi tarifa": se usa la tarifa 1 hasta que la confirme en su recibo.
+    /// </summary>
+    public bool TarifaPorConfirmar { get; set; }
+
+    /// <summary>
+    /// Lugar con datos de ejemplo ("Cargar datos de demo"). Se borra completo, sin tocar los datos reales.
+    /// </summary>
+    public bool EsDemo { get; set; }
+
     public List<Lectura> Lecturas { get; set; } = [];
 
     public List<Periodo> Periodos { get; set; } = [];

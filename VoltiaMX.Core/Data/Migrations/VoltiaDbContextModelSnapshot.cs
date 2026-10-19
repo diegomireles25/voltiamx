@@ -54,6 +54,9 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.Property<int>("DiaCorte")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("EsDemo")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Estado")
                         .HasMaxLength(60)
                         .HasColumnType("TEXT");
@@ -70,6 +73,9 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.Property<int>("TarifaId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("TarifaPorConfirmar")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Tipo")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -80,6 +86,103 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.HasIndex("TarifaId");
 
                     b.ToTable("Lugares");
+                });
+
+            modelBuilder.Entity("VoltiaMX.Core.Models.Objetivo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PerfilId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal?>("PresupuestoMax")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PerfilId")
+                        .IsUnique();
+
+                    b.ToTable("Objetivos");
+                });
+
+            modelBuilder.Entity("VoltiaMX.Core.Models.PerfilModulo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Modulo")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PerfilId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PerfilId", "Modulo")
+                        .IsUnique();
+
+                    b.ToTable("PerfilModulos");
+                });
+
+            modelBuilder.Entity("VoltiaMX.Core.Models.PerfilUso", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PerfilId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Uso")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PerfilId", "Uso")
+                        .IsUnique();
+
+                    b.ToTable("PerfilUsos");
+                });
+
+            modelBuilder.Entity("VoltiaMX.Core.Models.PerfilUsuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ModoAvanzado")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("NotificacionesActivas")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("OnboardingCompletado")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Perfiles");
                 });
 
             modelBuilder.Entity("VoltiaMX.Core.Models.Periodo", b =>
@@ -206,6 +309,39 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.Navigation("Tarifa");
                 });
 
+            modelBuilder.Entity("VoltiaMX.Core.Models.Objetivo", b =>
+                {
+                    b.HasOne("VoltiaMX.Core.Models.PerfilUsuario", "Perfil")
+                        .WithOne("Objetivo")
+                        .HasForeignKey("VoltiaMX.Core.Models.Objetivo", "PerfilId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Perfil");
+                });
+
+            modelBuilder.Entity("VoltiaMX.Core.Models.PerfilModulo", b =>
+                {
+                    b.HasOne("VoltiaMX.Core.Models.PerfilUsuario", "Perfil")
+                        .WithMany("Modulos")
+                        .HasForeignKey("PerfilId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Perfil");
+                });
+
+            modelBuilder.Entity("VoltiaMX.Core.Models.PerfilUso", b =>
+                {
+                    b.HasOne("VoltiaMX.Core.Models.PerfilUsuario", "Perfil")
+                        .WithMany("Usos")
+                        .HasForeignKey("PerfilId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Perfil");
+                });
+
             modelBuilder.Entity("VoltiaMX.Core.Models.Periodo", b =>
                 {
                     b.HasOne("VoltiaMX.Core.Models.Lugar", "Lugar")
@@ -233,6 +369,15 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.Navigation("Lecturas");
 
                     b.Navigation("Periodos");
+                });
+
+            modelBuilder.Entity("VoltiaMX.Core.Models.PerfilUsuario", b =>
+                {
+                    b.Navigation("Modulos");
+
+                    b.Navigation("Objetivo");
+
+                    b.Navigation("Usos");
                 });
 
             modelBuilder.Entity("VoltiaMX.Core.Models.Tarifa", b =>

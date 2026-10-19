@@ -15,6 +15,14 @@ public class VoltiaDbContext(DbContextOptions<VoltiaDbContext> options) : DbCont
 
     public DbSet<Periodo> Periodos => Set<Periodo>();
 
+    public DbSet<PerfilUsuario> Perfiles => Set<PerfilUsuario>();
+
+    public DbSet<PerfilUso> PerfilUsos => Set<PerfilUso>();
+
+    public DbSet<PerfilModulo> PerfilModulos => Set<PerfilModulo>();
+
+    public DbSet<Objetivo> Objetivos => Set<Objetivo>();
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         // Precios, montos y kWh.
@@ -64,6 +72,43 @@ public class VoltiaDbContext(DbContextOptions<VoltiaDbContext> options) : DbCont
                 .WithMany(l => l.Lecturas)
                 .HasForeignKey(l => l.LugarId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<PerfilUsuario>(perfil =>
+        {
+            perfil.Property(p => p.Nombre).HasMaxLength(100);
+
+            perfil.HasMany(p => p.Usos)
+                .WithOne(u => u.Perfil)
+                .HasForeignKey(u => u.PerfilId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            perfil.HasMany(p => p.Modulos)
+                .WithOne(m => m.Perfil)
+                .HasForeignKey(m => m.PerfilId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            perfil.HasOne(p => p.Objetivo)
+                .WithOne(o => o.Perfil)
+                .HasForeignKey<Objetivo>(o => o.PerfilId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<PerfilUso>(uso =>
+        {
+            uso.Property(u => u.Uso).HasConversion<string>().HasMaxLength(20);
+            uso.HasIndex(u => new { u.PerfilId, u.Uso }).IsUnique();
+        });
+
+        modelBuilder.Entity<PerfilModulo>(modulo =>
+        {
+            modulo.Property(m => m.Modulo).HasConversion<string>().HasMaxLength(20);
+            modulo.HasIndex(m => new { m.PerfilId, m.Modulo }).IsUnique();
+        });
+
+        modelBuilder.Entity<Objetivo>(objetivo =>
+        {
+            objetivo.Property(o => o.Tipo).HasConversion<string>().HasMaxLength(40);
         });
 
         modelBuilder.Entity<Periodo>(periodo =>

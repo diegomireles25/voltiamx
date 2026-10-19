@@ -23,7 +23,7 @@ En VoltiaMX (app):
 Restricciones: x:Bind, textos en Resources.resw, ViewModels sin referencias a UI. Usa ÚNICAMENTE los estilos y recursos de VoltiaMX/Styles/*.xaml (CardStyle, InvertedCardStyle, MintTagStyle, PrimaryButtonStyle, HairlineRowStyle, estilos de Typography, etc.); si falta un estilo, créalo ahí en vez de definirlo dentro de la vista. Sigue docs/DESIGN.md y usa el skill de diseño para las decisiones de composición.
 
 Aplicación visual por pantalla:
-- BienvenidaPage: titular en estilo DisplayXL en mayúsculas ("ENTIENDE TU RECIBO DE LUZ"), subtítulo Body en Slate, botón primario "Empezar".
+- BienvenidaPage: titular en estilo DisplayTextStyle (80px) en mayúsculas ("ENTIENDE TU RECIBO DE LUZ"); los 130px quedan reservados para la cifra principal del Dashboard, subtítulo Body en Slate, botón primario "Empezar".
 - Indicador de paso en cada página: MintTagStyle con texto mono ("PASO 2/5"), uno solo por pantalla.
 - UsoPage: tarjetas grandes con CardStyle; al seleccionarse cambian a InvertedCardStyle (fondo negro, texto blanco).
 - ListoPage: resumen dentro de una TopArcCard negra con título en Display.
