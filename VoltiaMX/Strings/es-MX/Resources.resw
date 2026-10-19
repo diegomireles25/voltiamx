@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Ventana -->
+  <data name="Ventana_Titulo" xml:space="preserve">
+    <value>VoltiaMX</value>
+  </data>
+  <data name="Ventana_Marca.Text" xml:space="preserve">
+    <value>VOLTIAMX</value>
+  </data>
+
+  <!-- Galería de diseño (solo Debug): encabezado -->
+  <data name="Galeria_EtiquetaDepuracion.Content" xml:space="preserve">
+    <value>SOLO DEBUG</value>
+  </data>
+  <data name="Galeria_Titulo.Text" xml:space="preserve">
+    <value>SISTEMA DE DISEÑO</value>
+  </data>
+  <data name="Galeria_Descripcion.Text" xml:space="preserve">
+    <value>Compara cada token y componente con docs/DESIGN.md. Esta página no aparece en la versión Release.</value>
+  </data>
+
+  <!-- Galería: color -->
+  <data name="Galeria_SeccionColor.Text" xml:space="preserve">
+    <value>COLOR</value>
+  </data>
+  <data name="Galeria_ColorCarbonBlack.Text" xml:space="preserve">
+    <value>Carbon Black</value>
+  </data>
+  <data name="Galeria_ColorPaperWhite.Text" xml:space="preserve">
+    <value>Paper White</value>
+  </data>
+  <data name="Galeria_ColorWarmCanvas.Text" xml:space="preserve">
+    <value>Warm Canvas</value>
+  </data>
+  <data name="Galeria_ColorMistGray.Text" xml:space="preserve">
+    <value>Mist Gray</value>
+  </data>
+  <data name="Galeria_ColorAsh.Text" xml:space="preserve">
+    <value>Ash</value>
+  </data>
+  <data name="Galeria_ColorSmoke.Text" xml:space="preserve">
+    <value>Smoke</value>
+  </data>
+  <data name="Galeria_ColorSlate.Text" xml:space="preserve">
+    <value>Slate</value>
+  </data>
+  <data name="Galeria_ColorGraphite.Text" xml:space="preserve">
+    <value>Graphite</value>
+  </data>
+  <data name="Galeria_ColorMintChip.Text" xml:space="preserve">
+    <value>Mint Chip</value>
+  </data>
+  <data name="Galeria_ColorVoltageYellow.Text" xml:space="preserve">
+    <value>Voltage Yellow</value>
+  </data>
+
+  <!-- Galería: tipografía (etiqueta = estilo · tamaño / interlineado · CharacterSpacing) -->
+  <data name="Galeria_SeccionTipografia.Text" xml:space="preserve">
+    <value>TIPOGRAFÍA</value>
+  </data>
+  <data name="Galeria_EtiquetaDisplayXL.Text" xml:space="preserve">
+    <value>DISPLAY XL · 130/117 · -30</value>
+  </data>
+  <data name="Galeria_MuestraDisplayXL.Text" xml:space="preserve">
+    <value>$1,284</value>
+  </data>
+  <data name="Galeria_EtiquetaDisplay.Text" xml:space="preserve">
+    <value>DISPLAY · 80/72 · -30</value>
+  </data>
+  <data name="Galeria_MuestraDisplay.Text" xml:space="preserve">
+    <value>PAGO ESTIMADO</value>
+  </data>
+  <data name="Galeria_EtiquetaHeadingLg.Text" xml:space="preserve">
+    <value>HEADING LG · 48/43.2 · -30</value>
+  </data>
+  <data name="Galeria_MuestraHeadingLg.Text" xml:space="preserve">
+    <value>TU CONSUMO DEL BIMESTRE</value>
+  </data>
+  <data name="Galeria_EtiquetaHeading.Text" xml:space="preserve">
+    <value>HEADING · 40/44 · -20</value>
+  </data>
+  <data name="Galeria_MuestraHeading.Text" xml:space="preserve">
+    <value>HISTORIAL DE CONSUMO</value>
+  </data>
+  <data name="Galeria_EtiquetaHeadingSm.Text" xml:space="preserve">
+    <value>HEADING SM · 28/36.4 · -30</value>
+  </data>
+  <data name="Galeria_MuestraHeadingSm.Text" xml:space="preserve">
+    <value>PRESUPUESTO DEL BIMESTRE</value>
+  </data>
+  <data name="Galeria_EtiquetaSubheading.Text" xml:space="preserve">
+    <value>SUBHEADING · 18/24</value>
+  </data>
+  <data name="Galeria_MuestraSubheading.Text" xml:space="preserve">
+    <value>Te quedan 182 kWh para no pasar de $900</value>
+  </data>
+  <data name="Galeria_EtiquetaBody.Text" xml:space="preserve">
+    <value>BODY · 16/20</value>
+  </data>
+  <data name="Galeria_MuestraBody.Text" xml:space="preserve">
+    <value>Tu consumo va 12% abajo del bimestre pasado. Si mantienes este ritmo, pagarás alrededor de $1,284.</value>
+  </data>
+  <data name="Galeria_EtiquetaBodySm.Text" xml:space="preserve">
+    <value>BODY SM · 14/18.2 · -11</value>
+  </data>
+  <data name="Galeria_MuestraBodySm.Text" xml:space="preserve">
+    <value>Última lectura: 14 de octubre, 12,450 kWh</value>
+  </data>
+  <data name="Galeria_EtiquetaCaption.Text" xml:space="preserve">
+    <value>CAPTION · 12/19.2 · -30</value>
+  </data>
+  <data name="Galeria_MuestraCaption.Text" xml:space="preserve">
+    <value>PERIODO 15 AGO – 14 OCT · TARIFA 1C</value>
+  </data>
+  <data name="Galeria_EtiquetaMayusculas.Text" xml:space="preserve">
+    <value>UPPERCASECONVERTER</value>
+  </data>
+  <data name="Galeria_TextoDinamico.Text" xml:space="preserve">
+    <value>Recibo bimestral de agosto</value>
+  </data>
+
+  <!-- Galería: tarjetas -->
+  <data name="Galeria_SeccionTarjetas.Text" xml:space="preserve">
+    <value>TARJETAS</value>
+  </data>
+  <data name="Galeria_TarjetaEstandarEtiqueta.Text" xml:space="preserve">
+    <value>CARDSTYLE · RADIO 24</value>
+  </data>
+  <data name="Galeria_TarjetaEstandarTitulo.Text" xml:space="preserve">
+    <value>HISTORIAL</value>
+  </data>
+  <data name="Galeria_TarjetaEstandarTexto.Text" xml:space="preserve">
+    <value>Seis bimestres de consumo, del más antiguo al más reciente.</value>
+  </data>
+  <data name="Galeria_TarjetaInvertidaEtiqueta.Text" xml:space="preserve">
+    <value>INVERTEDCARDSTYLE · RADIO 32</value>
+  </data>
+  <data name="Galeria_TarjetaInvertidaTitulo.Text" xml:space="preserve">
+    <value>PRESUPUESTO INVERSO</value>
+  </data>
+  <data name="Galeria_TarjetaInvertidaTexto.Text" xml:space="preserve">
+    <value>Con $900 te alcanzan 412 kWh este bimestre: 6.8 kWh por día.</value>
+  </data>
+  <data name="Galeria_TarjetaArcoEtiqueta.Text" xml:space="preserve">
+    <value>TOPARCCARDSTYLE · RADIO 64,64,0,0</value>
+  </data>
+  <data name="Galeria_TarjetaArcoTitulo.Text" xml:space="preserve">
+    <value>LISTO</value>
+  </data>
+  <data name="Galeria_TarjetaArcoInvertidaEtiqueta.Text" xml:space="preserve">
+    <value>TOPARCINVERTEDCARDSTYLE · RADIO 64,64,0,0</value>
+  </data>
+  <data name="Galeria_TarjetaArcoInvertidaTitulo.Text" xml:space="preserve">
+    <value>TU RESUMEN</value>
+  </data>
+
+  <!-- Galería: etiquetas (semáforo DAC) -->
+  <data name="Galeria_SeccionEtiquetas.Text" xml:space="preserve">
+    <value>ETIQUETAS</value>
+  </data>
+  <data name="Galeria_TagBajo.Content" xml:space="preserve">
+    <value>DAC · BAJO</value>
+  </data>
+  <data name="Galeria_TagMedio.Content" xml:space="preserve">
+    <value>DAC · MEDIO</value>
+  </data>
+  <data name="Galeria_TagAlto.Content" xml:space="preserve">
+    <value>DAC · ALTO</value>
+  </data>
+
+  <!-- Galería: botones -->
+  <data name="Galeria_SeccionBotones.Text" xml:space="preserve">
+    <value>BOTONES</value>
+  </data>
+  <data name="Galeria_BotonPrimario.Content" xml:space="preserve">
+    <value>Guardar lectura</value>
+  </data>
+  <data name="Galeria_BotonGhost.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Galeria_BotonLink.Content" xml:space="preserve">
+    <value>Ver desglose</value>
+  </data>
+  <data name="Galeria_BotonPrimarioDeshabilitado.Content" xml:space="preserve">
+    <value>Guardar lectura</value>
+  </data>
+  <data name="Galeria_BotonGhostDeshabilitado.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Galeria_NotaFoco.Text" xml:space="preserve">
+    <value>Usa Tab para recorrer los controles y revisar el anillo de foco.</value>
+  </data>
+
+  <!-- Galería: controles estándar -->
+  <data name="Galeria_SeccionControles.Text" xml:space="preserve">
+    <value>CONTROLES</value>
+  </data>
+  <data name="Galeria_Input.Header" xml:space="preserve">
+    <value>Lectura del medidor (kWh)</value>
+  </data>
+  <data name="Galeria_Input.PlaceholderText" xml:space="preserve">
+    <value>Ej. 12450</value>
+  </data>
+  <data name="Galeria_InputDeshabilitado.Header" xml:space="preserve">
+    <value>Lectura anterior</value>
+  </data>
+  <data name="Galeria_InputDeshabilitado.Text" xml:space="preserve">
+    <value>12180</value>
+  </data>
+  <data name="Galeria_Combo.Header" xml:space="preserve">
+    <value>Tarifa</value>
+  </data>
+  <data name="Galeria_Combo.PlaceholderText" xml:space="preserve">
+    <value>Elige tu tarifa</value>
+  </data>
+  <data name="Galeria_ComboTarifa1.Content" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Galeria_ComboTarifa1C.Content" xml:space="preserve">
+    <value>1C</value>
+  </data>
+  <data name="Galeria_ComboTarifa1F.Content" xml:space="preserve">
+    <value>1F</value>
+  </data>
+  <data name="Galeria_ComboTarifaDac.Content" xml:space="preserve">
+    <value>DAC</value>
+  </data>
+  <data name="Galeria_ComboTarifaPdbt.Content" xml:space="preserve">
+    <value>PDBT</value>
+  </data>
+  <data name="Galeria_Toggle.Header" xml:space="preserve">
+    <value>Avisarme antes de pasar a DAC</value>
+  </data>
+  <data name="Galeria_Toggle.OnContent" xml:space="preserve">
+    <value>Activado</value>
+  </data>
+  <data name="Galeria_Toggle.OffContent" xml:space="preserve">
+    <value>Desactivado</value>
+  </data>
+  <data name="Galeria_Check.Content" xml:space="preserve">
+    <value>Recordarme capturar la lectura cada semana</value>
+  </data>
+  <data name="Galeria_RadioMensual.Content" xml:space="preserve">
+    <value>Recibo mensual</value>
+  </data>
+  <data name="Galeria_RadioBimestral.Content" xml:space="preserve">
+    <value>Recibo bimestral</value>
+  </data>
+  <data name="Galeria_Fecha.Header" xml:space="preserve">
+    <value>Fecha de corte</value>
+  </data>
+  <data name="Galeria_Fecha.PlaceholderText" xml:space="preserve">
+    <value>Elige una fecha</value>
+  </data>
+
+  <!-- Galería: filas con línea -->
+  <data name="Galeria_SeccionFilas.Text" xml:space="preserve">
+    <value>FILAS</value>
+  </data>
+  <data name="Galeria_FilaAparato1.Text" xml:space="preserve">
+    <value>Aire acondicionado</value>
+  </data>
+  <data name="Galeria_FilaConsumo1.Text" xml:space="preserve">
+    <value>182 kWh</value>
+  </data>
+  <data name="Galeria_FilaAparato2.Text" xml:space="preserve">
+    <value>Refrigerador</value>
+  </data>
+  <data name="Galeria_FilaConsumo2.Text" xml:space="preserve">
+    <value>64 kWh</value>
+  </data>
+  <data name="Galeria_FilaAparato3.Text" xml:space="preserve">
+    <value>Lavadora</value>
+  </data>
+  <data name="Galeria_FilaConsumo3.Text" xml:space="preserve">
+    <value>21 kWh</value>
+  </data>
+
+  <!-- Galería: navegación -->
+  <data name="Galeria_SeccionNavegacion.Text" xml:space="preserve">
+    <value>NAVEGACIÓN</value>
+  </data>
+  <data name="Galeria_NavInicio.Content" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="Galeria_NavLecturas.Content" xml:space="preserve">
+    <value>Lecturas</value>
+  </data>
+  <data name="Galeria_NavPresupuesto.Content" xml:space="preserve">
+    <value>Presupuesto</value>
+  </data>
+</root>

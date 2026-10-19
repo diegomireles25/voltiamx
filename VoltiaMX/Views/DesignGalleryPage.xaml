@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Galería del sistema de diseño, solo para compilaciones Debug (App.xaml.cs la abre con #if DEBUG).
+    Sirve para revisar a ojo cada token y componente de Styles/*.xaml contra docs/DESIGN.md.
+-->
+<Page
+    x:Class="VoltiaMX.Views.DesignGalleryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <helpers:ColorToHexConverter x:Key="ColorAHex" />
+        <helpers:UppercaseConverter x:Key="Mayusculas" />
+    </Page.Resources>
+
+    <ScrollViewer>
+        <StackPanel
+            MaxWidth="{StaticResource ContentMaxWidth}"
+            Padding="{StaticResource PagePadding}"
+            Spacing="{StaticResource Spacing80}">
+
+            <!-- Encabezado -->
+            <StackPanel Spacing="{StaticResource Spacing24}">
+                <ContentPresenter x:Uid="Galeria_EtiquetaDepuracion" Style="{StaticResource MintTagStyle}" />
+                <TextBlock
+                    x:Uid="Galeria_Titulo"
+                    AutomationProperties.HeadingLevel="Level1"
+                    Style="{StaticResource DisplayTextStyle}" />
+                <TextBlock
+                    x:Uid="Galeria_Descripcion"
+                    Foreground="{StaticResource SlateBrush}"
+                    Style="{StaticResource BodyTextStyle}" />
+            </StackPanel>
+
+            <!-- Color -->
+            <StackPanel Spacing="{StaticResource Spacing40}">
+                <TextBlock
+                    x:Uid="Galeria_SeccionColor"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+                <Grid ColumnSpacing="{StaticResource Spacing24}" RowSpacing="{StaticResource Spacing40}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Spacing="{StaticResource Spacing8}">
+                        <Border Background="{StaticResource CarbonBlackBrush}" Style="{StaticResource SwatchStyle}" />
+                        <TextBlock x:Uid="Galeria_ColorCarbonBlack" Style="{StaticResource BodySmTextStyle}" />
+                        <TextBlock
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}"
+                            Text="{Binding Source={StaticResource CarbonBlackColor}, Converter={StaticResource ColorAHex}}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing8}">
+                        <Border Background="{StaticResource PaperWhiteBrush}" Style="{StaticResource SwatchStyle}" />
+                        <TextBlock x:Uid="Galeria_ColorPaperWhite" Style="{StaticResource BodySmTextStyle}" />
+                        <TextBlock
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}"
+                            Text="{Binding Source={StaticResource PaperWhiteColor}, Converter={StaticResource ColorAHex}}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="{StaticResource Spacing8}">
+                        <Border Background="{StaticResource WarmCanvasBrush}" Style="{StaticResource SwatchStyle}" />
+                        <TextBlock x:Uid="Galeria_ColorWarmCanvas" Style="{StaticResource BodySmTextStyle}" />
+                        <TextBlock
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}"
+                            Text="{Binding Source={StaticResource WarmCanvasColor}, Converter={StaticResource ColorAHex}}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Spacing="{StaticResource Spacing8}">
+                        <Border Background="{StaticResource MistGrayBrush}" Style="{StaticResource SwatchStyle}" />
+                        <TextBlock x:Uid="Galeria_ColorMistGray" Style="{StaticResource BodySmTextStyle}" />
+                        <TextBlock
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}"
+                            Text="{Binding Source={StaticResource MistGrayColor}, Converter={StaticResource ColorAHex}}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="4" Spacing="{StaticResource Spacing8}">
+                        <Border Background="{StaticResource AshBrush}" Style="{StaticResource SwatchStyle}" />
+                        <TextBlock x:Uid="Galeria_ColorAsh" Style="{StaticResource BodySmTextStyle}" />
+                        <TextBlock
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}"
+                            Text="{Binding Source={StaticResource AshColor}, Converter={StaticResource ColorAHex}}" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Spacing="{StaticResource Spacing8}">
+                        <Border Background="{StaticResource SmokeBrush}" Style="{StaticResource SwatchStyle}" />
+                        <TextBlock x:Uid="Galeria_ColorSmoke" Style="{StaticResource BodySmTextStyle}" />
+                        <TextBlock
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}"
+                            Text="{Binding Source={StaticResource SmokeColor}, Converter={StaticResource ColorAHex}}" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="1" Spacing="{StaticResource Spacing8}">
+                        <Border Background="{StaticResource SlateBrush}" Style="{StaticResource SwatchStyle}" />
+                        <TextBlock x:Uid="Galeria_ColorSlate" Style="{StaticResource BodySmTextStyle}" />
+                        <TextBlock
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}"
+                            Text="{Binding Source={StaticResource SlateColor}, Converter={StaticResource ColorAHex}}" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="2" Spacing="{StaticResource Spacing8}">
+                        <Border Background="{StaticResource GraphiteBrush}" Style="{StaticResource SwatchStyle}" />
+                        <TextBlock x:Uid="Galeria_ColorGraphite" Style="{StaticResource BodySmTextStyle}" />
+                        <TextBlock
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}"
+                            Text="{Binding Source={StaticResource GraphiteColor}, Converter={StaticResource ColorAHex}}" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="3" Spacing="{StaticResource Spacing8}">
+                        <Border Background="{StaticResource MintChipBrush}" Style="{StaticResource SwatchStyle}" />
+                        <TextBlock x:Uid="Galeria_ColorMintChip" Style="{StaticResource BodySmTextStyle}" />
+                        <TextBlock
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}"
+                            Text="{Binding Source={StaticResource MintChipColor}, Converter={StaticResource ColorAHex}}" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="4" Spacing="{StaticResource Spacing8}">
+                        <Border Background="{StaticResource VoltageYellowBrush}" Style="{StaticResource SwatchStyle}" />
+                        <TextBlock x:Uid="Galeria_ColorVoltageYellow" Style="{StaticResource BodySmTextStyle}" />
+                        <TextBlock
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}"
+                            Text="{Binding Source={StaticResource VoltageYellowColor}, Converter={StaticResource ColorAHex}}" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+
+            <!-- Tipografía: una fila por estilo, separadas por línea -->
+            <StackPanel Spacing="{StaticResource Spacing40}">
+                <TextBlock
+                    x:Uid="Galeria_SeccionTipografia"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+                <Border Style="{StaticResource HairlineListStyle}">
+                    <StackPanel>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="{StaticResource GalleryLabelColumnWidth}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Uid="Galeria_EtiquetaDisplayXL" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                <TextBlock x:Uid="Galeria_MuestraDisplayXL" Grid.Column="1" Style="{StaticResource DisplayXLTextStyle}" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="{StaticResource GalleryLabelColumnWidth}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Uid="Galeria_EtiquetaDisplay" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                <TextBlock x:Uid="Galeria_MuestraDisplay" Grid.Column="1" Style="{StaticResource DisplayTextStyle}" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="{StaticResource GalleryLabelColumnWidth}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Uid="Galeria_EtiquetaHeadingLg" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                <TextBlock x:Uid="Galeria_MuestraHeadingLg" Grid.Column="1" Style="{StaticResource HeadingLgTextStyle}" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="{StaticResource GalleryLabelColumnWidth}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Uid="Galeria_EtiquetaHeading" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                <TextBlock x:Uid="Galeria_MuestraHeading" Grid.Column="1" Style="{StaticResource HeadingTextStyle}" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="{StaticResource GalleryLabelColumnWidth}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Uid="Galeria_EtiquetaHeadingSm" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                <TextBlock x:Uid="Galeria_MuestraHeadingSm" Grid.Column="1" Style="{StaticResource HeadingSmTextStyle}" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="{StaticResource GalleryLabelColumnWidth}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Uid="Galeria_EtiquetaSubheading" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                <TextBlock x:Uid="Galeria_MuestraSubheading" Grid.Column="1" Style="{StaticResource SubheadingTextStyle}" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="{StaticResource GalleryLabelColumnWidth}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Uid="Galeria_EtiquetaBody" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                <TextBlock x:Uid="Galeria_MuestraBody" Grid.Column="1" Style="{StaticResource BodyTextStyle}" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="{StaticResource GalleryLabelColumnWidth}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Uid="Galeria_EtiquetaBodySm" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                <TextBlock x:Uid="Galeria_MuestraBodySm" Grid.Column="1" Style="{StaticResource BodySmTextStyle}" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="{StaticResource GalleryLabelColumnWidth}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Uid="Galeria_EtiquetaCaption" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                <TextBlock x:Uid="Galeria_MuestraCaption" Grid.Column="1" Style="{StaticResource CaptionTextStyle}" />
+                            </Grid>
+                        </Border>
+                        <!-- UppercaseConverter: el texto dinámico de la izquierda se muestra en mayúsculas -->
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="{StaticResource GalleryLabelColumnWidth}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <TextBlock x:Uid="Galeria_EtiquetaMayusculas" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                    <TextBlock x:Name="TextoDinamico" x:Uid="Galeria_TextoDinamico" Style="{StaticResource BodySmTextStyle}" />
+                                </StackPanel>
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Style="{StaticResource HeadingLgTextStyle}"
+                                    Text="{Binding Text, ElementName=TextoDinamico, Converter={StaticResource Mayusculas}}" />
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- Tarjetas: la única sección con tarjetas -->
+            <StackPanel Spacing="{StaticResource Spacing40}">
+                <TextBlock
+                    x:Uid="Galeria_SeccionTarjetas"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+                <Grid ColumnSpacing="{StaticResource Spacing24}" RowSpacing="{StaticResource Spacing24}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <ContentPresenter Style="{StaticResource CardStyle}">
+                        <StackPanel Spacing="{StaticResource Spacing16}">
+                            <TextBlock x:Uid="Galeria_TarjetaEstandarEtiqueta" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                            <TextBlock x:Uid="Galeria_TarjetaEstandarTitulo" Style="{StaticResource HeadingSmTextStyle}" />
+                            <TextBlock x:Uid="Galeria_TarjetaEstandarTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodyTextStyle}" />
+                        </StackPanel>
+                    </ContentPresenter>
+
+                    <ContentPresenter Grid.Column="1" Style="{StaticResource InvertedCardStyle}">
+                        <StackPanel Spacing="{StaticResource Spacing16}">
+                            <TextBlock x:Uid="Galeria_TarjetaInvertidaEtiqueta" Style="{StaticResource CaptionTextStyle}" />
+                            <TextBlock x:Uid="Galeria_TarjetaInvertidaTitulo" Style="{StaticResource HeadingSmTextStyle}" />
+                            <TextBlock x:Uid="Galeria_TarjetaInvertidaTexto" Style="{StaticResource BodyTextStyle}" />
+                        </StackPanel>
+                    </ContentPresenter>
+
+                    <ContentPresenter Grid.Row="1" Style="{StaticResource TopArcCardStyle}">
+                        <StackPanel Spacing="{StaticResource Spacing16}">
+                            <TextBlock x:Uid="Galeria_TarjetaArcoEtiqueta" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                            <TextBlock x:Uid="Galeria_TarjetaArcoTitulo" Style="{StaticResource HeadingLgTextStyle}" />
+                        </StackPanel>
+                    </ContentPresenter>
+
+                    <ContentPresenter Grid.Row="1" Grid.Column="1" Style="{StaticResource TopArcInvertedCardStyle}">
+                        <StackPanel Spacing="{StaticResource Spacing16}">
+                            <TextBlock x:Uid="Galeria_TarjetaArcoInvertidaEtiqueta" Style="{StaticResource CaptionTextStyle}" />
+                            <TextBlock x:Uid="Galeria_TarjetaArcoInvertidaTitulo" Style="{StaticResource HeadingLgTextStyle}" />
+                        </StackPanel>
+                    </ContentPresenter>
+                </Grid>
+            </StackPanel>
+
+            <!-- Etiquetas: semáforo DAC -->
+            <StackPanel Spacing="{StaticResource Spacing40}">
+                <TextBlock
+                    x:Uid="Galeria_SeccionEtiquetas"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                    <ContentPresenter x:Uid="Galeria_TagBajo" Style="{StaticResource MintTagStyle}" />
+                    <ContentPresenter x:Uid="Galeria_TagMedio" Style="{StaticResource YellowTagStyle}" />
+                    <ContentPresenter x:Uid="Galeria_TagAlto" Style="{StaticResource RiskHighTagStyle}" />
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Botones -->
+            <StackPanel Spacing="{StaticResource Spacing40}">
+                <TextBlock
+                    x:Uid="Galeria_SeccionBotones"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                    <Button x:Uid="Galeria_BotonPrimario" Style="{StaticResource PrimaryButtonStyle}" />
+                    <Button x:Uid="Galeria_BotonGhost" Style="{StaticResource GhostButtonStyle}" />
+                    <Button x:Uid="Galeria_BotonLink" Style="{StaticResource TextLinkButtonStyle}" />
+                    <Button x:Uid="Galeria_BotonPrimarioDeshabilitado" IsEnabled="False" Style="{StaticResource PrimaryButtonStyle}" />
+                    <Button x:Uid="Galeria_BotonGhostDeshabilitado" IsEnabled="False" Style="{StaticResource GhostButtonStyle}" />
+                </StackPanel>
+                <TextBlock x:Uid="Galeria_NotaFoco" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+            </StackPanel>
+
+            <!-- Controles estándar con las sobrescrituras de tema de Colors.xaml -->
+            <StackPanel Spacing="{StaticResource Spacing40}">
+                <TextBlock
+                    x:Uid="Galeria_SeccionControles"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+                <Grid ColumnSpacing="{StaticResource Spacing40}" RowSpacing="{StaticResource Spacing40}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBox x:Uid="Galeria_Input" Style="{StaticResource InputStyle}" />
+                    <TextBox
+                        x:Uid="Galeria_InputDeshabilitado"
+                        Grid.Column="1"
+                        IsEnabled="False"
+                        Style="{StaticResource InputStyle}" />
+                    <ComboBox
+                        x:Uid="Galeria_Combo"
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        Style="{StaticResource ComboBoxStyle}">
+                        <ComboBoxItem x:Uid="Galeria_ComboTarifa1" />
+                        <ComboBoxItem x:Uid="Galeria_ComboTarifa1C" />
+                        <ComboBoxItem x:Uid="Galeria_ComboTarifa1F" />
+                        <ComboBoxItem x:Uid="Galeria_ComboTarifaDac" />
+                        <ComboBoxItem x:Uid="Galeria_ComboTarifaPdbt" />
+                    </ComboBox>
+
+                    <ToggleSwitch x:Uid="Galeria_Toggle" Grid.Row="1" />
+                    <StackPanel Grid.Row="1" Grid.Column="1" Spacing="{StaticResource Spacing8}">
+                        <CheckBox x:Uid="Galeria_Check" IsChecked="True" />
+                        <RadioButton x:Uid="Galeria_RadioMensual" GroupName="GaleriaPeriodo" />
+                        <RadioButton x:Uid="Galeria_RadioBimestral" GroupName="GaleriaPeriodo" IsChecked="True" />
+                    </StackPanel>
+                    <CalendarDatePicker
+                        x:Uid="Galeria_Fecha"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        Style="{StaticResource DatePickerStyle}" />
+                </Grid>
+            </StackPanel>
+
+            <!-- Filas sobre el lienzo, sin tarjeta -->
+            <StackPanel Spacing="{StaticResource Spacing40}">
+                <TextBlock
+                    x:Uid="Galeria_SeccionFilas"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+                <Border Style="{StaticResource HairlineListStyle}">
+                    <StackPanel>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid>
+                                <TextBlock x:Uid="Galeria_FilaAparato1" Style="{StaticResource BodyTextStyle}" />
+                                <TextBlock x:Uid="Galeria_FilaConsumo1" HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid>
+                                <TextBlock x:Uid="Galeria_FilaAparato2" Style="{StaticResource BodyTextStyle}" />
+                                <TextBlock x:Uid="Galeria_FilaConsumo2" HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid>
+                                <TextBlock x:Uid="Galeria_FilaAparato3" Style="{StaticResource BodyTextStyle}" />
+                                <TextBlock x:Uid="Galeria_FilaConsumo3" HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" />
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- Navegación en pastilla -->
+            <StackPanel Spacing="{StaticResource Spacing40}">
+                <TextBlock
+                    x:Uid="Galeria_SeccionNavegacion"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+                <Grid Style="{StaticResource NavBarStyle}">
+                    <ContentPresenter Style="{StaticResource NavPillContainerStyle}">
+                        <NavigationView Style="{StaticResource NavPillStyle}">
+                            <NavigationView.MenuItems>
+                                <NavigationViewItem x:Uid="Galeria_NavInicio" IsSelected="True" Style="{StaticResource NavPillItemStyle}" />
+                                <NavigationViewItem x:Uid="Galeria_NavLecturas" Style="{StaticResource NavPillItemStyle}" />
+                                <NavigationViewItem x:Uid="Galeria_NavPresupuesto" Style="{StaticResource NavPillItemStyle}" />
+                            </NavigationView.MenuItems>
+                        </NavigationView>
+                    </ContentPresenter>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

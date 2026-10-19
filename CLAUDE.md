@@ -48,7 +48,8 @@ App de escritorio WinUI 3 (C#) para entender, predecir y reducir el recibo de lu
   - Fuentes: Barlow Condensed Bold (display, siempre MAYÚSCULAS, interlineado 0.9), Inter 400/500 (cuerpo), JetBrains Mono 400 (etiquetas 12px). Cargarlas desde Assets/Fonts con ms-appx. Nunca usar SuisseIntl.
   - CharacterSpacing de WinUI va en milésimas de em: -0.03em = -30.
   - WinUI no tiene text-transform: los títulos van en mayúsculas directamente en Resources.resw o con UppercaseConverter.
-  - Radios: tarjetas 24-32, tarjeta grande 64, tags 64, nav pill 48, botones 8. Padding de tarjeta 24. Escala de espaciado base 8.
+  - Radios: tarjetas 24-32, tarjeta grande 64, tags 8, nav pill 48, botones 8. Padding de tarjeta 24. Escala de espaciado base 8.
+  - Las etiquetas (tags) son rectangulares con esquinas de radio 8, NO pastillas: esta decisión del proyecto tiene prioridad sobre el valor de 64px de docs/DESIGN.md.
   - Semáforo DAC: Bajo = tag mint, Medio = tag amarillo, Alto = pastilla negra con texto amarillo. No introducir rojo.
   - El número de 130px solo se usa para la cifra principal del Dashboard; bajar a 80px si la ventana mide menos de 1200px de ancho.
 - Todos los colores, radios, espaciados y estilos viven en VoltiaMX/Styles/*.xaml como recursos. Prohibido hardcodear colores o tamaños en las Views.

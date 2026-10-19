@@ -12,7 +12,11 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <!-- Other merged dictionaries here -->
+                <!-- Sistema de diseño (docs/DESIGN.md); el orden importa: cada uno usa los anteriores -->
+                <ResourceDictionary Source="ms-appx:///Styles/Colors.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/Typography.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/Shapes.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
         </ResourceDictionary>

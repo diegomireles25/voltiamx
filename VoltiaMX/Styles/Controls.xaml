@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Componentes del sistema de diseño. Sin sombras, degradados ni ThemeShadow.
+    - Tarjetas y tags usan ContentPresenter: tiene fondo, radio y relleno como Border, pero
+      además Foreground y fuente, así el texto de adentro hereda su color. Todos comparten
+      TargetType para poder intercambiar estilos en tiempo de ejecución (CardStyle ↔
+      InvertedCardStyle, MintTagStyle ↔ YellowTagStyle ↔ RiskHighTagStyle).
+    - Los botones llevan plantilla propia: es la única forma de que cada estilo tenga sus propios
+      colores de PointerOver/Pressed sin cambiar todos los botones de la app.
+    - El foco usa el anillo del sistema (UseSystemFocusVisuals) con los colores de Colors.xaml.
+-->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Apaga la sombra por defecto de flyouts y popups -->
+    <x:Boolean x:Key="IsDefaultShadowEnabled">False</x:Boolean>
+
+    <!-- Tarjetas -->
+    <Style x:Key="CardStyle" TargetType="ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource PaperWhiteBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource CarbonBlackBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource NoBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusCard}" />
+        <Setter Property="Padding" Value="{StaticResource CardPadding}" />
+    </Style>
+
+    <Style x:Key="InvertedCardStyle" TargetType="ContentPresenter" BasedOn="{StaticResource CardStyle}">
+        <Setter Property="Background" Value="{StaticResource CarbonBlackBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource PaperWhiteBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusCardLg}" />
+    </Style>
+
+    <Style x:Key="TopArcCardStyle" TargetType="ContentPresenter" BasedOn="{StaticResource CardStyle}">
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusTopArc}" />
+    </Style>
+
+    <Style x:Key="TopArcInvertedCardStyle" TargetType="ContentPresenter" BasedOn="{StaticResource InvertedCardStyle}">
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusTopArc}" />
+    </Style>
+
+    <!-- Tags: etiqueta rectangular con esquinas de radio 8 y texto mono de 12 (CaptionTextStyle) -->
+    <Style x:Key="TagBaseStyle" TargetType="ContentPresenter">
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusTag}" />
+        <Setter Property="Padding" Value="{StaticResource TagPadding}" />
+        <Setter Property="FontFamily" Value="{StaticResource MonoFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeCaption}" />
+        <Setter Property="CharacterSpacing" Value="-30" />
+        <Setter Property="LineHeight" Value="19.2" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="MintTagStyle" TargetType="ContentPresenter" BasedOn="{StaticResource TagBaseStyle}">
+        <Setter Property="Background" Value="{StaticResource MintChipBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource CarbonBlackBrush}" />
+    </Style>
+
+    <Style x:Key="YellowTagStyle" TargetType="ContentPresenter" BasedOn="{StaticResource TagBaseStyle}">
+        <Setter Property="Background" Value="{StaticResource VoltageYellowBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource CarbonBlackBrush}" />
+    </Style>
+
+    <!-- Semáforo DAC alto: etiqueta negra con texto amarillo (no se usa rojo) -->
+    <Style x:Key="RiskHighTagStyle" TargetType="ContentPresenter" BasedOn="{StaticResource TagBaseStyle}">
+        <Setter Property="Background" Value="{StaticResource CarbonBlackBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource VoltageYellowBrush}" />
+    </Style>
+
+    <!-- Botones -->
+    <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource CarbonBlackBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource PaperWhiteBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="{StaticResource NoBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusButton}" />
+        <Setter Property="Padding" Value="{StaticResource PrimaryButtonPadding}" />
+        <Setter Property="FontFamily" Value="{StaticResource BodyMediumFontFamily}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="FocusVisualMargin" Value="{StaticResource FocusVisualMargin}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <ContentPresenter
+                        x:Name="ContentPresenter"
+                        Padding="{TemplateBinding Padding}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        AutomationProperties.AccessibilityView="Raw"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Foreground="{TemplateBinding Foreground}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Background" Value="{StaticResource GraphiteBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Background" Value="{StaticResource GraphiteBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Background" Value="{StaticResource AshBrush}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{StaticResource SmokeBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </ContentPresenter>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GhostButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource SlateBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SlateBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource GhostBorderThickness}" />
+        <Setter Property="Padding" Value="{StaticResource GhostButtonPadding}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <ContentPresenter
+                        x:Name="ContentPresenter"
+                        Padding="{TemplateBinding Padding}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        AutomationProperties.AccessibilityView="Raw"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Foreground="{TemplateBinding Foreground}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.BorderBrush" Value="{StaticResource CarbonBlackBrush}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{StaticResource CarbonBlackBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Background" Value="{StaticResource MistGrayBrush}" />
+                                        <Setter Target="ContentPresenter.BorderBrush" Value="{StaticResource CarbonBlackBrush}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{StaticResource CarbonBlackBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.BorderBrush" Value="{StaticResource AshBrush}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{StaticResource SmokeBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </ContentPresenter>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Enlace: ContentPresenter no tiene TextDecorations, así que el subrayado es una línea de 1px -->
+    <Style x:Key="TextLinkButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource CarbonBlackBrush}" />
+        <Setter Property="Padding" Value="{StaticResource TextLinkButtonPadding}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid
+                        x:Name="RootGrid"
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="Subrayado.Background" Value="{StaticResource CarbonBlackBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="Subrayado.Background" Value="{StaticResource CarbonBlackBrush}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{StaticResource SlateBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Foreground" Value="{StaticResource SmokeBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            AutomationProperties.AccessibilityView="Raw"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            Foreground="{TemplateBinding Foreground}" />
+                        <Border
+                            x:Name="Subrayado"
+                            Grid.Row="1"
+                            Height="{StaticResource HairlineHeight}"
+                            Background="Transparent" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Entrada de texto: el borde 2 Carbon al enfocar sale de TextControl* en Colors.xaml -->
+    <Style x:Key="InputStyle" TargetType="TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}">
+        <Setter Property="Background" Value="{StaticResource PaperWhiteBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource AshBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource InputBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusButton}" />
+        <Setter Property="Padding" Value="{StaticResource InputPadding}" />
+        <Setter Property="FontFamily" Value="{StaticResource BodyFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+    </Style>
+
+    <!-- ComboBox y CalendarDatePicker con la misma medida que InputStyle (texto 16, radio 8, relleno y borde) -->
+    <Style x:Key="ComboBoxStyle" TargetType="ComboBox" BasedOn="{StaticResource DefaultComboBoxStyle}">
+        <Setter Property="Background" Value="{StaticResource PaperWhiteBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource AshBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource InputBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusButton}" />
+        <Setter Property="Padding" Value="{StaticResource InputPadding}" />
+        <Setter Property="FontFamily" Value="{StaticResource BodyFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+    </Style>
+
+    <Style x:Key="DatePickerStyle" TargetType="CalendarDatePicker" BasedOn="{StaticResource DefaultCalendarDatePicker}">
+        <Setter Property="Background" Value="{StaticResource PaperWhiteBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource AshBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource InputBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusButton}" />
+        <Setter Property="Padding" Value="{StaticResource InputPadding}" />
+        <Setter Property="FontFamily" Value="{StaticResource BodyFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+    </Style>
+
+    <!-- Navegación superior: barra de 88 sobre el lienzo con una pastilla blanca centrada -->
+    <Style x:Key="NavBarStyle" TargetType="Grid">
+        <Setter Property="Height" Value="{StaticResource NavBarHeight}" />
+        <Setter Property="Background" Value="{StaticResource WarmCanvasBrush}" />
+    </Style>
+
+    <Style x:Key="NavPillContainerStyle" TargetType="ContentPresenter">
+        <Setter Property="Background" Value="{StaticResource PaperWhiteBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusNavPill}" />
+        <Setter Property="Padding" Value="{StaticResource NavPillPadding}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="NavPillItemStyle" TargetType="NavigationViewItem">
+        <Setter Property="FontFamily" Value="{StaticResource BodyMediumFontFamily}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+    </Style>
+
+    <!-- Colores de los ítems (Slate y Carbon al seleccionar) en TopNavigationViewItem* de Colors.xaml -->
+    <Style x:Key="NavPillStyle" TargetType="NavigationView">
+        <Setter Property="PaneDisplayMode" Value="Top" />
+        <Setter Property="IsBackButtonVisible" Value="Collapsed" />
+        <Setter Property="IsSettingsVisible" Value="False" />
+        <Setter Property="IsPaneToggleButtonVisible" Value="False" />
+        <Setter Property="IsTitleBarAutoPaddingEnabled" Value="False" />
+        <Setter Property="FontFamily" Value="{StaticResource BodyMediumFontFamily}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="MenuItemContainerStyle" Value="{StaticResource NavPillItemStyle}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Fila de lista sobre el lienzo: sin tarjeta, separada por una línea negra de 1px -->
+    <Style x:Key="HairlineRowStyle" TargetType="Border">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{StaticResource CarbonBlackBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource HairlineThickness}" />
+        <Setter Property="Padding" Value="{StaticResource HairlineRowPadding}" />
+    </Style>
+
+    <!-- Contenedor de filas: aporta la línea superior de la primera fila -->
+    <Style x:Key="HairlineListStyle" TargetType="Border">
+        <Setter Property="BorderBrush" Value="{StaticResource CarbonBlackBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource HairlineTopThickness}" />
+    </Style>
+
+    <!-- Muestra de color de DesignGalleryPage; el borde deja ver el color del lienzo -->
+    <Style x:Key="SwatchStyle" TargetType="Border">
+        <Setter Property="Width" Value="{StaticResource SwatchWidth}" />
+        <Setter Property="Height" Value="{StaticResource SwatchHeight}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusCard}" />
+        <Setter Property="BorderBrush" Value="{StaticResource CarbonBlackBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource SwatchBorderThickness}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+</ResourceDictionary>

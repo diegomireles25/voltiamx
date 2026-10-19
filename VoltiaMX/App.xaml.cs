@@ -8,7 +8,7 @@ namespace VoltiaMX
     /// </summary>
     public partial class App : Application
     {
-        private Window window = Window.Current;
+        private MainWindow? window;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -26,23 +26,20 @@ namespace VoltiaMX
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            window ??= new Window();
-            window.ExtendsContentIntoTitleBar = false;
+            window ??= new MainWindow();
 
             if (window.AppWindow.Presenter is OverlappedPresenter presenter)
             {
-                //presenter.SetBorderAndTitleBar(false, false);
                 presenter.Maximize();
             }
 
-            if (window.Content is not Frame rootFrame)
-            {
-                rootFrame = new Frame();
-                rootFrame.NavigationFailed += OnNavigationFailed;
-                window.Content = rootFrame;
-            }
-
-            _ = rootFrame.Navigate(typeof(MainPage), e.Arguments);
+            window.Contenido.NavigationFailed += OnNavigationFailed;
+#if DEBUG
+            // Galería del sistema de diseño: solo existe como pantalla en compilaciones Debug.
+            _ = window.Contenido.Navigate(typeof(DesignGalleryPage), e.Arguments);
+#else
+            _ = window.Contenido.Navigate(typeof(MainPage), e.Arguments);
+#endif
             window.Activate();
         }
 
