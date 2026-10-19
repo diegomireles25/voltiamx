@@ -21,6 +21,7 @@
             </ResourceDictionary.MergedDictionaries>
             <!-- Texto dinámico en mayúsculas para estilos display y resúmenes -->
             <helpers:UppercaseConverter x:Key="Mayusculas" />
+            <helpers:FraccionAEstrellaConverter x:Key="Estrella" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

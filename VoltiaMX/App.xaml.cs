@@ -102,6 +102,8 @@ namespace VoltiaMX
             // ViewModels
             servicios.AddTransient<OnboardingViewModel>();
             servicios.AddTransient<ShellViewModel>();
+            servicios.AddTransient<DashboardViewModel>();
+            servicios.AddTransient<ConfiguracionViewModel>();
 
             return builder.Build();
         }

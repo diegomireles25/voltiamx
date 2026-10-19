@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using VoltiaMX.Core.Models;
@@ -22,7 +21,12 @@ public sealed record ElementoNavegacion(DestinoShell Destino, string Titulo, Mod
 public sealed partial class ShellViewModel(IPerfilService perfiles, ITextos textos, INavegacionShell navegacion)
     : ObservableObject
 {
-    public ObservableCollection<ElementoNavegacion> Elementos { get; } = [];
+    /// <summary>
+    /// Se reemplaza completa al cambiar de modo: vaciar y rellenar la misma colección hacía que el
+    /// NavigationView reusara contenedores con el estado "seleccionado" de otro elemento.
+    /// </summary>
+    [ObservableProperty]
+    public partial IReadOnlyList<ElementoNavegacion> Elementos { get; set; } = [];
 
     /// <summary>
     /// Elemento seleccionado del NavigationView (object porque así lo expone el control).
@@ -55,14 +59,12 @@ public sealed partial class ShellViewModel(IPerfilService perfiles, ITextos text
     {
         var modulos = await perfiles.ObtenerModulosActivosAsync();
 
-        Elementos.Clear();
-        Elementos.Add(new ElementoNavegacion(DestinoShell.Dashboard, textos["Nav_Dashboard"]));
-        foreach (var modulo in modulos)
-        {
-            Elementos.Add(new ElementoNavegacion(DestinoShell.Modulo, textos[$"Modulo_{modulo}"], modulo));
-        }
+        List<ElementoNavegacion> elementos = [new(DestinoShell.Dashboard, textos["Nav_Dashboard"])];
+        elementos.AddRange(modulos.Select(m => new ElementoNavegacion(DestinoShell.Modulo, textos[$"Modulo_{m}"], m)));
+        elementos.Add(new ElementoNavegacion(DestinoShell.Configuracion, textos["Nav_Configuracion"]));
 
-        Elementos.Add(new ElementoNavegacion(DestinoShell.Configuracion, textos["Nav_Configuracion"]));
-        Seleccionado = Elementos.First(e => e.Destino == seleccionar);
+        Seleccionado = null;
+        Elementos = elementos;
+        Seleccionado = elementos.First(e => e.Destino == seleccionar);
     }
 }

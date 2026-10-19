@@ -39,6 +39,16 @@
         <Setter Property="CornerRadius" Value="{StaticResource RadiusTopArc}" />
     </Style>
 
+    <!-- Tarjetas grandes del Dashboard (mockup-dashboard.html: radio 32 y relleno 32) -->
+    <Style x:Key="CardLgStyle" TargetType="ContentPresenter" BasedOn="{StaticResource CardStyle}">
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusCardLg}" />
+        <Setter Property="Padding" Value="{StaticResource CardPaddingLg}" />
+    </Style>
+
+    <Style x:Key="InvertedCardLgStyle" TargetType="ContentPresenter" BasedOn="{StaticResource InvertedCardStyle}">
+        <Setter Property="Padding" Value="{StaticResource CardPaddingLg}" />
+    </Style>
+
     <!-- Tags: etiqueta rectangular con esquinas de radio 8 y texto mono de 12 (CaptionTextStyle) -->
     <Style x:Key="TagBaseStyle" TargetType="ContentPresenter">
         <Setter Property="CornerRadius" Value="{StaticResource RadiusTag}" />
@@ -237,6 +247,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!-- Enlace de 14 ("Ver historial" en mockup-dashboard.html) -->
+    <Style x:Key="TextLinkButtonSmStyle" TargetType="Button" BasedOn="{StaticResource TextLinkButtonStyle}">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBodySm}" />
     </Style>
 
     <!-- Botones sobre fondo negro (tarjeta invertida y cierre del Dashboard, ListoPage) -->
@@ -591,6 +606,54 @@
     <!-- Fila sobre fondo negro (TopArc invertida): la línea negra no se vería, va en Smoke -->
     <Style x:Key="HairlineRowOnDarkStyle" TargetType="Border" BasedOn="{StaticResource HairlineRowStyle}">
         <Setter Property="BorderBrush" Value="{StaticResource SmokeBrush}" />
+    </Style>
+
+    <!-- Fila de estado del Dashboard (RIESGO DAC, AVISOS, META): línea arriba, sin tarjeta -->
+    <Style x:Key="EstadoRowStyle" TargetType="Border">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{StaticResource CarbonBlackBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource HairlineTopThickness}" />
+        <Setter Property="Padding" Value="{StaticResource EstadoRowPadding}" />
+    </Style>
+
+    <!-- Punto amarillo de los avisos (microacento permitido del amarillo) -->
+    <Style x:Key="AlertDotStyle" TargetType="Ellipse">
+        <Setter Property="Width" Value="{StaticResource DotSize}" />
+        <Setter Property="Height" Value="{StaticResource DotSize}" />
+        <Setter Property="Fill" Value="{StaticResource VoltageYellowBrush}" />
+        <Setter Property="Stroke" Value="{StaticResource CarbonBlackBrush}" />
+        <Setter Property="StrokeThickness" Value="{StaticResource DotStrokeThickness}" />
+        <Setter Property="Margin" Value="{StaticResource AlertDotMargin}" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+    <!-- Historial: barras grises para periodos cerrados y negra para el actual, sobre una línea base -->
+    <Style x:Key="ChartBarStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource AshBrush}" />
+    </Style>
+
+    <Style x:Key="ChartBarActualStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource CarbonBlackBrush}" />
+    </Style>
+
+    <Style x:Key="ChartBaselineStyle" TargetType="Border">
+        <Setter Property="Height" Value="{StaticResource ChartHeight}" />
+        <Setter Property="BorderBrush" Value="{StaticResource CarbonBlackBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource HairlineThickness}" />
+    </Style>
+
+    <!-- La única barra de progreso de la pantalla: 8 de alto, carril blanco y avance negro -->
+    <x:Double x:Key="ProgressBarMinHeight">8</x:Double>
+    <x:Double x:Key="ProgressBarTrackHeight">8</x:Double>
+    <StaticResource x:Key="ProgressBarCornerRadius" ResourceKey="RadiusProgress" />
+    <StaticResource x:Key="ProgressBarTrackCornerRadius" ResourceKey="RadiusProgress" />
+
+    <Style x:Key="ProgressStyle" TargetType="ProgressBar">
+        <Setter Property="Height" Value="{StaticResource ProgressHeight}" />
+        <Setter Property="MinHeight" Value="{StaticResource ProgressHeight}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusProgress}" />
+        <Setter Property="Minimum" Value="0" />
+        <Setter Property="Maximum" Value="100" />
     </Style>
 
     <!-- Contenedor de filas: aporta la línea superior de la primera fila -->

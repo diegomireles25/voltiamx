@@ -643,4 +643,304 @@
   <data name="ModuloPendiente_Texto.Text" xml:space="preserve">
     <value>Este módulo llega en una próxima fase de VoltiaMX.</value>
   </data>
+
+  <!-- Formatos del Dashboard -->
+  <data name="Formato_Kwh" xml:space="preserve">
+    <value>{0:N0}</value>
+  </data>
+  <data name="Formato_Entero" xml:space="preserve">
+    <value>{0:N0}</value>
+  </data>
+  <data name="Formato_Porcentaje" xml:space="preserve">
+    <value>{0}%</value>
+  </data>
+
+  <!-- Dashboard: hero -->
+  <data name="Dashboard_Tarifa" xml:space="preserve">
+    <value>TARIFA {0}</value>
+  </data>
+  <data name="Dashboard_TarifaPorConfirmar" xml:space="preserve">
+    <value>TARIFA {0} · POR CONFIRMAR</value>
+  </data>
+  <data name="Dashboard_ConfirmaTarifa.Text" xml:space="preserve">
+    <value>Confirma tu tarifa en tu recibo</value>
+  </data>
+  <data name="Dashboard_LeyendaPeriodo" xml:space="preserve">
+    <value>{0} · {1} · DÍA {2} DE {3}</value>
+  </data>
+  <data name="TipoLugar_Casa" xml:space="preserve">
+    <value>Casa</value>
+  </data>
+  <data name="TipoLugar_Negocio" xml:space="preserve">
+    <value>Negocio</value>
+  </data>
+  <data name="TipoLugar_Propiedad" xml:space="preserve">
+    <value>Propiedad</value>
+  </data>
+  <data name="Dashboard_Bimestre" xml:space="preserve">
+    <value>bimestre {0}</value>
+  </data>
+  <data name="Dashboard_TituloPagoBimestre" xml:space="preserve">
+    <value>ESTE BIMESTRE VAS A PAGAR</value>
+  </data>
+  <data name="Dashboard_TituloPagoMes" xml:space="preserve">
+    <value>ESTE MES VAS A PAGAR</value>
+  </data>
+  <data name="Dashboard_SinCifra" xml:space="preserve">
+    <value>—</value>
+  </data>
+  <data name="Dashboard_MetaSinLecturas" xml:space="preserve">
+    <value>Captura dos lecturas de este periodo para estimar tu pago.</value>
+  </data>
+  <data name="Dashboard_MetaSinPresupuesto" xml:space="preserve">
+    <value>Define un presupuesto para saber si vas bien; puedes fijarlo al repetir el onboarding en Configuración.</value>
+  </data>
+  <data name="Dashboard_MetaTePasas" xml:space="preserve">
+    <value>Tu meta es ${0:N0}. A este ritmo te pasas por ${1:N0}.</value>
+  </data>
+  <data name="Dashboard_MetaTeSobra" xml:space="preserve">
+    <value>Tu meta es ${0:N0}. A este ritmo te sobran ${1:N0}.</value>
+  </data>
+  <data name="Dashboard_Progreso.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Consumo del periodo hasta hoy</value>
+  </data>
+  <data name="Dashboard_KwhHastaHoy" xml:space="preserve">
+    <value>{0:N0} KWH HASTA HOY</value>
+  </data>
+  <data name="Dashboard_KwhAlCierre" xml:space="preserve">
+    <value>~{0:N0} AL CIERRE</value>
+  </data>
+  <data name="Dashboard_SinIva.Text" xml:space="preserve">
+    <value>MONTOS SIN IVA NI DAP</value>
+  </data>
+
+  <!-- Dashboard: estado vacío -->
+  <data name="Dashboard_VacioTitulo.Text" xml:space="preserve">
+    <value>AGREGA TU PRIMERA LECTURA</value>
+  </data>
+  <data name="Dashboard_VacioTexto.Text" xml:space="preserve">
+    <value>La captura de lecturas llega en la siguiente fase. Mientras, carga los datos de demo o registra tu último recibo al repetir el onboarding en Configuración.</value>
+  </data>
+  <data name="Dashboard_CapturarLectura.Content" xml:space="preserve">
+    <value>Capturar lectura</value>
+  </data>
+  <data name="Dashboard_CargarDemo.Content" xml:space="preserve">
+    <value>Cargar datos de demo</value>
+  </data>
+
+  <!-- Dashboard: presupuesto inverso -->
+  <data name="Dashboard_InversoEtiqueta.Content" xml:space="preserve">
+    <value>PRESUPUESTO INVERSO</value>
+  </data>
+  <data name="Dashboard_KwhAlDia" xml:space="preserve">
+    <value>{0:N1} KWH AL DÍA</value>
+  </data>
+  <data name="Dashboard_Inverso" xml:space="preserve">
+    <value>Es lo que puedes gastar de aquí al cierre para quedarte en ${0:N0}.</value>
+  </data>
+  <data name="Dashboard_InversoConRitmo" xml:space="preserve">
+    <value>Es lo que puedes gastar de aquí al cierre para quedarte en ${0:N0}. Hoy gastas {1:N1}.</value>
+  </data>
+  <data name="Dashboard_SinPresupuestoTitulo.Text" xml:space="preserve">
+    <value>SIN PRESUPUESTO</value>
+  </data>
+  <data name="Dashboard_SinPresupuestoTexto.Text" xml:space="preserve">
+    <value>Fija un monto máximo y te decimos cuántos kWh puedes gastar al día para no pasarte.</value>
+  </data>
+  <data name="Dashboard_AjustarPresupuesto.Content" xml:space="preserve">
+    <value>Ajustar presupuesto</value>
+  </data>
+
+  <!-- Dashboard: historial -->
+  <data name="Dashboard_HistorialBimestre" xml:space="preserve">
+    <value>CONSUMO POR BIMESTRE</value>
+  </data>
+  <data name="Dashboard_HistorialMes" xml:space="preserve">
+    <value>CONSUMO POR MES</value>
+  </data>
+  <data name="Dashboard_HistorialGasto" xml:space="preserve">
+    <value>GASTO POR PERIODO</value>
+  </data>
+  <data name="Dashboard_EtiquetaBimestre" xml:space="preserve">
+    <value>B{0}</value>
+  </data>
+  <data name="Dashboard_EtiquetaActual" xml:space="preserve">
+    <value>{0} · HOY</value>
+  </data>
+  <data name="Dashboard_ValorProyectado" xml:space="preserve">
+    <value>~{0}</value>
+  </data>
+  <data name="Dashboard_VerHistorial.Content" xml:space="preserve">
+    <value>Ver historial</value>
+  </data>
+
+  <!-- Dashboard: estado -->
+  <data name="Dashboard_RiesgoDac.Text" xml:space="preserve">
+    <value>RIESGO DAC</value>
+  </data>
+  <data name="Dac_Bajo" xml:space="preserve">
+    <value>BAJO</value>
+  </data>
+  <data name="Dac_Medio" xml:space="preserve">
+    <value>MEDIO</value>
+  </data>
+  <data name="Dac_Alto" xml:space="preserve">
+    <value>ALTO</value>
+  </data>
+  <data name="Dashboard_DacLimite" xml:space="preserve">
+    <value>de {0:N0} kWh al mes</value>
+  </data>
+  <data name="Dashboard_DacExplicacion.Text" xml:space="preserve">
+    <value>Promedio de tus últimos 12 meses contra el límite de tu tarifa.</value>
+  </data>
+  <data name="Dashboard_Avisos.Text" xml:space="preserve">
+    <value>AVISOS</value>
+  </data>
+  <data name="Aviso_Corte" xml:space="preserve">
+    <value>Tu periodo cierra en {0} días.</value>
+  </data>
+  <data name="Aviso_CorteHoy" xml:space="preserve">
+    <value>Tu periodo cierra hoy.</value>
+  </data>
+  <data name="Aviso_ArribaDelRitmo" xml:space="preserve">
+    <value>Vas {0:N0}% arriba del ritmo que cuadra con tu presupuesto.</value>
+  </data>
+  <data name="Aviso_AbajoDelRitmo" xml:space="preserve">
+    <value>Vas {0:N0}% abajo del ritmo que cuadra con tu presupuesto.</value>
+  </data>
+  <data name="Dashboard_Meta.Text" xml:space="preserve">
+    <value>META</value>
+  </data>
+  <data name="Meta_ArribaDelAnterior" xml:space="preserve">
+    <value>{0}: vas {1:N0}% arriba del periodo pasado.</value>
+  </data>
+  <data name="Meta_AbajoDelAnterior" xml:space="preserve">
+    <value>{0}: vas {1:N0}% abajo del periodo pasado.</value>
+  </data>
+  <data name="MetaObjetivo_EntenderRecibo" xml:space="preserve">
+    <value>Entender tu recibo</value>
+  </data>
+  <data name="MetaObjetivo_PagarMenos" xml:space="preserve">
+    <value>Pagar menos</value>
+  </data>
+  <data name="MetaObjetivo_NoPasarmeDePresupuesto" xml:space="preserve">
+    <value>No pasarte de tu presupuesto</value>
+  </data>
+  <data name="MetaObjetivo_RepartirInquilinos" xml:space="preserve">
+    <value>Repartir entre inquilinos</value>
+  </data>
+
+  <!-- Dashboard: rentas, solar y aparatos -->
+  <data name="Dashboard_PropiedadesTitulo.Text" xml:space="preserve">
+    <value>TUS PROPIEDADES</value>
+  </data>
+  <data name="Dashboard_PropiedadesVacio.Text" xml:space="preserve">
+    <value>Agrega tu primera propiedad para ver su consumo y repartirlo entre inquilinos.</value>
+  </data>
+  <data name="Dashboard_Proximamente.Content" xml:space="preserve">
+    <value>Próximamente</value>
+  </data>
+  <data name="Propiedad_Detalle" xml:space="preserve">
+    <value>${0:N0} · {1:N0} kWh</value>
+  </data>
+  <data name="Propiedad_SinRecibos" xml:space="preserve">
+    <value>Sin recibos todavía</value>
+  </data>
+  <data name="Dashboard_CotizacionesTitulo.Text" xml:space="preserve">
+    <value>COTIZACIONES</value>
+  </data>
+  <data name="Dashboard_CotizacionesVacio.Text" xml:space="preserve">
+    <value>Aún no tienes cotizaciones de paneles solares.</value>
+  </data>
+  <data name="Dashboard_CotizacionesProximamente.Content" xml:space="preserve">
+    <value>Próximamente</value>
+  </data>
+  <data name="Dashboard_AparatosTitulo.Text" xml:space="preserve">
+    <value>QUÉ GASTA MÁS</value>
+  </data>
+  <data name="Dashboard_Simular.Content" xml:space="preserve">
+    <value>Simular cuánto ahorrarías</value>
+  </data>
+  <data name="Dashboard_AparatosEjemplo.Text" xml:space="preserve">
+    <value>DATOS DE EJEMPLO</value>
+  </data>
+  <data name="Dashboard_AparatosVacio.Text" xml:space="preserve">
+    <value>Agrega tus aparatos para ver cuáles gastan más</value>
+  </data>
+  <data name="Dashboard_AparatosProximamente.Content" xml:space="preserve">
+    <value>Próximamente</value>
+  </data>
+  <data name="Demo_AparatoAire" xml:space="preserve">
+    <value>Aire acondicionado</value>
+  </data>
+  <data name="Demo_AparatoRefrigerador" xml:space="preserve">
+    <value>Refrigerador</value>
+  </data>
+  <data name="Demo_AparatoLavadora" xml:space="preserve">
+    <value>Lavadora</value>
+  </data>
+  <data name="Demo_AparatoIluminacion" xml:space="preserve">
+    <value>Iluminación</value>
+  </data>
+
+  <!-- Dashboard: cierre -->
+  <data name="Dashboard_CierreTitulo.Text" xml:space="preserve">
+    <value>CAPTURA LA LECTURA DE HOY</value>
+  </data>
+  <data name="Dashboard_CierreCapturar.Content" xml:space="preserve">
+    <value>Capturar lectura</value>
+  </data>
+  <data name="Dashboard_CierreEscanear.Content" xml:space="preserve">
+    <value>Escanear recibo</value>
+  </data>
+  <data name="Dashboard_DatosEjemplo.Text" xml:space="preserve">
+    <value>DATOS DE EJEMPLO</value>
+  </data>
+
+  <!-- Configuración -->
+  <data name="Config_Titulo.Text" xml:space="preserve">
+    <value>CONFIGURACIÓN</value>
+  </data>
+  <data name="Config_ModoTitulo.Text" xml:space="preserve">
+    <value>Modo avanzado</value>
+  </data>
+  <data name="Config_ModoTexto.Text" xml:space="preserve">
+    <value>Muestra además Aparatos, Solar e Inquilinos aunque no los hayas elegido.</value>
+  </data>
+  <data name="Config_ModoSwitch.OnContent" xml:space="preserve">
+    <value>Activado</value>
+  </data>
+  <data name="Config_ModoSwitch.OffContent" xml:space="preserve">
+    <value>Desactivado</value>
+  </data>
+  <data name="Config_OnboardingTitulo.Text" xml:space="preserve">
+    <value>Repetir el onboarding</value>
+  </data>
+  <data name="Config_OnboardingTexto.Text" xml:space="preserve">
+    <value>Vuelve a contestar las preguntas iniciales. Tus datos se conservan.</value>
+  </data>
+  <data name="Config_OnboardingBoton.Content" xml:space="preserve">
+    <value>Repetir</value>
+  </data>
+  <data name="Config_DemoTitulo.Text" xml:space="preserve">
+    <value>Datos de demo</value>
+  </data>
+  <data name="Config_DemoTexto.Text" xml:space="preserve">
+    <value>Una casa de ejemplo con tarifa 1C para conocer la app. Quitarlos no toca tus datos.</value>
+  </data>
+  <data name="Config_DemoCargar.Content" xml:space="preserve">
+    <value>Cargar datos de demo</value>
+  </data>
+  <data name="Config_DemoQuitar.Content" xml:space="preserve">
+    <value>Quitar datos de demo</value>
+  </data>
+  <data name="Config_GaleriaTitulo.Text" xml:space="preserve">
+    <value>Galería de diseño</value>
+  </data>
+  <data name="Config_GaleriaTexto.Text" xml:space="preserve">
+    <value>Solo en Debug: tokens y componentes del sistema de diseño.</value>
+  </data>
+  <data name="Config_GaleriaBoton.Content" xml:space="preserve">
+    <value>Abrir galería</value>
+  </data>
 </root>

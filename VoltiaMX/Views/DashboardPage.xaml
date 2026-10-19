@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Dashboard compuesto como docs/mockup-dashboard.html (gana el HTML). Solo dos tarjetas: el
+    presupuesto inverso (negra) y el historial (blanca); el estado y los aparatos van sobre el
+    lienzo en filas con línea negra de 1px. Una sola barra de progreso.
+-->
+<Page
+    x:Class="VoltiaMX.Views.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:VoltiaMX.ViewModels"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <VisualStateManager.VisualStateGroups>
+            <!-- La cifra principal mide 130 desde 1200 de ancho y 80 en ventanas más angostas -->
+            <VisualStateGroup x:Name="AnchoVentana">
+                <VisualState x:Name="Ancha">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource BreakpointWide}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="CifraPago.Style" Value="{StaticResource DisplayXLTextStyle}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Angosta">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <StackPanel>
+            <StackPanel
+                MaxWidth="{StaticResource ContentMaxWidth}"
+                Padding="{StaticResource DashboardPadding}"
+                Spacing="{StaticResource Spacing72}">
+
+                <!-- HERO: pago estimado y presupuesto inverso -->
+                <Grid ColumnSpacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarHogar), Mode=OneWay}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.1*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Spacing="{StaticResource Spacing24}">
+                        <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarTarifa), Mode=OneWay}">
+                            <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing12}">
+                                <ContentPresenter Content="{x:Bind ViewModel.EtiquetaTarifa, Mode=OneWay}" Style="{StaticResource MintTagStyle}" />
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Foreground="{StaticResource SlateBrush}"
+                                    Style="{StaticResource CaptionTextStyle}"
+                                    Text="{x:Bind ViewModel.LeyendaPeriodo, Mode=OneWay}"
+                                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDatos), Mode=OneWay}" />
+                            </StackPanel>
+                            <TextBlock
+                                x:Uid="Dashboard_ConfirmaTarifa"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource BodySmTextStyle}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TarifaPorConfirmar), Mode=OneWay}" />
+                        </StackPanel>
+
+                        <!-- Con datos -->
+                        <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDatos), Mode=OneWay}">
+                            <TextBlock Style="{StaticResource HeadingLgTextStyle}" Text="{x:Bind ViewModel.TituloPago, Mode=OneWay}" />
+                            <TextBlock
+                                x:Name="CifraPago"
+                                AutomationProperties.HeadingLevel="Level1"
+                                Style="{StaticResource DisplayTextStyle}"
+                                Text="{x:Bind ViewModel.MontoPago, Mode=OneWay}" />
+                            <TextBlock
+                                MaxWidth="{StaticResource HeroTextMaxWidth}"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource LeadTextStyle}"
+                                Text="{x:Bind ViewModel.TextoMeta, Mode=OneWay}" />
+                            <StackPanel
+                                Width="{StaticResource HeroTextMaxWidth}"
+                                HorizontalAlignment="Left"
+                                Spacing="{StaticResource Spacing8}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneProyeccion), Mode=OneWay}">
+                                <ProgressBar
+                                    x:Uid="Dashboard_Progreso"
+                                    Style="{StaticResource ProgressStyle}"
+                                    Value="{x:Bind ViewModel.ProgresoPeriodo, Mode=OneWay}" />
+                                <Grid>
+                                    <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.KwhHastaHoyTexto, Mode=OneWay}" />
+                                    <TextBlock HorizontalAlignment="Right" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.KwhCierreTexto, Mode=OneWay}" />
+                                </Grid>
+                            </StackPanel>
+                            <TextBlock x:Uid="Dashboard_SinIva" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                        </StackPanel>
+
+                        <!-- Sin datos -->
+                        <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarVacio), Mode=OneWay}">
+                            <TextBlock
+                                x:Uid="Dashboard_VacioTitulo"
+                                AutomationProperties.HeadingLevel="Level1"
+                                Style="{StaticResource DisplayTextStyle}" />
+                            <TextBlock
+                                x:Uid="Dashboard_VacioTexto"
+                                MaxWidth="{StaticResource HeroTextMaxWidth}"
+                                HorizontalAlignment="Left"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource BodyTextStyle}" />
+                            <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                                <Button x:Uid="Dashboard_CapturarLectura" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource PrimaryButtonStyle}" />
+                                <Button x:Uid="Dashboard_CargarDemo" Command="{x:Bind ViewModel.CargarDemoCommand}" Style="{StaticResource GhostButtonStyle}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Presupuesto inverso -->
+                    <ContentPresenter
+                        Grid.Column="1"
+                        Style="{StaticResource InvertedCardLgStyle}"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDatos), Mode=OneWay}">
+                        <Grid RowSpacing="{StaticResource Spacing24}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Spacing="{StaticResource Spacing24}">
+                                <ContentPresenter x:Uid="Dashboard_InversoEtiqueta" Style="{StaticResource MintTagStyle}" />
+                                <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TienePresupuesto), Mode=OneWay}">
+                                    <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.KwhPorDiaTexto, Mode=OneWay}" />
+                                    <TextBlock
+                                        MaxWidth="{StaticResource InverseTextMaxWidth}"
+                                        HorizontalAlignment="Left"
+                                        Foreground="{StaticResource AshBrush}"
+                                        Style="{StaticResource BodyTextStyle}"
+                                        Text="{x:Bind ViewModel.TextoInverso, Mode=OneWay}" />
+                                </StackPanel>
+                                <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TienePresupuesto), Mode=OneWay}">
+                                    <TextBlock x:Uid="Dashboard_SinPresupuestoTitulo" Style="{StaticResource DisplayTextStyle}" />
+                                    <TextBlock
+                                        x:Uid="Dashboard_SinPresupuestoTexto"
+                                        MaxWidth="{StaticResource InverseTextMaxWidth}"
+                                        HorizontalAlignment="Left"
+                                        Foreground="{StaticResource AshBrush}"
+                                        Style="{StaticResource BodyTextStyle}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <Button
+                                x:Uid="Dashboard_AjustarPresupuesto"
+                                Grid.Row="1"
+                                IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}"
+                                Style="{StaticResource PrimaryOnDarkButtonStyle}" />
+                        </Grid>
+                    </ContentPresenter>
+                </Grid>
+
+                <!-- HISTORIAL + ESTADO -->
+                <Grid ColumnSpacing="{StaticResource Spacing48}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDatos), Mode=OneWay}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <ContentPresenter
+                        VerticalAlignment="Top"
+                        Style="{StaticResource CardLgStyle}"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneHistorial), Mode=OneWay}">
+                        <StackPanel Spacing="{StaticResource Spacing32}">
+                            <Grid>
+                                <TextBlock Style="{StaticResource HeadingLgTextStyle}" Text="{x:Bind ViewModel.TituloHistorial, Mode=OneWay}" />
+                                <Button
+                                    x:Uid="Dashboard_VerHistorial"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"
+                                    IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}"
+                                    Style="{StaticResource TextLinkButtonSmStyle}" />
+                            </Grid>
+                            <StackPanel Spacing="{StaticResource Spacing8}">
+                                <Border Style="{StaticResource ChartBaselineStyle}">
+                                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Historial}">
+                                        <ItemsRepeater.Layout>
+                                            <UniformGridLayout
+                                                ItemsStretch="Fill"
+                                                MaximumRowsOrColumns="6"
+                                                MinColumnSpacing="{StaticResource Spacing12}"
+                                                MinItemHeight="{StaticResource ChartHeight}"
+                                                MinItemWidth="{StaticResource ChartBarMinWidth}" />
+                                        </ItemsRepeater.Layout>
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:BarraHistorial">
+                                                <Grid Height="{StaticResource ChartHeight}">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="{x:Bind Restante, Converter={StaticResource Estrella}}" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="{x:Bind Fraccion, Converter={StaticResource Estrella}}" />
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Padding="{StaticResource TextLinkButtonPadding}"
+                                                        Style="{StaticResource CaptionTextStyle}"
+                                                        Text="{x:Bind Valor}" />
+                                                    <Border Grid.Row="2" Style="{x:Bind helpers:Conversiones.EstiloBarra(EsActual)}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                </Border>
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Historial}">
+                                    <ItemsRepeater.Layout>
+                                        <UniformGridLayout
+                                            ItemsStretch="Fill"
+                                            MaximumRowsOrColumns="6"
+                                            MinColumnSpacing="{StaticResource Spacing12}"
+                                            MinItemWidth="{StaticResource ChartBarMinWidth}" />
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:BarraHistorial">
+                                            <TextBlock
+                                                Foreground="{x:Bind helpers:Conversiones.BrochaEtiquetaBarra(EsActual)}"
+                                                Style="{StaticResource CaptionTextStyle}"
+                                                Text="{x:Bind Etiqueta}" />
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </StackPanel>
+                        </StackPanel>
+                    </ContentPresenter>
+
+                    <!-- Estado: filas sobre el lienzo, sin tarjetas -->
+                    <StackPanel Grid.Column="1">
+                        <Border Style="{StaticResource EstadoRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarDac), Mode=OneWay}">
+                            <StackPanel Spacing="{StaticResource Spacing12}">
+                                <Grid>
+                                    <TextBlock
+                                        x:Uid="Dashboard_RiesgoDac"
+                                        VerticalAlignment="Center"
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource CaptionTextStyle}" />
+                                    <ContentPresenter
+                                        HorizontalAlignment="Right"
+                                        Content="{x:Bind ViewModel.TextoNivelDac, Mode=OneWay}"
+                                        Style="{x:Bind helpers:Conversiones.EstiloDac(ViewModel.NivelDac), Mode=OneWay}" />
+                                </Grid>
+                                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing12}">
+                                    <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.PromedioDacTexto, Mode=OneWay}" />
+                                    <TextBlock
+                                        VerticalAlignment="Bottom"
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource BodyTextStyle}"
+                                        Text="{x:Bind ViewModel.LimiteDacTexto, Mode=OneWay}" />
+                                </StackPanel>
+                                <TextBlock
+                                    x:Uid="Dashboard_DacExplicacion"
+                                    Foreground="{StaticResource SlateBrush}"
+                                    Style="{StaticResource BodySmTextStyle}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource EstadoRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneAvisos), Mode=OneWay}">
+                            <StackPanel Spacing="{StaticResource Spacing12}">
+                                <TextBlock x:Uid="Dashboard_Avisos" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Avisos}">
+                                    <ItemsRepeater.Layout>
+                                        <StackLayout Spacing="{StaticResource Spacing12}" />
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="x:String">
+                                            <Grid ColumnSpacing="{StaticResource Spacing12}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Ellipse AutomationProperties.AccessibilityView="Raw" Style="{StaticResource AlertDotStyle}" />
+                                                <TextBlock Grid.Column="1" Style="{StaticResource BodyTextStyle}" Text="{x:Bind}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource EstadoRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarMeta), Mode=OneWay}">
+                            <StackPanel Spacing="{StaticResource Spacing8}">
+                                <TextBlock x:Uid="Dashboard_Meta" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind ViewModel.TextoMetaObjetivo, Mode=OneWay}" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <!-- RENTAS: resumen por propiedad -->
+                <Grid ColumnSpacing="{StaticResource Spacing48}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarRentas), Mode=OneWay}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Uid="Dashboard_PropiedadesTitulo" Style="{StaticResource DisplayTextStyle}" />
+                    <Border Grid.Column="1" Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TienePropiedades), Mode=OneWay}">
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Propiedades}">
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="vm:FilaDetalle">
+                                    <Border Style="{StaticResource HairlineRowStyle}">
+                                        <Grid>
+                                            <TextBlock Style="{StaticResource SubheadingLgTextStyle}" Text="{x:Bind Titulo}" />
+                                            <TextBlock HorizontalAlignment="Right" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodyTextStyle}" Text="{x:Bind Detalle}" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </Border>
+                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TienePropiedades), Mode=OneWay}">
+                        <TextBlock x:Uid="Dashboard_PropiedadesVacio" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodyTextStyle}" />
+                        <Button x:Uid="Dashboard_Proximamente" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource GhostButtonStyle}" />
+                    </StackPanel>
+                </Grid>
+
+                <!-- SOLAR: cotizaciones recientes -->
+                <Grid ColumnSpacing="{StaticResource Spacing48}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarSolar), Mode=OneWay}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Uid="Dashboard_CotizacionesTitulo" Style="{StaticResource DisplayTextStyle}" />
+                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}">
+                        <TextBlock x:Uid="Dashboard_CotizacionesVacio" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodyTextStyle}" />
+                        <Button x:Uid="Dashboard_CotizacionesProximamente" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource GhostButtonStyle}" />
+                    </StackPanel>
+                </Grid>
+
+                <!-- APARATOS: solo con el módulo activo -->
+                <Grid ColumnSpacing="{StaticResource Spacing48}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarAparatos), Mode=OneWay}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Spacing="{StaticResource Spacing16}">
+                        <TextBlock x:Uid="Dashboard_AparatosTitulo" Style="{StaticResource DisplayTextStyle}" />
+                        <Button x:Uid="Dashboard_Simular" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource TextLinkButtonStyle}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}">
+                        <Border Style="{StaticResource HairlineListStyle}">
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.AparatosDemo}">
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:FilaDetalle">
+                                        <Border Style="{StaticResource HairlineRowStyle}">
+                                            <Grid>
+                                                <TextBlock VerticalAlignment="Bottom" Style="{StaticResource SubheadingLgTextStyle}" Text="{x:Bind Titulo}" />
+                                                <TextBlock HorizontalAlignment="Right" Style="{StaticResource FigureTextStyle}" Text="{x:Bind Detalle}" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                        </Border>
+                        <TextBlock x:Uid="Dashboard_AparatosEjemplo" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.EsDemo), Mode=OneWay}">
+                        <TextBlock x:Uid="Dashboard_AparatosVacio" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodyTextStyle}" />
+                        <Button x:Uid="Dashboard_AparatosProximamente" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource GhostButtonStyle}" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+
+            <!-- CIERRE: bloque top-arc negro a todo lo ancho (sin datos, el estado vacío ya invita a capturar) -->
+            <ContentPresenter
+                Margin="{StaticResource CierreMargin}"
+                Padding="{StaticResource TopArcPadding}"
+                Style="{StaticResource TopArcInvertedCardStyle}"
+                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDatos), Mode=OneWay}">
+                <StackPanel MaxWidth="{StaticResource ContentMaxWidth}" Spacing="{StaticResource Spacing48}">
+                    <Grid ColumnSpacing="{StaticResource Spacing32}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Uid="Dashboard_CierreTitulo" Style="{StaticResource DisplayTextStyle}" />
+                        <StackPanel
+                            Grid.Column="1"
+                            VerticalAlignment="Bottom"
+                            Orientation="Horizontal"
+                            Spacing="{StaticResource Spacing16}">
+                            <Button x:Uid="Dashboard_CierreCapturar" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource PrimaryOnDarkButtonStyle}" />
+                            <Button x:Uid="Dashboard_CierreEscanear" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource GhostOnDarkButtonStyle}" />
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock
+                        x:Uid="Dashboard_DatosEjemplo"
+                        Foreground="{StaticResource SmokeBrush}"
+                        Style="{StaticResource CaptionTextStyle}"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
+                </StackPanel>
+            </ContentPresenter>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

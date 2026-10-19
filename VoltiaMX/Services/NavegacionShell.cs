@@ -11,13 +11,31 @@ public sealed class NavegacionShell : INavegacionShell
 
     public void Navegar(ElementoNavegacion elemento)
     {
+        switch (elemento.Destino)
+        {
+            case DestinoShell.Dashboard:
+                IrA(typeof(DashboardPage));
+                break;
+            case DestinoShell.Configuracion:
+                IrA(typeof(ConfiguracionPage));
+                break;
+            default:
+                // Los módulos llegan en fases posteriores; mientras, muestran su estado vacío.
+                IrA(typeof(ModuloPendientePage), elemento.Titulo);
+                break;
+        }
+    }
+
+    public void AbrirGaleriaDeDiseno() => IrA(typeof(DesignGalleryPage));
+
+    private void IrA(Type pagina, object? parametro = null)
+    {
         if (Marco is null)
         {
             return;
         }
 
-        // Dashboard y Configuración llegan en la Fase 2c; mientras, usan la página de módulo pendiente.
-        Marco.Navigate(typeof(ModuloPendientePage), elemento.Titulo);
+        Marco.Navigate(pagina, parametro);
         Marco.BackStack.Clear();
     }
 }

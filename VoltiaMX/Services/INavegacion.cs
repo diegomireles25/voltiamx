@@ -18,4 +18,9 @@ public interface INavegacionOnboarding
 public interface INavegacionShell
 {
     void Navegar(ElementoNavegacion elemento);
+
+    /// <summary>
+    /// Galería del sistema de diseño (solo se ofrece en Debug).
+    /// </summary>
+    void AbrirGaleriaDeDiseno();
 }

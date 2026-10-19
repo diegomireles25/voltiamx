@@ -49,7 +49,7 @@
             <ContentPresenter Grid.Column="1" Style="{StaticResource NavPillContainerStyle}">
                 <NavigationView
                     x:Uid="Shell_Navegacion"
-                    MenuItemsSource="{x:Bind ViewModel.Elementos}"
+                    MenuItemsSource="{x:Bind ViewModel.Elementos, Mode=OneWay}"
                     SelectedItem="{x:Bind ViewModel.Seleccionado, Mode=TwoWay}"
                     Style="{StaticResource NavPillStyle}">
                     <NavigationView.MenuItemTemplate>

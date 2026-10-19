@@ -28,6 +28,11 @@
     <x:Double x:Key="Spacing64">64</x:Double>
     <x:Double x:Key="Spacing80">80</x:Double>
     <x:Double x:Key="Spacing96">96</x:Double>
+    <!-- mockup-dashboard.html: 72 entre secciones, 48 entre tarjeta y estado, 12 entre barras y en etiquetas -->
+    <x:Double x:Key="Spacing12">12</x:Double>
+    <x:Double x:Key="Spacing32">32</x:Double>
+    <x:Double x:Key="Spacing48">48</x:Double>
+    <x:Double x:Key="Spacing72">72</x:Double>
 
     <!-- Rellenos -->
     <Thickness x:Key="CardPadding">24</Thickness>
@@ -35,6 +40,12 @@
     <Thickness x:Key="CardPaddingLg">32</Thickness>
     <!-- Bloque de cierre top-arc (mockup-dashboard.html: 64 arriba, 40 a los lados y abajo) -->
     <Thickness x:Key="TopArcPadding">40,64,40,40</Thickness>
+    <!-- Cuerpo del Dashboard (mockup-dashboard.html: main con padding 48 arriba y 24 a los lados) -->
+    <Thickness x:Key="DashboardPadding">24,48,24,0</Thickness>
+    <Thickness x:Key="CierreMargin">0,96,0,0</Thickness>
+    <!-- Filas de estado sobre el lienzo: línea arriba, 16 arriba y 24 abajo -->
+    <Thickness x:Key="EstadoRowPadding">0,16,0,24</Thickness>
+    <Thickness x:Key="AlertDotMargin">0,4,0,0</Thickness>
     <Thickness x:Key="PagePadding">40</Thickness>
     <Thickness x:Key="TagPadding">16,8</Thickness>
     <!-- mockup-dashboard.html: nav con padding 8 alrededor de ítems de 40 de alto -->
@@ -83,6 +94,17 @@
     <x:Double x:Key="TextMaxWidth">640</x:Double>
     <x:Double x:Key="SelectionCardMinHeight">160</x:Double>
     <x:Double x:Key="BrandIconSize">28</x:Double>
+    <!-- Dashboard -->
+    <x:Double x:Key="BreakpointWide">1200</x:Double>
+    <x:Double x:Key="ChartHeight">240</x:Double>
+    <x:Double x:Key="ChartBarMinWidth">40</x:Double>
+    <x:Double x:Key="ProgressHeight">8</x:Double>
+    <x:Double x:Key="HeroTextMaxWidth">440</x:Double>
+    <x:Double x:Key="InverseTextMaxWidth">340</x:Double>
+    <x:Double x:Key="DotSize">10</x:Double>
+    <x:Double x:Key="DotStrokeThickness">1.5</x:Double>
     <!-- Ítem seleccionado del nav: pastilla negra de 40 de alto -->
     <CornerRadius x:Key="RadiusNavItem">40</CornerRadius>
+    <!-- Barra de progreso de 8: extremos redondos -->
+    <CornerRadius x:Key="RadiusProgress">4</CornerRadius>
 </ResourceDictionary>

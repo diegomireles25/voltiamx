@@ -309,6 +309,11 @@
             <StaticResource x:Key="CalendarViewTodayForeground" ResourceKey="TemaPaperWhite" />
             <StaticResource x:Key="CalendarViewOutOfScopeForeground" ResourceKey="TemaSlate" />
 
+            <!-- ProgressBar: carril blanco y avance negro (mockup-dashboard.html) -->
+            <StaticResource x:Key="ProgressBarForeground" ResourceKey="TemaCarbonBlack" />
+            <StaticResource x:Key="ProgressBarBackground" ResourceKey="TemaPaperWhite" />
+            <StaticResource x:Key="ProgressBarBorderBrush" ResourceKey="TemaTransparent" />
+
             <!--
                 NavigationView en modo Top (la pastilla blanca la pone NavPillContainerStyle).
                 Como en mockup-dashboard.html: el ítem seleccionado es una pastilla negra con texto
