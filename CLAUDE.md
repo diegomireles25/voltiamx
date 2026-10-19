@@ -6,7 +6,7 @@ App de escritorio WinUI 3 (C#) para entender, predecir y reducir el recibo de lu
 - VoltiaMX/            App WinUI 3 (Views, ViewModels, Services de UI, Assets)
 - VoltiaMX.Core/       Models, Data (EF Core + SQLite), Services (cálculos), sin dependencias de WinUI
 - VoltiaMX.Tests/      xUnit, pruebas de Core
-- docs/                DESIGN.md (sistema visual), mockup-dashboard.png (referencia visual) y docs/prompts/ (prompts por fase)
+- docs/                DESIGN.md (sistema visual), mockup-dashboard.png y mockup-dashboard.html (referencia visual) y docs/prompts/ (prompts por fase)
 
 ## Stack
 - .NET 10, WinUI 3, Windows App SDK
@@ -41,7 +41,7 @@ App de escritorio WinUI 3 (C#) para entender, predecir y reducir el recibo de lu
 
 ## Diseño visual
 - Fuente de verdad: docs/DESIGN.md (sistema "brutalist editorial": lienzo #e5e5e5, tarjetas #ffffff, bloques #000000, acento mint #d1ffca, amarillo #fff100 solo en microacentos).
-- Referencia visual del Dashboard: docs/mockup-dashboard.png (si existe).
+- Referencia de composición del Dashboard: docs/mockup-dashboard.png (imagen) y docs/mockup-dashboard.html (código con los valores exactos de tamaños, colores y espaciado). En caso de duda entre ambos, gana el HTML. Las cifras del mockup son ilustrativas.
 - Es una app de ESCRITORIO WinUI 3: se traduce el sistema, no se copia el CSS. Adaptaciones obligatorias:
   - Tema fijo Light (RequestedTheme="Light" en App.xaml). Fondo sólido, sin Mica ni Acrylic.
   - Cero sombras, cero gradientes. Sobrescribir los estilos por defecto de WinUI que agreguen elevación o bordes en tarjetas y botones.

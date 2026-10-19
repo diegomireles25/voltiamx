@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>VoltiaMX — Dashboard</title>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+body{margin:0;background:#e5e5e5}
+.d{font-family:'Barlow Condensed','Arial Narrow',Impact,sans-serif;font-weight:700;line-height:0.9;letter-spacing:-0.03em;margin:0}
+.m{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:400;font-size:12px;line-height:1.6;letter-spacing:-0.03em}
+a,button{font-family:'Inter',system-ui,sans-serif}
+a:focus-visible,button:focus-visible{outline:2px solid #000;outline-offset:3px}
+.ond a:focus-visible,.ond button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+</style>
+
+</head>
+<body>
+
+
+<div style="background:#e5e5e5;color:#000;font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.25;display:flex;flex-direction:column;min-height:1500px">
+
+<!-- BARRA SUPERIOR -->
+<header style="height:88px;box-sizing:border-box;padding:0 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+<div style="display:flex;align-items:center;gap:10px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+<span class="d" style="font-size:32px">VOLTIAMX</span>
+</div>
+<nav aria-label="Principal" style="background:#fff;border-radius:48px;padding:8px;display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+<a href="#" aria-current="page" style="background:#000;color:#fff;border-radius:40px;padding:10px 20px;font-size:16px;font-weight:500;text-decoration:none">Dashboard</a>
+<a href="#" style="color:#444;border-radius:40px;padding:10px 20px;font-size:16px;font-weight:500;text-decoration:none">Lecturas</a>
+<a href="#" style="color:#444;border-radius:40px;padding:10px 20px;font-size:16px;font-weight:500;text-decoration:none">Presupuesto</a>
+<a href="#" style="color:#444;border-radius:40px;padding:10px 20px;font-size:16px;font-weight:500;text-decoration:none">Aparatos</a>
+<a href="#" style="color:#444;border-radius:40px;padding:10px 20px;font-size:16px;font-weight:500;text-decoration:none">Configuración</a>
+</nav>
+<button type="button" style="background:#000;color:#fff;border:0;border-radius:8px;padding:16px 24px;font-size:16px;font-weight:500;cursor:pointer">Nueva lectura</button>
+</header>
+
+<main style="width:100%;max-width:1200px;margin:0 auto;padding:48px 24px 0;box-sizing:border-box;display:flex;flex-direction:column;gap:72px">
+
+<!-- HERO -->
+<section style="display:flex;flex-wrap:wrap;gap:24px;align-items:stretch">
+
+<div style="flex:1.1 1 520px;min-width:0;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+<span class="m" style="background:#d1ffca;color:#000;border-radius:8px;padding:6px 12px">TARIFA 1C</span>
+<span class="m" style="color:#444">CASA · BIMESTRE 3 · DÍA 24 DE 60</span>
+</div>
+<h2 class="d" style="font-size:48px;letter-spacing:-1.44px">ESTE BIMESTRE VAS A PAGAR</h2>
+<h1 class="d" style="font-size:130px;letter-spacing:-3.9px;margin-top:-4px">$842</h1>
+<p style="margin:0;font-size:20px;line-height:1.3;color:#000;max-width:440px">Tu meta era $800. A este ritmo te pasas por $42.</p>
+<div style="max-width:440px;margin-top:auto">
+<div style="height:8px;background:#fff;border-radius:64px;overflow:hidden"><div style="width:40%;height:100%;background:#000"></div></div>
+<div style="display:flex;justify-content:space-between;margin-top:8px"><span class="m" style="color:#444">412 KWH HASTA HOY</span><span class="m" style="color:#444">~1,030 AL CIERRE</span></div>
+</div>
+</div>
+
+<!-- PRESUPUESTO INVERSO -->
+<div class="ond" style="flex:1 1 420px;min-width:0;background:#000;color:#fff;border-radius:32px;padding:32px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:24px">
+<div><span class="m" style="background:#d1ffca;color:#000;border-radius:8px;padding:6px 12px">PRESUPUESTO INVERSO</span></div>
+<h2 class="d" style="font-size:80px;letter-spacing:-2.4px">15.4 KWH AL DÍA</h2>
+<p style="margin:0;font-size:16px;line-height:1.4;color:#c6c6c6;max-width:340px">Es lo que puedes gastar de aquí al cierre para quedarte en $800. Hoy gastas 17.2.</p>
+</div>
+<div><button type="button" style="background:#fff;color:#000;border:0;border-radius:8px;padding:16px 24px;font-size:16px;font-weight:500;cursor:pointer">Ajustar presupuesto</button></div>
+</div>
+
+</section>
+
+<!-- HISTORIAL + ESTADO -->
+<section style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+
+<div style="flex:3 1 560px;min-width:0;background:#fff;border-radius:32px;padding:32px;box-sizing:border-box;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap">
+<h2 class="d" style="font-size:48px;letter-spacing:-1.44px">CONSUMO POR BIMESTRE</h2>
+<a href="#" style="color:#000;font-size:14px;font-weight:500;text-decoration:underline">Ver historial</a>
+</div>
+<div style="display:flex;align-items:flex-end;gap:12px;height:240px;border-bottom:1px solid #000">
+<div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px"><span class="m">764</span><div style="width:100%;height:146px;background:#c6c6c6"></div></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px"><span class="m">912</span><div style="width:100%;height:174px;background:#c6c6c6"></div></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px"><span class="m">1,046</span><div style="width:100%;height:200px;background:#c6c6c6"></div></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px"><span class="m">871</span><div style="width:100%;height:166px;background:#c6c6c6"></div></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px"><span class="m">718</span><div style="width:100%;height:137px;background:#c6c6c6"></div></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px"><span class="m">~1,030</span><div style="width:100%;height:197px;background:#000"></div></div>
+</div>
+<div style="display:flex;gap:12px;margin-top:-20px">
+<span class="m" style="flex:1;color:#444">B4</span><span class="m" style="flex:1;color:#444">B5</span><span class="m" style="flex:1;color:#444">B6</span><span class="m" style="flex:1;color:#444">B1</span><span class="m" style="flex:1;color:#444">B2</span><span class="m" style="flex:1;color:#000">B3 · HOY</span>
+</div>
+</div>
+
+<!-- ESTADO: filas sobre el lienzo, sin tarjetas -->
+<div style="flex:2 1 320px;min-width:0;display:flex;flex-direction:column">
+
+<div style="border-top:1px solid #000;padding:16px 0 32px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+<span class="m" style="color:#444">RIESGO DAC</span>
+<span class="m" style="background:#fff100;color:#000;border-radius:8px;padding:6px 12px">MEDIO</span>
+</div>
+<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><span class="d" style="font-size:80px;letter-spacing:-2.4px">438</span><span style="font-size:16px;color:#444">de 500 kWh al mes</span></div>
+<p style="margin:0;font-size:14px;line-height:1.4;color:#444">Promedio de tus últimos 12 meses contra el límite de tu tarifa.</p>
+</div>
+
+<div style="border-top:1px solid #000;padding:16px 0 24px;display:flex;flex-direction:column;gap:12px">
+<span class="m" style="color:#444">AVISOS</span>
+<div style="display:flex;gap:12px;align-items:flex-start"><span style="width:10px;height:10px;border-radius:10px;background:#fff100;border:1.5px solid #000;margin-top:5px;flex:none" aria-hidden="true"></span><span style="font-size:16px;line-height:1.3">Lectura del medidor en 3 días.</span></div>
+<div style="display:flex;gap:12px;align-items:flex-start"><span style="width:10px;height:10px;border-radius:10px;background:#fff100;border:1.5px solid #000;margin-top:5px;flex:none" aria-hidden="true"></span><span style="font-size:16px;line-height:1.3">Vas 12% arriba del ritmo que cuadra con tu presupuesto.</span></div>
+</div>
+
+<div style="border-top:1px solid #000;padding:16px 0 0;display:flex;flex-direction:column;gap:8px">
+<span class="m" style="color:#444">META</span>
+<span style="font-size:16px;line-height:1.3">Bajar 10% contra el bimestre pasado. Llevas 6%.</span>
+</div>
+
+</div>
+
+</section>
+
+<!-- APARATOS -->
+<section style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+<div style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:20px">
+<h2 class="d" style="font-size:80px;letter-spacing:-2.4px">QUÉ GASTA MÁS</h2>
+<a href="#" style="color:#000;font-size:16px;font-weight:500;text-decoration:underline">Simular cuánto ahorrarías</a>
+</div>
+<div style="flex:2 1 560px;min-width:0;display:flex;flex-direction:column">
+<div style="border-top:1px solid #000;padding:16px 0;display:flex;align-items:baseline;justify-content:space-between;gap:16px"><span style="font-size:20px;font-weight:500">Aire acondicionado</span><span class="d" style="font-size:40px;letter-spacing:-0.8px">46%</span></div>
+<div style="border-top:1px solid #000;padding:16px 0;display:flex;align-items:baseline;justify-content:space-between;gap:16px"><span style="font-size:20px;font-weight:500">Refrigerador</span><span class="d" style="font-size:40px;letter-spacing:-0.8px">19%</span></div>
+<div style="border-top:1px solid #000;padding:16px 0;display:flex;align-items:baseline;justify-content:space-between;gap:16px"><span style="font-size:20px;font-weight:500">Lavadora</span><span class="d" style="font-size:40px;letter-spacing:-0.8px">9%</span></div>
+<div style="border-top:1px solid #000;border-bottom:1px solid #000;padding:16px 0;display:flex;align-items:baseline;justify-content:space-between;gap:16px"><span style="font-size:20px;font-weight:500">Iluminación</span><span class="d" style="font-size:40px;letter-spacing:-0.8px">8%</span></div>
+</div>
+</section>
+
+</main>
+
+<!-- CIERRE: TOP-ARC -->
+<footer class="ond" style="margin-top:96px;background:#000;color:#fff;border-radius:64px 64px 0 0;padding:64px 40px 40px;box-sizing:border-box">
+<div style="max-width:1200px;margin:0 auto;padding:0 24px;box-sizing:border-box;display:flex;flex-wrap:wrap;gap:32px;align-items:flex-end;justify-content:space-between">
+<h2 class="d" style="flex:1 1 520px;font-size:80px;letter-spacing:-2.4px">CAPTURA LA LECTURA DE HOY</h2>
+<div style="display:flex;gap:16px;flex-wrap:wrap">
+<button type="button" style="background:#fff;color:#000;border:0;border-radius:8px;padding:16px 24px;font-size:16px;font-weight:500;cursor:pointer">Capturar lectura</button>
+<button type="button" style="background:transparent;color:#fff;border:1.5px solid #979797;border-radius:4px;padding:14px 22px;font-size:16px;font-weight:500;cursor:pointer">Escanear recibo</button>
+</div>
+</div>
+<div class="m" style="max-width:1200px;margin:56px auto 0;padding:0 24px;box-sizing:border-box;color:#979797">DATOS DE EJEMPLO</div>
+</footer>
+
+</div>
+
+
+</body>
+</html>
