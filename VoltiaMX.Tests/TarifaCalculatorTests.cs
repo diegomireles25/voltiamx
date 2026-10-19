@@ -131,4 +131,13 @@ public class TarifaCalculatorTests
 
         Assert.Throws<InvalidOperationException>(() => _calculadora.Calcular(100m, tarifa));
     }
+
+    [Fact]
+    public void Calcular_UltimoRangoConLimite_Lanza()
+    {
+        var tarifa = TarifasDePrueba.Escalonada();
+        tarifa.Rangos[2].KwhHasta = 500m; // el consumo arriba de 500 quedaría sin cobrar
+
+        Assert.Throws<InvalidOperationException>(() => _calculadora.Calcular(100m, tarifa));
+    }
 }
