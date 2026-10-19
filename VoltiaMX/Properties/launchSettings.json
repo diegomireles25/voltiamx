@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "VoltiaMX (Package)": {
+      "commandName": "MsixPackage"
+    }
+  }
+}
