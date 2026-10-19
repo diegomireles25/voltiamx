@@ -50,8 +50,8 @@ App de escritorio WinUI 3 (C#) para entender, predecir y reducir el recibo de lu
   - WinUI no tiene text-transform: los títulos van en mayúsculas directamente en Resources.resw o con UppercaseConverter.
   - Radios: tarjetas 24-32, tarjeta grande 64, tags 8, nav pill 48, botones 8. Padding de tarjeta 24. Escala de espaciado base 8.
   - Las etiquetas (tags) son rectangulares con esquinas de radio 8, NO pastillas: esta decisión del proyecto tiene prioridad sobre el valor de 64px de docs/DESIGN.md.
-  - Semáforo DAC: Bajo = tag mint, Medio = tag amarillo, Alto = pastilla negra con texto amarillo. No introducir rojo.
+  - Semáforo DAC: Bajo = tag mint, Medio = tag amarillo, Alto = etiqueta negra con texto amarillo. No introducir rojo.
   - El número de 130px solo se usa para la cifra principal del Dashboard; bajar a 80px si la ventana mide menos de 1200px de ancho.
 - Todos los colores, radios, espaciados y estilos viven en VoltiaMX/Styles/*.xaml como recursos. Prohibido hardcodear colores o tamaños en las Views.
-- Evitar el patrón "plantilla": no repetir la misma tarjeta blanca redondeada para todo. Usar pocas tarjetas, filas separadas por líneas negras de 1px sobre el lienzo, pocas pastillas y una sola barra de progreso por pantalla.
+- Evitar el patrón "plantilla": no repetir la misma tarjeta blanca redondeada para todo. Usar pocas tarjetas, filas separadas por líneas negras de 1px sobre el lienzo, pocas etiquetas y una sola barra de progreso por pantalla.
 - Para decisiones de diseño (jerarquía, composición, estados), usar el skill de diseño instalado; para implementación, solo XAML de WinUI 3.
