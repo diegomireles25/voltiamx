@@ -309,23 +309,27 @@
             <StaticResource x:Key="CalendarViewTodayForeground" ResourceKey="TemaPaperWhite" />
             <StaticResource x:Key="CalendarViewOutOfScopeForeground" ResourceKey="TemaSlate" />
 
-            <!-- NavigationView en modo Top (la pastilla blanca la pone NavPillContainerStyle) -->
+            <!--
+                NavigationView en modo Top (la pastilla blanca la pone NavPillContainerStyle).
+                Como en mockup-dashboard.html: el ítem seleccionado es una pastilla negra con texto
+                blanco y no hay indicador inferior.
+            -->
             <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="TemaTransparent" />
             <StaticResource x:Key="NavigationViewContentBackground" ResourceKey="TemaTransparent" />
             <StaticResource x:Key="NavigationViewContentGridBorderBrush" ResourceKey="TemaTransparent" />
-            <StaticResource x:Key="NavigationViewSelectionIndicatorForeground" ResourceKey="TemaCarbonBlack" />
+            <StaticResource x:Key="NavigationViewSelectionIndicatorForeground" ResourceKey="TemaTransparent" />
             <StaticResource x:Key="TopNavigationViewItemForeground" ResourceKey="TemaSlate" />
             <StaticResource x:Key="TopNavigationViewItemForegroundPointerOver" ResourceKey="TemaCarbonBlack" />
             <StaticResource x:Key="TopNavigationViewItemForegroundPressed" ResourceKey="TemaCarbonBlack" />
-            <StaticResource x:Key="TopNavigationViewItemForegroundSelected" ResourceKey="TemaCarbonBlack" />
-            <StaticResource x:Key="TopNavigationViewItemForegroundSelectedPointerOver" ResourceKey="TemaCarbonBlack" />
-            <StaticResource x:Key="TopNavigationViewItemForegroundSelectedPressed" ResourceKey="TemaCarbonBlack" />
+            <StaticResource x:Key="TopNavigationViewItemForegroundSelected" ResourceKey="TemaPaperWhite" />
+            <StaticResource x:Key="TopNavigationViewItemForegroundSelectedPointerOver" ResourceKey="TemaPaperWhite" />
+            <StaticResource x:Key="TopNavigationViewItemForegroundSelectedPressed" ResourceKey="TemaPaperWhite" />
             <StaticResource x:Key="TopNavigationViewItemForegroundDisabled" ResourceKey="TemaSmoke" />
             <StaticResource x:Key="TopNavigationViewItemBackgroundPointerOver" ResourceKey="TemaMistGray" />
             <StaticResource x:Key="TopNavigationViewItemBackgroundPressed" ResourceKey="TemaAsh" />
-            <StaticResource x:Key="TopNavigationViewItemBackgroundSelected" ResourceKey="TemaTransparent" />
-            <StaticResource x:Key="TopNavigationViewItemBackgroundSelectedPointerOver" ResourceKey="TemaMistGray" />
-            <StaticResource x:Key="TopNavigationViewItemBackgroundSelectedPressed" ResourceKey="TemaAsh" />
+            <StaticResource x:Key="TopNavigationViewItemBackgroundSelected" ResourceKey="TemaCarbonBlack" />
+            <StaticResource x:Key="TopNavigationViewItemBackgroundSelectedPointerOver" ResourceKey="TemaGraphite" />
+            <StaticResource x:Key="TopNavigationViewItemBackgroundSelectedPressed" ResourceKey="TemaGraphite" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

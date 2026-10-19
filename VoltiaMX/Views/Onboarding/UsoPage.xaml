@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Page
+    x:Class="VoltiaMX.Views.Onboarding.UsoPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel Padding="{StaticResource ScrollAccentPadding}" Spacing="{StaticResource Spacing40}">
+            <StackPanel Spacing="{StaticResource Spacing16}">
+                <TextBlock
+                    x:Uid="Uso_Titulo"
+                    AutomationProperties.HeadingLevel="Level1"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+                <TextBlock
+                    x:Uid="Uso_Ayuda"
+                    Foreground="{StaticResource SlateBrush}"
+                    Style="{StaticResource BodyTextStyle}" />
+            </StackPanel>
+
+            <!-- Selección múltiple: cada tarjeta es un ToggleButton (blanca → negra al marcarla) -->
+            <Grid ColumnSpacing="{StaticResource Spacing24}" RowSpacing="{StaticResource Spacing24}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ToggleButton IsChecked="{x:Bind ViewModel.UsaCasa, Mode=TwoWay}" Style="{StaticResource SeleccionCardStyle}" AutomationProperties.Name="{x:Bind TituloUsoCasa.Text}">
+                    <StackPanel Spacing="{StaticResource Spacing8}">
+                        <TextBlock x:Name="TituloUsoCasa" x:Uid="Uso_Casa_Titulo" Style="{StaticResource HeadingSmTextStyle}" />
+                        <TextBlock x:Uid="Uso_Casa_Descripcion" Style="{StaticResource BodyTextStyle}" />
+                    </StackPanel>
+                </ToggleButton>
+                <ToggleButton Grid.Column="1" IsChecked="{x:Bind ViewModel.UsaNegocio, Mode=TwoWay}" Style="{StaticResource SeleccionCardStyle}" AutomationProperties.Name="{x:Bind TituloUsoNegocio.Text}">
+                    <StackPanel Spacing="{StaticResource Spacing8}">
+                        <TextBlock x:Name="TituloUsoNegocio" x:Uid="Uso_Negocio_Titulo" Style="{StaticResource HeadingSmTextStyle}" />
+                        <TextBlock x:Uid="Uso_Negocio_Descripcion" Style="{StaticResource BodyTextStyle}" />
+                    </StackPanel>
+                </ToggleButton>
+                <ToggleButton Grid.Row="1" IsChecked="{x:Bind ViewModel.UsaRentas, Mode=TwoWay}" Style="{StaticResource SeleccionCardStyle}" AutomationProperties.Name="{x:Bind TituloUsoRentas.Text}">
+                    <StackPanel Spacing="{StaticResource Spacing8}">
+                        <TextBlock x:Name="TituloUsoRentas" x:Uid="Uso_Rentas_Titulo" Style="{StaticResource HeadingSmTextStyle}" />
+                        <TextBlock x:Uid="Uso_Rentas_Descripcion" Style="{StaticResource BodyTextStyle}" />
+                    </StackPanel>
+                </ToggleButton>
+                <ToggleButton Grid.Row="1" Grid.Column="1" IsChecked="{x:Bind ViewModel.UsaSolar, Mode=TwoWay}" Style="{StaticResource SeleccionCardStyle}" AutomationProperties.Name="{x:Bind TituloUsoSolar.Text}">
+                    <StackPanel Spacing="{StaticResource Spacing8}">
+                        <TextBlock x:Name="TituloUsoSolar" x:Uid="Uso_Solar_Titulo" Style="{StaticResource HeadingSmTextStyle}" />
+                        <TextBlock x:Uid="Uso_Solar_Descripcion" Style="{StaticResource BodyTextStyle}" />
+                    </StackPanel>
+                </ToggleButton>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

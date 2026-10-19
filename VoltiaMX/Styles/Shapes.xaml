@@ -9,6 +9,8 @@
 
     <!-- Radios -->
     <CornerRadius x:Key="RadiusButton">8</CornerRadius>
+    <!-- Botón ghost sobre fondo negro de mockup-dashboard.html -->
+    <CornerRadius x:Key="RadiusButtonSm">4</CornerRadius>
     <CornerRadius x:Key="RadiusCard">24</CornerRadius>
     <CornerRadius x:Key="RadiusCardLg">32</CornerRadius>
     <CornerRadius x:Key="RadiusCardXl">64</CornerRadius>
@@ -29,11 +31,28 @@
 
     <!-- Rellenos -->
     <Thickness x:Key="CardPadding">24</Thickness>
+    <!-- Tarjetas grandes del Dashboard (mockup-dashboard.html: padding 32) -->
+    <Thickness x:Key="CardPaddingLg">32</Thickness>
+    <!-- Bloque de cierre top-arc (mockup-dashboard.html: 64 arriba, 40 a los lados y abajo) -->
+    <Thickness x:Key="TopArcPadding">40,64,40,40</Thickness>
     <Thickness x:Key="PagePadding">40</Thickness>
     <Thickness x:Key="TagPadding">16,8</Thickness>
-    <Thickness x:Key="NavPillPadding">24,0</Thickness>
+    <!-- mockup-dashboard.html: nav con padding 8 alrededor de ítems de 40 de alto -->
+    <Thickness x:Key="NavPillPadding">8</Thickness>
+    <Thickness x:Key="NavItemContentMargin">20,0</Thickness>
+    <Thickness x:Key="NavItemMargin">2,0</Thickness>
+    <Thickness x:Key="HeaderPadding">40,0</Thickness>
+    <Thickness x:Key="FooterBarPadding">0,24,0,0</Thickness>
+    <!--
+        Con interlineado 0.9 los acentos de las mayúsculas (É, Í, Ñ) sobresalen del renglón; si el
+        título es lo primero de un ScrollViewer, el viewport los recorta. Va como relleno del
+        contenido (no del ScrollViewer, cuyo relleno queda fuera del área visible) y les deja lugar.
+    -->
+    <Thickness x:Key="ScrollAccentPadding">0,16,0,0</Thickness>
     <Thickness x:Key="PrimaryButtonPadding">24,16</Thickness>
     <Thickness x:Key="GhostButtonPadding">16,16</Thickness>
+    <!-- 14,22 + borde de 1.5 = mismo alto que el botón primario (mockup-dashboard.html) -->
+    <Thickness x:Key="GhostOnDarkButtonPadding">22,14</Thickness>
     <Thickness x:Key="TextLinkButtonPadding">0,8</Thickness>
     <Thickness x:Key="InputPadding">16,8</Thickness>
     <Thickness x:Key="HairlineRowPadding">0,16</Thickness>
@@ -47,6 +66,8 @@
     <Thickness x:Key="SwatchBorderThickness">1</Thickness>
     <Thickness x:Key="NoBorderThickness">0</Thickness>
     <Thickness x:Key="FocusVisualMargin">-3</Thickness>
+    <!-- Tarjetas seleccionables: borde transparente fijo para que el hover no mueva el contenido -->
+    <Thickness x:Key="SelectionBorderThickness">2</Thickness>
 
     <!-- Medidas -->
     <x:Double x:Key="NavBarHeight">88</x:Double>
@@ -58,4 +79,10 @@
     <x:Double x:Key="SwatchWidth">168</x:Double>
     <x:Double x:Key="SwatchHeight">96</x:Double>
     <x:Double x:Key="GalleryLabelColumnWidth">280</x:Double>
+    <!-- Ancho cómodo de lectura para párrafos y formularios -->
+    <x:Double x:Key="TextMaxWidth">640</x:Double>
+    <x:Double x:Key="SelectionCardMinHeight">160</x:Double>
+    <x:Double x:Key="BrandIconSize">28</x:Double>
+    <!-- Ítem seleccionado del nav: pastilla negra de 40 de alto -->
+    <CornerRadius x:Key="RadiusNavItem">40</CornerRadius>
 </ResourceDictionary>

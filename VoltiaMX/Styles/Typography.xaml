@@ -57,6 +57,14 @@
         <Setter Property="LineHeight" Value="43.2" />
     </Style>
 
+    <!-- Marca "VOLTIAMX" de la cabecera; mockup-dashboard.html la usa a 32 (gana el HTML sobre el mínimo de 48) -->
+    <Style x:Key="BrandTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DisplayXLTextStyle}">
+        <Setter Property="FontSize" Value="32" />
+        <!-- 32 × 0.9 = 28.8 -->
+        <Setter Property="LineHeight" Value="28.8" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+    </Style>
+
     <!-- Encabezados: Inter Medium (el 450 de DESIGN.md cae entre 400 y 500; se usa 500) -->
     <Style x:Key="HeadingTextStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource BodyMediumFontFamily}" />

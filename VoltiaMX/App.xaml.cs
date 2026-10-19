@@ -1,5 +1,14 @@
+using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml.Navigation;
+using VoltiaMX.Core.Data;
+using VoltiaMX.Core.Services;
+using VoltiaMX.Services;
+using VoltiaMX.ViewModels;
+using VoltiaMX.ViewModels.Onboarding;
+using VoltiaMX.Views.Onboarding;
 
 namespace VoltiaMX
 {
@@ -8,7 +17,8 @@ namespace VoltiaMX
     /// </summary>
     public partial class App : Application
     {
-        private MainWindow? window;
+        private readonly IHost _host;
+        private Window? _ventana;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -17,40 +27,83 @@ namespace VoltiaMX
         public App()
         {
             this.InitializeComponent();
+            _host = CrearHost();
         }
+
+        /// <summary>
+        /// Contenedor de servicios para las vistas que crea XAML (ventanas y páginas).
+        /// </summary>
+        public static IServiceProvider Servicios => ((App)Current)._host.Services;
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
-            window ??= new MainWindow();
+            var fabrica = Servicios.GetRequiredService<IDbContextFactory<VoltiaDbContext>>();
+            await using (var db = await fabrica.CreateDbContextAsync())
+            {
+                await new DbInicializador(db).InicializarAsync();
+            }
 
-            if (window.AppWindow.Presenter is OverlappedPresenter presenter)
+            WeakReferenceMessenger.Default.Register<App, OnboardingTerminadoMensaje>(this, static (app, _) => app.Mostrar(new ShellWindow()));
+            WeakReferenceMessenger.Default.Register<App, RepetirOnboardingMensaje>(this, static (app, _) => app.Mostrar(new OnboardingWindow()));
+
+            var perfil = await Servicios.GetRequiredService<IPerfilService>().ObtenerPerfilAsync();
+            Mostrar(perfil?.OnboardingCompletado == true ? new ShellWindow() : new OnboardingWindow());
+        }
+
+        /// <summary>
+        /// Abre la ventana nueva maximizada y cierra la anterior.
+        /// </summary>
+        private void Mostrar(Window ventana)
+        {
+            if (ventana.AppWindow.Presenter is OverlappedPresenter presenter)
             {
                 presenter.Maximize();
             }
 
-            window.Contenido.NavigationFailed += OnNavigationFailed;
-#if DEBUG
-            // Galería del sistema de diseño: solo existe como pantalla en compilaciones Debug.
-            _ = window.Contenido.Navigate(typeof(DesignGalleryPage), e.Arguments);
-#else
-            _ = window.Contenido.Navigate(typeof(MainPage), e.Arguments);
-#endif
-            window.Activate();
+            var anterior = _ventana;
+            _ventana = ventana;
+            ventana.Activate();
+            anterior?.Close();
         }
 
-        /// <summary>
-        /// Invoked when Navigation to a certain page fails
-        /// </summary>
-        /// <param name="sender">The Frame which failed navigation</param>
-        /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private static IHost CrearHost()
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            var builder = Host.CreateApplicationBuilder();
+            var servicios = builder.Services;
+
+            // En MSIX, Windows redirige LocalApplicationData a la carpeta del paquete.
+            var carpeta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "VoltiaMX");
+            Directory.CreateDirectory(carpeta);
+            servicios.AddDbContextFactory<VoltiaDbContext>(
+                opciones => opciones.UseSqlite($"Data Source={Path.Combine(carpeta, "voltia.db")}"));
+
+            // Core
+            servicios.AddSingleton<ITarifaCalculator, TarifaCalculator>();
+            servicios.AddSingleton<IProyeccionService, ProyeccionService>();
+            servicios.AddSingleton<IDacService, DacService>();
+            servicios.AddSingleton<IPresupuestoInversoService, PresupuestoInversoService>();
+            servicios.AddSingleton<ITarifaService, TarifaService>();
+            servicios.AddSingleton<IPerfilService, PerfilService>();
+            servicios.AddSingleton<IDatosDemoService, DatosDemoService>();
+            servicios.AddSingleton<IResumenDashboardService, ResumenDashboardService>();
+
+            // Servicios de UI
+            servicios.AddSingleton<ITextos, TextosRecursos>();
+            servicios.AddSingleton<NavegacionOnboarding>();
+            servicios.AddSingleton<INavegacionOnboarding>(sp => sp.GetRequiredService<NavegacionOnboarding>());
+            servicios.AddSingleton<NavegacionShell>();
+            servicios.AddSingleton<INavegacionShell>(sp => sp.GetRequiredService<NavegacionShell>());
+
+            // ViewModels
+            servicios.AddTransient<OnboardingViewModel>();
+            servicios.AddTransient<ShellViewModel>();
+
+            return builder.Build();
         }
     }
 }

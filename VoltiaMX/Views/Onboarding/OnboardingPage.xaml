@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Marco del onboarding: indicador de paso y "Omitir" arriba, el paso en el Frame,
+    Atrás/Siguiente abajo. Bienvenida y Listo traen sus propios botones.
+-->
+<Page
+    x:Class="VoltiaMX.Views.Onboarding.OnboardingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Grid
+        MaxWidth="{StaticResource ContentMaxWidth}"
+        Padding="{StaticResource PagePadding}"
+        RowSpacing="{StaticResource Spacing24}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarIndicador), Mode=OneWay}">
+            <ContentPresenter
+                Content="{x:Bind ViewModel.TextoPaso, Mode=OneWay}"
+                Style="{StaticResource MintTagStyle}" />
+            <Button
+                x:Uid="Onboarding_Omitir"
+                HorizontalAlignment="Right"
+                Command="{x:Bind ViewModel.OmitirCommand}"
+                Style="{StaticResource TextLinkButtonStyle}" />
+        </Grid>
+
+        <Frame x:Name="MarcoPasos" Grid.Row="1" />
+
+        <Border
+            Grid.Row="2"
+            Padding="{StaticResource FooterBarPadding}"
+            Style="{StaticResource HairlineListStyle}"
+            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarNavegacion), Mode=OneWay}">
+            <Grid>
+                <Button
+                    x:Uid="Onboarding_Atras"
+                    Command="{x:Bind ViewModel.AtrasCommand}"
+                    Style="{StaticResource GhostButtonStyle}" />
+                <Button
+                    x:Uid="Onboarding_Siguiente"
+                    HorizontalAlignment="Right"
+                    Command="{x:Bind ViewModel.SiguienteCommand}"
+                    Style="{StaticResource PrimaryButtonStyle}" />
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

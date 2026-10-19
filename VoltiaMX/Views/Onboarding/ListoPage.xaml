@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Page
+    x:Class="VoltiaMX.Views.Onboarding.ListoPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:VoltiaMX.ViewModels.Onboarding"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <!-- Resumen en una TopArc negra; el texto hereda blanco del estilo -->
+        <ContentPresenter Padding="{StaticResource TopArcPadding}" Style="{StaticResource TopArcInvertedCardStyle}">
+            <StackPanel Spacing="{StaticResource Spacing40}">
+                <StackPanel Spacing="{StaticResource Spacing16}">
+                    <TextBlock
+                        x:Uid="Listo_Titulo"
+                        AutomationProperties.HeadingLevel="Level1"
+                        Style="{StaticResource DisplayTextStyle}" />
+                    <TextBlock
+                        x:Uid="Listo_Texto"
+                        MaxWidth="{StaticResource TextMaxWidth}"
+                        HorizontalAlignment="Left"
+                        Foreground="{StaticResource AshBrush}"
+                        Style="{StaticResource BodyTextStyle}" />
+                </StackPanel>
+
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Resumen}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="vm:FilaResumen">
+                            <Border Style="{StaticResource HairlineRowOnDarkStyle}">
+                                <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" MinWidth="{StaticResource GalleryLabelColumnWidth}" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Foreground="{StaticResource AshBrush}"
+                                        Style="{StaticResource CaptionTextStyle}"
+                                        Text="{x:Bind Etiqueta}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Style="{StaticResource SubheadingTextStyle}"
+                                        Text="{x:Bind Valor, Converter={StaticResource Mayusculas}}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+
+                <TextBlock
+                    Foreground="{StaticResource VoltageYellowBrush}"
+                    Style="{StaticResource BodyTextStyle}"
+                    Text="{x:Bind ViewModel.Error, Mode=OneWay}"
+                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}" />
+
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                    <Button
+                        x:Uid="Listo_Terminar"
+                        Command="{x:Bind ViewModel.TerminarCommand}"
+                        Style="{StaticResource PrimaryOnDarkButtonStyle}" />
+                    <Button
+                        x:Uid="Listo_Cambiar"
+                        Command="{x:Bind ViewModel.AtrasCommand}"
+                        Style="{StaticResource GhostOnDarkButtonStyle}" />
+                </StackPanel>
+            </StackPanel>
+        </ContentPresenter>
+    </ScrollViewer>
+</Page>

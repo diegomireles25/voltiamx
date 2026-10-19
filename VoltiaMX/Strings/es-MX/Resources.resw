@@ -302,4 +302,345 @@
   <data name="Galeria_NavPresupuesto.Content" xml:space="preserve">
     <value>Presupuesto</value>
   </data>
+
+  <!-- Formatos -->
+  <data name="Formato_Monto" xml:space="preserve">
+    <value>${0:N0}</value>
+  </data>
+
+  <!-- Onboarding: marco -->
+  <data name="Onboarding_Paso" xml:space="preserve">
+    <value>PASO {0}/{1}</value>
+  </data>
+  <data name="Onboarding_Omitir.Content" xml:space="preserve">
+    <value>Omitir esta pregunta</value>
+  </data>
+  <data name="Onboarding_Atras.Content" xml:space="preserve">
+    <value>Atrás</value>
+  </data>
+  <data name="Onboarding_Siguiente.Content" xml:space="preserve">
+    <value>Siguiente</value>
+  </data>
+  <data name="Onboarding_ErrorGuardar" xml:space="preserve">
+    <value>No pudimos guardar tus respuestas. Intenta de nuevo.</value>
+  </data>
+
+  <!-- Onboarding: bienvenida -->
+  <data name="Bienvenida_Titulo.Text" xml:space="preserve">
+    <value>ENTIENDE TU RECIBO DE LUZ</value>
+  </data>
+  <data name="Bienvenida_Subtitulo.Text" xml:space="preserve">
+    <value>Calcula cuánto vas a pagar, cuídate de la tarifa DAC y gasta menos. Son cinco preguntas y todas se pueden omitir.</value>
+  </data>
+  <data name="Bienvenida_Empezar.Content" xml:space="preserve">
+    <value>Empezar</value>
+  </data>
+
+  <!-- Onboarding: uso -->
+  <data name="Uso_Titulo.Text" xml:space="preserve">
+    <value>¿PARA QUÉ VAS A USAR VOLTIAMX?</value>
+  </data>
+  <data name="Uso_Ayuda.Text" xml:space="preserve">
+    <value>Elige todos los que apliquen. Con esto decidimos qué secciones ves.</value>
+  </data>
+  <data name="Uso_Casa_Titulo.Text" xml:space="preserve">
+    <value>MI CASA</value>
+  </data>
+  <data name="Uso_Casa_Descripcion.Text" xml:space="preserve">
+    <value>Saber cuánto vas a pagar y no pasar a tarifa DAC.</value>
+  </data>
+  <data name="Uso_Negocio_Titulo.Text" xml:space="preserve">
+    <value>MI NEGOCIO</value>
+  </data>
+  <data name="Uso_Negocio_Descripcion.Text" xml:space="preserve">
+    <value>Controlar el gasto de luz de tu local o empresa.</value>
+  </data>
+  <data name="Uso_Rentas_Titulo.Text" xml:space="preserve">
+    <value>PROPIEDADES EN RENTA</value>
+  </data>
+  <data name="Uso_Rentas_Descripcion.Text" xml:space="preserve">
+    <value>Llevar el consumo de cada propiedad y repartirlo entre inquilinos.</value>
+  </data>
+  <data name="Uso_Solar_Titulo.Text" xml:space="preserve">
+    <value>COTIZAR PANELES SOLARES</value>
+  </data>
+  <data name="Uso_Solar_Descripcion.Text" xml:space="preserve">
+    <value>Saber si te conviene instalar paneles.</value>
+  </data>
+
+  <!-- Onboarding: ubicación -->
+  <data name="Ubicacion_Titulo.Text" xml:space="preserve">
+    <value>¿DÓNDE ESTÁ TU LUGAR?</value>
+  </data>
+  <data name="Ubicacion_Ayuda.Text" xml:space="preserve">
+    <value>Tu estado y tu tarifa nos dicen cómo te cobra CFE.</value>
+  </data>
+  <data name="Ubicacion_Estado.Header" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="Ubicacion_Estado.PlaceholderText" xml:space="preserve">
+    <value>Elige tu estado</value>
+  </data>
+  <data name="Ubicacion_Municipio.Header" xml:space="preserve">
+    <value>Municipio</value>
+  </data>
+  <data name="Ubicacion_Municipio.PlaceholderText" xml:space="preserve">
+    <value>Ej. Hermosillo</value>
+  </data>
+  <data name="Ubicacion_NombreLugar.Header" xml:space="preserve">
+    <value>¿Cómo le llamas a este lugar?</value>
+  </data>
+  <data name="Ubicacion_NombreLugar.PlaceholderText" xml:space="preserve">
+    <value>Mi casa</value>
+  </data>
+  <data name="Ubicacion_Tarifa.Header" xml:space="preserve">
+    <value>Tarifa</value>
+  </data>
+  <data name="Ubicacion_Tarifa.PlaceholderText" xml:space="preserve">
+    <value>Elige tu tarifa</value>
+  </data>
+  <data name="Ubicacion_NoSe.Content" xml:space="preserve">
+    <value>No sé mi tarifa</value>
+  </data>
+  <data name="Ubicacion_NoSeAyuda.Text" xml:space="preserve">
+    <value>Usaremos la tarifa 1 hasta que la confirmes en tu recibo.</value>
+  </data>
+
+  <!-- Onboarding: recibo -->
+  <data name="Recibo_Titulo.Text" xml:space="preserve">
+    <value>TU ÚLTIMO RECIBO</value>
+  </data>
+  <data name="Recibo_Ayuda.Text" xml:space="preserve">
+    <value>Con un recibo empezamos tu historial. Puedes agregarlo después.</value>
+  </data>
+  <data name="Recibo_Escanear_Titulo.Text" xml:space="preserve">
+    <value>ESCANEAR RECIBO</value>
+  </data>
+  <data name="Recibo_Escanear_Proximamente.Text" xml:space="preserve">
+    <value>PRÓXIMAMENTE</value>
+  </data>
+  <data name="Recibo_Manual_Titulo.Text" xml:space="preserve">
+    <value>CAPTURAR A MANO</value>
+  </data>
+  <data name="Recibo_Manual_Descripcion.Text" xml:space="preserve">
+    <value>Fecha de corte, kWh y total a pagar de tu último recibo.</value>
+  </data>
+  <data name="Recibo_Saltar_Titulo.Text" xml:space="preserve">
+    <value>SALTAR POR AHORA</value>
+  </data>
+  <data name="Recibo_Saltar_Descripcion.Text" xml:space="preserve">
+    <value>Lo agregas cuando lo tengas a la mano.</value>
+  </data>
+  <data name="Recibo_FechaCorte.Header" xml:space="preserve">
+    <value>Fecha de corte</value>
+  </data>
+  <data name="Recibo_FechaCorte.PlaceholderText" xml:space="preserve">
+    <value>Elige la fecha</value>
+  </data>
+  <data name="Recibo_Periodicidad.Text" xml:space="preserve">
+    <value>¿Cada cuándo te llega?</value>
+  </data>
+  <data name="Recibo_Bimestral.Content" xml:space="preserve">
+    <value>Cada dos meses (bimestral)</value>
+  </data>
+  <data name="Recibo_Mensual.Content" xml:space="preserve">
+    <value>Cada mes (mensual)</value>
+  </data>
+  <data name="Recibo_Kwh.Header" xml:space="preserve">
+    <value>Consumo del periodo (kWh)</value>
+  </data>
+  <data name="Recibo_Kwh.PlaceholderText" xml:space="preserve">
+    <value>Ej. 718</value>
+  </data>
+  <data name="Recibo_Monto.Header" xml:space="preserve">
+    <value>Total a pagar (MXN)</value>
+  </data>
+  <data name="Recibo_Monto.PlaceholderText" xml:space="preserve">
+    <value>Ej. 1020</value>
+  </data>
+  <data name="Recibo_Incompleto.Text" xml:space="preserve">
+    <value>Completa la fecha, los kWh y el total, o elige Saltar por ahora.</value>
+  </data>
+  <data name="Recibo_CargarDemo.Content" xml:space="preserve">
+    <value>Cargar datos de demo para conocer la app</value>
+  </data>
+  <data name="Recibo_CargarDemoAyuda.Text" xml:space="preserve">
+    <value>Son datos de ejemplo de una casa con tarifa 1C. Puedes quitarlos cuando quieras en Configuración.</value>
+  </data>
+
+  <!-- Onboarding: objetivo -->
+  <data name="Objetivo_Titulo.Text" xml:space="preserve">
+    <value>¿QUÉ QUIERES LOGRAR?</value>
+  </data>
+  <data name="Objetivo_Ayuda.Text" xml:space="preserve">
+    <value>Elige el que más te importe ahora.</value>
+  </data>
+  <data name="Objetivo_EntenderRecibo_Titulo.Text" xml:space="preserve">
+    <value>ENTENDER MI RECIBO</value>
+  </data>
+  <data name="Objetivo_EntenderRecibo_Descripcion.Text" xml:space="preserve">
+    <value>Saber por qué pagas lo que pagas.</value>
+  </data>
+  <data name="Objetivo_PagarMenos_Titulo.Text" xml:space="preserve">
+    <value>PAGAR MENOS</value>
+  </data>
+  <data name="Objetivo_PagarMenos_Descripcion.Text" xml:space="preserve">
+    <value>Encontrar qué gasta más y bajar tu consumo.</value>
+  </data>
+  <data name="Objetivo_NoPasarmeDePresupuesto_Titulo.Text" xml:space="preserve">
+    <value>NO PASARME DE MI PRESUPUESTO</value>
+  </data>
+  <data name="Objetivo_NoPasarmeDePresupuesto_Descripcion.Text" xml:space="preserve">
+    <value>Fijar un monto máximo y saber cuánto puedes gastar al día.</value>
+  </data>
+  <data name="Objetivo_RepartirInquilinos_Titulo.Text" xml:space="preserve">
+    <value>REPARTIR ENTRE INQUILINOS</value>
+  </data>
+  <data name="Objetivo_RepartirInquilinos_Descripcion.Text" xml:space="preserve">
+    <value>Dividir el recibo de forma justa entre quienes viven ahí.</value>
+  </data>
+
+  <!-- Onboarding: presupuesto -->
+  <data name="Presupuesto_Titulo.Text" xml:space="preserve">
+    <value>¿CUÁNTO QUIERES PAGAR COMO MÁXIMO?</value>
+  </data>
+  <data name="Presupuesto_Ayuda.Text" xml:space="preserve">
+    <value>Es opcional. Con este monto calculamos cuántos kWh puedes gastar al día.</value>
+  </data>
+  <data name="Presupuesto_Monto.Header" xml:space="preserve">
+    <value>Monto máximo por recibo (MXN)</value>
+  </data>
+  <data name="Presupuesto_Monto.PlaceholderText" xml:space="preserve">
+    <value>Ej. 800</value>
+  </data>
+  <data name="Presupuesto_Avisos.Header" xml:space="preserve">
+    <value>Avisarme si voy a pasarme</value>
+  </data>
+  <data name="Presupuesto_Avisos.OnContent" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="Presupuesto_Avisos.OffContent" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Presupuesto_AvisosNota.Text" xml:space="preserve">
+    <value>Por ahora solo guardamos tu preferencia. Los avisos llegarán en una próxima versión de VoltiaMX.</value>
+  </data>
+
+  <!-- Onboarding: listo y resumen -->
+  <data name="Listo_Titulo.Text" xml:space="preserve">
+    <value>TODO LISTO</value>
+  </data>
+  <data name="Listo_Texto.Text" xml:space="preserve">
+    <value>Esto es lo que entendimos. Puedes cambiarlo cuando quieras desde Configuración.</value>
+  </data>
+  <data name="Listo_Terminar.Content" xml:space="preserve">
+    <value>Ir a mi tablero</value>
+  </data>
+  <data name="Listo_Cambiar.Content" xml:space="preserve">
+    <value>Cambiar respuestas</value>
+  </data>
+  <data name="Resumen_Usos" xml:space="preserve">
+    <value>USOS</value>
+  </data>
+  <data name="Resumen_UsosSinElegir" xml:space="preserve">
+    <value>Mi casa (no elegiste ninguno)</value>
+  </data>
+  <data name="Resumen_Lugar" xml:space="preserve">
+    <value>LUGAR</value>
+  </data>
+  <data name="Resumen_LugarSinNombre" xml:space="preserve">
+    <value>Nombre automático</value>
+  </data>
+  <data name="Resumen_LugarConUbicacion" xml:space="preserve">
+    <value>{0} · {1}</value>
+  </data>
+  <data name="Resumen_Tarifa" xml:space="preserve">
+    <value>TARIFA</value>
+  </data>
+  <data name="Resumen_TarifaPorConfirmar" xml:space="preserve">
+    <value>1 · por confirmar</value>
+  </data>
+  <data name="Resumen_Recibo" xml:space="preserve">
+    <value>RECIBO</value>
+  </data>
+  <data name="Resumen_ReciboMensual" xml:space="preserve">
+    <value>Mensual · {0:N0} kWh · ${1:N2}</value>
+  </data>
+  <data name="Resumen_ReciboBimestral" xml:space="preserve">
+    <value>Bimestral · {0:N0} kWh · ${1:N2}</value>
+  </data>
+  <data name="Resumen_ReciboDemo" xml:space="preserve">
+    <value>Datos de demo</value>
+  </data>
+  <data name="Resumen_ReciboDespues" xml:space="preserve">
+    <value>Lo agregas después</value>
+  </data>
+  <data name="Resumen_Objetivo" xml:space="preserve">
+    <value>OBJETIVO</value>
+  </data>
+  <data name="Resumen_ObjetivoSinElegir" xml:space="preserve">
+    <value>Sin elegir</value>
+  </data>
+  <data name="Resumen_Presupuesto" xml:space="preserve">
+    <value>PRESUPUESTO</value>
+  </data>
+  <data name="Resumen_SinPresupuesto" xml:space="preserve">
+    <value>Sin presupuesto</value>
+  </data>
+  <data name="Resumen_Avisos" xml:space="preserve">
+    <value>AVISOS</value>
+  </data>
+  <data name="Resumen_AvisosActivos" xml:space="preserve">
+    <value>Activados (llegan más adelante)</value>
+  </data>
+  <data name="Resumen_AvisosInactivos" xml:space="preserve">
+    <value>Desactivados</value>
+  </data>
+
+  <!-- Shell y navegación -->
+  <data name="Shell_Marca.Text" xml:space="preserve">
+    <value>VOLTIAMX</value>
+  </data>
+  <data name="Shell_Navegacion.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Navegación principal</value>
+  </data>
+  <data name="Shell_NuevaLectura.Content" xml:space="preserve">
+    <value>Nueva lectura</value>
+  </data>
+  <data name="Nav_Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Nav_Configuracion" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="Modulo_Lecturas" xml:space="preserve">
+    <value>Lecturas</value>
+  </data>
+  <data name="Modulo_Predictor" xml:space="preserve">
+    <value>Predictor</value>
+  </data>
+  <data name="Modulo_Presupuesto" xml:space="preserve">
+    <value>Presupuesto</value>
+  </data>
+  <data name="Modulo_Aparatos" xml:space="preserve">
+    <value>Aparatos</value>
+  </data>
+  <data name="Modulo_Solar" xml:space="preserve">
+    <value>Solar</value>
+  </data>
+  <data name="Modulo_Inquilinos" xml:space="preserve">
+    <value>Inquilinos</value>
+  </data>
+  <data name="Modulo_Metas" xml:space="preserve">
+    <value>Metas</value>
+  </data>
+  <data name="Modulo_Reportes" xml:space="preserve">
+    <value>Reportes</value>
+  </data>
+  <data name="ModuloPendiente_Etiqueta.Content" xml:space="preserve">
+    <value>PRÓXIMAMENTE</value>
+  </data>
+  <data name="ModuloPendiente_Texto.Text" xml:space="preserve">
+    <value>Este módulo llega en una próxima fase de VoltiaMX.</value>
+  </data>
 </root>

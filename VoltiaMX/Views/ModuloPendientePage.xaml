@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Estado vacío para los módulos que llegan en fases posteriores -->
+<Page
+    x:Class="VoltiaMX.Views.ModuloPendientePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel
+        MaxWidth="{StaticResource ContentMaxWidth}"
+        Padding="{StaticResource PagePadding}"
+        Spacing="{StaticResource Spacing24}">
+        <ContentPresenter x:Uid="ModuloPendiente_Etiqueta" Style="{StaticResource MintTagStyle}" />
+        <TextBlock
+            AutomationProperties.HeadingLevel="Level1"
+            Style="{StaticResource DisplayTextStyle}"
+            Text="{x:Bind Titulo, Converter={StaticResource Mayusculas}}" />
+        <TextBlock
+            x:Uid="ModuloPendiente_Texto"
+            MaxWidth="{StaticResource TextMaxWidth}"
+            HorizontalAlignment="Left"
+            Foreground="{StaticResource SlateBrush}"
+            Style="{StaticResource BodyTextStyle}" />
+    </StackPanel>
+</Page>
