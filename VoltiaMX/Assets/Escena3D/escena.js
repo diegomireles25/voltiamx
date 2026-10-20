@@ -150,7 +150,7 @@
     camara.aspect = aspect;
     camara.updateProjectionMatrix();
     var tanV = Math.tan(THREE.MathUtils.degToRad(camara.fov / 2));
-    var mitadAlto = 3.6, mitadAncho = 6.2;
+    var mitadAlto = 4.1, mitadAncho = 6.2;
     distancia = Math.max(mitadAlto / tanV, mitadAncho / (tanV * aspect)) + 3;
   }
   function ponerCamara() {
