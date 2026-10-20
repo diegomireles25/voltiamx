@@ -97,6 +97,11 @@
                                 Style="{StaticResource GhostButtonStyle}" />
                         </Grid>
                     </Border>
+
+                    <!-- Versión: siempre al final, también en Release -->
+                    <Border Style="{StaticResource HairlineRowStyle}">
+                        <TextBlock x:Uid="Config_Version" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" />
+                    </Border>
                 </StackPanel>
             </Border>
         </StackPanel>

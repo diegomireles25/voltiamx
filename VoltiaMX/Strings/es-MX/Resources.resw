@@ -946,4 +946,7 @@
   <data name="Config_GaleriaBoton.Content" xml:space="preserve">
     <value>Abrir galería</value>
   </data>
+  <data name="Config_Version.Text" xml:space="preserve">
+    <value>Versión 0.2 · avance</value>
+  </data>
 </root>
