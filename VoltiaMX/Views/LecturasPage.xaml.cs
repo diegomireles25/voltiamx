@@ -20,6 +20,14 @@ namespace VoltiaMX.Views
         {
             base.OnNavigatedTo(e);
             await ViewModel.CargarAsync();
+
+            // "Ver historial" del Dashboard abre la página en la sección HISTORIAL. Antes se termina de
+            // medir el contenido recién cargado; si no, el ScrollViewer todavía no sabe dónde queda.
+            if (e.Parameter as string == SeccionesLecturas.Historial)
+            {
+                UpdateLayout();
+                SeccionHistorial.StartBringIntoView(new BringIntoViewOptions { VerticalAlignmentRatio = 0, AnimationDesired = false });
+            }
         }
 
         // Enter guarda. Va en KeyUp porque el NumberBox confirma su valor al bajar la tecla.

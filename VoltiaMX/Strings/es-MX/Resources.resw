@@ -1116,4 +1116,66 @@
   <data name="Dialogo_Entendido" xml:space="preserve">
     <value>Entendido</value>
   </data>
+
+  <!-- Historial (Lecturas) -->
+  <data name="Lecturas_Historial.Text" xml:space="preserve">
+    <value>HISTORIAL</value>
+  </data>
+  <data name="Historial_EnKwh.Content" xml:space="preserve">
+    <value>kWh</value>
+  </data>
+  <data name="Historial_EnPesos.Content" xml:space="preserve">
+    <value>Pesos</value>
+  </data>
+  <data name="Historial_Vacio.Text" xml:space="preserve">
+    <value>Con dos periodos cerrados verás tu historial. Un periodo se cierra al capturar la lectura de su fecha de corte o una posterior.</value>
+  </data>
+  <data name="Historial_Grafica.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Gráfica de consumo por periodo. Los valores están en la tabla que sigue.</value>
+  </data>
+  <data name="Historial_VersionTexto.Text" xml:space="preserve">
+    <value>VERSIÓN EN TEXTO DE LA GRÁFICA</value>
+  </data>
+  <data name="Historial_Acumulado.Text" xml:space="preserve">
+    <value>CONSUMO ACUMULADO DEL PERIODO ACTUAL</value>
+  </data>
+  <data name="Historial_GraficaAcumulado.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Gráfica del consumo acumulado del periodo actual contra lo que cabe en tu presupuesto. El resumen está en el texto que sigue.</value>
+  </data>
+  <data name="Historial_EtiquetaActual" xml:space="preserve">
+    <value>EN CURSO</value>
+  </data>
+  <data name="Historial_EtiquetaEstimado" xml:space="preserve">
+    <value>{0} EST.</value>
+  </data>
+  <data name="Historial_FechaCorte" xml:space="preserve">
+    <value>{0:d MMM}</value>
+  </data>
+  <data name="Historial_ValorProyectado" xml:space="preserve">
+    <value>~{0}</value>
+  </data>
+  <data name="Historial_Periodo" xml:space="preserve">
+    <value>{0:d MMM} – {1:d MMM yyyy}</value>
+  </data>
+  <data name="Historial_KwhPorDia" xml:space="preserve">
+    <value>{0:N1} KWH/DÍA</value>
+  </data>
+  <data name="Historial_MontoConRecibo" xml:space="preserve">
+    <value>${0:N0} (recibo ${1:N0})</value>
+  </data>
+  <data name="Historial_AcumuladoConPresupuesto" xml:space="preserve">
+    <value>Llevas {0:N0} kWh de los {1:N0} que caben en tu presupuesto este periodo.</value>
+  </data>
+  <data name="Historial_AcumuladoSinPresupuesto" xml:space="preserve">
+    <value>Llevas {0:N0} kWh en {1:N0} días de este periodo.</value>
+  </data>
+  <data name="Etiqueta_EnCurso" xml:space="preserve">
+    <value>EN CURSO</value>
+  </data>
+  <data name="Grafica_FormatoDia" xml:space="preserve">
+    <value>DÍA {0:N0}</value>
+  </data>
+  <data name="Grafica_FormatoKwh" xml:space="preserve">
+    <value>{0:N0}</value>
+  </data>
 </root>

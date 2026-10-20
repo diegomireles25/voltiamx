@@ -92,6 +92,7 @@ namespace VoltiaMX
             servicios.AddSingleton<IDatosDemoService, DatosDemoService>();
             servicios.AddSingleton<IResumenDashboardService, ResumenDashboardService>();
             servicios.AddSingleton<ILecturaService, LecturaService>();
+            servicios.AddSingleton<IHistorialService, HistorialService>();
 
             // Servicios de UI
             servicios.AddSingleton<ITextos, TextosRecursos>();

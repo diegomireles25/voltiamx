@@ -102,6 +102,14 @@
     <x:Double x:Key="TextMaxWidth">640</x:Double>
     <!-- Alto mínimo de la escena 3D de Bienvenida (cabe en la ventana mínima de 1100x700) -->
     <x:Double x:Key="EscenaMinHeight">360</x:Double>
+
+    <!-- Gráficas del historial de Lecturas (LiveCharts2) -->
+    <x:Double x:Key="GraficaAltura">280</x:Double>
+    <x:Double x:Key="GraficaAnchoBarra">56</x:Double>
+    <x:Double x:Key="GraficaGrosorLinea">2</x:Double>
+    <x:Double x:Key="GraficaPunto">6</x:Double>
+    <!-- Largo del trazo y del hueco de la recta punteada del presupuesto -->
+    <x:Double x:Key="GraficaGuion">6</x:Double>
     <x:Double x:Key="SelectionCardMinHeight">160</x:Double>
     <x:Double x:Key="BrandIconSize">28</x:Double>
     <!-- Dashboard -->

@@ -60,14 +60,11 @@ public sealed class ResumenDashboardService(
         var cerrados = lugar.Periodos.OrderBy(p => p.Inicio).ToList();
         var meses = lugar.MesesPorPeriodo;
 
-        // El periodo actual no avanza solo: se cierra al registrar la lectura en o después del corte.
-        DateOnly? ultimoCorte = cerrados.Count > 0 ? cerrados.Max(p => p.Fin) : null;
-        var primeraLectura = lugar.Lecturas.Count > 0 ? lugar.Lecturas.Min(l => l.Fecha) : hoy;
-        var ventana = VentanaPeriodo.Calcular(Math.Clamp(lugar.DiaCorte, 1, 31), meses, ultimoCorte, primeraLectura);
+        var ventana = PeriodoActual.Ventana(lugar, hoy);
         var (inicio, fin) = (ventana.Inicio, ventana.Fin);
 
         var diasDelPeriodo = ventana.Dias;
-        var (kwhHastaHoy, diasMedidos) = ConsumoDelPeriodo(lugar.Lecturas, ventana, hoy);
+        var (kwhHastaHoy, diasMedidos) = PeriodoActual.Consumo(PeriodoActual.LecturasMedidas(lugar.Lecturas, ventana, hoy), ventana);
         var proyectado = kwhHastaHoy is decimal kwh
             ? proyeccion.Proyectar(kwh, diasMedidos, diasDelPeriodo, tarifa, meses)
             : null;
@@ -100,28 +97,6 @@ public sealed class ResumenDashboardService(
         return presupuestoMax is decimal monto
             ? ConPresupuesto(resumen, monto, tarifa, diasMedidos)
             : resumen;
-    }
-
-    /// <summary>
-    /// kWh desde la lectura base (la de corte del periodo anterior o, si no hay, la primera del
-    /// periodo) hasta la última lectura del periodo de hoy o antes. Null si no hay dos lecturas que lo midan.
-    /// </summary>
-    private static (decimal? Kwh, int DiasMedidos) ConsumoDelPeriodo(IEnumerable<Lectura> lecturas, Ventana ventana, DateOnly hoy)
-    {
-        var corteAnterior = ventana.Inicio.AddDays(-1);
-        var delPeriodo = lecturas
-            .Where(l => l.Fecha >= corteAnterior && l.Fecha <= ventana.Fin && l.Fecha <= hoy)
-            .OrderBy(l => l.Fecha)
-            .ToList();
-        var lecturaBase = delPeriodo.FirstOrDefault();
-        var ultima = delPeriodo.LastOrDefault();
-        if (lecturaBase is null || ultima is null || ultima.Fecha <= lecturaBase.Fecha)
-        {
-            return (null, 0);
-        }
-
-        var dias = Math.Min(ultima.Fecha.DayNumber - lecturaBase.Fecha.DayNumber, ventana.Dias);
-        return (ultima.ValorKwh - lecturaBase.ValorKwh, dias);
     }
 
     private static IReadOnlyList<PeriodoHistorial> Historial(

@@ -30,6 +30,7 @@
     <SolidColorBrush x:Key="GraphiteBrush" Color="{StaticResource GraphiteColor}" />
     <SolidColorBrush x:Key="MintChipBrush" Color="{StaticResource MintChipColor}" />
     <SolidColorBrush x:Key="VoltageYellowBrush" Color="{StaticResource VoltageYellowColor}" />
+    <SolidColorBrush x:Key="TransparenteBrush" Color="Transparent" />
 
     <!-- Acento del sistema: negro en lugar del azul de Windows -->
     <Color x:Key="SystemAccentColor">#000000</Color>

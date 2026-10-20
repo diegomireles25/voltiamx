@@ -107,11 +107,15 @@ public sealed partial class DashboardViewModel(
     /// "Capturar lectura" y el aviso de periodo terminado llevan a Lecturas si el módulo está activo.
     /// </summary>
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(IrALecturasCommand))]
+    [NotifyCanExecuteChangedFor(nameof(IrALecturasCommand), nameof(IrAHistorialCommand))]
     public partial bool LecturasHabilitadas { get; set; }
 
     [RelayCommand(CanExecute = nameof(LecturasHabilitadas))]
     private void IrALecturas() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas));
+
+    [RelayCommand(CanExecute = nameof(LecturasHabilitadas))]
+    private void IrAHistorial()
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.Historial));
 
     public async Task CargarAsync()
     {

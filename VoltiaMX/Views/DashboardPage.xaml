@@ -173,7 +173,7 @@
                                     x:Uid="Dashboard_VerHistorial"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
-                                    IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}"
+                                    Command="{x:Bind ViewModel.IrAHistorialCommand}"
                                     Style="{StaticResource TextLinkButtonSmStyle}" />
                             </Grid>
                             <StackPanel Spacing="{StaticResource Spacing8}">
