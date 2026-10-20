@@ -91,6 +91,7 @@ namespace VoltiaMX
             servicios.AddSingleton<IPerfilService, PerfilService>();
             servicios.AddSingleton<IDatosDemoService, DatosDemoService>();
             servicios.AddSingleton<IResumenDashboardService, ResumenDashboardService>();
+            servicios.AddSingleton<ILecturaService, LecturaService>();
 
             // Servicios de UI
             servicios.AddSingleton<ITextos, TextosRecursos>();
@@ -98,12 +99,14 @@ namespace VoltiaMX
             servicios.AddSingleton<INavegacionOnboarding>(sp => sp.GetRequiredService<NavegacionOnboarding>());
             servicios.AddSingleton<NavegacionShell>();
             servicios.AddSingleton<INavegacionShell>(sp => sp.GetRequiredService<NavegacionShell>());
+            servicios.AddSingleton<IDialogos, Dialogos>();
 
             // ViewModels
             servicios.AddTransient<OnboardingViewModel>();
             servicios.AddTransient<ShellViewModel>();
             servicios.AddTransient<DashboardViewModel>();
             servicios.AddTransient<ConfiguracionViewModel>();
+            servicios.AddTransient<LecturasViewModel>();
 
             return builder.Build();
         }

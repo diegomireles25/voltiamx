@@ -16,4 +16,14 @@ public interface ILecturaService
     /// Borra la lectura más reciente del lugar, salvo que sea el corte de un periodo cerrado.
     /// </summary>
     Task<ResultadoEliminacion> EliminarUltimaAsync(int lugarId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Las últimas <paramref name="cantidad"/> lecturas, de la más reciente a la más antigua.
+    /// </summary>
+    Task<IReadOnlyList<LecturaListada>> ListarAsync(int lugarId, int cantidad, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// El lugar que muestra el Dashboard (ver <see cref="LugarPrincipal"/>), o null si no hay lugares.
+    /// </summary>
+    Task<LugarDeLecturas?> ObtenerLugarPrincipalAsync(CancellationToken cancellationToken = default);
 }

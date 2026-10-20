@@ -1,3 +1,4 @@
+using VoltiaMX.Core.Models;
 using VoltiaMX.ViewModels;
 
 namespace VoltiaMX.Services;
@@ -9,7 +10,7 @@ public sealed class NavegacionShell : INavegacionShell
 {
     public Frame? Marco { get; set; }
 
-    public void Navegar(ElementoNavegacion elemento)
+    public void Navegar(ElementoNavegacion elemento, string? seccion = null)
     {
         switch (elemento.Destino)
         {
@@ -18,6 +19,9 @@ public sealed class NavegacionShell : INavegacionShell
                 break;
             case DestinoShell.Configuracion:
                 IrA(typeof(ConfiguracionPage));
+                break;
+            case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Lecturas:
+                IrA(typeof(LecturasPage), seccion);
                 break;
             default:
                 // Los módulos llegan en fases posteriores; mientras, muestran su estado vacío.

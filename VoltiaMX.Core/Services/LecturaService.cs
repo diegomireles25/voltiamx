@@ -78,6 +78,44 @@ public sealed class LecturaService(IDbContextFactory<VoltiaDbContext> fabrica, I
         return ResultadoEliminacion.Eliminada;
     }
 
+    public async Task<IReadOnlyList<LecturaListada>> ListarAsync(
+        int lugarId, int cantidad, CancellationToken cancellationToken = default)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(cantidad);
+        await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
+        var lecturas = (await db.Lecturas.AsNoTracking().Where(l => l.LugarId == lugarId).ToListAsync(cancellationToken))
+            .OrderBy(l => l.Fecha)
+            .ToList();
+        var cortes = (await db.Periodos.Where(p => p.LugarId == lugarId).Select(p => p.Fin).ToListAsync(cancellationToken))
+            .ToHashSet();
+
+        // El consumo se calcula con la anterior aunque quede fuera de las que se devuelven.
+        return lecturas
+            .Select((l, i) => new LecturaListada(
+                l.Fecha,
+                l.ValorKwh,
+                i == 0 ? null : l.ValorKwh - lecturas[i - 1].ValorKwh,
+                l.EsEstimada,
+                cortes.Contains(l.Fecha)))
+            .Reverse()
+            .Take(cantidad)
+            .ToList();
+    }
+
+    public async Task<LugarDeLecturas?> ObtenerLugarPrincipalAsync(CancellationToken cancellationToken = default)
+    {
+        await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
+        var lugares = await db.Lugares
+            .AsNoTracking()
+            .Include(l => l.Periodos)
+            .Include(l => l.Lecturas)
+            .AsSplitQuery()
+            .OrderBy(l => l.Id)
+            .ToListAsync(cancellationToken);
+
+        return LugarPrincipal.Elegir(lugares) is { } lugar ? new LugarDeLecturas(lugar.Id, lugar.Nombre, lugar.EsDemo) : null;
+    }
+
     private static Task<Lugar?> CargarLugarAsync(IQueryable<Lugar> lugares, int lugarId, CancellationToken cancellationToken)
         => lugares
             .Include(l => l.Tarifa).ThenInclude(t => t!.Rangos)

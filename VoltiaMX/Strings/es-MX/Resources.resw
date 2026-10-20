@@ -461,6 +461,15 @@
   <data name="Recibo_Monto.PlaceholderText" xml:space="preserve">
     <value>Ej. 1020</value>
   </data>
+  <data name="Recibo_LecturaMedidor.Header" xml:space="preserve">
+    <value>Lectura actual del medidor (kWh, opcional)</value>
+  </data>
+  <data name="Recibo_LecturaMedidor.PlaceholderText" xml:space="preserve">
+    <value>Ej. 48210</value>
+  </data>
+  <data name="Recibo_LecturaMedidor.Description" xml:space="preserve">
+    <value>La encuentras en tu recibo como lectura actual.</value>
+  </data>
   <data name="Recibo_Incompleto.Text" xml:space="preserve">
     <value>Completa la fecha, los kWh y el total, o elige Saltar por ahora.</value>
   </data>
@@ -656,6 +665,15 @@
   </data>
   <data name="Formato_Porcentaje" xml:space="preserve">
     <value>{0}%</value>
+  </data>
+  <data name="Formato_Fecha" xml:space="preserve">
+    <value>{0:d MMM yyyy}</value>
+  </data>
+  <data name="Formato_KwhUnidad" xml:space="preserve">
+    <value>{0:N0} kWh</value>
+  </data>
+  <data name="Formato_ConsumoLectura" xml:space="preserve">
+    <value>+{0:N0} KWH</value>
   </data>
 
   <!-- Dashboard: hero -->
@@ -945,5 +963,157 @@
   </data>
   <data name="Config_Version.Text" xml:space="preserve">
     <value>Versión 0.2 · avance</value>
+  </data>
+
+  <!-- Lecturas -->
+  <data name="Lecturas_Titulo.Text" xml:space="preserve">
+    <value>LECTURAS</value>
+  </data>
+  <data name="Lecturas_DatosEjemplo.Content" xml:space="preserve">
+    <value>DATOS DE EJEMPLO</value>
+  </data>
+  <data name="Lecturas_DemoAviso.Text" xml:space="preserve">
+    <value>Estás viendo datos de ejemplo. Quítalos para capturar tus lecturas reales.</value>
+  </data>
+  <data name="Lecturas_IrAConfiguracion.Content" xml:space="preserve">
+    <value>Ir a Configuración</value>
+  </data>
+  <data name="Lecturas_Fecha.Header" xml:space="preserve">
+    <value>Fecha de la lectura</value>
+  </data>
+  <data name="Lecturas_Valor.Header" xml:space="preserve">
+    <value>Lectura del medidor (kWh)</value>
+  </data>
+  <data name="Lecturas_Valor.Description" xml:space="preserve">
+    <value>El número que marca tu medidor de luz.</value>
+  </data>
+  <data name="Lecturas_Monto.Header" xml:space="preserve">
+    <value>Total de tu recibo (opcional)</value>
+  </data>
+  <data name="Lecturas_Monto.Description" xml:space="preserve">
+    <value>Solo si esta lectura es la de tu recibo.</value>
+  </data>
+  <data name="Lecturas_Previsualizar.Content" xml:space="preserve">
+    <value>Previsualizar</value>
+  </data>
+  <data name="Lecturas_Guardar.Content" xml:space="preserve">
+    <value>Guardar lectura</value>
+  </data>
+  <data name="Lecturas_VistaPrevia.Text" xml:space="preserve">
+    <value>VISTA PREVIA</value>
+  </data>
+  <data name="Lecturas_VistaPreviaVacia.Text" xml:space="preserve">
+    <value>Escribe la lectura del medidor para ver qué pasará al guardarla.</value>
+  </data>
+  <data name="Lecturas_Ultimas.Text" xml:space="preserve">
+    <value>ÚLTIMAS LECTURAS</value>
+  </data>
+  <data name="Lecturas_VacioTitulo.Text" xml:space="preserve">
+    <value>Agrega tu primera lectura</value>
+  </data>
+  <data name="Lecturas_VacioTexto.Text" xml:space="preserve">
+    <value>Es el número que marca tu medidor de luz; con dos lecturas calculamos cuánto consumes.</value>
+  </data>
+  <data name="Lecturas_EliminarUltima.Content" xml:space="preserve">
+    <value>Eliminar la última lectura</value>
+  </data>
+  <data name="Lecturas_SinLugar.Text" xml:space="preserve">
+    <value>Completa el onboarding para capturar lecturas.</value>
+  </data>
+  <data name="Lecturas_PuntoDePartida" xml:space="preserve">
+    <value>PUNTO DE PARTIDA</value>
+  </data>
+  <data name="Lectura_Rechazo_LugarNoExiste" xml:space="preserve">
+    <value>No encontramos el lugar de esta lectura.</value>
+  </data>
+  <data name="Lectura_Rechazo_ValorNegativo" xml:space="preserve">
+    <value>La lectura no puede ser negativa.</value>
+  </data>
+  <data name="Lectura_Rechazo_FechaFutura" xml:space="preserve">
+    <value>La fecha no puede ser posterior a hoy.</value>
+  </data>
+  <data name="Lectura_Rechazo_MenorQueAnterior" xml:space="preserve">
+    <value>Es menor que tu lectura anterior. El medidor solo avanza: revisa el número.</value>
+  </data>
+  <data name="Lectura_Rechazo_MayorQueSiguiente" xml:space="preserve">
+    <value>Es mayor que una lectura de una fecha posterior. Revisa el número o la fecha.</value>
+  </data>
+  <data name="Lectura_Rechazo_PeriodoCerrado" xml:space="preserve">
+    <value>Esa fecha es de un periodo que ya se cerró.</value>
+  </data>
+  <data name="Previa_NoSeGuarda" xml:space="preserve">
+    <value>No se puede guardar</value>
+  </data>
+  <data name="Previa_Reemplaza" xml:space="preserve">
+    <value>Reemplaza la lectura de ese mismo día</value>
+  </data>
+  <data name="Previa_Cierre" xml:space="preserve">
+    <value>Cierra el periodo del {0:d MMM} al {1:d MMM yyyy}</value>
+  </data>
+  <data name="Previa_CierreDetalle" xml:space="preserve">
+    <value>{0:N0} kWh · ${1:N0} estimados con tu tarifa, sin IVA ni DAP</value>
+  </data>
+  <data name="Previa_PuntoDePartidaTitulo" xml:space="preserve">
+    <value>Punto de partida</value>
+  </data>
+  <data name="Previa_PuntoDePartida" xml:space="preserve">
+    <value>Esta lectura solo fija el punto de partida: con la siguiente verás tu consumo.</value>
+  </data>
+  <data name="Previa_SinBaseTitulo" xml:space="preserve">
+    <value>El periodo no se puede cerrar todavía</value>
+  </data>
+  <data name="Previa_SinBase" xml:space="preserve">
+    <value>Ya pasó la fecha de corte, pero falta una lectura anterior al corte para calcular su consumo.</value>
+  </data>
+  <data name="Previa_SeSuma" xml:space="preserve">
+    <value>Se suma al periodo actual</value>
+  </data>
+  <data name="Previa_Consumo" xml:space="preserve">
+    <value>{0:N0} kWh desde la lectura del {1:d MMM yyyy}.</value>
+  </data>
+  <data name="Etiqueta_Estimado" xml:space="preserve">
+    <value>ESTIMADO</value>
+  </data>
+  <data name="Etiqueta_Estimada" xml:space="preserve">
+    <value>ESTIMADA</value>
+  </data>
+  <data name="Etiqueta_Corte" xml:space="preserve">
+    <value>CORTE</value>
+  </data>
+  <data name="Etiqueta_Revisa" xml:space="preserve">
+    <value>REVISA</value>
+  </data>
+  <data name="Lectura_Guardada" xml:space="preserve">
+    <value>Lectura guardada.</value>
+  </data>
+  <data name="Lectura_GuardadaUnCierre" xml:space="preserve">
+    <value>Lectura guardada. Se cerró un periodo.</value>
+  </data>
+  <data name="Lectura_GuardadaCierres" xml:space="preserve">
+    <value>Lectura guardada. Se cerraron {0} periodos.</value>
+  </data>
+  <data name="Lectura_Eliminada" xml:space="preserve">
+    <value>Se eliminó la última lectura.</value>
+  </data>
+  <data name="Eliminar_Titulo" xml:space="preserve">
+    <value>¿ELIMINAR LA ÚLTIMA LECTURA?</value>
+  </data>
+  <data name="Eliminar_Texto" xml:space="preserve">
+    <value>Se borrará la lectura del {0:d MMM yyyy} ({1:N0} kWh). No se puede deshacer.</value>
+  </data>
+  <data name="Eliminar_Confirmar" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="Eliminar_Cancelar" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Eliminar_NoPermitidoTitulo" xml:space="preserve">
+    <value>NO SE PUEDE ELIMINAR</value>
+  </data>
+  <data name="Eliminar_NoPermitidoTexto" xml:space="preserve">
+    <value>La última lectura es el corte de un periodo cerrado: el consumo de ese periodo depende de ella.</value>
+  </data>
+  <data name="Dialogo_Entendido" xml:space="preserve">
+    <value>Entendido</value>
   </data>
 </root>

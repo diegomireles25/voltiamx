@@ -25,10 +25,7 @@ public sealed class ResumenDashboardService(
             .OrderBy(l => l.Id)
             .ToListAsync(cancellationToken);
 
-        static bool TieneDatos(Lugar l) => l.Periodos.Count > 0 || l.Lecturas.Count > 0;
-        var lugar = lugares.FirstOrDefault(l => !l.EsDemo && TieneDatos(l))
-            ?? lugares.FirstOrDefault(l => l.EsDemo)
-            ?? lugares.FirstOrDefault(l => !l.EsDemo);
+        var lugar = LugarPrincipal.Elegir(lugares);
         if (lugar?.Tarifa is null)
         {
             return null;

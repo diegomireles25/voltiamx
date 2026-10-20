@@ -91,13 +91,13 @@
                     </NavigationView>
                 </ContentPresenter>
 
-                <!-- Deshabilitado hasta que exista el módulo Lecturas -->
+                <!-- Habilitado cuando el módulo Lecturas está activo -->
                 <Button
                     x:Name="NuevaLectura"
                     x:Uid="Shell_NuevaLectura"
                     Grid.Column="2"
                     HorizontalAlignment="Right"
-                    IsEnabled="{x:Bind ViewModel.NuevaLecturaHabilitada}"
+                    Command="{x:Bind ViewModel.NuevaLecturaCommand}"
                     Style="{StaticResource PrimaryButtonStyle}" />
             </Grid>
 

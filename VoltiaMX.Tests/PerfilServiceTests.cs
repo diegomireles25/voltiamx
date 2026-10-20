@@ -152,6 +152,52 @@ public sealed class PerfilServiceTests : IAsyncLifetime
         Assert.Equal(1, (await LugarPrincipalAsync()).MesesPorPeriodo);
     }
 
+    private async Task<List<Lectura>> LecturasAsync()
+    {
+        await using var db = _fabrica.CreateDbContext();
+        return await db.Lecturas.ToListAsync();
+    }
+
+    [Fact]
+    public async Task GuardarOnboardingAsync_ReciboConLecturaDelMedidor_GuardaLaLecturaDelCorte()
+    {
+        var recibo = new ReciboCapturado(new DateOnly(2026, 9, 14), 2, 718m, 1_020.50m, LecturaMedidor: 48_210m);
+
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa], Recibo = recibo });
+
+        var lectura = Assert.Single(await LecturasAsync());
+        Assert.Equal((new DateOnly(2026, 9, 14), 48_210m, OrigenLectura.Manual, false),
+            (lectura.Fecha, lectura.ValorKwh, lectura.Origen, lectura.EsEstimada));
+        Assert.Equal((await LugarPrincipalAsync()).Id, lectura.LugarId);
+    }
+
+    [Fact]
+    public async Task GuardarOnboardingAsync_ReciboSinLecturaDelMedidor_NoGuardaLecturas()
+    {
+        var recibo = new ReciboCapturado(new DateOnly(2026, 9, 14), 2, 718m, 1_020.50m);
+
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa], Recibo = recibo });
+
+        Assert.Empty(await LecturasAsync());
+    }
+
+    [Fact]
+    public async Task GuardarOnboardingAsync_RepetidoConLecturaDelMedidor_NoLaDuplica()
+    {
+        var fecha = new DateOnly(2026, 9, 14);
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding
+        {
+            Usos = [UsoApp.Casa], Recibo = new ReciboCapturado(fecha, 2, 718m, 1_020.50m, LecturaMedidor: 48_210m),
+        });
+
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding
+        {
+            Usos = [UsoApp.Casa], Recibo = new ReciboCapturado(fecha, 2, 718m, 1_020.50m, LecturaMedidor: 48_300m),
+        });
+
+        Assert.Equal(48_300m, Assert.Single(await LecturasAsync()).ValorKwh);
+    }
+
     [Fact]
     public async Task GuardarOnboardingAsync_SoloPresupuesto_ObjetivoNoPasarmeDePresupuesto()
     {

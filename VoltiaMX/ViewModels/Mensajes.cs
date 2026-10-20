@@ -1,3 +1,5 @@
+using VoltiaMX.Core.Models;
+
 namespace VoltiaMX.ViewModels;
 
 /// <summary>
@@ -14,3 +16,14 @@ public sealed record RepetirOnboardingMensaje;
 /// Cambió el modo simple/avanzado: el menú del Shell se regenera.
 /// </summary>
 public sealed record ModulosCambiadosMensaje;
+
+/// <summary>
+/// Abrir un módulo desde otra pantalla (p. ej. "Capturar lectura" del Dashboard). El Shell selecciona
+/// su elemento del menú; <paramref name="Seccion"/> indica dónde abrir la página, si aplica.
+/// </summary>
+public sealed record IrAModuloMensaje(ModuloApp Modulo, string? Seccion = null);
+
+/// <summary>
+/// Abrir Configuración desde otra pantalla.
+/// </summary>
+public sealed record IrAConfiguracionMensaje;

@@ -378,6 +378,109 @@ public sealed class LecturaServiceTests : IAsyncLifetime
         Assert.Equal(MotivoRechazoLectura.FechaFutura, resultado.Rechazo);
     }
 
+    // ---- Listar ----
+
+    [Fact]
+    public async Task Listar_SinLecturas_DevuelveVacia()
+    {
+        var lugar = await CrearLugarAsync();
+
+        Assert.Empty(await _servicio.ListarAsync(lugar, 10));
+    }
+
+    [Fact]
+    public async Task Listar_UnaLectura_SinConsumoAnterior()
+    {
+        var lugar = await CrearLugarAsync();
+        await GuardarAsync(lugar, F(2026, 4, 1), 1000m);
+
+        var lectura = Assert.Single(await _servicio.ListarAsync(lugar, 10));
+
+        Assert.Equal(new LecturaListada(F(2026, 4, 1), 1000m, null, EsEstimada: false, EsCorteDePeriodo: false), lectura);
+    }
+
+    [Fact]
+    public async Task Listar_VariasConCorteInterpolado_DeLaMasRecienteALaMasAntigua()
+    {
+        var lugar = await CrearLugarAsync();
+        await GuardarAsync(lugar, F(2026, 4, 1), 1000m);
+        await GuardarAsync(lugar, F(2026, 4, 21), 1200m);
+        await GuardarAsync(lugar, F(2026, 5, 11), 1400m); // corte estimado del 1 may: 1300
+
+        var lecturas = await _servicio.ListarAsync(lugar, 10);
+
+        Assert.Equal(
+            [
+                new LecturaListada(F(2026, 5, 11), 1400m, 100m, EsEstimada: false, EsCorteDePeriodo: false),
+                new LecturaListada(F(2026, 5, 1), 1300m, 100m, EsEstimada: true, EsCorteDePeriodo: true),
+                new LecturaListada(F(2026, 4, 21), 1200m, 200m, EsEstimada: false, EsCorteDePeriodo: false),
+                new LecturaListada(F(2026, 4, 1), 1000m, null, EsEstimada: false, EsCorteDePeriodo: false),
+            ],
+            lecturas);
+    }
+
+    [Fact]
+    public async Task Listar_Cantidad_LimitaYElConsumoSeCalculaConLaAnteriorAunqueQuedeFuera()
+    {
+        var lugar = await CrearLugarAsync();
+        await GuardarAsync(lugar, F(2026, 4, 1), 1000m);
+        await GuardarAsync(lugar, F(2026, 4, 11), 1100m);
+        await GuardarAsync(lugar, F(2026, 4, 21), 1250m);
+
+        var lecturas = await _servicio.ListarAsync(lugar, 2);
+
+        Assert.Equal([150m, 100m], lecturas.Select(l => l.ConsumoDesdeAnterior));
+    }
+
+    // ---- Lugar principal (el mismo que muestra el Dashboard) ----
+
+    private async Task<int> CrearLugarConDatosAsync(string nombre, bool esDemo, bool conLectura)
+    {
+        await using var db = _fabrica.CreateDbContext();
+        var tarifa = await db.Tarifas.SingleAsync(t => t.Nombre == "1C");
+        var lugar = new Lugar { Nombre = nombre, TarifaId = tarifa.Id, DiaCorte = 1, EsDemo = esDemo };
+        if (conLectura)
+        {
+            lugar.Lecturas.Add(new Lectura { Fecha = F(2026, 4, 1), ValorKwh = 1000m });
+        }
+
+        db.Lugares.Add(lugar);
+        await db.SaveChangesAsync();
+        return lugar.Id;
+    }
+
+    [Fact]
+    public async Task ObtenerLugarPrincipal_SinLugares_DevuelveNull()
+    {
+        Assert.Null(await _servicio.ObtenerLugarPrincipalAsync());
+    }
+
+    [Fact]
+    public async Task ObtenerLugarPrincipal_RealConDatos_TienePrioridadSobreLaDemo()
+    {
+        await CrearLugarConDatosAsync("Demo", esDemo: true, conLectura: true);
+        var real = await CrearLugarConDatosAsync("Mi casa", esDemo: false, conLectura: true);
+
+        Assert.Equal(new LugarDeLecturas(real, "Mi casa", EsDemo: false), await _servicio.ObtenerLugarPrincipalAsync());
+    }
+
+    [Fact]
+    public async Task ObtenerLugarPrincipal_RealSinDatosYDemo_EligeLaDemoComoElDashboard()
+    {
+        await CrearLugarConDatosAsync("Mi casa", esDemo: false, conLectura: false);
+        var demo = await CrearLugarConDatosAsync("Demo", esDemo: true, conLectura: true);
+
+        Assert.Equal(new LugarDeLecturas(demo, "Demo", EsDemo: true), await _servicio.ObtenerLugarPrincipalAsync());
+    }
+
+    [Fact]
+    public async Task ObtenerLugarPrincipal_SoloRealSinDatos_EligeElReal()
+    {
+        var real = await CrearLugarConDatosAsync("Mi casa", esDemo: false, conLectura: false);
+
+        Assert.Equal(real, (await _servicio.ObtenerLugarPrincipalAsync())?.Id);
+    }
+
     // ---- Eliminar la última ----
 
     [Fact]

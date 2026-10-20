@@ -17,7 +17,8 @@ public interface INavegacionOnboarding
 /// </summary>
 public interface INavegacionShell
 {
-    void Navegar(ElementoNavegacion elemento);
+    /// <param name="seccion">Dónde abrir la página (p. ej. el historial de Lecturas), o null.</param>
+    void Navegar(ElementoNavegacion elemento, string? seccion = null);
 
     /// <summary>
     /// Galería del sistema de diseño (solo se ofrece en Debug).

@@ -42,7 +42,7 @@ public sealed partial class OnboardingViewModel : ObservableObject
         ReciboManual = ReciboSaltar = ReciboMensual = CargarDemo = false;
         ReciboBimestral = true;
         ObjetivoEntender = ObjetivoPagarMenos = ObjetivoPresupuesto = ObjetivoInquilinos = false;
-        KwhRecibo = MontoRecibo = PresupuestoMax = double.NaN;
+        KwhRecibo = MontoRecibo = LecturaMedidorRecibo = PresupuestoMax = double.NaN;
     }
 
     [ObservableProperty]
@@ -88,6 +88,11 @@ public sealed partial class OnboardingViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(ReciboIncompleto))]
     [NotifyCanExecuteChangedFor(nameof(SiguienteCommand))]
     public partial double MontoRecibo { get; set; }
+
+    /// <summary>
+    /// "Lectura actual" del recibo (opcional): base real del siguiente periodo.
+    /// </summary>
+    [ObservableProperty] public partial double LecturaMedidorRecibo { get; set; }
 
     // Objetivo (selección única)
     [ObservableProperty] public partial bool? ObjetivoEntender { get; set; }
@@ -338,7 +343,8 @@ public sealed partial class OnboardingViewModel : ObservableObject
             DateOnly.FromDateTime(fecha.Date),
             ReciboMensual == true ? 1 : 2,
             (decimal)KwhRecibo,
-            (decimal)MontoRecibo);
+            (decimal)MontoRecibo,
+            double.IsNaN(LecturaMedidorRecibo) || LecturaMedidorRecibo < 0 ? null : (decimal)LecturaMedidorRecibo);
     }
 
     private void ConstruirResumen()

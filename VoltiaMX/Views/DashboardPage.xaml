@@ -109,7 +109,7 @@
                                 Foreground="{StaticResource SlateBrush}"
                                 Style="{StaticResource BodyTextStyle}" />
                             <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
-                                <Button x:Uid="Dashboard_CapturarLectura" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource PrimaryButtonStyle}" />
+                                <Button x:Uid="Dashboard_CapturarLectura" Command="{x:Bind ViewModel.IrALecturasCommand}" Style="{StaticResource PrimaryButtonStyle}" />
                                 <Button x:Uid="Dashboard_CargarDemo" Command="{x:Bind ViewModel.CargarDemoCommand}" Style="{StaticResource GhostButtonStyle}" />
                             </StackPanel>
                         </StackPanel>
@@ -265,14 +265,26 @@
                                         <StackLayout Spacing="{StaticResource Spacing12}" />
                                     </ItemsRepeater.Layout>
                                     <ItemsRepeater.ItemTemplate>
-                                        <DataTemplate x:DataType="x:String">
+                                        <DataTemplate x:DataType="vm:AvisoDashboard">
                                             <Grid ColumnSpacing="{StaticResource Spacing12}">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
                                                 <Ellipse AutomationProperties.AccessibilityView="Raw" Style="{StaticResource AlertDotStyle}" />
-                                                <TextBlock Grid.Column="1" Style="{StaticResource BodyTextStyle}" Text="{x:Bind}" />
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    Style="{StaticResource BodyTextStyle}"
+                                                    Text="{x:Bind Texto}"
+                                                    Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(EsAccion)}" />
+                                                <!-- Aviso con acción (p. ej. periodo terminado: ir a capturar la lectura) -->
+                                                <Button
+                                                    Grid.Column="1"
+                                                    Command="{x:Bind Accion}"
+                                                    Style="{StaticResource TextLinkButtonStyle}"
+                                                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(EsAccion)}">
+                                                    <TextBlock Text="{x:Bind Texto}" TextWrapping="Wrap" />
+                                                </Button>
                                             </Grid>
                                         </DataTemplate>
                                     </ItemsRepeater.ItemTemplate>
@@ -380,7 +392,7 @@
                             VerticalAlignment="Bottom"
                             Orientation="Horizontal"
                             Spacing="{StaticResource Spacing16}">
-                            <Button x:Uid="Dashboard_CierreCapturar" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource PrimaryOnDarkButtonStyle}" />
+                            <Button x:Uid="Dashboard_CierreCapturar" Command="{x:Bind ViewModel.IrALecturasCommand}" Style="{StaticResource PrimaryOnDarkButtonStyle}" />
                             <Button x:Uid="Dashboard_CierreEscanear" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource GhostOnDarkButtonStyle}" />
                         </StackPanel>
                     </Grid>

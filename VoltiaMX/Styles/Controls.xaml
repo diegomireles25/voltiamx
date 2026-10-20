@@ -595,6 +595,12 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
+    <!-- Diálogos (IDialogos): tarjeta blanca con borde negro; los colores van en Colors.xaml (ContentDialog*) -->
+    <Style x:Key="DialogoStyle" TargetType="ContentDialog" BasedOn="{StaticResource DefaultContentDialogStyle}">
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusCard}" />
+        <Setter Property="FontFamily" Value="{StaticResource BodyFontFamily}" />
+    </Style>
+
     <!-- Fila de lista sobre el lienzo: sin tarjeta, separada por una línea negra de 1px -->
     <Style x:Key="HairlineRowStyle" TargetType="Border">
         <Setter Property="Background" Value="Transparent" />

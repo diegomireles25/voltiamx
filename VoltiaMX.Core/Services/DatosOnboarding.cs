@@ -3,9 +3,11 @@ using VoltiaMX.Core.Models;
 namespace VoltiaMX.Core.Services;
 
 /// <summary>
-/// Recibo capturado a mano en el onboarding.
+/// Recibo capturado a mano en el onboarding. <paramref name="LecturaMedidor"/> es la "lectura actual"
+/// del recibo: si viene, sirve de base real para el siguiente periodo.
 /// </summary>
-public sealed record ReciboCapturado(DateOnly FechaCorte, int MesesDelPeriodo, decimal Kwh, decimal Monto);
+public sealed record ReciboCapturado(
+    DateOnly FechaCorte, int MesesDelPeriodo, decimal Kwh, decimal Monto, decimal? LecturaMedidor = null);
 
 /// <summary>
 /// Respuestas del onboarding. Todos los pasos se pueden omitir, así que todo es opcional.

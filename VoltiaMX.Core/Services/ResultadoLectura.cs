@@ -25,6 +25,18 @@ public enum ResultadoEliminacion
 public sealed record CierrePeriodo(DateOnly Inicio, DateOnly Fin, decimal Kwh, decimal Monto, bool Estimado);
 
 /// <summary>
+/// Lectura para la lista de la pantalla. <paramref name="ConsumoDesdeAnterior"/> es null en la primera
+/// del lugar; <paramref name="EsCorteDePeriodo"/> marca la lectura en la fecha de corte de un periodo cerrado.
+/// </summary>
+public sealed record LecturaListada(
+    DateOnly Fecha, decimal ValorKwh, decimal? ConsumoDesdeAnterior, bool EsEstimada, bool EsCorteDePeriodo);
+
+/// <summary>
+/// Lugar donde se capturan las lecturas: el mismo que muestra el Dashboard.
+/// </summary>
+public sealed record LugarDeLecturas(int Id, string Nombre, bool EsDemo);
+
+/// <summary>
 /// Qué pasó (o pasaría, en la previsualización) al registrar una lectura.
 /// </summary>
 public sealed record ResultadoLectura

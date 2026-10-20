@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using VoltiaMX.Core.Models;
 using VoltiaMX.Core.Services;
@@ -35,24 +36,58 @@ public sealed partial class ShellViewModel(IPerfilService perfiles, ITextos text
     public partial object? Seleccionado { get; set; }
 
     /// <summary>
-    /// "Nueva lectura" se ve deshabilitado mientras el módulo Lecturas no exista.
+    /// "Nueva lectura" funciona cuando el módulo Lecturas está activo en el perfil.
     /// </summary>
-    public bool NuevaLecturaHabilitada => false;
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(NuevaLecturaCommand))]
+    public partial bool NuevaLecturaHabilitada { get; set; }
+
+    // Sección pedida por IrAModuloMensaje; se entrega al navegar al elemento seleccionado.
+    private string? _seccionPendiente;
 
     public async Task IniciarAsync()
     {
         WeakReferenceMessenger.Default.Register<ShellViewModel, ModulosCambiadosMensaje>(
             this, static (receptor, mensaje) => _ = receptor.CargarElementosAsync(DestinoShell.Configuracion));
+        WeakReferenceMessenger.Default.Register<ShellViewModel, IrAModuloMensaje>(
+            this, static (receptor, mensaje) => receptor.IrA(e => e.Modulo == mensaje.Modulo, mensaje.Seccion));
+        WeakReferenceMessenger.Default.Register<ShellViewModel, IrAConfiguracionMensaje>(
+            this, static (receptor, mensaje) => receptor.IrA(e => e.Destino == DestinoShell.Configuracion, null));
 
         await CargarElementosAsync(DestinoShell.Dashboard);
     }
+
+    [RelayCommand(CanExecute = nameof(NuevaLecturaHabilitada))]
+    private void NuevaLectura() => IrA(e => e.Modulo == ModuloApp.Lecturas, null);
 
     partial void OnSeleccionadoChanged(object? value)
     {
         if (value is ElementoNavegacion elemento)
         {
-            navegacion.Navegar(elemento);
+            navegacion.Navegar(elemento, _seccionPendiente);
+            _seccionPendiente = null;
         }
+    }
+
+    /// <summary>
+    /// Selecciona el elemento del menú (la navegación sale de <see cref="OnSeleccionadoChanged"/>);
+    /// si ya estaba seleccionado, vuelve a abrir su página.
+    /// </summary>
+    private void IrA(Func<ElementoNavegacion, bool> criterio, string? seccion)
+    {
+        if (Elementos.FirstOrDefault(criterio) is not { } elemento)
+        {
+            return;
+        }
+
+        if (Equals(Seleccionado, elemento))
+        {
+            navegacion.Navegar(elemento, seccion);
+            return;
+        }
+
+        _seccionPendiente = seccion;
+        Seleccionado = elemento;
     }
 
     private async Task CargarElementosAsync(DestinoShell seleccionar)
@@ -63,6 +98,7 @@ public sealed partial class ShellViewModel(IPerfilService perfiles, ITextos text
         elementos.AddRange(modulos.Select(m => new ElementoNavegacion(DestinoShell.Modulo, textos[$"Modulo_{m}"], m)));
         elementos.Add(new ElementoNavegacion(DestinoShell.Configuracion, textos["Nav_Configuracion"]));
 
+        NuevaLecturaHabilitada = modulos.Contains(ModuloApp.Lecturas);
         Seleccionado = null;
         Elementos = elementos;
         Seleccionado = elementos.First(e => e.Destino == seleccionar);

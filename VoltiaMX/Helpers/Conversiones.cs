@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml.Media;
 using VoltiaMX.Core.Services;
+using VoltiaMX.ViewModels;
 
 namespace VoltiaMX.Helpers;
 
@@ -32,4 +33,23 @@ public static class Conversiones
 
     public static Brush BrochaEtiquetaBarra(bool esActual)
         => (Brush)Application.Current.Resources[esActual ? "CarbonBlackBrush" : "SlateBrush"];
+
+    // Vista previa de Lecturas: tarjeta blanca, o negra cuando la lectura cierra periodos.
+    public static Style EstiloTarjetaPrevia(bool conCierres)
+        => (Style)Application.Current.Resources[conCierres ? "InvertedCardStyle" : "CardStyle"];
+
+    public static Style EstiloFilaPrevia(bool enTarjetaOscura)
+        => (Style)Application.Current.Resources[enTarjetaOscura ? "HairlineRowOnDarkStyle" : "HairlineRowStyle"];
+
+    public static Brush BrochaSecundaria(bool enTarjetaOscura)
+        => (Brush)Application.Current.Resources[enTarjetaOscura ? "AshBrush" : "SlateBrush"];
+
+    // Etiquetas de Lecturas: CORTE en mint; ESTIMADA o ESTIMADO en amarillo; REVISA en negro con amarillo.
+    public static Style EstiloEtiquetaLectura(TipoEtiquetaLectura tipo)
+        => (Style)Application.Current.Resources[tipo switch
+        {
+            TipoEtiquetaLectura.Corte => "MintTagStyle",
+            TipoEtiquetaLectura.Alerta => "RiskHighTagStyle",
+            _ => "YellowTagStyle",
+        }];
 }

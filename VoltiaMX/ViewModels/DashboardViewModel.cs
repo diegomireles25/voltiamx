@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using VoltiaMX.Core.Models;
 using VoltiaMX.Core.Services;
 using VoltiaMX.Services;
@@ -20,6 +21,14 @@ public sealed record BarraHistorial(string Etiqueta, string Valor, double Fracci
 /// Fila con nombre y detalle (propiedades en renta, aparatos de ejemplo).
 /// </summary>
 public sealed record FilaDetalle(string Titulo, string Detalle);
+
+/// <summary>
+/// Aviso del Dashboard. Con <see cref="Accion"/> se muestra como enlace (p. ej. ir a capturar la lectura).
+/// </summary>
+public sealed record AvisoDashboard(string Texto, IRelayCommand? Accion = null)
+{
+    public bool EsAccion => Accion is not null;
+}
 
 /// <summary>
 /// Dashboard compuesto como docs/mockup-dashboard.html. Las cifras salen de
@@ -83,7 +92,7 @@ public sealed partial class DashboardViewModel(
 
     public ObservableCollection<BarraHistorial> Historial { get; } = [];
 
-    public ObservableCollection<string> Avisos { get; } = [];
+    public ObservableCollection<AvisoDashboard> Avisos { get; } = [];
 
     public ObservableCollection<FilaDetalle> Propiedades { get; } = [];
 
@@ -93,6 +102,16 @@ public sealed partial class DashboardViewModel(
     /// Los botones que llevan a módulos que todavía no existen se ven deshabilitados.
     /// </summary>
     public bool AccionesPendientesHabilitadas => false;
+
+    /// <summary>
+    /// "Capturar lectura" y el aviso de periodo terminado llevan a Lecturas si el módulo está activo.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(IrALecturasCommand))]
+    public partial bool LecturasHabilitadas { get; set; }
+
+    [RelayCommand(CanExecute = nameof(LecturasHabilitadas))]
+    private void IrALecturas() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas));
 
     public async Task CargarAsync()
     {
@@ -107,6 +126,7 @@ public sealed partial class DashboardViewModel(
             MostrarRentas = usos.Contains(UsoApp.Rentas);
             MostrarSolar = usos.Contains(UsoApp.Solar);
             MostrarAparatos = modulos.Contains(ModuloApp.Aparatos);
+            LecturasHabilitadas = modulos.Contains(ModuloApp.Lecturas);
 
             // Negocio sin casa: el historial muestra pesos ("gasto por periodo").
             var enPesos = usos.Contains(UsoApp.Negocio) && !usos.Contains(UsoApp.Casa);
@@ -242,16 +262,16 @@ public sealed partial class DashboardViewModel(
         if (resumen.PeriodoTerminado)
         {
             // Ya pasó el corte y falta la lectura que lo cierra.
-            Avisos.Add(textos["Aviso_PeriodoTerminado"]);
+            Avisos.Add(new AvisoDashboard(textos["Aviso_PeriodoTerminado"], LecturasHabilitadas ? IrALecturasCommand : null));
         }
         else if (resumen.TieneDatos)
         {
-            Avisos.Add(textos.Formato("Aviso_Corte", resumen.DiasParaCorte));
+            Avisos.Add(new AvisoDashboard(textos.Formato("Aviso_Corte", resumen.DiasParaCorte)));
         }
 
         if (resumen.VariacionRitmoPresupuesto is decimal ritmo)
         {
-            Avisos.Add(textos.Formato(ritmo > 0 ? "Aviso_ArribaDelRitmo" : "Aviso_AbajoDelRitmo", Math.Abs(ritmo) * 100));
+            Avisos.Add(new AvisoDashboard(textos.Formato(ritmo > 0 ? "Aviso_ArribaDelRitmo" : "Aviso_AbajoDelRitmo", Math.Abs(ritmo) * 100)));
         }
 
         TieneAvisos = Avisos.Count > 0;

@@ -1,0 +1,343 @@
+using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using VoltiaMX.Core.Models;
+using VoltiaMX.Core.Services;
+using VoltiaMX.Services;
+
+namespace VoltiaMX.ViewModels;
+
+public enum TipoEtiquetaLectura
+{
+    Estimado,
+    Corte,
+    Alerta,
+}
+
+/// <summary>
+/// Fila de la vista previa. <see cref="EnTarjetaOscura"/>: la vista previa cierra periodos y va en
+/// tarjeta negra.
+/// </summary>
+public sealed record FilaVistaPrevia(
+    string Titulo, string? Detalle, string? Etiqueta, TipoEtiquetaLectura TipoEtiqueta, bool EnTarjetaOscura)
+{
+    public bool TieneDetalle => !string.IsNullOrEmpty(Detalle);
+
+    public bool TieneEtiqueta => Etiqueta is not null;
+}
+
+/// <summary>
+/// Fila de "Últimas lecturas".
+/// </summary>
+public sealed record FilaLectura(string Fecha, string Valor, string Consumo, string? Etiqueta, TipoEtiquetaLectura TipoEtiqueta)
+{
+    public bool TieneEtiqueta => Etiqueta is not null;
+}
+
+/// <summary>
+/// Captura de lecturas del lugar principal (el mismo del Dashboard): formulario, vista previa de lo que
+/// pasará al guardar y las últimas lecturas.
+/// </summary>
+public sealed partial class LecturasViewModel(ILecturaService lecturas, ITextos textos, IDialogos dialogos) : ObservableObject
+{
+    private const int LecturasEnLista = 10;
+    private static readonly TimeSpan EsperaVistaPrevia = TimeSpan.FromMilliseconds(400);
+    private static readonly TimeSpan DuracionAviso = TimeSpan.FromSeconds(6);
+
+    private int? _lugarId;
+    private IReadOnlyList<LecturaListada> _ultimas = [];
+    private CancellationTokenSource? _vistaPrevia;
+    private CancellationTokenSource? _aviso;
+
+    [ObservableProperty] public partial bool TieneLugar { get; set; }
+    [ObservableProperty] public partial bool EsDemo { get; set; }
+    [ObservableProperty] public partial bool TieneLecturas { get; set; }
+    [ObservableProperty] public partial bool TieneVistaPrevia { get; set; }
+    [ObservableProperty] public partial bool VistaPreviaConCierres { get; set; }
+    [ObservableProperty] public partial string Aviso { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(GuardarCommand), nameof(PrevisualizarCommand))]
+    public partial DateTimeOffset? Fecha { get; set; } = FechaDeHoy();
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(GuardarCommand), nameof(PrevisualizarCommand))]
+    public partial double ValorKwh { get; set; } = double.NaN;
+
+    [ObservableProperty] public partial double MontoRecibo { get; set; } = double.NaN;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(GuardarCommand))]
+    public partial bool Guardando { get; set; }
+
+    /// <summary>
+    /// No se aceptan lecturas con fecha futura.
+    /// </summary>
+    public DateTimeOffset FechaMaxima { get; } = FechaDeHoy();
+
+    public ObservableCollection<FilaVistaPrevia> VistaPrevia { get; } = [];
+
+    public ObservableCollection<FilaLectura> Lecturas { get; } = [];
+
+    private static DateOnly Hoy => DateOnly.FromDateTime(DateTime.Today);
+
+    private static DateTimeOffset FechaDeHoy() => new(DateTime.Today);
+
+    public async Task CargarAsync()
+    {
+        var lugar = await lecturas.ObtenerLugarPrincipalAsync();
+        _lugarId = lugar?.Id;
+        TieneLugar = lugar is not null;
+        EsDemo = lugar?.EsDemo == true;
+        LimpiarFormulario();
+        await CargarListaAsync();
+    }
+
+    private bool ValorValido() => _lugarId is not null && Fecha is not null && !double.IsNaN(ValorKwh) && ValorKwh >= 0;
+
+    private bool PuedeGuardar() => ValorValido() && !Guardando;
+
+    partial void OnFechaChanged(DateTimeOffset? value) => _ = ProgramarVistaPreviaAsync();
+
+    partial void OnValorKwhChanged(double value) => _ = ProgramarVistaPreviaAsync();
+
+    /// <summary>
+    /// La vista previa se calcula sola 400 ms después del último cambio de fecha o valor.
+    /// </summary>
+    private async Task ProgramarVistaPreviaAsync()
+    {
+        _vistaPrevia?.Cancel();
+        if (!ValorValido())
+        {
+            LimpiarVistaPrevia();
+            return;
+        }
+
+        var cancelacion = _vistaPrevia = new CancellationTokenSource();
+        try
+        {
+            await Task.Delay(EsperaVistaPrevia, cancelacion.Token);
+            await PrevisualizarAhoraAsync(cancelacion.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            // Llegó otro cambio: esa vista previa ya no sirve.
+        }
+    }
+
+    [RelayCommand(CanExecute = nameof(ValorValido))]
+    private Task PrevisualizarAsync()
+    {
+        _vistaPrevia?.Cancel();
+        return PrevisualizarAhoraAsync(CancellationToken.None);
+    }
+
+    private async Task PrevisualizarAhoraAsync(CancellationToken cancellationToken)
+    {
+        if (Entrada() is not { } entrada)
+        {
+            return;
+        }
+
+        var resultado = await lecturas.PrevisualizarAsync(entrada, Hoy, cancellationToken);
+        cancellationToken.ThrowIfCancellationRequested();
+        MostrarVistaPrevia(resultado, entrada);
+    }
+
+    [RelayCommand(CanExecute = nameof(PuedeGuardar))]
+    private async Task GuardarAsync()
+    {
+        if (Entrada() is not { } entrada)
+        {
+            return;
+        }
+
+        _vistaPrevia?.Cancel();
+        Guardando = true;
+        try
+        {
+            var resultado = await lecturas.GuardarAsync(entrada, Hoy);
+            if (!resultado.Aceptada)
+            {
+                MostrarVistaPrevia(resultado, entrada);
+                return;
+            }
+
+            LimpiarFormulario();
+            await CargarListaAsync();
+            MostrarAviso(resultado.Cierres.Count switch
+            {
+                0 => textos["Lectura_Guardada"],
+                1 => textos["Lectura_GuardadaUnCierre"],
+                var cierres => textos.Formato("Lectura_GuardadaCierres", cierres),
+            });
+        }
+        finally
+        {
+            Guardando = false;
+        }
+    }
+
+    [RelayCommand]
+    private async Task EliminarUltimaAsync()
+    {
+        if (_lugarId is not int lugarId || _ultimas.Count == 0)
+        {
+            return;
+        }
+
+        var ultima = _ultimas[0];
+        if (ultima.EsCorteDePeriodo)
+        {
+            await AvisarQueNoSePuedeEliminarAsync();
+            return;
+        }
+
+        var confirmada = await dialogos.ConfirmarAsync(
+            textos["Eliminar_Titulo"],
+            textos.Formato("Eliminar_Texto", ultima.Fecha, ultima.ValorKwh),
+            textos["Eliminar_Confirmar"],
+            textos["Eliminar_Cancelar"]);
+        if (!confirmada)
+        {
+            return;
+        }
+
+        if (await lecturas.EliminarUltimaAsync(lugarId) == ResultadoEliminacion.EsCorteDePeriodoCerrado)
+        {
+            await AvisarQueNoSePuedeEliminarAsync();
+            return;
+        }
+
+        await CargarListaAsync();
+        MostrarAviso(textos["Lectura_Eliminada"]);
+        _ = ProgramarVistaPreviaAsync();
+    }
+
+    [RelayCommand]
+    private void IrAConfiguracion() => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje());
+
+    private Task AvisarQueNoSePuedeEliminarAsync()
+        => dialogos.AvisarAsync(textos["Eliminar_NoPermitidoTitulo"], textos["Eliminar_NoPermitidoTexto"], textos["Dialogo_Entendido"]);
+
+    private NuevaLectura? Entrada()
+    {
+        if (!ValorValido() || _lugarId is not int lugarId || Fecha is not DateTimeOffset fecha)
+        {
+            return null;
+        }
+
+        decimal? montoRecibo = double.IsNaN(MontoRecibo) || MontoRecibo < 0 ? null : (decimal)MontoRecibo;
+        return new NuevaLectura(lugarId, DateOnly.FromDateTime(fecha.Date), (decimal)ValorKwh, OrigenLectura.Manual, montoRecibo);
+    }
+
+    private void LimpiarFormulario()
+    {
+        _vistaPrevia?.Cancel();
+        Fecha = FechaDeHoy();
+        ValorKwh = double.NaN;
+        MontoRecibo = double.NaN;
+        LimpiarVistaPrevia();
+    }
+
+    private void LimpiarVistaPrevia()
+    {
+        VistaPrevia.Clear();
+        TieneVistaPrevia = false;
+        VistaPreviaConCierres = false;
+    }
+
+    private void MostrarVistaPrevia(ResultadoLectura resultado, NuevaLectura entrada)
+    {
+        var oscura = resultado.Aceptada && resultado.Cierres.Count > 0;
+        VistaPrevia.Clear();
+
+        void Agregar(string titulo, string? detalle = null, string? etiqueta = null, TipoEtiquetaLectura tipo = TipoEtiquetaLectura.Estimado)
+            => VistaPrevia.Add(new FilaVistaPrevia(titulo, detalle, etiqueta, tipo, oscura));
+
+        if (resultado.Rechazo is MotivoRechazoLectura motivo)
+        {
+            Agregar(textos["Previa_NoSeGuarda"], textos[$"Lectura_Rechazo_{motivo}"], textos["Etiqueta_Revisa"], TipoEtiquetaLectura.Alerta);
+        }
+        else
+        {
+            if (resultado.Reemplaza)
+            {
+                Agregar(textos["Previa_Reemplaza"]);
+            }
+
+            foreach (var cierre in resultado.Cierres)
+            {
+                Agregar(
+                    textos.Formato("Previa_Cierre", cierre.Inicio, cierre.Fin),
+                    textos.Formato("Previa_CierreDetalle", cierre.Kwh, cierre.Monto),
+                    cierre.Estimado ? textos["Etiqueta_Estimado"] : null);
+            }
+
+            if (resultado.SinLecturaBase)
+            {
+                Agregar(textos["Previa_SinBaseTitulo"], textos["Previa_SinBase"]);
+            }
+            else if (resultado.EsPuntoDePartida && resultado.Cierres.Count == 0)
+            {
+                Agregar(textos["Previa_PuntoDePartidaTitulo"], textos["Previa_PuntoDePartida"]);
+            }
+            else if (resultado.Cierres.Count == 0)
+            {
+                var anterior = _ultimas.FirstOrDefault(l => l.Fecha < entrada.Fecha);
+                Agregar(
+                    textos["Previa_SeSuma"],
+                    anterior is null ? null : textos.Formato("Previa_Consumo", entrada.ValorKwh - anterior.ValorKwh, anterior.Fecha));
+            }
+        }
+
+        VistaPreviaConCierres = oscura;
+        TieneVistaPrevia = true;
+    }
+
+    private async Task CargarListaAsync()
+    {
+        _ultimas = _lugarId is int lugarId ? await lecturas.ListarAsync(lugarId, LecturasEnLista) : [];
+        Lecturas.Clear();
+        foreach (var lectura in _ultimas)
+        {
+            var (etiqueta, tipo) = lectura switch
+            {
+                { EsEstimada: true } => (textos["Etiqueta_Estimada"], TipoEtiquetaLectura.Estimado),
+                { EsCorteDePeriodo: true } => (textos["Etiqueta_Corte"], TipoEtiquetaLectura.Corte),
+                _ => ((string?)null, TipoEtiquetaLectura.Estimado),
+            };
+
+            Lecturas.Add(new FilaLectura(
+                textos.Formato("Formato_Fecha", lectura.Fecha),
+                textos.Formato("Formato_KwhUnidad", lectura.ValorKwh),
+                lectura.ConsumoDesdeAnterior is decimal consumo
+                    ? textos.Formato("Formato_ConsumoLectura", consumo)
+                    : textos["Lecturas_PuntoDePartida"],
+                etiqueta,
+                tipo));
+        }
+
+        TieneLecturas = Lecturas.Count > 0;
+    }
+
+    /// <summary>
+    /// Aviso breve (la vista lo anuncia al lector de pantalla); se borra solo.
+    /// </summary>
+    private async void MostrarAviso(string texto)
+    {
+        _aviso?.Cancel();
+        var cancelacion = _aviso = new CancellationTokenSource();
+        Aviso = texto;
+        try
+        {
+            await Task.Delay(DuracionAviso, cancelacion.Token);
+            Aviso = string.Empty;
+        }
+        catch (OperationCanceledException)
+        {
+            // Llegó otro aviso.
+        }
+    }
+}

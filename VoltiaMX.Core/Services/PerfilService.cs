@@ -146,6 +146,7 @@ public sealed class PerfilService(IDbContextFactory<VoltiaDbContext> fabrica) : 
     {
         var lugar = await db.Lugares
             .Include(l => l.Periodos)
+            .Include(l => l.Lecturas)
             .Where(l => !l.EsDemo)
             .OrderBy(l => l.Id)
             .FirstOrDefaultAsync(cancellationToken);
@@ -205,6 +206,22 @@ public sealed class PerfilService(IDbContextFactory<VoltiaDbContext> fabrica) : 
         periodo.Inicio = recibo.FechaCorte.AddMonths(-recibo.MesesDelPeriodo).AddDays(1);
         periodo.KwhTotales = recibo.Kwh;
         periodo.Monto = recibo.Monto;
+
+        // La "lectura actual" del recibo es la lectura de corte: base real del siguiente periodo.
+        if (recibo.LecturaMedidor is decimal valor)
+        {
+            ArgumentOutOfRangeException.ThrowIfNegative(valor);
+            var lectura = lugar.Lecturas.FirstOrDefault(l => l.Fecha == recibo.FechaCorte);
+            if (lectura is null)
+            {
+                lectura = new Lectura { Fecha = recibo.FechaCorte };
+                lugar.Lecturas.Add(lectura);
+            }
+
+            lectura.ValorKwh = valor;
+            lectura.Origen = OrigenLectura.Manual;
+            lectura.EsEstimada = false;
+        }
     }
 
     private static async Task<int> IdTarifaPorDefectoAsync(VoltiaDbContext db, CancellationToken cancellationToken)

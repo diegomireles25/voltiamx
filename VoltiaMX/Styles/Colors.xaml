@@ -309,6 +309,13 @@
             <StaticResource x:Key="CalendarViewTodayForeground" ResourceKey="TemaPaperWhite" />
             <StaticResource x:Key="CalendarViewOutOfScopeForeground" ResourceKey="TemaSlate" />
 
+            <!-- ContentDialog: todo blanco (sin franja gris de botones) con borde negro -->
+            <StaticResource x:Key="ContentDialogBackground" ResourceKey="TemaPaperWhite" />
+            <StaticResource x:Key="ContentDialogTopOverlay" ResourceKey="TemaPaperWhite" />
+            <StaticResource x:Key="ContentDialogForeground" ResourceKey="TemaCarbonBlack" />
+            <StaticResource x:Key="ContentDialogBorderBrush" ResourceKey="TemaCarbonBlack" />
+            <StaticResource x:Key="ContentDialogSeparatorBorderBrush" ResourceKey="TemaTransparent" />
+
             <!-- ProgressBar: carril blanco y avance negro (mockup-dashboard.html) -->
             <StaticResource x:Key="ProgressBarForeground" ResourceKey="TemaCarbonBlack" />
             <StaticResource x:Key="ProgressBarBackground" ResourceKey="TemaPaperWhite" />
