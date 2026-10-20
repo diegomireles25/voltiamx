@@ -864,9 +864,6 @@
   <data name="Dashboard_Simular.Content" xml:space="preserve">
     <value>Simular cuánto ahorrarías</value>
   </data>
-  <data name="Dashboard_AparatosEjemplo.Text" xml:space="preserve">
-    <value>DATOS DE EJEMPLO</value>
-  </data>
   <data name="Dashboard_AparatosVacio.Text" xml:space="preserve">
     <value>Agrega tus aparatos para ver cuáles gastan más</value>
   </data>

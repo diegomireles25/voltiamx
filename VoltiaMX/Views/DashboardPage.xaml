@@ -354,7 +354,6 @@
                                 </ItemsRepeater.ItemTemplate>
                             </ItemsRepeater>
                         </Border>
-                        <TextBlock x:Uid="Dashboard_AparatosEjemplo" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.EsDemo), Mode=OneWay}">
                         <TextBlock x:Uid="Dashboard_AparatosVacio" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodyTextStyle}" />
