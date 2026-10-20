@@ -172,6 +172,13 @@ public sealed class PerfilService(IDbContextFactory<VoltiaDbContext> fabrica) : 
             lugar.TarifaPorConfirmar = true;
         }
 
+        // Mensual si la tarifa es comercial o si el recibo es mensual; si no, bimestral.
+        var tipoTarifa = await db.Tarifas
+            .Where(t => t.Id == lugar.TarifaId)
+            .Select(t => t.Tipo)
+            .SingleAsync(cancellationToken);
+        lugar.MesesPorPeriodo = tipoTarifa == TipoTarifa.Comercial || datos.Recibo?.MesesDelPeriodo == 1 ? 1 : 2;
+
         if (datos.Recibo is { } recibo)
         {
             GuardarPeriodoDelRecibo(lugar, recibo);

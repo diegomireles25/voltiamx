@@ -239,11 +239,14 @@ public sealed partial class DashboardViewModel(
             LimiteDacTexto = textos.Formato("Dashboard_DacLimite", limite);
         }
 
-        if (resumen.TieneDatos)
+        if (resumen.PeriodoTerminado)
         {
-            Avisos.Add(resumen.DiasParaCorte == 0
-                ? textos["Aviso_CorteHoy"]
-                : textos.Formato("Aviso_Corte", resumen.DiasParaCorte));
+            // Ya pasó el corte y falta la lectura que lo cierra.
+            Avisos.Add(textos["Aviso_PeriodoTerminado"]);
+        }
+        else if (resumen.TieneDatos)
+        {
+            Avisos.Add(textos.Formato("Aviso_Corte", resumen.DiasParaCorte));
         }
 
         if (resumen.VariacionRitmoPresupuesto is decimal ritmo)

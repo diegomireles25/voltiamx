@@ -11,7 +11,7 @@ public sealed class ResumenDashboardService(
     IPresupuestoInversoService presupuesto) : IResumenDashboardService
 {
     private const int PeriodosCerradosEnHistorial = 5;
-    private const int MesesPorDefecto = 2;
+    private const int MesesDelHistorialDac = 12;
 
     public async Task<ResumenDashboard?> ObtenerAsync(DateOnly hoy, CancellationToken cancellationToken = default)
     {
@@ -61,19 +61,16 @@ public sealed class ResumenDashboardService(
     private ResumenDashboard Calcular(Lugar lugar, Tarifa tarifa, decimal? presupuestoMax, DateOnly hoy)
     {
         var cerrados = lugar.Periodos.OrderBy(p => p.Inicio).ToList();
-        var meses = cerrados.Count > 0 ? MesesDe(cerrados[^1]) : MesesPorDefecto;
+        var meses = lugar.MesesPorPeriodo;
 
-        // El periodo actual empieza al día siguiente del último cerrado (o del último corte).
-        var inicio = cerrados.Count > 0 ? cerrados[^1].Fin.AddDays(1) : DiaDespuesDelUltimoCorte(lugar.DiaCorte, hoy);
-        var fin = inicio.AddMonths(meses).AddDays(-1);
-        while (hoy > fin)
-        {
-            inicio = fin.AddDays(1);
-            fin = inicio.AddMonths(meses).AddDays(-1);
-        }
+        // El periodo actual no avanza solo: se cierra al registrar la lectura en o después del corte.
+        DateOnly? ultimoCorte = cerrados.Count > 0 ? cerrados.Max(p => p.Fin) : null;
+        var primeraLectura = lugar.Lecturas.Count > 0 ? lugar.Lecturas.Min(l => l.Fecha) : hoy;
+        var ventana = VentanaPeriodo.Calcular(Math.Clamp(lugar.DiaCorte, 1, 31), meses, ultimoCorte, primeraLectura);
+        var (inicio, fin) = (ventana.Inicio, ventana.Fin);
 
-        var diasDelPeriodo = fin.DayNumber - inicio.DayNumber + 1;
-        var (kwhHastaHoy, diasMedidos) = ConsumoDelPeriodo(lugar.Lecturas, inicio, hoy, diasDelPeriodo);
+        var diasDelPeriodo = ventana.Dias;
+        var (kwhHastaHoy, diasMedidos) = ConsumoDelPeriodo(lugar.Lecturas, ventana, hoy);
         var proyectado = kwhHastaHoy is decimal kwh
             ? proyeccion.Proyectar(kwh, diasMedidos, diasDelPeriodo, tarifa, meses)
             : null;
@@ -88,9 +85,10 @@ public sealed class ResumenDashboardService(
             InicioPeriodo = inicio,
             FinPeriodo = fin,
             MesesDelPeriodo = meses,
-            DiaDelPeriodo = hoy.DayNumber - inicio.DayNumber + 1,
+            DiaDelPeriodo = Math.Min(hoy.DayNumber - inicio.DayNumber + 1, diasDelPeriodo),
             DiasDelPeriodo = diasDelPeriodo,
             DiasParaCorte = fin.DayNumber - hoy.DayNumber,
+            PeriodoTerminado = hoy >= fin,
             KwhHastaHoy = kwhHastaHoy,
             KwhProyectados = proyectado?.KwhProyectados,
             MontoProyectado = proyectado?.MontoProyectado,
@@ -101,30 +99,32 @@ public sealed class ResumenDashboardService(
                 : null,
         };
 
-        resumen = ConDac(resumen, cerrados, tarifa);
+        resumen = ConDac(resumen, cerrados, meses, tarifa);
         return presupuestoMax is decimal monto
             ? ConPresupuesto(resumen, monto, tarifa, diasMedidos)
             : resumen;
     }
 
     /// <summary>
-    /// kWh desde la lectura base (la última en o antes del inicio, o la primera del periodo)
-    /// hasta la última lectura de hoy o antes. Null si no hay dos lecturas que lo midan.
+    /// kWh desde la lectura base (la de corte del periodo anterior o, si no hay, la primera del
+    /// periodo) hasta la última lectura del periodo de hoy o antes. Null si no hay dos lecturas que lo midan.
     /// </summary>
-    private static (decimal? Kwh, int DiasMedidos) ConsumoDelPeriodo(
-        IEnumerable<Lectura> lecturas, DateOnly inicio, DateOnly hoy, int diasDelPeriodo)
+    private static (decimal? Kwh, int DiasMedidos) ConsumoDelPeriodo(IEnumerable<Lectura> lecturas, Ventana ventana, DateOnly hoy)
     {
-        var ordenadas = lecturas.Where(l => l.Fecha <= hoy).OrderBy(l => l.Fecha).ToList();
-        var lecturaBase = ordenadas.LastOrDefault(l => l.Fecha <= inicio) ?? ordenadas.FirstOrDefault(l => l.Fecha >= inicio);
-        var ultima = ordenadas.LastOrDefault();
+        var corteAnterior = ventana.Inicio.AddDays(-1);
+        var delPeriodo = lecturas
+            .Where(l => l.Fecha >= corteAnterior && l.Fecha <= ventana.Fin && l.Fecha <= hoy)
+            .OrderBy(l => l.Fecha)
+            .ToList();
+        var lecturaBase = delPeriodo.FirstOrDefault();
+        var ultima = delPeriodo.LastOrDefault();
         if (lecturaBase is null || ultima is null || ultima.Fecha <= lecturaBase.Fecha)
         {
             return (null, 0);
         }
 
-        var desde = lecturaBase.Fecha < inicio ? inicio : lecturaBase.Fecha;
-        var dias = Math.Min(ultima.Fecha.DayNumber - desde.DayNumber, diasDelPeriodo);
-        return dias < 1 ? (null, 0) : (ultima.ValorKwh - lecturaBase.ValorKwh, dias);
+        var dias = Math.Min(ultima.Fecha.DayNumber - lecturaBase.Fecha.DayNumber, ventana.Dias);
+        return (ultima.ValorKwh - lecturaBase.ValorKwh, dias);
     }
 
     private static IReadOnlyList<PeriodoHistorial> Historial(
@@ -143,8 +143,9 @@ public sealed class ResumenDashboardService(
         return historial;
     }
 
-    // El DAC se evalúa con consumo mensual: cada periodo se reparte entre sus meses.
-    private ResumenDashboard ConDac(ResumenDashboard resumen, List<Periodo> cerrados, Tarifa tarifa)
+    // El DAC se evalúa con consumo mensual: cada periodo se reparte en partes iguales entre sus
+    // meses y cuentan los últimos 12.
+    private ResumenDashboard ConDac(ResumenDashboard resumen, List<Periodo> cerrados, int meses, Tarifa tarifa)
     {
         if (tarifa.LimiteDacKwhMensual is not decimal limite || cerrados.Count == 0)
         {
@@ -152,7 +153,8 @@ public sealed class ResumenDashboardService(
         }
 
         var mensuales = cerrados
-            .SelectMany(p => Enumerable.Repeat(p.KwhTotales / MesesDe(p), MesesDe(p)))
+            .SelectMany(p => Enumerable.Repeat(p.KwhTotales / meses, meses))
+            .TakeLast(MesesDelHistorialDac)
             .ToList();
 
         return resumen with { Dac = dac.Evaluar(mensuales, limite), LimiteDacKwhMensual = limite };
@@ -181,23 +183,5 @@ public sealed class ResumenDashboardService(
             DiferenciaContraPresupuesto = resumen.MontoProyectado - monto,
             VariacionRitmoPresupuesto = variacionRitmo,
         };
-    }
-
-    // Mensual o bimestral según la duración del periodo (30.4 días por mes en promedio).
-    private static int MesesDe(Periodo periodo)
-        => Math.Clamp((int)Math.Round((periodo.Fin.DayNumber - periodo.Inicio.DayNumber + 1) / 30.4m), 1, 2);
-
-    private static DateOnly DiaDespuesDelUltimoCorte(int diaCorte, DateOnly hoy)
-    {
-        DateOnly CorteDe(DateOnly mes)
-            => new(mes.Year, mes.Month, Math.Clamp(diaCorte, 1, DateTime.DaysInMonth(mes.Year, mes.Month)));
-
-        var corte = CorteDe(hoy);
-        if (corte >= hoy)
-        {
-            corte = CorteDe(hoy.AddMonths(-1));
-        }
-
-        return corte.AddDays(1);
     }
 }

@@ -121,6 +121,35 @@ public sealed class PerfilServiceTests : IAsyncLifetime
         Assert.Equal(718m, periodo.KwhTotales);
         Assert.Equal(1_020.50m, periodo.Monto);
         Assert.Equal(14, lugar.DiaCorte);
+        Assert.Equal(2, lugar.MesesPorPeriodo);
+    }
+
+    [Fact]
+    public async Task GuardarOnboardingAsync_SinRecibo_ElLugarQuedaBimestral()
+    {
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa] });
+
+        Assert.Equal(2, (await LugarPrincipalAsync()).MesesPorPeriodo);
+    }
+
+    [Fact]
+    public async Task GuardarOnboardingAsync_ReciboMensual_ElLugarQuedaMensual()
+    {
+        var recibo = new ReciboCapturado(new DateOnly(2026, 9, 30), MesesDelPeriodo: 1, Kwh: 300m, Monto: 410m);
+
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa], Recibo = recibo });
+
+        Assert.Equal(1, (await LugarPrincipalAsync()).MesesPorPeriodo);
+    }
+
+    [Fact]
+    public async Task GuardarOnboardingAsync_TarifaComercial_ElLugarQuedaMensual()
+    {
+        var pdbt = await IdDeTarifaAsync("PDBT");
+
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Negocio], TarifaId = pdbt });
+
+        Assert.Equal(1, (await LugarPrincipalAsync()).MesesPorPeriodo);
     }
 
     [Fact]

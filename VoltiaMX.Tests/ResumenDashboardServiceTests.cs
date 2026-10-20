@@ -91,12 +91,18 @@ public sealed class ResumenDashboardServiceTests : IAsyncLifetime
         Assert.True(resumen.EsDemo);
         Assert.Equal(2, resumen.MesesDelPeriodo);
         Assert.Equal(24, resumen.DiaDelPeriodo);
-        Assert.Equal(resumen.InicioPeriodo.AddMonths(2).AddDays(-1), resumen.FinPeriodo);
+        var ultimoCorte = Hoy.AddDays(-24);
+        Assert.Equal(
+            VentanaPeriodo.Calcular(ultimoCorte.Day, 2, ultimoCorte, ultimoCorte),
+            new Ventana(resumen.InicioPeriodo, resumen.FinPeriodo));
         Assert.Equal(resumen.FinPeriodo.DayNumber - Hoy.DayNumber, resumen.DiasParaCorte);
-        Assert.Equal(17.2m * 23, resumen.KwhHastaHoy);
+        Assert.False(resumen.PeriodoTerminado);
+
+        // Desde la lectura de corte (hace 24 días) hasta la de hoy.
+        Assert.Equal(17.2m * 24, resumen.KwhHastaHoy);
 
         var esperada = new ProyeccionService(_calculadora)
-            .Proyectar(17.2m * 23, 23, resumen.DiasDelPeriodo, tarifa, mesesDelPeriodo: 2);
+            .Proyectar(17.2m * 24, 24, resumen.DiasDelPeriodo, tarifa, mesesDelPeriodo: 2);
         Assert.Equal(esperada.KwhProyectados, resumen.KwhProyectados);
         Assert.Equal(esperada.MontoProyectado, resumen.MontoProyectado);
         Assert.Equal(17.2m, resumen.PromedioDiarioKwh);
@@ -143,7 +149,7 @@ public sealed class ResumenDashboardServiceTests : IAsyncLifetime
 
         Assert.NotNull(resumen);
         var esperado = new PresupuestoInversoService(_calculadora).Calcular(
-            1_500m, tarifa, resumen.DiasDelPeriodo, mesesDelPeriodo: 2, kwhConsumidos: 17.2m * 23, diasTranscurridos: 23);
+            1_500m, tarifa, resumen.DiasDelPeriodo, mesesDelPeriodo: 2, kwhConsumidos: 17.2m * 24, diasTranscurridos: 24);
         Assert.Equal(1_500m, resumen.PresupuestoMax);
         Assert.Equal(esperado.KwhPorDiaRestante, resumen.KwhPorDiaRestante);
         Assert.Equal(resumen.MontoProyectado - 1_500m, resumen.DiferenciaContraPresupuesto);
@@ -225,6 +231,7 @@ public sealed class ResumenDashboardServiceTests : IAsyncLifetime
             Tipo = TipoLugar.Negocio,
             TarifaId = tarifa.Id,
             DiaCorte = 31,
+            MesesPorPeriodo = 1,
             Periodos = [new Periodo { Inicio = new(2026, 9, 1), Fin = new(2026, 9, 30), KwhTotales = 300m, Monto = 1_260m }],
         });
 
@@ -257,5 +264,115 @@ public sealed class ResumenDashboardServiceTests : IAsyncLifetime
         Assert.Collection(propiedades,
             p => { Assert.Equal("Depto 2", p.Nombre); Assert.Equal(300m, p.UltimoKwh); Assert.Equal(335m, p.UltimoMonto); },
             p => { Assert.Equal("Local 3", p.Nombre); Assert.Null(p.UltimoKwh); });
+    }
+
+    // ---- Reglas de lecturas y periodos (Fase 3a) ----
+
+    private static Lectura L(int anio, int mes, int dia, decimal valor) => new() { Fecha = new(anio, mes, dia), ValorKwh = valor };
+
+    /// <summary>
+    /// Casa mensual con corte el día 1 y un periodo cerrado (2 ago - 1 sep) con su lectura de corte.
+    /// </summary>
+    private async Task AgregarCasaMensualAsync(params Lectura[] lecturasDelPeriodoActual)
+    {
+        var tarifa = await TarifaAsync("1");
+        await AgregarLugarAsync(new Lugar
+        {
+            Nombre = "Mi casa",
+            TarifaId = tarifa.Id,
+            DiaCorte = 1,
+            MesesPorPeriodo = 1,
+            Periodos = [new Periodo { Inicio = new(2026, 8, 2), Fin = new(2026, 9, 1), KwhTotales = 300m, Monto = 400m }],
+            Lecturas = [L(2026, 8, 1, 700m), L(2026, 9, 1, 1_000m), .. lecturasDelPeriodoActual],
+        });
+    }
+
+    [Fact]
+    public async Task ObtenerAsync_KwhHastaHoy_DesdeLaLecturaDeCorteDelPeriodoAnterior()
+    {
+        await AgregarCasaMensualAsync(L(2026, 9, 11, 1_100m), L(2026, 9, 15, 1_140m));
+
+        var resumen = await _servicio.ObtenerAsync(new DateOnly(2026, 9, 20));
+
+        // Periodo 2 sep - 1 oct; base: corte del 1 sep (1000); última: 15 sep (1140), 140 kWh en 14 días.
+        Assert.NotNull(resumen);
+        Assert.Equal(new DateOnly(2026, 9, 2), resumen.InicioPeriodo);
+        Assert.Equal(new DateOnly(2026, 10, 1), resumen.FinPeriodo);
+        Assert.Equal(140m, resumen.KwhHastaHoy);
+        Assert.Equal(10m, resumen.PromedioDiarioKwh);
+        Assert.False(resumen.PeriodoTerminado);
+        Assert.Equal(11, resumen.DiasParaCorte);
+    }
+
+    [Theory]
+    [InlineData(2026, 10, 1, 0)]
+    [InlineData(2026, 10, 19, -18)]
+    public async Task ObtenerAsync_CorteSinLecturaEnOdespuesDelFin_PeriodoTerminado(int anio, int mes, int dia, int diasParaCorte)
+    {
+        // El periodo 2 sep - 1 oct no se ha cerrado: falta una lectura en o después del 1 oct.
+        await AgregarCasaMensualAsync(L(2026, 9, 20, 1_190m));
+
+        var resumen = await _servicio.ObtenerAsync(new DateOnly(anio, mes, dia));
+
+        Assert.NotNull(resumen);
+        Assert.True(resumen.PeriodoTerminado);
+        Assert.Equal(diasParaCorte, resumen.DiasParaCorte);
+        Assert.Equal(new DateOnly(2026, 10, 1), resumen.FinPeriodo);
+        Assert.Equal(190m, resumen.KwhHastaHoy);
+        Assert.Equal(resumen.DiasDelPeriodo, resumen.DiaDelPeriodo);
+    }
+
+    /// <summary>
+    /// Periodos consecutivos, del más antiguo al más reciente, que terminan antes de <see cref="Hoy"/>.
+    /// </summary>
+    private static List<Periodo> Consecutivos(DateOnly primerInicio, int meses, params decimal[] kwh)
+    {
+        var inicio = primerInicio;
+        return kwh.Select(k =>
+        {
+            var periodo = new Periodo { Inicio = inicio, Fin = inicio.AddMonths(meses).AddDays(-1), KwhTotales = k, Monto = 1m };
+            inicio = periodo.Fin.AddDays(1);
+            return periodo;
+        }).ToList();
+    }
+
+    [Fact]
+    public async Task ObtenerAsync_DacBimestral_CadaBimestreAportaDosMesesYSoloCuentanDoce()
+    {
+        var tarifa = await TarifaAsync("1C");
+        await AgregarLugarAsync(new Lugar
+        {
+            Nombre = "Mi casa",
+            TarifaId = tarifa.Id,
+            DiaCorte = 31,
+            MesesPorPeriodo = 2,
+            // Ocho bimestres: los dos más antiguos quedan fuera de los últimos 12 meses.
+            Periodos = Consecutivos(new DateOnly(2025, 6, 1), 2, 5_000m, 5_000m, 1_200m, 1_000m, 1_400m, 1_200m, 1_000m, 1_400m),
+        });
+
+        var resumen = await _servicio.ObtenerAsync(Hoy);
+
+        // (1200 + 1000 + 1400 + 1200 + 1000 + 1400) / 12 meses = 600 kWh al mes.
+        Assert.Equal(600m, resumen?.Dac?.PromedioMensualKwh);
+    }
+
+    [Fact]
+    public async Task ObtenerAsync_DacMensual_CadaMesAportaUnValorYSoloCuentanDoce()
+    {
+        var tarifa = await TarifaAsync("1C");
+        await AgregarLugarAsync(new Lugar
+        {
+            Nombre = "Mi casa",
+            TarifaId = tarifa.Id,
+            DiaCorte = 31,
+            MesesPorPeriodo = 1,
+            // Catorce meses: los dos más antiguos quedan fuera.
+            Periodos = Consecutivos(new DateOnly(2025, 8, 1), 1,
+                9_000m, 9_000m, 300m, 500m, 300m, 500m, 300m, 500m, 300m, 500m, 300m, 500m, 300m, 500m),
+        });
+
+        var resumen = await _servicio.ObtenerAsync(Hoy);
+
+        Assert.Equal(400m, resumen?.Dac?.PromedioMensualKwh);
     }
 }

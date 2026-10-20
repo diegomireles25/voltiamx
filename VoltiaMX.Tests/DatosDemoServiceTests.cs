@@ -75,13 +75,56 @@ public sealed class DatosDemoServiceTests : IAsyncLifetime
     {
         await _servicio.CargarAsync(Hoy);
 
+        // Lecturas acumuladas: el periodo actual se mide desde el último corte (hace 24 días).
         var lugar = await LugarDemoAsync();
-        var inicioActual = lugar.Periodos.Max(p => p.Fin).AddDays(1);
+        var ultimoCorte = lugar.Periodos.Max(p => p.Fin);
+        Assert.Equal(Hoy.AddDays(-24), ultimoCorte);
         var lecturas = lugar.Lecturas.OrderBy(l => l.Fecha).ToList();
-        Assert.True(lecturas.Count >= 2);
-        Assert.Equal(inicioActual, lecturas[0].Fecha);
+        var baseActual = lecturas.Single(l => l.Fecha == ultimoCorte);
         Assert.Equal(Hoy, lecturas[^1].Fecha);
-        Assert.True(lecturas[^1].ValorKwh > lecturas[0].ValorKwh);
+        Assert.Equal(17.2m * 24, lecturas[^1].ValorKwh - baseActual.ValorKwh);
+        Assert.True(lecturas.Count(l => l.Fecha > ultimoCorte) >= 2);
+    }
+
+    [Fact]
+    public async Task CargarAsync_CadaPeriodoCerradoSigueLasReglasYTieneSuLecturaDeCorte()
+    {
+        await _servicio.CargarAsync(Hoy);
+
+        var lugar = await LugarDemoAsync();
+        Assert.Equal(2, lugar.MesesPorPeriodo);
+        var periodos = lugar.Periodos.OrderBy(p => p.Inicio).ToList();
+        var lecturas = lugar.Lecturas.ToDictionary(l => l.Fecha, l => l.ValorKwh);
+        Assert.DoesNotContain(lugar.Lecturas, l => l.EsEstimada);
+        foreach (var periodo in periodos)
+        {
+            Assert.False(periodo.Estimado);
+            Assert.Equal(periodo.KwhTotales, lecturas[periodo.Fin] - lecturas[periodo.Inicio.AddDays(-1)]);
+        }
+
+        for (var i = 1; i < periodos.Count; i++)
+        {
+            var esperada = VentanaPeriodo.Calcular(lugar.DiaCorte, 2, periodos[i - 1].Fin, periodos[i - 1].Fin);
+            Assert.Equal(esperada, new Ventana(periodos[i].Inicio, periodos[i].Fin));
+        }
+    }
+
+    [Fact]
+    public async Task CargarAsync_LaDemoEsCoherenteConElServicioDeLecturas()
+    {
+        await _servicio.CargarAsync(Hoy);
+        var lugar = await LugarDemoAsync();
+        var lecturas = new LecturaService(_fabrica, new TarifaCalculator());
+        var ultima = lugar.Lecturas.MaxBy(l => l.Fecha)!;
+
+        var hoy = await lecturas.PrevisualizarAsync(new NuevaLectura(lugar.Id, Hoy, ultima.ValorKwh + 1m), Hoy);
+        var enCerrado = await lecturas.PrevisualizarAsync(
+            new NuevaLectura(lugar.Id, lugar.Periodos.Max(p => p.Fin), ultima.ValorKwh), Hoy);
+
+        Assert.True(hoy.Aceptada);
+        Assert.True(hoy.Reemplaza);
+        Assert.Empty(hoy.Cierres);
+        Assert.Equal(MotivoRechazoLectura.PeriodoCerrado, enCerrado.Rechazo);
     }
 
     [Fact]

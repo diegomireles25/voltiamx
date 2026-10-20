@@ -8,6 +8,12 @@ public sealed class DatosDemoService(IDbContextFactory<VoltiaDbContext> fabrica,
     : IDatosDemoService
 {
     private const int MesesDelPeriodo = 2; // EJEMPLO: verificar con tarifas vigentes de CFE
+    private const int DiaDelPeriodoHoy = 24; // EJEMPLO: hoy es el día 24 del bimestre
+    private const decimal LecturaEnElUltimoCorte = 48_210m; // EJEMPLO
+    private const decimal KwhPorDia = 17.2m; // EJEMPLO
+
+    // kWh por bimestre, del más antiguo al más reciente: doce meses, lo que pide el cálculo DAC.
+    private static readonly decimal[] KwhPorBimestre = [820m, 764m, 912m, 1_046m, 871m, 718m]; // EJEMPLO
 
     public async Task<bool> HayDemoAsync(CancellationToken cancellationToken = default)
     {
@@ -30,18 +36,20 @@ public sealed class DatosDemoService(IDbContextFactory<VoltiaDbContext> fabrica,
             .FirstOrDefaultAsync(cancellationToken)
             ?? throw new InvalidOperationException("No hay tarifas en la base de datos.");
 
-        var inicioActual = hoy.AddDays(-23); // EJEMPLO: hoy es el día 24 del bimestre
+        var ultimoCorte = hoy.AddDays(-DiaDelPeriodoHoy);
+        var cortes = Cortes(ultimoCorte.Day, ultimoCorte);
         var lugar = new Lugar
         {
             Nombre = "Casa de ejemplo", // EJEMPLO
             Tipo = TipoLugar.Casa,
             TarifaId = tarifa.Id,
-            DiaCorte = inicioActual.AddDays(-1).Day,
+            DiaCorte = ultimoCorte.Day,
+            MesesPorPeriodo = MesesDelPeriodo,
             Estado = "Sonora", // EJEMPLO
             Municipio = "Hermosillo", // EJEMPLO
             EsDemo = true,
-            Periodos = PeriodosCerrados(inicioActual, tarifa),
-            Lecturas = LecturasDelPeriodoActual(inicioActual, hoy),
+            Periodos = PeriodosCerrados(cortes, tarifa),
+            Lecturas = [.. LecturasDeCorte(cortes), .. LecturasDelPeriodoActual(ultimoCorte, hoy)],
         };
 
         db.Lugares.Add(lugar);
@@ -55,42 +63,58 @@ public sealed class DatosDemoService(IDbContextFactory<VoltiaDbContext> fabrica,
     }
 
     /// <summary>
-    /// Seis bimestres consecutivos (doce meses, lo que pide el cálculo DAC) que terminan
-    /// el día antes de <paramref name="inicioActual"/>.
+    /// Fechas de corte con las mismas reglas de <see cref="VentanaPeriodo"/>, de la más antigua a
+    /// <paramref name="ultimoCorte"/>. La primera es la base del bimestre más antiguo.
     /// </summary>
-    private List<Periodo> PeriodosCerrados(DateOnly inicioActual, Tarifa tarifa)
+    private static List<DateOnly> Cortes(int diaCorte, DateOnly ultimoCorte)
     {
-        // kWh por bimestre, del más antiguo al más reciente.
-        decimal[] kwhPorBimestre = [820m, 764m, 912m, 1_046m, 871m, 718m]; // EJEMPLO
-
-        var periodos = new List<Periodo>();
-        var fin = inicioActual.AddDays(-1);
-        for (var i = kwhPorBimestre.Length - 1; i >= 0; i--)
+        var cortes = new List<DateOnly> { ultimoCorte };
+        foreach (var _ in KwhPorBimestre)
         {
-            var inicio = fin.AddMonths(-MesesDelPeriodo).AddDays(1);
-            periodos.Insert(0, new Periodo
-            {
-                Inicio = inicio,
-                Fin = fin,
-                KwhTotales = kwhPorBimestre[i],
-                Monto = calculadora.Calcular(kwhPorBimestre[i], tarifa, MesesDelPeriodo).Total,
-            });
-            fin = inicio.AddDays(-1);
+            cortes.Insert(0, VentanaPeriodo.CorteDelMes(diaCorte, cortes[0].AddMonths(-MesesDelPeriodo)));
         }
 
-        return periodos;
+        return cortes;
+    }
+
+    private List<Periodo> PeriodosCerrados(List<DateOnly> cortes, Tarifa tarifa)
+        => KwhPorBimestre
+            .Select((kwh, i) => new Periodo
+            {
+                Inicio = cortes[i].AddDays(1),
+                Fin = cortes[i + 1],
+                KwhTotales = kwh,
+                Monto = calculadora.Calcular(kwh, tarifa, MesesDelPeriodo).Total,
+            })
+            .ToList();
+
+    /// <summary>
+    /// Lo que marcaba el medidor en cada corte: de la lectura del último corte hacia atrás,
+    /// restando el consumo de cada bimestre.
+    /// </summary>
+    private static List<Lectura> LecturasDeCorte(List<DateOnly> cortes)
+    {
+        var lecturas = new List<Lectura>();
+        var valor = LecturaEnElUltimoCorte;
+        for (var i = cortes.Count - 1; i >= 0; i--)
+        {
+            lecturas.Insert(0, new Lectura { Fecha = cortes[i], ValorKwh = valor, Origen = OrigenLectura.Manual });
+            if (i > 0)
+            {
+                valor -= KwhPorBimestre[i - 1];
+            }
+        }
+
+        return lecturas;
     }
 
     /// <summary>
-    /// Lectura inicial el primer día del periodo y una cada tres días hasta hoy.
+    /// Una lectura cada tres días después del último corte y la de hoy.
     /// </summary>
-    private static List<Lectura> LecturasDelPeriodoActual(DateOnly inicioActual, DateOnly hoy)
+    private static List<Lectura> LecturasDelPeriodoActual(DateOnly ultimoCorte, DateOnly hoy)
     {
-        const decimal lecturaInicial = 48_210m; // EJEMPLO
-        const decimal kwhPorDia = 17.2m; // EJEMPLO
-
         var lecturas = new List<Lectura>();
-        for (var fecha = inicioActual; fecha < hoy; fecha = fecha.AddDays(3))
+        for (var fecha = ultimoCorte.AddDays(3); fecha < hoy; fecha = fecha.AddDays(3))
         {
             lecturas.Add(Leer(fecha));
         }
@@ -101,7 +125,7 @@ public sealed class DatosDemoService(IDbContextFactory<VoltiaDbContext> fabrica,
         Lectura Leer(DateOnly fecha) => new()
         {
             Fecha = fecha,
-            ValorKwh = lecturaInicial + kwhPorDia * (fecha.DayNumber - inicioActual.DayNumber),
+            ValorKwh = LecturaEnElUltimoCorte + KwhPorDia * (fecha.DayNumber - ultimoCorte.DayNumber),
             Origen = OrigenLectura.Manual,
         };
     }

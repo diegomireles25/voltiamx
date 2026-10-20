@@ -802,8 +802,8 @@
   <data name="Aviso_Corte" xml:space="preserve">
     <value>Tu periodo cierra en {0} días.</value>
   </data>
-  <data name="Aviso_CorteHoy" xml:space="preserve">
-    <value>Tu periodo cierra hoy.</value>
+  <data name="Aviso_PeriodoTerminado" xml:space="preserve">
+    <value>Tu periodo ya terminó: captura la lectura de tu recibo.</value>
   </data>
   <data name="Aviso_ArribaDelRitmo" xml:space="preserve">
     <value>Vas {0:N0}% arriba del ritmo que cuadra con tu presupuesto.</value>

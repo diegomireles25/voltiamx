@@ -33,7 +33,15 @@ public sealed record ResumenDashboard
 
     public int DiasDelPeriodo { get; init; }
 
+    /// <summary>
+    /// Días que faltan para la fecha de corte; 0 o negativo cuando <see cref="PeriodoTerminado"/>.
+    /// </summary>
     public int DiasParaCorte { get; init; }
+
+    /// <summary>
+    /// Ya llegó la fecha de corte y falta la lectura en o después de ella que cierra el periodo.
+    /// </summary>
+    public bool PeriodoTerminado { get; init; }
 
     public decimal? KwhHastaHoy { get; init; }
 
