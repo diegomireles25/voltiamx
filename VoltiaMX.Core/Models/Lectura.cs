@@ -13,7 +13,16 @@ public class Lectura
 
     public DateOnly Fecha { get; set; }
 
+    /// <summary>
+    /// Lo que marca el medidor (acumulado, la "lectura actual" del recibo). El consumo es la
+    /// diferencia entre dos lecturas.
+    /// </summary>
     public decimal ValorKwh { get; set; }
 
     public OrigenLectura Origen { get; set; }
+
+    /// <summary>
+    /// Lectura de corte calculada por interpolación al cerrar un periodo; nadie la capturó.
+    /// </summary>
+    public bool EsEstimada { get; set; }
 }

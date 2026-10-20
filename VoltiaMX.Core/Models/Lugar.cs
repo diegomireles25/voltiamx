@@ -20,6 +20,11 @@ public class Lugar
     /// </summary>
     public int DiaCorte { get; set; }
 
+    /// <summary>
+    /// Meses que cubre cada recibo: 1 (mensual) o 2 (bimestral, lo más común en casas).
+    /// </summary>
+    public int MesesPorPeriodo { get; set; } = 2;
+
     public string? Estado { get; set; }
 
     public string? Municipio { get; set; }

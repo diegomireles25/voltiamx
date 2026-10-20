@@ -23,6 +23,9 @@ namespace VoltiaMX.Core.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("EsEstimada")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateOnly>("Fecha")
                         .HasColumnType("TEXT");
 
@@ -60,6 +63,9 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.Property<string>("Estado")
                         .HasMaxLength(60)
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("MesesPorPeriodo")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Municipio")
                         .HasMaxLength(100)
@@ -191,6 +197,9 @@ namespace VoltiaMX.Core.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Estimado")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateOnly>("Fin")
                         .HasColumnType("TEXT");
 
@@ -205,6 +214,10 @@ namespace VoltiaMX.Core.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Monto")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal?>("MontoRecibo")
                         .HasPrecision(18, 4)
                         .HasColumnType("TEXT");
 
