@@ -330,10 +330,13 @@
     <value>ENTIENDE TU RECIBO DE LUZ</value>
   </data>
   <data name="Bienvenida_Subtitulo.Text" xml:space="preserve">
-    <value>Calcula cuánto vas a pagar, cuídate de la tarifa DAC y gasta menos. Son cinco preguntas y todas se pueden omitir.</value>
+    <value>Tu recibo de CFE, explicado, con tu tarifa y sin internet.</value>
   </data>
   <data name="Bienvenida_Empezar.Content" xml:space="preserve">
     <value>Empezar</value>
+  </data>
+  <data name="Bienvenida_Rasgos.Text" xml:space="preserve">
+    <value>SIN INTERNET · TU TARIFA DE CFE · PRESUPUESTO INVERSO</value>
   </data>
 
   <!-- Onboarding: uso -->

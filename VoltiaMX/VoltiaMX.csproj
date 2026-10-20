@@ -39,6 +39,11 @@
         <Content Include="Assets\Fonts\**" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
+    <!-- Escena 3D de Bienvenida (WebView2): HTML local y Three.js r128 (MIT, ver LICENSE-three.txt) -->
+    <ItemGroup>
+        <Content Include="Assets\Escena3D\**" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.13" />

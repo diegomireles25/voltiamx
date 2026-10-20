@@ -7,20 +7,82 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel VerticalAlignment="Center" Spacing="{StaticResource Spacing40}">
-        <TextBlock
-            x:Uid="Bienvenida_Titulo"
-            AutomationProperties.HeadingLevel="Level1"
-            Style="{StaticResource DisplayTextStyle}" />
-        <TextBlock
-            x:Uid="Bienvenida_Subtitulo"
-            MaxWidth="{StaticResource TextMaxWidth}"
-            HorizontalAlignment="Left"
-            Foreground="{StaticResource SlateBrush}"
-            Style="{StaticResource BodyTextStyle}" />
-        <Button
-            x:Uid="Bienvenida_Empezar"
-            Command="{x:Bind ViewModel.SiguienteCommand}"
-            Style="{StaticResource PrimaryButtonStyle}" />
-    </StackPanel>
+    <Page.Resources>
+        <!-- "Empezar" y los rasgos aparecen juntos con fundido cuando la escena avisa que terminó de entrar -->
+        <Storyboard x:Name="AparecerAccion">
+            <DoubleAnimation
+                Storyboard.TargetName="Accion"
+                Storyboard.TargetProperty="Opacity"
+                From="0"
+                To="1"
+                Duration="0:0:0.4" />
+        </Storyboard>
+    </Page.Resources>
+
+    <!-- Titular, escena 3D decorativa directo sobre el lienzo y acción; todo centrado -->
+    <Grid RowSpacing="{StaticResource Spacing24}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AnchoVentana">
+                <VisualState x:Name="Ancha">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource BreakpointWide}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Titulo.Style" Value="{StaticResource DisplayTextStyle}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Angosta">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" MinHeight="{StaticResource EscenaMinHeight}" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel HorizontalAlignment="Center" Spacing="{StaticResource Spacing8}">
+            <TextBlock
+                x:Name="Titulo"
+                x:Uid="Bienvenida_Titulo"
+                AutomationProperties.HeadingLevel="Level1"
+                Style="{StaticResource DisplayMdTextStyle}"
+                TextAlignment="Center" />
+            <TextBlock
+                x:Uid="Bienvenida_Subtitulo"
+                Foreground="{StaticResource SlateBrush}"
+                Style="{StaticResource LeadTextStyle}"
+                TextAlignment="Center" />
+        </StackPanel>
+
+        <!-- Decorativa: fuera del árbol de accesibilidad y del recorrido con Tab -->
+        <WebView2
+            x:Name="Escena"
+            Grid.Row="1"
+            AutomationProperties.AccessibilityView="Raw"
+            IsTabStop="False" />
+
+        <!-- Opacidad 0 al inicio, pero ocupa su lugar y el botón se puede usar con teclado o puntero -->
+        <StackPanel
+            x:Name="Accion"
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            Opacity="0"
+            Spacing="{StaticResource Spacing8}">
+            <Button
+                x:Name="BotonEmpezar"
+                x:Uid="Bienvenida_Empezar"
+                HorizontalAlignment="Center"
+                Command="{x:Bind ViewModel.SiguienteCommand}"
+                Style="{StaticResource PrimaryButtonStyle}" />
+            <TextBlock
+                x:Uid="Bienvenida_Rasgos"
+                Foreground="{StaticResource SlateBrush}"
+                Style="{StaticResource CaptionTextStyle}"
+                TextAlignment="Center" />
+        </StackPanel>
+    </Grid>
 </Page>

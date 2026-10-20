@@ -13,17 +13,15 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid
-        MaxWidth="{StaticResource ContentMaxWidth}"
-        Padding="{StaticResource PagePadding}"
-        RowSpacing="{StaticResource Spacing24}">
+    <!-- Sin RowSpacing: la separación va en la cabecera y la barra para no restar alto a Bienvenida -->
+    <Grid MaxWidth="{StaticResource ContentMaxWidth}" Padding="{StaticResource PagePadding}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarIndicador), Mode=OneWay}">
+        <Grid Margin="{StaticResource OnboardingHeaderMargin}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarIndicador), Mode=OneWay}">
             <ContentPresenter
                 Content="{x:Bind ViewModel.TextoPaso, Mode=OneWay}"
                 Style="{StaticResource MintTagStyle}" />
@@ -38,6 +36,7 @@
 
         <Border
             Grid.Row="2"
+            Margin="{StaticResource OnboardingFooterMargin}"
             Padding="{StaticResource FooterBarPadding}"
             Style="{StaticResource HairlineListStyle}"
             Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarNavegacion), Mode=OneWay}">

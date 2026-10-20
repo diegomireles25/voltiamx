@@ -51,6 +51,13 @@
         <Setter Property="LineHeight" Value="72" />
     </Style>
 
+    <!-- Display reducido para ventanas de menos de 1200 de ancho (64 está en la escala de DESIGN.md) -->
+    <Style x:Key="DisplayMdTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DisplayXLTextStyle}">
+        <Setter Property="FontSize" Value="64" />
+        <!-- 64 × 0.9 = 57.6 -->
+        <Setter Property="LineHeight" Value="57.6" />
+    </Style>
+
     <Style x:Key="HeadingLgTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DisplayXLTextStyle}">
         <Setter Property="FontSize" Value="{StaticResource FontSizeHeadingLg}" />
         <!-- 48 × 0.9 = 43.2 -->

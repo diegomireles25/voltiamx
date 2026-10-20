@@ -55,6 +55,12 @@
     <Thickness x:Key="HeaderPadding">40,0</Thickness>
     <Thickness x:Key="FooterBarPadding">0,24,0,0</Thickness>
     <!--
+        Separación de la cabecera y la barra inferior del onboarding como márgenes (no RowSpacing):
+        en Bienvenida y Listo están ocultas y así no consumen alto que necesita la escena 3D.
+    -->
+    <Thickness x:Key="OnboardingHeaderMargin">0,0,0,24</Thickness>
+    <Thickness x:Key="OnboardingFooterMargin">0,24,0,0</Thickness>
+    <!--
         Con interlineado 0.9 los acentos de las mayúsculas (É, Í, Ñ) sobresalen del renglón; si el
         título es lo primero de un ScrollViewer, el viewport los recorta. Va como relleno del
         contenido (no del ScrollViewer, cuyo relleno queda fuera del área visible) y les deja lugar.
@@ -92,6 +98,8 @@
     <x:Double x:Key="GalleryLabelColumnWidth">280</x:Double>
     <!-- Ancho cómodo de lectura para párrafos y formularios -->
     <x:Double x:Key="TextMaxWidth">640</x:Double>
+    <!-- Alto mínimo de la escena 3D de Bienvenida (cabe en la ventana mínima de 1100x700) -->
+    <x:Double x:Key="EscenaMinHeight">360</x:Double>
     <x:Double x:Key="SelectionCardMinHeight">160</x:Double>
     <x:Double x:Key="BrandIconSize">28</x:Double>
     <!-- Dashboard -->
