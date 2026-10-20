@@ -11,64 +11,97 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:VoltiaMX.ViewModels"
     mc:Ignorable="d">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <!-- Los AdaptiveTrigger no se evalúan en la raíz de una Window: el contenido va en un UserControl -->
+    <UserControl>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <!--
+                Menos de 1200 de ancho: solo el rayo de la marca, botón más compacto y la pastilla en
+                una columna con ancho limitado para que el NavigationView use su menú "..." en lugar de
+                cortar la cabecera. El relleno de los ítems no cambia: WinUI lo toma de un ThemeResource
+                que no responde al ancho de la ventana.
+            -->
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="AnchoVentana">
+                    <VisualState x:Name="Ancha">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="{StaticResource BreakpointWide}" />
+                        </VisualState.StateTriggers>
+                    </VisualState>
+                    <VisualState x:Name="Angosta">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="Marca.Visibility" Value="Collapsed" />
+                            <Setter Target="ColumnaMarca.Width" Value="Auto" />
+                            <Setter Target="ColumnaNavegacion.Width" Value="*" />
+                            <Setter Target="ColumnaAccion.Width" Value="Auto" />
+                            <Setter Target="NuevaLectura.Padding" Value="{StaticResource PrimaryButtonCompactPadding}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
 
-        <!-- Zona para arrastrar la ventana; los botones del sistema quedan a la derecha -->
-        <Grid x:Name="BarraTitulo" Height="{StaticResource TitleBarHeight}" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <Grid
-            Grid.Row="1"
-            Padding="{StaticResource HeaderPadding}"
-            ColumnSpacing="{StaticResource Spacing24}"
-            Style="{StaticResource NavBarStyle}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <!-- Zona para arrastrar la ventana; los botones del sistema quedan a la derecha -->
+            <Grid x:Name="BarraTitulo" Height="{StaticResource TitleBarHeight}" />
 
-            <StackPanel
-                VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="{StaticResource Spacing8}">
-                <FontIcon
-                    AutomationProperties.AccessibilityView="Raw"
-                    FontSize="{StaticResource BrandIconSize}"
-                    Glyph="&#xE945;" />
-                <TextBlock
-                    x:Uid="Shell_Marca"
+            <Grid
+                Grid.Row="1"
+                Padding="{StaticResource HeaderPadding}"
+                ColumnSpacing="{StaticResource Spacing24}"
+                Style="{StaticResource NavBarStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="ColumnaMarca" Width="*" />
+                    <ColumnDefinition x:Name="ColumnaNavegacion" Width="Auto" />
+                    <ColumnDefinition x:Name="ColumnaAccion" Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
                     VerticalAlignment="Center"
-                    Style="{StaticResource BrandTextStyle}" />
-            </StackPanel>
+                    Orientation="Horizontal"
+                    Spacing="{StaticResource Spacing8}">
+                    <FontIcon
+                        AutomationProperties.AccessibilityView="Raw"
+                        FontSize="{StaticResource BrandIconSize}"
+                        Glyph="&#xE945;" />
+                    <TextBlock
+                        x:Name="Marca"
+                        x:Uid="Shell_Marca"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BrandTextStyle}" />
+                </StackPanel>
 
-            <ContentPresenter Grid.Column="1" Style="{StaticResource NavPillContainerStyle}">
-                <NavigationView
-                    x:Uid="Shell_Navegacion"
-                    MenuItemsSource="{x:Bind ViewModel.Elementos, Mode=OneWay}"
-                    SelectedItem="{x:Bind ViewModel.Seleccionado, Mode=TwoWay}"
-                    Style="{StaticResource NavPillStyle}">
-                    <NavigationView.MenuItemTemplate>
-                        <DataTemplate x:DataType="vm:ElementoNavegacion">
-                            <NavigationViewItem Content="{x:Bind Titulo}" Style="{StaticResource NavPillItemStyle}" />
-                        </DataTemplate>
-                    </NavigationView.MenuItemTemplate>
-                </NavigationView>
-            </ContentPresenter>
+                <ContentPresenter Grid.Column="1" Style="{StaticResource NavPillContainerStyle}">
+                    <NavigationView
+                        x:Uid="Shell_Navegacion"
+                        MenuItemsSource="{x:Bind ViewModel.Elementos, Mode=OneWay}"
+                        SelectedItem="{x:Bind ViewModel.Seleccionado, Mode=TwoWay}"
+                        Style="{StaticResource NavPillStyle}">
+                        <NavigationView.MenuItemTemplate>
+                            <DataTemplate x:DataType="vm:ElementoNavegacion">
+                                <NavigationViewItem Content="{x:Bind Titulo}" Style="{StaticResource NavPillItemStyle}" />
+                            </DataTemplate>
+                        </NavigationView.MenuItemTemplate>
+                    </NavigationView>
+                </ContentPresenter>
 
-            <!-- Deshabilitado hasta que exista el módulo Lecturas -->
-            <Button
-                x:Uid="Shell_NuevaLectura"
-                Grid.Column="2"
-                HorizontalAlignment="Right"
-                IsEnabled="{x:Bind ViewModel.NuevaLecturaHabilitada}"
-                Style="{StaticResource PrimaryButtonStyle}" />
+                <!-- Deshabilitado hasta que exista el módulo Lecturas -->
+                <Button
+                    x:Name="NuevaLectura"
+                    x:Uid="Shell_NuevaLectura"
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    IsEnabled="{x:Bind ViewModel.NuevaLecturaHabilitada}"
+                    Style="{StaticResource PrimaryButtonStyle}" />
+            </Grid>
+
+            <Frame x:Name="Contenido" Grid.Row="2" />
         </Grid>
-
-        <Frame x:Name="Contenido" Grid.Row="2" />
-    </Grid>
+    </UserControl>
 </Window>

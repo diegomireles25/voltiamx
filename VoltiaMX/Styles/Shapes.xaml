@@ -52,6 +52,8 @@
     <Thickness x:Key="NavPillPadding">8</Thickness>
     <Thickness x:Key="NavItemContentMargin">20,0</Thickness>
     <Thickness x:Key="NavItemMargin">2,0</Thickness>
+    <!-- "Nueva lectura" en ventanas de menos de 1200 -->
+    <Thickness x:Key="PrimaryButtonCompactPadding">16,16</Thickness>
     <Thickness x:Key="HeaderPadding">40,0</Thickness>
     <Thickness x:Key="FooterBarPadding">0,24,0,0</Thickness>
     <!--
