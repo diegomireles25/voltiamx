@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Tarifas sobre el lienzo, sin tarjetas: la tarifa del lugar principal y la lista de tarifas en
+    filas con línea, con sus enlaces.
+-->
+<Page
+    x:Class="VoltiaMX.Views.TarifasPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:local="using:VoltiaMX.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:VoltiaMX.ViewModels"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel
+            x:Name="Contenido"
+            MaxWidth="{StaticResource ContentMaxWidth}"
+            Padding="{StaticResource PagePadding}"
+            Spacing="{StaticResource Spacing40}">
+
+            <StackPanel Spacing="{StaticResource Spacing16}">
+                <TextBlock
+                    x:Uid="Tarifas_Titulo"
+                    AutomationProperties.HeadingLevel="Level1"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+                <TextBlock
+                    x:Uid="Tarifas_SinIvaNiDap"
+                    Foreground="{StaticResource SlateBrush}"
+                    Style="{StaticResource BodySmTextStyle}"
+                    TextWrapping="Wrap" />
+                <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
+            </StackPanel>
+
+            <!-- Tarifa del lugar principal -->
+            <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLugar), Mode=OneWay}">
+                <TextBlock
+                    x:Uid="Tarifas_DeTuLugar"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Foreground="{StaticResource SlateBrush}"
+                    Style="{StaticResource CaptionTextStyle}" />
+                <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind ViewModel.TarifaActualTexto, Mode=OneWay}" TextWrapping="Wrap" />
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                    <ComboBox
+                        x:Uid="Tarifas_Elegir"
+                        MinWidth="{StaticResource TextMaxWidth}"
+                        ItemsSource="{x:Bind ViewModel.Opciones, Mode=OneWay}"
+                        SelectedItem="{x:Bind ViewModel.TarifaElegida, Mode=TwoWay}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <Button
+                        x:Uid="Tarifas_Usar"
+                        VerticalAlignment="Bottom"
+                        Command="{x:Bind ViewModel.UsarTarifaCommand}"
+                        Style="{StaticResource PrimaryButtonStyle}" />
+                </StackPanel>
+                <TextBlock
+                    AutomationProperties.LiveSetting="Polite"
+                    Style="{StaticResource BodyTextStyle}"
+                    Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
+            </StackPanel>
+
+            <!-- Tus tarifas -->
+            <StackPanel Spacing="{StaticResource Spacing16}">
+                <Grid>
+                    <TextBlock
+                        x:Uid="Tarifas_Tuyas"
+                        VerticalAlignment="Center"
+                        AutomationProperties.HeadingLevel="Level2"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource CaptionTextStyle}" />
+                    <Button
+                        x:Uid="Tarifas_Nueva"
+                        HorizontalAlignment="Right"
+                        Command="{x:Bind ViewModel.NuevaTarifaCommand}"
+                        Style="{StaticResource GhostButtonStyle}" />
+                </Grid>
+                <Border Style="{StaticResource HairlineListStyle}">
+                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Filas}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="vm:FilaTarifa">
+                                <Border Style="{StaticResource HairlineRowStyle}">
+                                    <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Spacing="{StaticResource Spacing8}">
+                                            <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Nombre}" />
+                                            <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind Detalle}" />
+                                        </StackPanel>
+                                        <ContentPresenter
+                                            x:Uid="Tarifas_EnUso"
+                                            Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource MintTagStyle}"
+                                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(EnUso)}" />
+                                        <StackPanel
+                                            Grid.Column="2"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Spacing="{StaticResource Spacing16}">
+                                            <Button x:Uid="Tarifas_Editar" Command="{x:Bind Editar}" Style="{StaticResource TextLinkButtonSmStyle}" />
+                                            <Button x:Uid="Tarifas_Duplicar" Command="{x:Bind Duplicar}" Style="{StaticResource TextLinkButtonSmStyle}" />
+                                            <Button x:Uid="Tarifas_Eliminar" Command="{x:Bind Eliminar}" Style="{StaticResource TextLinkButtonSmStyle}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

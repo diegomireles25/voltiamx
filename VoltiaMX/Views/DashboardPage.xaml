@@ -59,11 +59,21 @@
                                     Text="{x:Bind ViewModel.LeyendaPeriodo, Mode=OneWay}"
                                     Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDatos), Mode=OneWay}" />
                             </StackPanel>
-                            <TextBlock
-                                x:Uid="Dashboard_ConfirmaTarifa"
-                                Foreground="{StaticResource SlateBrush}"
-                                Style="{StaticResource BodySmTextStyle}"
-                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TarifaPorConfirmar), Mode=OneWay}" />
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Spacing="{StaticResource Spacing16}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TarifaPorConfirmar), Mode=OneWay}">
+                                <TextBlock
+                                    x:Uid="Dashboard_ConfirmaTarifa"
+                                    VerticalAlignment="Center"
+                                    Foreground="{StaticResource SlateBrush}"
+                                    Style="{StaticResource BodySmTextStyle}" />
+                                <Button
+                                    x:Uid="Dashboard_ConfirmarTarifa"
+                                    VerticalAlignment="Center"
+                                    Command="{x:Bind ViewModel.ConfirmarTarifaCommand}"
+                                    Style="{StaticResource TextLinkButtonSmStyle}" />
+                            </StackPanel>
                         </StackPanel>
 
                         <!-- Con datos -->

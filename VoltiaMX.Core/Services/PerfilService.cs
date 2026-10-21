@@ -234,6 +234,8 @@ public sealed class PerfilService(IDbContextFactory<VoltiaDbContext> fabrica) : 
         periodo.Inicio = recibo.FechaCorte.AddMonths(-recibo.MesesDelPeriodo).AddDays(1);
         periodo.KwhTotales = recibo.Kwh;
         periodo.Monto = recibo.Monto;
+        // El monto real del recibo también va en MontoRecibo: "Recalcular mis periodos" no lo toca.
+        periodo.MontoRecibo = recibo.Monto;
 
         // La "lectura actual" del recibo es la lectura de corte: base real del siguiente periodo.
         if (recibo.LecturaMedidor is decimal valor)

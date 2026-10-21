@@ -24,4 +24,16 @@ public interface INavegacionShell
     /// Galería del sistema de diseño (solo se ofrece en Debug).
     /// </summary>
     void AbrirGaleriaDeDiseno();
+
+    /// <summary>
+    /// Tarifas (desde Configuración o desde "Confirmar tarifa" del Dashboard); no es un módulo del menú.
+    /// </summary>
+    void AbrirTarifas();
+
+    /// <summary>
+    /// Editor de una tarifa (null = nueva). "Volver" regresa a Tarifas.
+    /// </summary>
+    void AbrirEditorDeTarifa(int? tarifaId);
+
+    void Volver();
 }

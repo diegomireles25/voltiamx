@@ -6,15 +6,31 @@ namespace VoltiaMX.Services;
 /// </summary>
 public sealed class Dialogos(NavegacionShell navegacion) : IDialogos
 {
+    // WinUI no permite dos ContentDialog abiertos a la vez (lanza y cierra la app): se muestran uno tras otro.
+    private readonly SemaphoreSlim _uno = new(1, 1);
+
     public async Task<bool> ConfirmarAsync(string titulo, string mensaje, string confirmar, string cancelar)
     {
         var dialogo = Crear(titulo, mensaje, cancelar);
         dialogo.PrimaryButtonText = confirmar;
-        return await dialogo.ShowAsync() == ContentDialogResult.Primary;
+        return await MostrarAsync(dialogo) == ContentDialogResult.Primary;
     }
 
     public async Task AvisarAsync(string titulo, string mensaje, string cerrar)
-        => await Crear(titulo, mensaje, cerrar).ShowAsync();
+        => await MostrarAsync(Crear(titulo, mensaje, cerrar));
+
+    private async Task<ContentDialogResult> MostrarAsync(ContentDialog dialogo)
+    {
+        await _uno.WaitAsync();
+        try
+        {
+            return await dialogo.ShowAsync();
+        }
+        finally
+        {
+            _uno.Release();
+        }
+    }
 
     private ContentDialog Crear(string titulo, string mensaje, string cerrar)
     {

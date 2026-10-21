@@ -79,6 +79,25 @@
                         </Grid>
                     </Border>
 
+                    <Border Style="{StaticResource HairlineRowStyle}">
+                        <Grid ColumnSpacing="{StaticResource Spacing24}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Spacing="{StaticResource Spacing8}">
+                                <TextBlock x:Uid="Config_TarifasTitulo" Style="{StaticResource SubheadingTextStyle}" />
+                                <TextBlock x:Uid="Config_TarifasTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" />
+                            </StackPanel>
+                            <Button
+                                x:Uid="Config_TarifasBoton"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Command="{x:Bind ViewModel.AbrirTarifasCommand}"
+                                Style="{StaticResource TextLinkButtonStyle}" />
+                        </Grid>
+                    </Border>
+
                     <!-- Solo en compilaciones Debug -->
                     <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDebug)}">
                         <Grid ColumnSpacing="{StaticResource Spacing24}">

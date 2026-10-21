@@ -47,7 +47,7 @@ public class VoltiaDbContext(DbContextOptions<VoltiaDbContext> options) : DbCont
 
         modelBuilder.Entity<Tarifa>(tarifa =>
         {
-            tarifa.Property(t => t.Nombre).HasMaxLength(20);
+            tarifa.Property(t => t.Nombre).HasMaxLength(40);
             tarifa.HasIndex(t => t.Nombre).IsUnique();
             tarifa.Property(t => t.Tipo).HasConversion<string>().HasMaxLength(20);
 

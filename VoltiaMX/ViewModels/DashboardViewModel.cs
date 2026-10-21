@@ -43,6 +43,13 @@ public sealed partial class DashboardViewModel(
     IDatosDemoService datosDemo,
     ITextos textos) : ObservableObject
 {
+    /// <summary>
+    /// "Confirmar tarifa" junto a la etiqueta de tarifa por confirmar.
+    /// </summary>
+    [RelayCommand]
+    private void ConfirmarTarifa()
+        => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje(SeccionesConfiguracion.Tarifas));
+
     private static readonly CultureInfo Cultura = new("es-MX");
 
     // Secciones

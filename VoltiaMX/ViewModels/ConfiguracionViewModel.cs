@@ -79,4 +79,8 @@ public sealed partial class ConfiguracionViewModel(
 
     [RelayCommand]
     private void AbrirGaleria() => navegacion.AbrirGaleriaDeDiseno();
+
+    [RelayCommand]
+    private void AbrirTarifas()
+        => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje(SeccionesConfiguracion.Tarifas));
 }

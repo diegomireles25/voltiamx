@@ -18,7 +18,7 @@ public sealed class NavegacionShell : INavegacionShell
                 IrA(typeof(DashboardPage));
                 break;
             case DestinoShell.Configuracion:
-                IrA(typeof(ConfiguracionPage));
+                IrA(seccion == SeccionesConfiguracion.Tarifas ? typeof(TarifasPage) : typeof(ConfiguracionPage));
                 break;
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Lecturas:
                 IrA(typeof(LecturasPage), seccion);
@@ -37,6 +37,23 @@ public sealed class NavegacionShell : INavegacionShell
     }
 
     public void AbrirGaleriaDeDiseno() => IrA(typeof(DesignGalleryPage));
+
+    public void AbrirTarifas() => IrA(typeof(TarifasPage));
+
+    // Sin limpiar el historial: "Volver" regresa a Tarifas.
+    public void AbrirEditorDeTarifa(int? tarifaId) => Marco?.Navigate(typeof(TarifaEditorPage), tarifaId);
+
+    public void Volver()
+    {
+        if (Marco?.CanGoBack == true)
+        {
+            Marco.GoBack();
+        }
+        else
+        {
+            AbrirTarifas();
+        }
+    }
 
     private void IrA(Type pagina, object? parametro = null)
     {

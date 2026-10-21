@@ -244,7 +244,7 @@ namespace VoltiaMX.Core.Data.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(20)
+                        .HasMaxLength(40)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Tipo")

@@ -536,6 +536,8 @@
     </Style>
 
     <Style x:Key="DatePickerStyle" TargetType="CalendarDatePicker" BasedOn="{StaticResource DefaultCalendarDatePicker}">
+        <!-- Meses y días en español aunque Windows esté en otro idioma -->
+        <Setter Property="Language" Value="es-MX" />
         <Setter Property="Background" Value="{StaticResource PaperWhiteBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource AshBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource InputBorderThickness}" />

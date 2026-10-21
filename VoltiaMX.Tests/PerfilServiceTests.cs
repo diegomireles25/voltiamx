@@ -120,6 +120,8 @@ public sealed class PerfilServiceTests : IAsyncLifetime
         Assert.Equal(new DateOnly(2026, 9, 14), periodo.Fin);
         Assert.Equal(718m, periodo.KwhTotales);
         Assert.Equal(1_020.50m, periodo.Monto);
+        // El monto real del recibo también queda en MontoRecibo: recalcular periodos no lo toca.
+        Assert.Equal(1_020.50m, periodo.MontoRecibo);
         Assert.Equal(14, lugar.DiaCorte);
         Assert.Equal(2, lugar.MesesPorPeriodo);
     }

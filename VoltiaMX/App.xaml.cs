@@ -110,6 +110,8 @@ namespace VoltiaMX
             servicios.AddTransient<LecturasViewModel>();
             servicios.AddTransient<PresupuestoViewModel>();
             servicios.AddTransient<PredictorViewModel>();
+            servicios.AddTransient<TarifasViewModel>();
+            servicios.AddTransient<TarifaEditorViewModel>();
 
             return builder.Build();
         }

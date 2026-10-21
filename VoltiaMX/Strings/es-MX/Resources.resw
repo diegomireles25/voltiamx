@@ -1335,4 +1335,231 @@
   <data name="Dashboard_DacVerDetalle.Content" xml:space="preserve">
     <value>Ver detalle del riesgo</value>
   </data>
+
+  <!-- Tarifas -->
+  <data name="Tarifas_Titulo.Text" xml:space="preserve">
+    <value>TARIFAS</value>
+  </data>
+  <data name="Tarifas_SinIvaNiDap.Text" xml:space="preserve">
+    <value>Precios por kWh y cargos sin IVA ni DAP. Las tarifas de ejemplo no son oficiales: verifícalas con tu recibo de CFE.</value>
+  </data>
+  <data name="Tarifas_DeTuLugar.Text" xml:space="preserve">
+    <value>TARIFA DE TU LUGAR</value>
+  </data>
+  <data name="Tarifas_Actual" xml:space="preserve">
+    <value>{0} usa la tarifa {1}.</value>
+  </data>
+  <data name="Tarifas_ActualPorConfirmar" xml:space="preserve">
+    <value>{0} usa la tarifa {1}, por confirmar: elige la que dice tu recibo.</value>
+  </data>
+  <data name="Tarifas_Elegir.Header" xml:space="preserve">
+    <value>Tarifa</value>
+  </data>
+  <data name="Tarifas_Usar.Content" xml:space="preserve">
+    <value>Usar esta tarifa</value>
+  </data>
+  <data name="Tarifas_Asignada" xml:space="preserve">
+    <value>Tu lugar ahora usa la tarifa {0}.</value>
+  </data>
+  <data name="Tarifas_Tuyas.Text" xml:space="preserve">
+    <value>TUS TARIFAS</value>
+  </data>
+  <data name="Tarifas_Nueva.Content" xml:space="preserve">
+    <value>Nueva tarifa</value>
+  </data>
+  <data name="Tarifas_Detalle" xml:space="preserve">
+    <value>{0} · RANGOS: {1}</value>
+  </data>
+  <data name="TipoTarifa_Domestica" xml:space="preserve">
+    <value>DOMÉSTICA</value>
+  </data>
+  <data name="TipoTarifa_Comercial" xml:space="preserve">
+    <value>COMERCIAL</value>
+  </data>
+  <data name="TipoTarifa_Dac" xml:space="preserve">
+    <value>DAC</value>
+  </data>
+  <data name="Tarifas_EnUso.Content" xml:space="preserve">
+    <value>EN USO</value>
+  </data>
+  <data name="Tarifas_Editar.Content" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Tarifas_Duplicar.Content" xml:space="preserve">
+    <value>Duplicar</value>
+  </data>
+  <data name="Tarifas_Eliminar.Content" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="Tarifas_Duplicada" xml:space="preserve">
+    <value>Se creó una copia de la tarifa.</value>
+  </data>
+  <data name="Tarifas_EliminarTitulo" xml:space="preserve">
+    <value>¿ELIMINAR LA TARIFA?</value>
+  </data>
+  <data name="Tarifas_EliminarTexto" xml:space="preserve">
+    <value>Se borrará la tarifa {0} con sus rangos. No se puede deshacer.</value>
+  </data>
+  <data name="Tarifas_NoSePuedeEliminar" xml:space="preserve">
+    <value>NO SE PUEDE ELIMINAR</value>
+  </data>
+  <data name="Tarifas_NoEliminar_EnUso" xml:space="preserve">
+    <value>La usan estos lugares: {0}. Cámbiales la tarifa primero.</value>
+  </data>
+  <data name="Tarifas_NoEliminar_EsLaUltima" xml:space="preserve">
+    <value>Es la única tarifa que queda; la app necesita al menos una.</value>
+  </data>
+  <data name="Tarifas_NoEliminar_NoExiste" xml:space="preserve">
+    <value>Esa tarifa ya no existe.</value>
+  </data>
+  <data name="Tarifas_Eliminada" xml:space="preserve">
+    <value>Se eliminó la tarifa {0}.</value>
+  </data>
+  <data name="TarifaEditor_TituloNueva" xml:space="preserve">
+    <value>NUEVA TARIFA</value>
+  </data>
+  <data name="TarifaEditor_TituloEditar" xml:space="preserve">
+    <value>EDITAR TARIFA</value>
+  </data>
+  <data name="TarifaEditor_Nombre.Header" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="TarifaEditor_Tipo.Header" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="TarifaEditor_Vigencia.Header" xml:space="preserve">
+    <value>Vigente desde</value>
+  </data>
+  <data name="TarifaEditor_CargoFijo.Header" xml:space="preserve">
+    <value>Cargo fijo mensual (MXN, sin IVA ni DAP)</value>
+  </data>
+  <data name="TarifaEditor_LimiteDac.Header" xml:space="preserve">
+    <value>Límite DAC (kWh al mes, opcional)</value>
+  </data>
+  <data name="TarifaEditor_AsiSeVeria.Text" xml:space="preserve">
+    <value>ASÍ SE VERÍA</value>
+  </data>
+  <data name="TarifaEditor_AsiSeVeriaTexto.Text" xml:space="preserve">
+    <value>Energía de un recibo bimestral con estos precios, sin IVA ni DAP.</value>
+  </data>
+  <data name="TarifaEditor_SinVistaPrevia.Text" xml:space="preserve">
+    <value>Corrige los errores para ver la vista previa.</value>
+  </data>
+  <data name="TarifaEditor_VistaKwh" xml:space="preserve">
+    <value>{0:N0} kWh bimestrales</value>
+  </data>
+  <data name="TarifaEditor_Rangos.Text" xml:space="preserve">
+    <value>RANGOS</value>
+  </data>
+  <data name="TarifaEditor_AgregarRango.Content" xml:space="preserve">
+    <value>Agregar rango</value>
+  </data>
+  <data name="TarifaEditor_RangoNombre.Header" xml:space="preserve">
+    <value>Nombre del rango</value>
+  </data>
+  <data name="TarifaEditor_RangoHasta.Header" xml:space="preserve">
+    <value>Hasta (kWh/mes)</value>
+  </data>
+  <data name="TarifaEditor_RangoHasta.PlaceholderText" xml:space="preserve">
+    <value>Sin límite</value>
+  </data>
+  <data name="TarifaEditor_RangoPrecio.Header" xml:space="preserve">
+    <value>Precio por kWh</value>
+  </data>
+  <data name="TarifaEditor_QuitarRango.Content" xml:space="preserve">
+    <value>Quitar</value>
+  </data>
+  <data name="TarifaEditor_NumeroRango" xml:space="preserve">
+    <value>{0}.</value>
+  </data>
+  <data name="TarifaEditor_Desde" xml:space="preserve">
+    <value>DESDE {0:N0} KWH</value>
+  </data>
+  <data name="TarifaEditor_RangoPorDefecto" xml:space="preserve">
+    <value>Básico</value>
+  </data>
+  <data name="TarifaEditor_RangoNuevo" xml:space="preserve">
+    <value>Rango {0}</value>
+  </data>
+  <data name="TarifaEditor_EtiquetaRevisa.Content" xml:space="preserve">
+    <value>REVISA</value>
+  </data>
+  <data name="TarifaEditor_GuardarBoton.Content" xml:space="preserve">
+    <value>Guardar tarifa</value>
+  </data>
+  <data name="TarifaEditor_Guardar" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="TarifaEditor_Cancelar.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="TarifaEditor_EnUsoTitulo" xml:space="preserve">
+    <value>ESTA TARIFA ESTÁ EN USO</value>
+  </data>
+  <data name="TarifaEditor_EnUsoTexto" xml:space="preserve">
+    <value>Los periodos ya cerrados conservan su monto. La proyección y los periodos nuevos usarán estos precios.</value>
+  </data>
+  <data name="Tarifa_ErrorEnRango" xml:space="preserve">
+    <value>Rango {0}: {1}</value>
+  </data>
+  <data name="Tarifa_Error_NombreObligatorio" xml:space="preserve">
+    <value>Escribe un nombre para la tarifa.</value>
+  </data>
+  <data name="Tarifa_Error_NombreMuyLargo" xml:space="preserve">
+    <value>El nombre puede tener hasta 40 caracteres.</value>
+  </data>
+  <data name="Tarifa_Error_NombreDuplicado" xml:space="preserve">
+    <value>Ya hay otra tarifa con ese nombre.</value>
+  </data>
+  <data name="Tarifa_Error_SinRangos" xml:space="preserve">
+    <value>Agrega al menos un rango.</value>
+  </data>
+  <data name="Tarifa_Error_NombreDeRangoObligatorio" xml:space="preserve">
+    <value>escribe el nombre del rango.</value>
+  </data>
+  <data name="Tarifa_Error_PrimerRangoNoEmpiezaEnCero" xml:space="preserve">
+    <value>el primer rango debe empezar en 0 kWh.</value>
+  </data>
+  <data name="Tarifa_Error_HuecoEntreRangos" xml:space="preserve">
+    <value>debe empezar donde termina el rango anterior.</value>
+  </data>
+  <data name="Tarifa_Error_HastaNoMayorQueDesde" xml:space="preserve">
+    <value>el tope debe ser mayor que el inicio del rango.</value>
+  </data>
+  <data name="Tarifa_Error_RangoDespuesDeUnoSinLimite" xml:space="preserve">
+    <value>solo el último rango puede quedar sin límite; ponle tope al anterior.</value>
+  </data>
+  <data name="Tarifa_Error_UltimoRangoConLimite" xml:space="preserve">
+    <value>el último rango debe quedar sin límite.</value>
+  </data>
+  <data name="Tarifa_Error_PrecioNoPositivo" xml:space="preserve">
+    <value>el precio por kWh debe ser mayor que 0.</value>
+  </data>
+  <data name="Tarifa_Error_PrecioConMasDeCuatroDecimales" xml:space="preserve">
+    <value>el precio puede tener hasta 4 decimales.</value>
+  </data>
+  <data name="Tarifa_Error_CargoFijoNegativo" xml:space="preserve">
+    <value>El cargo fijo no puede ser negativo.</value>
+  </data>
+  <data name="Tarifa_Error_LimiteDacSoloDomestica" xml:space="preserve">
+    <value>Solo las tarifas domésticas tienen límite DAC.</value>
+  </data>
+  <data name="Tarifa_Error_LimiteDacNoPositivo" xml:space="preserve">
+    <value>El límite DAC debe ser mayor que 0.</value>
+  </data>
+  <data name="Tarifa_Error_VigenciaObligatoria" xml:space="preserve">
+    <value>Elige desde cuándo aplica la tarifa.</value>
+  </data>
+  <data name="Config_TarifasTitulo.Text" xml:space="preserve">
+    <value>Tarifas</value>
+  </data>
+  <data name="Config_TarifasTexto.Text" xml:space="preserve">
+    <value>Revisa, edita o crea tarifas y elige la de tu lugar.</value>
+  </data>
+  <data name="Config_TarifasBoton.Content" xml:space="preserve">
+    <value>Ver tarifas</value>
+  </data>
+  <data name="Dashboard_ConfirmarTarifa.Content" xml:space="preserve">
+    <value>Confirmar tarifa</value>
+  </data>
 </root>

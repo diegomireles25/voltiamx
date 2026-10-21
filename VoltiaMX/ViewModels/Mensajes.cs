@@ -24,6 +24,12 @@ public sealed record ModulosCambiadosMensaje;
 public sealed record IrAModuloMensaje(ModuloApp Modulo, string? Seccion = null);
 
 /// <summary>
-/// Abrir Configuración desde otra pantalla.
+/// Abrir Configuración desde otra pantalla; con <paramref name="Seccion"/> = Tarifas abre las tarifas
+/// (dependen de Configuración, así el menú marca Configuración).
 /// </summary>
-public sealed record IrAConfiguracionMensaje;
+public sealed record IrAConfiguracionMensaje(string? Seccion = null);
+
+public static class SeccionesConfiguracion
+{
+    public const string Tarifas = "Tarifas";
+}
