@@ -113,6 +113,16 @@ public sealed partial class DashboardViewModel(
     [RelayCommand(CanExecute = nameof(LecturasHabilitadas))]
     private void IrALecturas() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas));
 
+    /// <summary>
+    /// "Ajustar presupuesto" abre Presupuesto solo si ese módulo está activo en el perfil.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(IrAPresupuestoCommand))]
+    public partial bool PresupuestoHabilitado { get; set; }
+
+    [RelayCommand(CanExecute = nameof(PresupuestoHabilitado))]
+    private void IrAPresupuesto() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Presupuesto));
+
     [RelayCommand(CanExecute = nameof(LecturasHabilitadas))]
     private void IrAHistorial()
         => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.Historial));
@@ -131,6 +141,7 @@ public sealed partial class DashboardViewModel(
             MostrarSolar = usos.Contains(UsoApp.Solar);
             MostrarAparatos = modulos.Contains(ModuloApp.Aparatos);
             LecturasHabilitadas = modulos.Contains(ModuloApp.Lecturas);
+            PresupuestoHabilitado = modulos.Contains(ModuloApp.Presupuesto);
 
             // Negocio sin casa: el historial muestra pesos ("gasto por periodo").
             var enPesos = usos.Contains(UsoApp.Negocio) && !usos.Contains(UsoApp.Casa);

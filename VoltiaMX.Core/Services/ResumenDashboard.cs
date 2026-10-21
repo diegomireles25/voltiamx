@@ -61,6 +61,26 @@ public sealed record ResumenDashboard
     public decimal? KwhPorDiaRestante { get; init; }
 
     /// <summary>
+    /// kWh que caben en el tope en todo el periodo.
+    /// </summary>
+    public decimal? KwhMaximosPeriodo { get; init; }
+
+    /// <summary>
+    /// kWh que todavía caben en el tope descontando lo consumido.
+    /// </summary>
+    public decimal? KwhRestantes { get; init; }
+
+    /// <summary>
+    /// kWh por día que permite el tope en promedio en todo el periodo.
+    /// </summary>
+    public decimal? KwhPorDiaPermitido { get; init; }
+
+    /// <summary>
+    /// False si el tope ni siquiera alcanza para el cargo fijo de la tarifa.
+    /// </summary>
+    public bool PresupuestoCubreCargoFijo { get; init; } = true;
+
+    /// <summary>
     /// Promedio diario contra el ritmo que cuadra con el presupuesto: 0.12 = 12% arriba.
     /// </summary>
     public decimal? VariacionRitmoPresupuesto { get; init; }

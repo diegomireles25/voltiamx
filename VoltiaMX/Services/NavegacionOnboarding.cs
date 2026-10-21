@@ -24,7 +24,7 @@ public sealed class NavegacionOnboarding : INavegacionOnboarding
             PasoOnboarding.Ubicacion => typeof(UbicacionPage),
             PasoOnboarding.Recibo => typeof(ReciboPage),
             PasoOnboarding.Objetivo => typeof(ObjetivoPage),
-            PasoOnboarding.Presupuesto => typeof(PresupuestoPage),
+            PasoOnboarding.Presupuesto => typeof(Views.Onboarding.PresupuestoPage),
             _ => typeof(ListoPage),
         };
 

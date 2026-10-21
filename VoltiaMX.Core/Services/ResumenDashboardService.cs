@@ -142,16 +142,21 @@ public sealed class ResumenDashboardService(
             kwhConsumidos: resumen.KwhHastaHoy ?? 0m,
             diasTranscurridos: diasMedidos);
 
+        var permitidoPorDia = resultado.KwhMaximosPeriodo / resumen.DiasDelPeriodo;
         decimal? variacionRitmo = null;
         if (resumen.PromedioDiarioKwh is decimal promedio && resultado.KwhMaximosPeriodo > 0m)
         {
-            variacionRitmo = promedio / (resultado.KwhMaximosPeriodo / resumen.DiasDelPeriodo) - 1;
+            variacionRitmo = promedio / permitidoPorDia - 1;
         }
 
         return resumen with
         {
             PresupuestoMax = monto,
             KwhPorDiaRestante = resultado.KwhPorDiaRestante,
+            KwhMaximosPeriodo = resultado.KwhMaximosPeriodo,
+            KwhRestantes = resultado.KwhRestantes,
+            KwhPorDiaPermitido = permitidoPorDia,
+            PresupuestoCubreCargoFijo = resultado.CubreCargoFijo,
             DiferenciaContraPresupuesto = resumen.MontoProyectado - monto,
             VariacionRitmoPresupuesto = variacionRitmo,
         };

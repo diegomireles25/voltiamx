@@ -969,13 +969,13 @@
   <data name="Lecturas_Titulo.Text" xml:space="preserve">
     <value>LECTURAS</value>
   </data>
-  <data name="Lecturas_DatosEjemplo.Content" xml:space="preserve">
+  <data name="DatosEjemplo_Etiqueta.Content" xml:space="preserve">
     <value>DATOS DE EJEMPLO</value>
   </data>
-  <data name="Lecturas_DemoAviso.Text" xml:space="preserve">
+  <data name="DatosEjemplo_Aviso.Text" xml:space="preserve">
     <value>Estás viendo datos de ejemplo. Quítalos para capturar tus lecturas reales.</value>
   </data>
-  <data name="Lecturas_IrAConfiguracion.Content" xml:space="preserve">
+  <data name="DatosEjemplo_IrAConfiguracion.Content" xml:space="preserve">
     <value>Ir a Configuración</value>
   </data>
   <data name="Lecturas_Fecha.Header" xml:space="preserve">
@@ -1177,5 +1177,85 @@
   </data>
   <data name="Grafica_FormatoKwh" xml:space="preserve">
     <value>{0:N0}</value>
+  </data>
+
+  <!-- Presupuesto (pantalla del módulo) -->
+  <data name="Tope_Titulo.Text" xml:space="preserve">
+    <value>PRESUPUESTO</value>
+  </data>
+  <data name="Tope_VacioTitulo.Text" xml:space="preserve">
+    <value>Define cuánto quieres pagar</value>
+  </data>
+  <data name="Tope_VacioTexto.Text" xml:space="preserve">
+    <value>Escribe el tope de tu recibo y te decimos cuántos kWh al día puedes gastar para no pasarte.</value>
+  </data>
+  <data name="Tope_MontoBimestral" xml:space="preserve">
+    <value>Tope por recibo bimestral (MXN, sin IVA ni DAP)</value>
+  </data>
+  <data name="Tope_MontoMensual" xml:space="preserve">
+    <value>Tope por recibo mensual (MXN, sin IVA ni DAP)</value>
+  </data>
+  <data name="Tope_Monto.PlaceholderText" xml:space="preserve">
+    <value>Ej. 800</value>
+  </data>
+  <data name="Tope_Guardar.Content" xml:space="preserve">
+    <value>Guardar presupuesto</value>
+  </data>
+  <data name="Tope_Quitar.Content" xml:space="preserve">
+    <value>Quitar presupuesto</value>
+  </data>
+  <data name="Tope_Guardado" xml:space="preserve">
+    <value>Presupuesto guardado.</value>
+  </data>
+  <data name="Tope_Quitado" xml:space="preserve">
+    <value>Se quitó el presupuesto.</value>
+  </data>
+  <data name="Tope_FueraDeRango" xml:space="preserve">
+    <value>El tope debe ser mayor que 0 y de hasta $1,000,000.</value>
+  </data>
+  <data name="Tope_Etiqueta.Content" xml:space="preserve">
+    <value>PRESUPUESTO INVERSO</value>
+  </data>
+  <data name="Tope_KwhRestantes" xml:space="preserve">
+    <value>{0:N0} kWh caben todavía en tu tope</value>
+  </data>
+  <data name="Tope_Ritmo" xml:space="preserve">
+    <value>Hoy gastas {0:N1} kWh al día; tu tope permite {1:N1} en promedio.</value>
+  </data>
+  <data name="Tope_RitmoArriba" xml:space="preserve">
+    <value>Vas {0:N0}% arriba del ritmo que cabe en tu presupuesto.</value>
+  </data>
+  <data name="Tope_RitmoAbajo" xml:space="preserve">
+    <value>Vas {0:N0}% abajo del ritmo que cabe en tu presupuesto.</value>
+  </data>
+  <data name="Tope_KwhMaximos.Text" xml:space="preserve">
+    <value>kWh que caben en tu tope este periodo</value>
+  </data>
+  <data name="Tope_ProyeccionTitulo.Text" xml:space="preserve">
+    <value>Proyección al cierre contra tu tope</value>
+  </data>
+  <data name="Tope_ProyeccionArriba" xml:space="preserve">
+    <value>A este ritmo pagarías ${0:N0}: ${2:N0} más que tu tope de ${1:N0}.</value>
+  </data>
+  <data name="Tope_ProyeccionAbajo" xml:space="preserve">
+    <value>A este ritmo pagarías ${0:N0}: ${2:N0} menos que tu tope de ${1:N0}.</value>
+  </data>
+  <data name="Tope_SinProyeccion" xml:space="preserve">
+    <value>Con dos lecturas en este periodo verás la proyección.</value>
+  </data>
+  <data name="Tope_NoCubreCargoFijo.Text" xml:space="preserve">
+    <value>Tu tope no alcanza ni para el cargo fijo de tu tarifa: súbelo para calcular cuánto puedes gastar.</value>
+  </data>
+  <data name="Tope_EtiquetaRevisa.Content" xml:space="preserve">
+    <value>REVISA</value>
+  </data>
+  <data name="Tope_Progreso.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Consumo del periodo contra lo que cabe en tu tope</value>
+  </data>
+  <data name="Tope_ProgresoTexto" xml:space="preserve">
+    <value>{0:N0} DE {1:N0} KWH QUE CABEN EN TU TOPE</value>
+  </data>
+  <data name="Tope_SinIvaNiDap.Text" xml:space="preserve">
+    <value>Montos sin IVA ni DAP.</value>
   </data>
 </root>

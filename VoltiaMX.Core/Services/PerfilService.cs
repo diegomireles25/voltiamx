@@ -10,6 +10,7 @@ public sealed class PerfilService(IDbContextFactory<VoltiaDbContext> fabrica) : 
     /// Tarifa que se usa cuando la persona no sabe la suya; queda marcada como por confirmar.
     /// </summary>
     private const string TarifaPorDefecto = "1";
+    private const decimal PresupuestoMaximoPermitido = 1_000_000m;
 
     public async Task<PerfilUsuario?> ObtenerPerfilAsync(CancellationToken cancellationToken = default)
     {
@@ -59,6 +60,33 @@ public sealed class PerfilService(IDbContextFactory<VoltiaDbContext> fabrica) : 
         ActualizarObjetivo(db, perfil, datos);
         await GuardarLugarPrincipalAsync(db, datos, cancellationToken);
 
+        await db.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task GuardarPresupuestoAsync(decimal? monto, CancellationToken cancellationToken = default)
+    {
+        if (monto is decimal valor)
+        {
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(valor, nameof(monto));
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(valor, PresupuestoMaximoPermitido, nameof(monto));
+        }
+
+        await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
+        var perfil = await ConsultarPerfil(db).FirstOrDefaultAsync(cancellationToken)
+            ?? throw new InvalidOperationException("No hay perfil: el onboarding no se ha completado.");
+
+        if (perfil.Objetivo is null)
+        {
+            if (monto is null)
+            {
+                return;
+            }
+
+            perfil.Objetivo = new Objetivo { Tipo = TipoObjetivo.NoPasarmeDePresupuesto };
+        }
+
+        // Si ya había otro objetivo (p. ej. pagar menos) se conserva; solo cambia el tope.
+        perfil.Objetivo.PresupuestoMax = monto;
         await db.SaveChangesAsync(cancellationToken);
     }
 

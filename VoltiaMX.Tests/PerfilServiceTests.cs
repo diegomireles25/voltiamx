@@ -293,4 +293,85 @@ public sealed class PerfilServiceTests : IAsyncLifetime
         Assert.False(perfil?.OnboardingCompletado);
         Assert.Equal([UsoApp.Casa], perfil?.Usos.Select(u => u.Uso));
     }
+
+    // ---- Presupuesto desde su pantalla ----
+
+    private async Task<List<Objetivo>> ObjetivosAsync()
+    {
+        await using var db = _fabrica.CreateDbContext();
+        return await db.Objetivos.ToListAsync();
+    }
+
+    [Fact]
+    public async Task GuardarPresupuestoAsync_SinObjetivo_LoCreaComoNoPasarmeDePresupuesto()
+    {
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa] });
+
+        await _servicio.GuardarPresupuestoAsync(800m);
+
+        var objetivo = Assert.Single(await ObjetivosAsync());
+        Assert.Equal((TipoObjetivo.NoPasarmeDePresupuesto, 800m), (objetivo.Tipo, objetivo.PresupuestoMax));
+    }
+
+    [Fact]
+    public async Task GuardarPresupuestoAsync_ConObjetivo_ActualizaElMontoSinDuplicar()
+    {
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa], PresupuestoMax = 1_500m });
+
+        await _servicio.GuardarPresupuestoAsync(800m);
+
+        Assert.Equal(800m, Assert.Single(await ObjetivosAsync()).PresupuestoMax);
+    }
+
+    [Fact]
+    public async Task GuardarPresupuestoAsync_ConOtroObjetivo_NoCambiaElTipo()
+    {
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa], Objetivo = TipoObjetivo.PagarMenos });
+
+        await _servicio.GuardarPresupuestoAsync(800m);
+
+        var objetivo = Assert.Single(await ObjetivosAsync());
+        Assert.Equal((TipoObjetivo.PagarMenos, 800m), (objetivo.Tipo, objetivo.PresupuestoMax));
+    }
+
+    [Fact]
+    public async Task GuardarPresupuestoAsync_Null_QuitaElTopeYConservaElObjetivo()
+    {
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa], Objetivo = TipoObjetivo.PagarMenos, PresupuestoMax = 900m });
+
+        await _servicio.GuardarPresupuestoAsync(null);
+
+        var objetivo = Assert.Single(await ObjetivosAsync());
+        Assert.Equal((TipoObjetivo.PagarMenos, (decimal?)null), (objetivo.Tipo, objetivo.PresupuestoMax));
+    }
+
+    [Theory]
+    [InlineData("0")]
+    [InlineData("-1")]
+    [InlineData("1000000.01")]
+    public async Task GuardarPresupuestoAsync_MontoFueraDeRango_SeRechazaSinCambiarNada(string monto)
+    {
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa], PresupuestoMax = 1_500m });
+
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(
+            () => _servicio.GuardarPresupuestoAsync(decimal.Parse(monto, System.Globalization.CultureInfo.InvariantCulture)));
+
+        Assert.Equal(1_500m, Assert.Single(await ObjetivosAsync()).PresupuestoMax);
+    }
+
+    [Fact]
+    public async Task GuardarPresupuestoAsync_UnMillon_SeAcepta()
+    {
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa] });
+
+        await _servicio.GuardarPresupuestoAsync(1_000_000m);
+
+        Assert.Equal(1_000_000m, Assert.Single(await ObjetivosAsync()).PresupuestoMax);
+    }
+
+    [Fact]
+    public async Task GuardarPresupuestoAsync_SinPerfil_Lanza()
+    {
+        await Assert.ThrowsAsync<InvalidOperationException>(() => _servicio.GuardarPresupuestoAsync(800m));
+    }
 }

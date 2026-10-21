@@ -155,6 +155,26 @@ public sealed class ResumenDashboardServiceTests : IAsyncLifetime
         Assert.Equal(resumen.MontoProyectado - 1_500m, resumen.DiferenciaContraPresupuesto);
         var ritmo = esperado.KwhMaximosPeriodo / resumen.DiasDelPeriodo;
         Assert.Equal(17.2m / ritmo - 1, resumen.VariacionRitmoPresupuesto);
+
+        // Lo que necesita la pantalla de Presupuesto, sin recalcular nada.
+        Assert.Equal(esperado.KwhMaximosPeriodo, resumen.KwhMaximosPeriodo);
+        Assert.Equal(esperado.KwhRestantes, resumen.KwhRestantes);
+        Assert.Equal(ritmo, resumen.KwhPorDiaPermitido);
+        Assert.True(resumen.PresupuestoCubreCargoFijo);
+    }
+
+    [Fact]
+    public async Task ObtenerAsync_PresupuestoMenorAlCargoFijo_NoLoCubre()
+    {
+        // PDBT de ejemplo: cargo fijo de 60 al mes; un tope de 50 no alcanza.
+        var pdbt = await TarifaAsync("PDBT");
+        await _perfiles.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa], TarifaId = pdbt.Id, PresupuestoMax = 50m });
+
+        var resumen = await _servicio.ObtenerAsync(Hoy);
+
+        Assert.NotNull(resumen);
+        Assert.False(resumen.PresupuestoCubreCargoFijo);
+        Assert.Equal(0m, resumen.KwhMaximosPeriodo);
     }
 
     [Fact]

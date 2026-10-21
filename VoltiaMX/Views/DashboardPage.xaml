@@ -149,7 +149,7 @@
                             <Button
                                 x:Uid="Dashboard_AjustarPresupuesto"
                                 Grid.Row="1"
-                                IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}"
+                                Command="{x:Bind ViewModel.IrAPresupuestoCommand}"
                                 Style="{StaticResource PrimaryOnDarkButtonStyle}" />
                         </Grid>
                     </ContentPresenter>

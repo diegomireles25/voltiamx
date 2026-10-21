@@ -28,6 +28,12 @@ public interface IPerfilService
     Task CambiarModoAvanzadoAsync(bool modoAvanzado, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Tope por recibo (sin IVA ni DAP). Crea el objetivo "no pasarme de mi presupuesto" si no hay
+    /// ninguno; si ya hay otro, solo cambia el monto. Null quita el tope. Acepta de 0 a 1,000,000 (sin 0).
+    /// </summary>
+    Task GuardarPresupuestoAsync(decimal? monto, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Marca el onboarding como pendiente para repetirlo; no borra datos.
     /// </summary>
     Task ReiniciarOnboardingAsync(CancellationToken cancellationToken = default);

@@ -9,6 +9,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:local="using:VoltiaMX.Views"
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:VoltiaMX.ViewModels"
@@ -51,27 +52,7 @@
                         Style="{StaticResource HeadingLgTextStyle}" />
 
                     <!-- Lugar de demo: se puede capturar, pero se borra al quitar los datos de ejemplo -->
-                    <Grid ColumnSpacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <ContentPresenter x:Uid="Lecturas_DatosEjemplo" VerticalAlignment="Center" Style="{StaticResource MintTagStyle}" />
-                        <TextBlock
-                            x:Uid="Lecturas_DemoAviso"
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            Foreground="{StaticResource SlateBrush}"
-                            Style="{StaticResource BodySmTextStyle}"
-                            TextWrapping="Wrap" />
-                        <Button
-                            x:Uid="Lecturas_IrAConfiguracion"
-                            Grid.Column="2"
-                            VerticalAlignment="Center"
-                            Command="{x:Bind ViewModel.IrAConfiguracionCommand}"
-                            Style="{StaticResource TextLinkButtonSmStyle}" />
-                    </Grid>
+                    <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
                 </StackPanel>
 
                 <Grid
