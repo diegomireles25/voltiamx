@@ -1258,4 +1258,81 @@
   <data name="Tope_SinIvaNiDap.Text" xml:space="preserve">
     <value>Montos sin IVA ni DAP.</value>
   </data>
+
+  <!-- Predictor y alerta DAC -->
+  <data name="Predictor_Titulo.Text" xml:space="preserve">
+    <value>PREDICTOR</value>
+  </data>
+  <data name="Predictor_VacioTitulo.Text" xml:space="preserve">
+    <value>Todavía no hay base para proyectar</value>
+  </data>
+  <data name="Predictor_VacioTexto.Text" xml:space="preserve">
+    <value>Con dos lecturas en este periodo calculamos cuánto vas a pagar y te explicamos tu recibo.</value>
+  </data>
+  <data name="Predictor_IrALecturas.Content" xml:space="preserve">
+    <value>Ir a Lecturas</value>
+  </data>
+  <data name="Predictor_PagoTitulo.Text" xml:space="preserve">
+    <value>PAGO PROYECTADO AL CIERRE</value>
+  </data>
+  <data name="Predictor_KwhProyectados" xml:space="preserve">
+    <value>~{0:N0} KWH AL CIERRE</value>
+  </data>
+  <data name="Predictor_ReciboTitulo.Text" xml:space="preserve">
+    <value>TU RECIBO, EXPLICADO</value>
+  </data>
+  <data name="Predictor_FilaRango" xml:space="preserve">
+    <value>{0:N2} kWh × ${1:N2} = ${2:N2}</value>
+  </data>
+  <data name="Predictor_CargoFijo" xml:space="preserve">
+    <value>Cargo fijo</value>
+  </data>
+  <data name="Predictor_Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Formato_Centavos" xml:space="preserve">
+    <value>${0:N2}</value>
+  </data>
+  <data name="Predictor_NotaMontos.Text" xml:space="preserve">
+    <value>Montos sin IVA ni DAP. Se redondean a centavos al mostrarlos; el total es la suma de las filas.</value>
+  </data>
+  <data name="Predictor_DacTitulo.Text" xml:space="preserve">
+    <value>RIESGO DAC</value>
+  </data>
+  <data name="Predictor_DacPromedio" xml:space="preserve">
+    <value>{0:N0} de {1:N0} kWh al mes en promedio ({2} meses)</value>
+  </data>
+  <data name="Predictor_DacMargen" xml:space="preserve">
+    <value>Te quedan {0:N0} kWh al mes de margen antes del límite de tu tarifa.</value>
+  </data>
+  <data name="Predictor_DacExcede" xml:space="preserve">
+    <value>Tu promedio ya pasa el límite de tu tarifa por {0:N0} kWh al mes.</value>
+  </data>
+  <data name="Predictor_DacNoAplica.Text" xml:space="preserve">
+    <value>Tu tarifa no tiene un límite DAC registrado, así que este riesgo no aplica.</value>
+  </data>
+  <data name="Predictor_DacSinDatos.Text" xml:space="preserve">
+    <value>Con periodos cerrados calculamos tu promedio mensual contra el límite de tu tarifa.</value>
+  </data>
+  <data name="Predictor_DacNota.Text" xml:space="preserve">
+    <value>Los niveles Bajo, Medio y Alto (80% y 95% del límite) son una guía de la app, no criterios oficiales de CFE.</value>
+  </data>
+  <data name="Predictor_DacExplicacionTitulo.Text" xml:space="preserve">
+    <value>¿Qué significa estar cerca del límite?</value>
+  </data>
+  <data name="Predictor_DacExplicacion.Text" xml:space="preserve">
+    <value>Tu tarifa tiene un límite de consumo promedio mensual. Comparamos el promedio de tus últimos 12 meses contra ese límite: mientras más cerca estés, más conviene bajar tu consumo para no rebasarlo. El límite es un dato de tu tarifa en la app; confírmalo con tu recibo.</value>
+  </data>
+  <data name="Aviso_DacMedio" xml:space="preserve">
+    <value>Tu consumo promedio se acerca al límite DAC de tu tarifa.</value>
+  </data>
+  <data name="Aviso_DacAlto" xml:space="preserve">
+    <value>Atención: tu consumo promedio está muy cerca del límite DAC de tu tarifa o ya lo pasó.</value>
+  </data>
+  <data name="Aviso_VerDetalle" xml:space="preserve">
+    <value>Ver detalle</value>
+  </data>
+  <data name="Dashboard_DacVerDetalle.Content" xml:space="preserve">
+    <value>Ver detalle del riesgo</value>
+  </data>
 </root>

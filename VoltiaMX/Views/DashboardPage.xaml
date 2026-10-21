@@ -254,6 +254,10 @@
                                     x:Uid="Dashboard_DacExplicacion"
                                     Foreground="{StaticResource SlateBrush}"
                                     Style="{StaticResource BodySmTextStyle}" />
+                                <Button
+                                    x:Uid="Dashboard_DacVerDetalle"
+                                    Command="{x:Bind ViewModel.IrAPredictorCommand}"
+                                    Style="{StaticResource TextLinkButtonSmStyle}" />
                             </StackPanel>
                         </Border>
 
@@ -272,11 +276,15 @@
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
                                                 <Ellipse AutomationProperties.AccessibilityView="Raw" Style="{StaticResource AlertDotStyle}" />
-                                                <TextBlock
-                                                    Grid.Column="1"
-                                                    Style="{StaticResource BodyTextStyle}"
-                                                    Text="{x:Bind Texto}"
-                                                    Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(EsAccion)}" />
+                                                <StackPanel Grid.Column="1" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(EsAccion)}">
+                                                    <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind Texto}" TextWrapping="Wrap" />
+                                                    <!-- Enlace aparte (p. ej. "Ver detalle" del riesgo DAC) -->
+                                                    <Button
+                                                        Command="{x:Bind Accion}"
+                                                        Content="{x:Bind TextoAccion}"
+                                                        Style="{StaticResource TextLinkButtonSmStyle}"
+                                                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(TieneEnlace)}" />
+                                                </StackPanel>
                                                 <!-- Aviso con acción (p. ej. periodo terminado: ir a capturar la lectura) -->
                                                 <Button
                                                     Grid.Column="1"

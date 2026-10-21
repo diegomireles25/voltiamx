@@ -34,6 +34,10 @@ public static class Conversiones
     public static Brush BrochaEtiquetaBarra(bool esActual)
         => (Brush)Application.Current.Resources[esActual ? "CarbonBlackBrush" : "SlateBrush"];
 
+    // Recibo explicado del Predictor: la fila del total con más peso.
+    public static Style EstiloFilaRecibo(bool esTotal)
+        => (Style)Application.Current.Resources[esTotal ? "SubheadingLgTextStyle" : "BodyTextStyle"];
+
     // Vista previa de Lecturas: tarjeta blanca, o negra cuando la lectura cierra periodos.
     public static Style EstiloTarjetaPrevia(bool conCierres)
         => (Style)Application.Current.Resources[conCierres ? "InvertedCardStyle" : "CardStyle"];

@@ -90,6 +90,16 @@ public sealed record ResumenDashboard
     public decimal? LimiteDacKwhMensual { get; init; }
 
     /// <summary>
+    /// Meses que de verdad entran en el promedio DAC (hasta 12).
+    /// </summary>
+    public int MesesEnPromedioDac { get; init; }
+
+    /// <summary>
+    /// Desglose por rango del pago proyectado (sin IVA ni DAP), o null si no hay proyección.
+    /// </summary>
+    public ResultadoCalculo? DesgloseProyectado { get; init; }
+
+    /// <summary>
     /// Hasta cinco periodos cerrados y, si hay proyección, el actual al final.
     /// </summary>
     public IReadOnlyList<PeriodoHistorial> Historial { get; init; } = [];

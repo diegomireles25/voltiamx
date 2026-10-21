@@ -23,11 +23,14 @@ public sealed record BarraHistorial(string Etiqueta, string Valor, double Fracci
 public sealed record FilaDetalle(string Titulo, string Detalle);
 
 /// <summary>
-/// Aviso del Dashboard. Con <see cref="Accion"/> se muestra como enlace (p. ej. ir a capturar la lectura).
+/// Aviso del Dashboard. Con <see cref="Accion"/> y sin <see cref="TextoAccion"/>, todo el aviso es un
+/// enlace (p. ej. ir a capturar la lectura); con <see cref="TextoAccion"/>, el texto lleva un enlace aparte.
 /// </summary>
-public sealed record AvisoDashboard(string Texto, IRelayCommand? Accion = null)
+public sealed record AvisoDashboard(string Texto, IRelayCommand? Accion = null, string? TextoAccion = null)
 {
-    public bool EsAccion => Accion is not null;
+    public bool EsAccion => Accion is not null && TextoAccion is null;
+
+    public bool TieneEnlace => Accion is not null && TextoAccion is not null;
 }
 
 /// <summary>
@@ -123,6 +126,16 @@ public sealed partial class DashboardViewModel(
     [RelayCommand(CanExecute = nameof(PresupuestoHabilitado))]
     private void IrAPresupuesto() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Presupuesto));
 
+    /// <summary>
+    /// "Ver detalle" del riesgo DAC abre el Predictor si ese módulo está activo.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(IrAPredictorCommand))]
+    public partial bool PredictorHabilitado { get; set; }
+
+    [RelayCommand(CanExecute = nameof(PredictorHabilitado))]
+    private void IrAPredictor() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Predictor));
+
     [RelayCommand(CanExecute = nameof(LecturasHabilitadas))]
     private void IrAHistorial()
         => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.Historial));
@@ -142,6 +155,7 @@ public sealed partial class DashboardViewModel(
             MostrarAparatos = modulos.Contains(ModuloApp.Aparatos);
             LecturasHabilitadas = modulos.Contains(ModuloApp.Lecturas);
             PresupuestoHabilitado = modulos.Contains(ModuloApp.Presupuesto);
+            PredictorHabilitado = modulos.Contains(ModuloApp.Predictor);
 
             // Negocio sin casa: el historial muestra pesos ("gasto por periodo").
             var enPesos = usos.Contains(UsoApp.Negocio) && !usos.Contains(UsoApp.Casa);
@@ -282,6 +296,15 @@ public sealed partial class DashboardViewModel(
         else if (resumen.TieneDatos)
         {
             Avisos.Add(new AvisoDashboard(textos.Formato("Aviso_Corte", resumen.DiasParaCorte)));
+        }
+
+        // Riesgo DAC Medio o Alto: aviso con enlace al detalle en el Predictor.
+        if (resumen.Dac is { Nivel: NivelRiesgoDac.Medio or NivelRiesgoDac.Alto } riesgo)
+        {
+            Avisos.Add(new AvisoDashboard(
+                textos[riesgo.Nivel == NivelRiesgoDac.Alto ? "Aviso_DacAlto" : "Aviso_DacMedio"],
+                PredictorHabilitado ? IrAPredictorCommand : null,
+                PredictorHabilitado ? textos["Aviso_VerDetalle"] : null));
         }
 
         if (resumen.VariacionRitmoPresupuesto is decimal ritmo)

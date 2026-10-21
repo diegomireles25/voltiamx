@@ -87,6 +87,7 @@ public sealed class ResumenDashboardService(
             KwhProyectados = proyectado?.KwhProyectados,
             MontoProyectado = proyectado?.MontoProyectado,
             PromedioDiarioKwh = proyectado?.PromedioDiarioKwh,
+            DesgloseProyectado = proyectado?.Calculo,
             Historial = Historial(cerrados, inicio, fin, proyectado),
             VariacionVsPeriodoAnterior = cerrados.Count > 0 && cerrados[^1].KwhTotales > 0m
                 ? proyectado?.KwhProyectados / cerrados[^1].KwhTotales - 1
@@ -129,7 +130,12 @@ public sealed class ResumenDashboardService(
             .TakeLast(MesesDelHistorialDac)
             .ToList();
 
-        return resumen with { Dac = dac.Evaluar(mensuales, limite), LimiteDacKwhMensual = limite };
+        return resumen with
+        {
+            Dac = dac.Evaluar(mensuales, limite),
+            LimiteDacKwhMensual = limite,
+            MesesEnPromedioDac = mensuales.Count,
+        };
     }
 
     private ResumenDashboard ConPresupuesto(ResumenDashboard resumen, decimal monto, Tarifa tarifa, int diasMedidos)
