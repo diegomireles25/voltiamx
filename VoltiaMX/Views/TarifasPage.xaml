@@ -15,6 +15,28 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
+    <Grid>
+    <!-- Menos de 1200 de ancho: en "Validar con tu recibo" el resultado pasa debajo de los campos -->
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="AnchoVentana">
+            <VisualState x:Name="Ancha">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="{StaticResource BreakpointWide}" />
+                </VisualState.StateTriggers>
+            </VisualState>
+            <VisualState x:Name="Angosta">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="0" />
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <Setter Target="CamposValidar.(Grid.ColumnSpan)" Value="2" />
+                    <Setter Target="ResultadoValidar.(Grid.Row)" Value="1" />
+                    <Setter Target="ResultadoValidar.(Grid.Column)" Value="0" />
+                    <Setter Target="ResultadoValidar.(Grid.ColumnSpan)" Value="2" />
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
     <ScrollViewer>
         <StackPanel
             x:Name="Contenido"
@@ -116,6 +138,121 @@
                     </ItemsRepeater>
                 </Border>
             </StackPanel>
+
+            <!-- Validar con tu recibo -->
+            <StackPanel Spacing="{StaticResource Spacing16}">
+                <TextBlock
+                    x:Uid="Validar_Titulo"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Foreground="{StaticResource SlateBrush}"
+                    Style="{StaticResource CaptionTextStyle}" />
+                <TextBlock
+                    x:Uid="Validar_Ayuda"
+                    Foreground="{StaticResource SlateBrush}"
+                    Style="{StaticResource BodySmTextStyle}"
+                    TextWrapping="Wrap" />
+
+                <Grid ColumnSpacing="{StaticResource Spacing48}" RowSpacing="{StaticResource Spacing32}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel x:Name="CamposValidar" Spacing="{StaticResource Spacing24}">
+                        <ComboBox
+                            x:Uid="Validar_Tarifa"
+                            HorizontalAlignment="Stretch"
+                            ItemsSource="{x:Bind ViewModel.Opciones, Mode=OneWay}"
+                            SelectedItem="{x:Bind ViewModel.TarifaValidar, Mode=TwoWay}"
+                            Style="{StaticResource ComboBoxStyle}" />
+                        <StackPanel Spacing="{StaticResource Spacing8}">
+                            <TextBlock x:Uid="Validar_Periodo" Style="{StaticResource BodySmTextStyle}" />
+                            <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}">
+                                <RadioButton x:Uid="Validar_Bimestral" GroupName="PeriodoValidar" IsChecked="{x:Bind ViewModel.ValidarBimestral, Mode=TwoWay}" />
+                                <RadioButton x:Uid="Validar_Mensual" GroupName="PeriodoValidar" IsChecked="{x:Bind ViewModel.ValidarMensual, Mode=TwoWay}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <NumberBox x:Uid="Validar_Kwh" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.KwhRecibo, Mode=TwoWay}" />
+                        <NumberBox x:Uid="Validar_Importe" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.ImporteRecibo, Mode=TwoWay}" />
+                        <Button
+                            x:Uid="Validar_Comparar"
+                            Command="{x:Bind ViewModel.CompararCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}" />
+                    </StackPanel>
+
+                    <StackPanel
+                        x:Name="ResultadoValidar"
+                        Grid.Column="1"
+                        Spacing="{StaticResource Spacing16}"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneComparacion), Mode=OneWay}">
+                        <Grid ColumnSpacing="{StaticResource Spacing16}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter
+                                VerticalAlignment="Center"
+                                Content="{x:Bind ViewModel.VeredictoTexto, Mode=OneWay}"
+                                Style="{x:Bind helpers:Conversiones.EstiloVeredicto(ViewModel.Veredicto), Mode=OneWay}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource BodyTextStyle}"
+                                Text="{x:Bind ViewModel.DiferenciaTexto, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                        <Border Style="{StaticResource HairlineListStyle}">
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.FilasComparacion}">
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:FilaRecibo">
+                                        <Border Style="{StaticResource HairlineRowStyle}">
+                                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Style="{x:Bind helpers:Conversiones.EstiloFilaRecibo(EsTotal)}" Text="{x:Bind Concepto}" />
+                                                <TextBlock Grid.Column="1" Style="{x:Bind helpers:Conversiones.EstiloFilaRecibo(EsTotal)}" Text="{x:Bind Detalle}" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                        </Border>
+                        <TextBlock
+                            x:Uid="Validar_Sugerencia"
+                            Style="{StaticResource BodySmTextStyle}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.NoCoincide), Mode=OneWay}" />
+                    </StackPanel>
+                </Grid>
+
+                <!-- Recalcular los periodos cerrados del lugar con su tarifa actual -->
+                <Border Style="{StaticResource HairlineRowStyle}">
+                    <Grid ColumnSpacing="{StaticResource Spacing24}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            x:Uid="Recalcular_Explicacion"
+                            VerticalAlignment="Center"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            TextWrapping="Wrap" />
+                        <Button
+                            x:Uid="Recalcular_Boton"
+                            Grid.Column="1"
+                            Command="{x:Bind ViewModel.RecalcularCommand}"
+                            Style="{StaticResource GhostButtonStyle}" />
+                    </Grid>
+                </Border>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
+    </Grid>
 </Page>

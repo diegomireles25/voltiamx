@@ -34,6 +34,15 @@ public static class Conversiones
     public static Brush BrochaEtiquetaBarra(bool esActual)
         => (Brush)Application.Current.Resources[esActual ? "CarbonBlackBrush" : "SlateBrush"];
 
+    // Validar con tu recibo: Coincide en mint, Cercano en amarillo, No coincide en negro con amarillo.
+    public static Style EstiloVeredicto(VeredictoRecibo veredicto)
+        => (Style)Application.Current.Resources[veredicto switch
+        {
+            VeredictoRecibo.Coincide => "MintTagStyle",
+            VeredictoRecibo.Cercano => "YellowTagStyle",
+            _ => "RiskHighTagStyle",
+        }];
+
     // Recibo explicado del Predictor: la fila del total con más peso.
     public static Style EstiloFilaRecibo(bool esTotal)
         => (Style)Application.Current.Resources[esTotal ? "SubheadingLgTextStyle" : "BodyTextStyle"];

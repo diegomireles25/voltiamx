@@ -4,8 +4,10 @@ using VoltiaMX.Core.Models;
 
 namespace VoltiaMX.Core.Services;
 
-public sealed class TarifaService(IDbContextFactory<VoltiaDbContext> fabrica) : ITarifaService
+public sealed class TarifaService(IDbContextFactory<VoltiaDbContext> fabrica, ITarifaCalculator? calculadora = null) : ITarifaService
 {
+    private readonly ITarifaCalculator _calculadora = calculadora ?? new TarifaCalculator();
+
     public async Task<IReadOnlyList<Tarifa>> ObtenerTarifasAsync(CancellationToken cancellationToken = default)
     {
         await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
@@ -136,6 +138,52 @@ public sealed class TarifaService(IDbContextFactory<VoltiaDbContext> fabrica) : 
         lugar.TarifaPorConfirmar = false;
         await db.SaveChangesAsync(cancellationToken);
         return true;
+    }
+
+    public async Task<ConteoRecalculo> ContarParaRecalcularAsync(int lugarId, CancellationToken cancellationToken = default)
+    {
+        await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
+        var conRecibo = await db.Periodos
+            .Where(p => p.LugarId == lugarId)
+            .Select(p => p.MontoRecibo != null)
+            .ToListAsync(cancellationToken);
+        return new ConteoRecalculo(conRecibo.Count(c => !c), conRecibo.Count(c => c));
+    }
+
+    public async Task<ResultadoRecalculo> RecalcularPeriodosAsync(int lugarId, CancellationToken cancellationToken = default)
+    {
+        await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
+        var lugar = await db.Lugares
+            .Include(l => l.Tarifa).ThenInclude(t => t!.Rangos)
+            .Include(l => l.Periodos)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(l => l.Id == lugarId, cancellationToken);
+        if (lugar?.Tarifa is null)
+        {
+            return new ResultadoRecalculo(0, 0, 0);
+        }
+
+        var recalculados = 0;
+        var cambiados = 0;
+        foreach (var periodo in lugar.Periodos)
+        {
+            // El monto real del recibo manda: esos periodos no se tocan.
+            if (periodo.MontoRecibo is not null)
+            {
+                continue;
+            }
+
+            recalculados++;
+            var monto = _calculadora.Calcular(periodo.KwhTotales, lugar.Tarifa, lugar.MesesPorPeriodo).Total;
+            if (monto != periodo.Monto)
+            {
+                periodo.Monto = monto;
+                cambiados++;
+            }
+        }
+
+        await db.SaveChangesAsync(cancellationToken);
+        return new ResultadoRecalculo(recalculados, cambiados, lugar.Periodos.Count - recalculados);
     }
 
     private static TarifaEditable AEditable(Tarifa tarifa, int? id, string nombre) => new(

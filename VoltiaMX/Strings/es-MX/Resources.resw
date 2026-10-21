@@ -1562,4 +1562,73 @@
   <data name="Dashboard_ConfirmarTarifa.Content" xml:space="preserve">
     <value>Confirmar tarifa</value>
   </data>
+  <data name="Validar_Titulo.Text" xml:space="preserve">
+    <value>VALIDAR CON TU RECIBO</value>
+  </data>
+  <data name="Validar_Ayuda.Text" xml:space="preserve">
+    <value>Compara la tarifa con un recibo real. El importe de energía es la suma de los renglones Básico, Intermedio y Excedente, antes del IVA; no incluye IVA ni DAP.</value>
+  </data>
+  <data name="Validar_Tarifa.Header" xml:space="preserve">
+    <value>Tarifa</value>
+  </data>
+  <data name="Validar_Periodo.Text" xml:space="preserve">
+    <value>Periodo del recibo</value>
+  </data>
+  <data name="Validar_Bimestral.Content" xml:space="preserve">
+    <value>Bimestral</value>
+  </data>
+  <data name="Validar_Mensual.Content" xml:space="preserve">
+    <value>Mensual</value>
+  </data>
+  <data name="Validar_Kwh.Header" xml:space="preserve">
+    <value>kWh del recibo</value>
+  </data>
+  <data name="Validar_Importe.Header" xml:space="preserve">
+    <value>Importe de energía del recibo (sin IVA ni DAP)</value>
+  </data>
+  <data name="Validar_Comparar.Content" xml:space="preserve">
+    <value>Comparar</value>
+  </data>
+  <data name="Validar_EnergiaCalculada" xml:space="preserve">
+    <value>Energía calculada</value>
+  </data>
+  <data name="Validar_EnergiaRecibo" xml:space="preserve">
+    <value>Energía en tu recibo</value>
+  </data>
+  <data name="Validar_Veredicto_Coincide" xml:space="preserve">
+    <value>COINCIDE</value>
+  </data>
+  <data name="Validar_Veredicto_Cercano" xml:space="preserve">
+    <value>CERCANO</value>
+  </data>
+  <data name="Validar_Veredicto_NoCoincide" xml:space="preserve">
+    <value>NO COINCIDE</value>
+  </data>
+  <data name="Validar_Diferencia" xml:space="preserve">
+    <value>Diferencia: {0:+$#,##0.00;-$#,##0.00;$0.00} ({1:+0.0;-0.0;0.0} %) entre lo calculado y tu recibo.</value>
+  </data>
+  <data name="Validar_DiferenciaPesos" xml:space="preserve">
+    <value>Diferencia: {0:+$#,##0.00;-$#,##0.00;$0.00} entre lo calculado y tu recibo.</value>
+  </data>
+  <data name="Validar_Sugerencia.Text" xml:space="preserve">
+    <value>No coincide: revisa en el editor los precios por kWh y los límites de cada rango, y que el periodo sea el de tu recibo.</value>
+  </data>
+  <data name="Recalcular_Explicacion.Text" xml:space="preserve">
+    <value>Vuelve a calcular el monto de tus periodos con la tarifa de tu lugar. Los periodos con monto de recibo no se tocan.</value>
+  </data>
+  <data name="Recalcular_Boton.Content" xml:space="preserve">
+    <value>Recalcular mis periodos con esta tarifa</value>
+  </data>
+  <data name="Recalcular_Titulo" xml:space="preserve">
+    <value>Recalcular periodos</value>
+  </data>
+  <data name="Recalcular_Texto" xml:space="preserve">
+    <value>Se recalcularán {0} periodos con la tarifa {2}. {1} periodos tienen monto de recibo y se saltarán.</value>
+  </data>
+  <data name="Recalcular_Confirmar" xml:space="preserve">
+    <value>Recalcular</value>
+  </data>
+  <data name="Recalcular_Hecho" xml:space="preserve">
+    <value>Listo: {0} periodos recalculados ({1} cambiaron); {2} saltados por tener monto de recibo.</value>
+  </data>
 </root>
