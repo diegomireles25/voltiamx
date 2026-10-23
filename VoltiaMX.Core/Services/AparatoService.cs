@@ -72,5 +72,21 @@ public sealed class AparatoService(IDbContextFactory<VoltiaDbContext> fabrica) :
         return await db.Aparatos.Where(a => a.Id == id).ExecuteDeleteAsync(cancellationToken) > 0;
     }
 
+    public async Task<RankingAparatos> ObtenerRankingAsync(int lugarId, DateOnly hoy, CancellationToken cancellationToken = default)
+    {
+        await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
+        var lugar = await db.Lugares
+            .AsNoTracking()
+            .Include(l => l.Lecturas)
+            .Include(l => l.Periodos)
+            .Include(l => l.Aparatos)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(l => l.Id == lugarId, cancellationToken);
+
+        return lugar is null
+            ? RankingAparatos.Calcular([], null)
+            : RankingAparatos.Calcular(lugar.Aparatos, ConsumoMedido.KwhPorMes(lugar, hoy));
+    }
+
     public IReadOnlyList<PlantillaAparato> PlantillasDeReferencia() => Plantillas;
 }

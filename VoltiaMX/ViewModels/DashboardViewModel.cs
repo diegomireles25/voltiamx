@@ -18,7 +18,7 @@ public sealed record BarraHistorial(string Etiqueta, string Valor, double Fracci
 }
 
 /// <summary>
-/// Fila con nombre y detalle (propiedades en renta, aparatos de ejemplo).
+/// Fila con nombre y detalle (propiedades en renta, aparatos que más gastan).
 /// </summary>
 public sealed record FilaDetalle(string Titulo, string Detalle);
 
@@ -41,6 +41,8 @@ public sealed partial class DashboardViewModel(
     IResumenDashboardService resumenes,
     IPerfilService perfiles,
     IDatosDemoService datosDemo,
+    IAparatoService aparatos,
+    ILecturaService lecturas,
     ITextos textos) : ObservableObject
 {
     /// <summary>
@@ -106,7 +108,16 @@ public sealed partial class DashboardViewModel(
 
     public ObservableCollection<FilaDetalle> Propiedades { get; } = [];
 
-    public ObservableCollection<FilaDetalle> AparatosDemo { get; } = [];
+    // Qué gasta más: los primeros del ranking real del lugar principal.
+    private const int AparatosEnElDashboard = 4;
+
+    [ObservableProperty] public partial bool TieneAparatos { get; set; }
+    [ObservableProperty] public partial string AvisoAparatos { get; set; } = string.Empty;
+
+    public ObservableCollection<FilaDetalle> Aparatos { get; } = [];
+
+    [RelayCommand]
+    private void IrAAparatos() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Aparatos));
 
     /// <summary>
     /// Los botones que llevan a módulos que todavía no existen se ven deshabilitados.
@@ -168,6 +179,7 @@ public sealed partial class DashboardViewModel(
             var enPesos = usos.Contains(UsoApp.Negocio) && !usos.Contains(UsoApp.Casa);
             var resumen = await resumenes.ObtenerAsync(DateOnly.FromDateTime(DateTime.Today));
             AplicarResumen(resumen, perfil?.Objetivo?.Tipo, enPesos);
+            await CargarAparatosAsync();
 
             if (MostrarRentas)
             {
@@ -197,7 +209,6 @@ public sealed partial class DashboardViewModel(
         MostrarVacio = MostrarHogar && !TieneDatos;
         Historial.Clear();
         Avisos.Clear();
-        AparatosDemo.Clear();
 
         if (resumen is null)
         {
@@ -219,11 +230,6 @@ public sealed partial class DashboardViewModel(
         AplicarPresupuesto(resumen);
         AplicarHistorial(resumen, enPesos);
         AplicarEstado(resumen, objetivo);
-
-        if (resumen.EsDemo)
-        {
-            AparatosDeEjemplo();
-        }
     }
 
     private void AplicarProyeccion(ResumenDashboard resumen)
@@ -346,15 +352,30 @@ public sealed partial class DashboardViewModel(
         TienePropiedades = Propiedades.Count > 0;
     }
 
-    /// <summary>
-    /// Ranking fijo del mockup, solo con los datos de demo: todavía no existe el módulo Aparatos.
-    /// </summary>
-    private void AparatosDeEjemplo()
+    private async Task CargarAparatosAsync()
     {
-        AparatosDemo.Add(new FilaDetalle(textos["Demo_AparatoAire"], textos.Formato("Formato_Porcentaje", 46))); // EJEMPLO
-        AparatosDemo.Add(new FilaDetalle(textos["Demo_AparatoRefrigerador"], textos.Formato("Formato_Porcentaje", 19))); // EJEMPLO
-        AparatosDemo.Add(new FilaDetalle(textos["Demo_AparatoLavadora"], textos.Formato("Formato_Porcentaje", 9))); // EJEMPLO
-        AparatosDemo.Add(new FilaDetalle(textos["Demo_AparatoIluminacion"], textos.Formato("Formato_Porcentaje", 8))); // EJEMPLO
+        Aparatos.Clear();
+        AvisoAparatos = string.Empty;
+        var lugar = MostrarAparatos ? await lecturas.ObtenerLugarPrincipalAsync() : null;
+        if (lugar is null)
+        {
+            TieneAparatos = false;
+            return;
+        }
+
+        var ranking = await aparatos.ObtenerRankingAsync(lugar.Id, DateOnly.FromDateTime(DateTime.Today));
+        foreach (var fila in ranking.Filas.Take(AparatosEnElDashboard))
+        {
+            Aparatos.Add(new FilaDetalle(fila.Nombre, FormatoRanking.Valor(fila, textos)));
+        }
+
+        TieneAparatos = Aparatos.Count > 0;
+        AvisoAparatos = ranking.Estado switch
+        {
+            EstadoRanking.SumaExcedeMedido => textos["Ranking_SumaExcede"],
+            EstadoRanking.SinConsumoMedido => textos["Ranking_SinConsumoCorto"],
+            _ => string.Empty,
+        };
     }
 
     // Bimestres B1..B6 del año; meses con su abreviatura.

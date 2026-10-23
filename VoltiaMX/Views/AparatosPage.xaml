@@ -231,6 +231,65 @@
                     </StackPanel>
                 </StackPanel>
 
+                <!-- Ranking: contra lo que mide el medidor, sin barras (la barra de la app es la del Dashboard) -->
+                <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneRanking), Mode=OneWay}">
+                    <TextBlock
+                        x:Uid="Ranking_Titulo"
+                        AutomationProperties.HeadingLevel="Level2"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource CaptionTextStyle}" />
+                    <TextBlock
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodySmTextStyle}"
+                        Text="{x:Bind ViewModel.TextoRanking, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <Border Style="{StaticResource HairlineListStyle}">
+                        <StackPanel>
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.FilasRanking}">
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:FilaDetalle">
+                                        <Border Style="{StaticResource HairlineRowStyle}">
+                                            <Grid>
+                                                <TextBlock VerticalAlignment="Center" Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Titulo}" />
+                                                <TextBlock HorizontalAlignment="Right" Style="{StaticResource HeadingTextStyle}" Text="{x:Bind Detalle}" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                            <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneSinIdentificar), Mode=OneWay}">
+                                <Grid>
+                                    <TextBlock
+                                        x:Uid="Ranking_SinIdentificar"
+                                        VerticalAlignment="Center"
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource CaptionTextStyle}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Right"
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource HeadingTextStyle}"
+                                        Text="{x:Bind ViewModel.SinIdentificarTexto, Mode=OneWay}" />
+                                </Grid>
+                            </Border>
+                            <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SumaExcedeMedido), Mode=OneWay}">
+                                <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
+                                    <TextBlock
+                                        x:Uid="Ranking_SumaExcedeTexto"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource BodyTextStyle}"
+                                        TextWrapping="Wrap" />
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
                 <!-- Tus aparatos -->
                 <StackPanel Spacing="{StaticResource Spacing16}">
                     <TextBlock

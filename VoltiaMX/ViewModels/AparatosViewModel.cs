@@ -60,6 +60,16 @@ public sealed partial class AparatosViewModel(
     [ObservableProperty] public partial bool MostrarVacio { get; set; }
     [ObservableProperty] public partial string Aviso { get; set; } = string.Empty;
 
+    // ---- Ranking: porcentajes contra el consumo medido ----
+
+    [ObservableProperty] public partial bool TieneRanking { get; set; }
+    [ObservableProperty] public partial string TextoRanking { get; set; } = string.Empty;
+    [ObservableProperty] public partial bool SumaExcedeMedido { get; set; }
+    [ObservableProperty] public partial bool TieneSinIdentificar { get; set; }
+    [ObservableProperty] public partial string SinIdentificarTexto { get; set; } = string.Empty;
+
+    public ObservableCollection<FilaDetalle> FilasRanking { get; } = [];
+
     // ---- Editor ----
 
     [ObservableProperty] public partial bool EnEdicion { get; set; }
@@ -123,6 +133,33 @@ public sealed partial class AparatosViewModel(
 
         TieneAparatos = Filas.Count > 0;
         MostrarVacio = !TieneAparatos;
+        await RecargarRankingAsync();
+    }
+
+    private async Task RecargarRankingAsync()
+    {
+        FilasRanking.Clear();
+        if (_lugarId is not int lugarId || !TieneAparatos)
+        {
+            TieneRanking = SumaExcedeMedido = TieneSinIdentificar = false;
+            return;
+        }
+
+        var ranking = await aparatos.ObtenerRankingAsync(lugarId, DateOnly.FromDateTime(DateTime.Today));
+        foreach (var fila in ranking.Filas)
+        {
+            FilasRanking.Add(new FilaDetalle(fila.Nombre, FormatoRanking.Valor(fila, textos)));
+        }
+
+        TieneRanking = FilasRanking.Count > 0;
+        SumaExcedeMedido = ranking.Estado == EstadoRanking.SumaExcedeMedido;
+        TieneSinIdentificar = ranking.SinIdentificar is not null;
+        SinIdentificarTexto = ranking.SinIdentificar is decimal sinIdentificar
+            ? FormatoRanking.Porcentaje(sinIdentificar, textos)
+            : string.Empty;
+        TextoRanking = ranking.KwhMedidoPorMes is decimal medido && ranking.Estado != EstadoRanking.SinConsumoMedido
+            ? textos.Formato("Ranking_Medido", medido)
+            : textos["Ranking_SinConsumo"];
     }
 
     partial void OnNombreChanged(string value) => ProgramarValidacion();

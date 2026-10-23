@@ -20,6 +20,11 @@ public interface IAparatoService
     Task<bool> EliminarAsync(int id, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Aparatos del lugar de mayor a menor consumo, con su porcentaje del consumo mensual medido.
+    /// </summary>
+    Task<RankingAparatos> ObtenerRankingAsync(int lugarId, DateOnly hoy, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Valores típicos para empezar a capturar (de ejemplo, no de la etiqueta del aparato).
     /// </summary>
     IReadOnlyList<PlantillaAparato> PlantillasDeReferencia();

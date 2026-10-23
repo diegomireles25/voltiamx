@@ -156,4 +156,68 @@ public sealed class AparatoServiceTests : IAsyncLifetime
             Assert.Empty(AparatoValidador.Validar(editable));
         }
     }
+
+    // 1 kW × 24 h × 7 días × 52/12 = 728 kWh al mes; con ciclo 0.25 → 182 y con 0.125 → 91.
+    private static AparatoEditable DeUnKilowatt(int lugarId, string nombre, decimal ciclo) => new(
+        null, lugarId, nombre, CategoriaAparato.Otro, 1, 1_000m, 24m, 7, ciclo);
+
+    private async Task AgregarPeriodoAsync(int lugarId, decimal kwh)
+    {
+        await using var db = _fabrica.CreateDbContext();
+        db.Periodos.Add(new Periodo { LugarId = lugarId, Inicio = new(2026, 7, 2), Fin = new(2026, 9, 1), KwhTotales = kwh });
+        await db.SaveChangesAsync();
+    }
+
+    [Fact]
+    public async Task ObtenerRankingAsync_CuentaAMano_ContraElUltimoPeriodoCerrado()
+    {
+        // Periodo bimestral de 728 kWh = 364 al mes: 182 / 364 = 50 %, 91 / 364 = 25 %, 25 % sin identificar.
+        var lugarId = await CrearLugarAsync("Mi casa");
+        await AgregarPeriodoAsync(lugarId, 728m);
+        await _servicio.GuardarAsync(DeUnKilowatt(lugarId, "Lavadora", 0.125m));
+        await _servicio.GuardarAsync(DeUnKilowatt(lugarId, "Aire", 0.25m));
+
+        var ranking = await _servicio.ObtenerRankingAsync(lugarId, new DateOnly(2026, 10, 19));
+
+        Assert.Equal(EstadoRanking.Normal, ranking.Estado);
+        Assert.Equal(364m, ranking.KwhMedidoPorMes);
+        Assert.Equal(["Aire", "Lavadora"], ranking.Filas.Select(f => f.Nombre));
+        Assert.Equal([0.5m, 0.25m], ranking.Filas.Select(f => Math.Round(f.Porcentaje!.Value, 4)));
+        Assert.Equal(0.25m, Math.Round(ranking.SinIdentificar!.Value, 4));
+    }
+
+    [Fact]
+    public async Task ObtenerRankingAsync_SinAparatos()
+    {
+        var lugarId = await CrearLugarAsync("Mi casa");
+        await AgregarPeriodoAsync(lugarId, 728m);
+
+        Assert.Equal(EstadoRanking.SinAparatos, (await _servicio.ObtenerRankingAsync(lugarId, new DateOnly(2026, 10, 19))).Estado);
+    }
+
+    [Fact]
+    public async Task ObtenerRankingAsync_LugarSinLecturasNiPeriodos_SinConsumoMedido()
+    {
+        var lugarId = await CrearLugarAsync("Mi casa");
+        await _servicio.GuardarAsync(DeUnKilowatt(lugarId, "Aire", 0.25m));
+
+        var ranking = await _servicio.ObtenerRankingAsync(lugarId, new DateOnly(2026, 10, 19));
+
+        Assert.Equal(EstadoRanking.SinConsumoMedido, ranking.Estado);
+        Assert.Null(Assert.Single(ranking.Filas).Porcentaje);
+    }
+
+    [Fact]
+    public async Task ObtenerRankingAsync_SoloCuentaLosAparatosDelLugar()
+    {
+        var casa = await CrearLugarAsync("Mi casa");
+        var local = await CrearLugarAsync("Local");
+        await AgregarPeriodoAsync(casa, 728m);
+        await _servicio.GuardarAsync(DeUnKilowatt(casa, "Aire", 0.25m));
+        await _servicio.GuardarAsync(DeUnKilowatt(local, "Horno", 1m));
+
+        var ranking = await _servicio.ObtenerRankingAsync(casa, new DateOnly(2026, 10, 19));
+
+        Assert.Equal(["Aire"], ranking.Filas.Select(f => f.Nombre));
+    }
 }

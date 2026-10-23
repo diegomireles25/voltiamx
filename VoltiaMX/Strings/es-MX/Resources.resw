@@ -885,21 +885,6 @@
   <data name="Dashboard_AparatosVacio.Text" xml:space="preserve">
     <value>Agrega tus aparatos para ver cuáles gastan más</value>
   </data>
-  <data name="Dashboard_AparatosProximamente.Content" xml:space="preserve">
-    <value>Próximamente</value>
-  </data>
-  <data name="Demo_AparatoAire" xml:space="preserve">
-    <value>Aire acondicionado</value>
-  </data>
-  <data name="Demo_AparatoRefrigerador" xml:space="preserve">
-    <value>Refrigerador</value>
-  </data>
-  <data name="Demo_AparatoLavadora" xml:space="preserve">
-    <value>Lavadora</value>
-  </data>
-  <data name="Demo_AparatoIluminacion" xml:space="preserve">
-    <value>Iluminación</value>
-  </data>
 
   <!-- Dashboard: cierre -->
   <data name="Dashboard_CierreTitulo.Text" xml:space="preserve">
@@ -1804,5 +1789,32 @@
   </data>
   <data name="Aparatos_AyudaCampos.Text" xml:space="preserve">
     <value>La potencia viene en la etiqueta o en el manual del aparato. El ciclo de trabajo es la fracción del tiempo encendido en que consume esa potencia: 1 si no se apaga solo.</value>
+  </data>
+  <data name="Dashboard_AgregarAparatos.Content" xml:space="preserve">
+    <value>Agregar aparatos</value>
+  </data>
+  <data name="Dashboard_VerTodosAparatos.Content" xml:space="preserve">
+    <value>Ver todos</value>
+  </data>
+  <data name="Ranking_Titulo.Text" xml:space="preserve">
+    <value>RANKING</value>
+  </data>
+  <data name="Ranking_Medido" xml:space="preserve">
+    <value>Porcentaje de lo que mide tu medidor: {0:N0} kWh al mes.</value>
+  </data>
+  <data name="Ranking_SinConsumo" xml:space="preserve">
+    <value>Todavía no hay consumo medido: con dos lecturas o un periodo cerrado verás porcentajes. Mientras, ves los kWh al mes estimados de cada aparato.</value>
+  </data>
+  <data name="Ranking_SinConsumoCorto" xml:space="preserve">
+    <value>Sin consumo medido todavía: son kWh al mes estimados.</value>
+  </data>
+  <data name="Ranking_SinIdentificar.Text" xml:space="preserve">
+    <value>SIN IDENTIFICAR</value>
+  </data>
+  <data name="Ranking_SumaExcedeTexto.Text" xml:space="preserve">
+    <value>Tus aparatos suman más de lo que mide tu medidor: revisa potencias y horas.</value>
+  </data>
+  <data name="Ranking_SumaExcede" xml:space="preserve">
+    <value>Tus aparatos suman más de lo que mide tu medidor: revisa potencias y horas.</value>
   </data>
 </root>

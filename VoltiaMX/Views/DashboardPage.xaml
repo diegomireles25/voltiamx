@@ -369,9 +369,9 @@
                         <TextBlock x:Uid="Dashboard_AparatosTitulo" Style="{StaticResource DisplayTextStyle}" />
                         <Button x:Uid="Dashboard_Simular" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource TextLinkButtonStyle}" />
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}">
+                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneAparatos), Mode=OneWay}">
                         <Border Style="{StaticResource HairlineListStyle}">
-                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.AparatosDemo}">
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Aparatos}">
                                 <ItemsRepeater.ItemTemplate>
                                     <DataTemplate x:DataType="vm:FilaDetalle">
                                         <Border Style="{StaticResource HairlineRowStyle}">
@@ -384,10 +384,20 @@
                                 </ItemsRepeater.ItemTemplate>
                             </ItemsRepeater>
                         </Border>
+                        <TextBlock
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            Text="{x:Bind ViewModel.AvisoAparatos, Mode=OneWay}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.AvisoAparatos), Mode=OneWay}" />
+                        <Button
+                            x:Uid="Dashboard_VerTodosAparatos"
+                            Command="{x:Bind ViewModel.IrAAparatosCommand}"
+                            Style="{StaticResource TextLinkButtonStyle}" />
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.EsDemo), Mode=OneWay}">
+                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneAparatos), Mode=OneWay}">
                         <TextBlock x:Uid="Dashboard_AparatosVacio" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodyTextStyle}" />
-                        <Button x:Uid="Dashboard_AparatosProximamente" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource GhostButtonStyle}" />
+                        <Button x:Uid="Dashboard_AgregarAparatos" Command="{x:Bind ViewModel.IrAAparatosCommand}" Style="{StaticResource GhostButtonStyle}" />
                     </StackPanel>
                 </Grid>
             </StackPanel>

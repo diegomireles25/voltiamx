@@ -162,4 +162,44 @@ public sealed class DatosDemoServiceTests : IAsyncLifetime
         Assert.Equal(1, await verificacion.Periodos.CountAsync());
         Assert.Equal(0, await verificacion.Lecturas.CountAsync());
     }
+
+    [Fact]
+    public async Task CargarAsync_CreaLosCuatroAparatosDeLaDemo()
+    {
+        await _servicio.CargarAsync(Hoy);
+
+        await using var db = _fabrica.CreateDbContext();
+        var nombres = await db.Aparatos.Where(a => a.Lugar!.EsDemo).Select(a => a.Nombre).OrderBy(n => n).ToListAsync();
+        Assert.Equal(["Aire acondicionado", "Iluminación", "Lavadora", "Refrigerador"], nombres);
+    }
+
+    [Fact]
+    public async Task CargarAsync_ElRankingDeLaDemoDa46_19_9Y8PorCiento()
+    {
+        await _servicio.CargarAsync(Hoy);
+        var lugar = await LugarDemoAsync();
+
+        var ranking = await new AparatoService(_fabrica).ObtenerRankingAsync(lugar.Id, Hoy);
+
+        Assert.Equal(EstadoRanking.Normal, ranking.Estado);
+        Assert.Equal(["Aire acondicionado", "Refrigerador", "Lavadora", "Iluminación"], ranking.Filas.Select(f => f.Nombre));
+        var esperados = new[] { 0.46m, 0.19m, 0.09m, 0.08m };
+        for (var i = 0; i < esperados.Length; i++)
+        {
+            Assert.InRange(ranking.Filas[i].Porcentaje!.Value, esperados[i] - 0.02m, esperados[i] + 0.02m);
+        }
+
+        Assert.InRange(ranking.SinIdentificar!.Value, 0.16m, 0.20m);
+    }
+
+    [Fact]
+    public async Task QuitarAsync_BorraLosAparatosDeLaDemo()
+    {
+        await _servicio.CargarAsync(Hoy);
+
+        await _servicio.QuitarAsync();
+
+        await using var db = _fabrica.CreateDbContext();
+        Assert.Equal(0, await db.Aparatos.CountAsync());
+    }
 }

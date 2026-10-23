@@ -15,6 +15,16 @@ public sealed class DatosDemoService(IDbContextFactory<VoltiaDbContext> fabrica,
     // kWh por bimestre, del más antiguo al más reciente: doce meses, lo que pide el cálculo DAC.
     private static readonly decimal[] KwhPorBimestre = [820m, 764m, 912m, 1_046m, 871m, 718m]; // EJEMPLO
 
+    // Calibrados para que, contra el consumo medido de la demo (17.2 kWh al día ≈ 525 kWh al mes),
+    // el ranking quede cerca de 46 %, 19 %, 9 % y 8 % y ~18 % sin identificar.
+    private static List<Aparato> Aparatos() =>
+    [
+        new() { Nombre = "Aire acondicionado", Categoria = CategoriaAparato.Climatizacion, Cantidad = 1, Watts = 1_100m, HorasPorDia = 8m, DiasPorSemana = 7, CicloDeTrabajo = 0.9m }, // EJEMPLO
+        new() { Nombre = "Refrigerador", Categoria = CategoriaAparato.Refrigeracion, Cantidad = 1, Watts = 250m, HorasPorDia = 24m, DiasPorSemana = 7, CicloDeTrabajo = 0.55m }, // EJEMPLO
+        new() { Nombre = "Lavadora", Categoria = CategoriaAparato.Lavado, Cantidad = 1, Watts = 2_200m, HorasPorDia = 1m, DiasPorSemana = 5, CicloDeTrabajo = 1m }, // EJEMPLO
+        new() { Nombre = "Iluminación", Categoria = CategoriaAparato.Iluminacion, Cantidad = 20, Watts = 10m, HorasPorDia = 7m, DiasPorSemana = 7, CicloDeTrabajo = 1m }, // EJEMPLO
+    ];
+
     public async Task<bool> HayDemoAsync(CancellationToken cancellationToken = default)
     {
         await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
@@ -50,6 +60,7 @@ public sealed class DatosDemoService(IDbContextFactory<VoltiaDbContext> fabrica,
             EsDemo = true,
             Periodos = PeriodosCerrados(cortes, tarifa),
             Lecturas = [.. LecturasDeCorte(cortes), .. LecturasDelPeriodoActual(ultimoCorte, hoy)],
+            Aparatos = Aparatos(),
         };
 
         db.Lugares.Add(lugar);
