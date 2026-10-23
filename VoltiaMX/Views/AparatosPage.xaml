@@ -333,6 +333,7 @@
                                                 VerticalAlignment="Center"
                                                 Orientation="Horizontal"
                                                 Spacing="{StaticResource Spacing16}">
+                                                <Button x:Uid="Aparatos_Simular" Command="{x:Bind Simular}" Style="{StaticResource TextLinkButtonSmStyle}" />
                                                 <Button x:Uid="Aparatos_Editar" Command="{x:Bind Editar}" Style="{StaticResource TextLinkButtonSmStyle}" />
                                                 <Button x:Uid="Aparatos_Eliminar" Command="{x:Bind Eliminar}" Style="{StaticResource TextLinkButtonSmStyle}" />
                                             </StackPanel>

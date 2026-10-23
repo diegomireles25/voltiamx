@@ -120,6 +120,19 @@ public sealed partial class DashboardViewModel(
     private void IrAAparatos() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Aparatos));
 
     /// <summary>
+    /// "Simular cuánto ahorrarías": solo con el módulo Aparatos activo y al menos un aparato.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(IrASimuladorCommand))]
+    public partial bool PuedeSimular { get; set; }
+
+    [ObservableProperty] public partial string TextoSimular { get; set; } = string.Empty;
+
+    [RelayCommand(CanExecute = nameof(PuedeSimular))]
+    private void IrASimulador()
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Aparatos, SeccionesAparatos.Simulador));
+
+    /// <summary>
     /// Los botones que llevan a módulos que todavía no existen se ven deshabilitados.
     /// </summary>
     public bool AccionesPendientesHabilitadas => false;
@@ -359,7 +372,8 @@ public sealed partial class DashboardViewModel(
         var lugar = MostrarAparatos ? await lecturas.ObtenerLugarPrincipalAsync() : null;
         if (lugar is null)
         {
-            TieneAparatos = false;
+            TieneAparatos = PuedeSimular = false;
+            TextoSimular = textos["Dashboard_SimularProximamente"];
             return;
         }
 
@@ -370,6 +384,8 @@ public sealed partial class DashboardViewModel(
         }
 
         TieneAparatos = Aparatos.Count > 0;
+        PuedeSimular = TieneAparatos;
+        TextoSimular = textos[PuedeSimular ? "Dashboard_Simular" : "Dashboard_SimularProximamente"];
         AvisoAparatos = ranking.Estado switch
         {
             EstadoRanking.SumaExcedeMedido => textos["Ranking_SumaExcede"],

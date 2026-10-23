@@ -879,9 +879,6 @@
   <data name="Dashboard_AparatosTitulo.Text" xml:space="preserve">
     <value>QUÉ GASTA MÁS</value>
   </data>
-  <data name="Dashboard_Simular.Content" xml:space="preserve">
-    <value>Simular cuánto ahorrarías</value>
-  </data>
   <data name="Dashboard_AparatosVacio.Text" xml:space="preserve">
     <value>Agrega tus aparatos para ver cuáles gastan más</value>
   </data>
@@ -1816,5 +1813,161 @@
   </data>
   <data name="Ranking_SumaExcede" xml:space="preserve">
     <value>Tus aparatos suman más de lo que mide tu medidor: revisa potencias y horas.</value>
+  </data>
+  <data name="Dashboard_Simular" xml:space="preserve">
+    <value>Simular cuánto ahorrarías</value>
+  </data>
+  <data name="Dashboard_SimularProximamente" xml:space="preserve">
+    <value>Simular cuánto ahorrarías · Próximamente</value>
+  </data>
+  <data name="Aparatos_Simular.Content" xml:space="preserve">
+    <value>Simular</value>
+  </data>
+  <data name="Simulador_VolverAparatos.Content" xml:space="preserve">
+    <value>Volver a aparatos</value>
+  </data>
+  <data name="Simulador_Titulo.Text" xml:space="preserve">
+    <value>SIMULADOR</value>
+  </data>
+  <data name="Simulador_NotaDatos.Text" xml:space="preserve">
+    <value>El resultado vale lo que valen la potencia y las horas que capturaste en Aparatos. No se guarda nada.</value>
+  </data>
+  <data name="Simulador_NotaIva.Text" xml:space="preserve">
+    <value>Los pesos salen de los rangos de tu tarifa con tu consumo medido, sin IVA ni DAP.</value>
+  </data>
+  <data name="Simulador_VacioTitulo.Text" xml:space="preserve">
+    <value>Agrega un aparato para simular</value>
+  </data>
+  <data name="Simulador_VacioTexto.Text" xml:space="preserve">
+    <value>El simulador trabaja sobre los aparatos que capturaste, con su potencia y sus horas.</value>
+  </data>
+  <data name="Simulador_IrAAparatos.Content" xml:space="preserve">
+    <value>Ir a Aparatos</value>
+  </data>
+  <data name="Simulador_Aparato.Header" xml:space="preserve">
+    <value>Aparato</value>
+  </data>
+  <data name="Simulador_OpcionAparato" xml:space="preserve">
+    <value>{0} · {1:N1} kWh/mes</value>
+  </data>
+  <data name="Simulador_EscenarioTitulo.Text" xml:space="preserve">
+    <value>¿Qué quieres probar?</value>
+  </data>
+  <data name="Simulador_MenosHoras.Content" xml:space="preserve">
+    <value>Usar menos horas</value>
+  </data>
+  <data name="Simulador_Eficiente.Content" xml:space="preserve">
+    <value>Cambiar por un equipo más eficiente</value>
+  </data>
+  <data name="Simulador_Horas.Header" xml:space="preserve">
+    <value>Horas al día</value>
+  </data>
+  <data name="Simulador_Dias.Header" xml:space="preserve">
+    <value>Días a la semana</value>
+  </data>
+  <data name="Simulador_Watts.Header" xml:space="preserve">
+    <value>Potencia del equipo nuevo (W)</value>
+  </data>
+  <data name="Simulador_Ciclo.Header" xml:space="preserve">
+    <value>Ciclo de trabajo (opcional)</value>
+  </data>
+  <data name="Simulador_Precio.Header" xml:space="preserve">
+    <value>Precio del equipo (opcional)</value>
+  </data>
+  <data name="Simulador_AyudaEficiente.Text" xml:space="preserve">
+    <value>Usa la potencia de la etiqueta del equipo nuevo. Sin ciclo de trabajo se usa el del aparato actual; sin precio no se calcula la recuperación.</value>
+  </data>
+  <data name="Simulador_Error_HorasFueraDeRango" xml:space="preserve">
+    <value>Las horas al día deben ser más de 0 y hasta 24.</value>
+  </data>
+  <data name="Simulador_Error_DiasFueraDeRango" xml:space="preserve">
+    <value>Los días a la semana van de 1 a 7.</value>
+  </data>
+  <data name="Simulador_Error_WattsFueraDeRango" xml:space="preserve">
+    <value>La potencia debe ser mayor que 0 y de hasta 20,000 W.</value>
+  </data>
+  <data name="Simulador_Error_CicloFueraDeRango" xml:space="preserve">
+    <value>El ciclo de trabajo va de 0.05 a 1.</value>
+  </data>
+  <data name="Simulador_Error_PrecioNegativo" xml:space="preserve">
+    <value>El precio del equipo no puede ser negativo.</value>
+  </data>
+  <data name="Simulador_LeyendaAhorroMes" xml:space="preserve">
+    <value>AHORRO AL MES · SIN IVA NI DAP</value>
+  </data>
+  <data name="Simulador_LeyendaPagariasMas" xml:space="preserve">
+    <value>PAGARÍAS DE MÁS AL MES · SIN IVA NI DAP</value>
+  </data>
+  <data name="Simulador_CifraKwh" xml:space="preserve">
+    <value>{0:N1} KWH</value>
+  </data>
+  <data name="Simulador_LeyendaKwhMenos" xml:space="preserve">
+    <value>KWH MENOS AL MES</value>
+  </data>
+  <data name="Simulador_LeyendaKwhMas" xml:space="preserve">
+    <value>KWH MÁS AL MES</value>
+  </data>
+  <data name="Simulador_FilaAhorroAnio" xml:space="preserve">
+    <value>Ahorro al año</value>
+  </data>
+  <data name="Simulador_FilaPagariasMasAnio" xml:space="preserve">
+    <value>Pagarías de más al año</value>
+  </data>
+  <data name="Simulador_FilaAhorroPeriodoMes" xml:space="preserve">
+    <value>En tu recibo mensual</value>
+  </data>
+  <data name="Simulador_FilaAhorroPeriodoBimestre" xml:space="preserve">
+    <value>En tu recibo bimestral</value>
+  </data>
+  <data name="Simulador_FilaKwhAntes" xml:space="preserve">
+    <value>Este aparato hoy</value>
+  </data>
+  <data name="Simulador_FilaKwhDespues" xml:space="preserve">
+    <value>Con el cambio</value>
+  </data>
+  <data name="Simulador_FilaRecuperacion" xml:space="preserve">
+    <value>Recuperas el equipo en</value>
+  </data>
+  <data name="Simulador_MesesRecuperacion" xml:space="preserve">
+    <value>{0:N1} meses</value>
+  </data>
+  <data name="Simulador_MasDe10Anios" xml:space="preserve">
+    <value>Más de 10 años</value>
+  </data>
+  <data name="Simulador_SinPrecio" xml:space="preserve">
+    <value>No hay precio del equipo</value>
+  </data>
+  <data name="Simulador_NoSeRecupera" xml:space="preserve">
+    <value>No se recupera: no hay ahorro en pesos</value>
+  </data>
+  <data name="Simulador_NotaRecuperacion.Text" xml:space="preserve">
+    <value>La recuperación no supone cambios en los precios de CFE ni la vida útil del equipo.</value>
+  </data>
+  <data name="Simulador_DacTitulo.Text" xml:space="preserve">
+    <value>RIESGO DAC · ESTIMACIÓN</value>
+  </data>
+  <data name="Simulador_DacAntes.Text" xml:space="preserve">
+    <value>Hoy</value>
+  </data>
+  <data name="Simulador_DacDespues.Text" xml:space="preserve">
+    <value>Con el cambio</value>
+  </data>
+  <data name="Simulador_DacPromedio" xml:space="preserve">
+    <value>{0:N0} kWh/mes promedio</value>
+  </data>
+  <data name="EstadoSimulacion_SinConsumoMedido" xml:space="preserve">
+    <value>Sin consumo medido no hay pesos: con dos lecturas o un periodo cerrado se calculan con tu tarifa. Mientras, ves los kWh.</value>
+  </data>
+  <data name="EstadoSimulacion_AhorroExcedeConsumo" xml:space="preserve">
+    <value>El ahorro de este aparato es mayor que lo que mide tu medidor: se limitó a tu consumo. Revisa su potencia y horas en Aparatos.</value>
+  </data>
+  <data name="EstadoSimulacion_ConsumiriasMas" xml:space="preserve">
+    <value>Con este cambio el aparato consumiría más, no menos.</value>
+  </data>
+  <data name="Simulador_FilaMasPeriodoMes" xml:space="preserve">
+    <value>De más en tu recibo mensual</value>
+  </data>
+  <data name="Simulador_FilaMasPeriodoBimestre" xml:space="preserve">
+    <value>De más en tu recibo bimestral</value>
   </data>
 </root>

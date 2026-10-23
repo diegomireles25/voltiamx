@@ -367,7 +367,10 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Spacing="{StaticResource Spacing16}">
                         <TextBlock x:Uid="Dashboard_AparatosTitulo" Style="{StaticResource DisplayTextStyle}" />
-                        <Button x:Uid="Dashboard_Simular" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource TextLinkButtonStyle}" />
+                        <Button
+                            Command="{x:Bind ViewModel.IrASimuladorCommand}"
+                            Content="{x:Bind ViewModel.TextoSimular, Mode=OneWay}"
+                            Style="{StaticResource TextLinkButtonStyle}" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneAparatos), Mode=OneWay}">
                         <Border Style="{StaticResource HairlineListStyle}">

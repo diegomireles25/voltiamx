@@ -33,3 +33,27 @@ public static class SeccionesConfiguracion
 {
     public const string Tarifas = "Tarifas";
 }
+
+/// <summary>
+/// Secciones del módulo Aparatos. El simulador no es un módulo del menú: se abre bajo Aparatos.
+/// </summary>
+public static class SeccionesAparatos
+{
+    public const string Simulador = "Simulador";
+
+    private const string PrefijoSimulador = Simulador + ":";
+
+    /// <summary>
+    /// El simulador con el aparato ya elegido.
+    /// </summary>
+    public static string SimuladorDe(int aparatoId) => PrefijoSimulador + aparatoId;
+
+    public static bool EsSimulador(string? seccion)
+        => seccion == Simulador || seccion?.StartsWith(PrefijoSimulador, StringComparison.Ordinal) == true;
+
+    public static int? AparatoDe(string? seccion)
+        => seccion?.StartsWith(PrefijoSimulador, StringComparison.Ordinal) == true
+            && int.TryParse(seccion[PrefijoSimulador.Length..], out var id)
+                ? id
+                : null;
+}

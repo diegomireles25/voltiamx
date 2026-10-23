@@ -29,7 +29,13 @@ public sealed record OpcionPlantilla(PlantillaAparato Plantilla, string Texto)
 /// Fila de "Tus aparatos" con sus enlaces.
 /// </summary>
 public sealed record FilaAparato(
-    string Nombre, string Categoria, string Detalle, string KwhTexto, IRelayCommand Editar, IAsyncRelayCommand Eliminar);
+    string Nombre,
+    string Categoria,
+    string Detalle,
+    string KwhTexto,
+    IRelayCommand Editar,
+    IAsyncRelayCommand Eliminar,
+    IRelayCommand Simular);
 
 /// <summary>
 /// Aparatos del lugar principal: lista, alta desde plantilla o a mano y editor en la misma página.
@@ -128,7 +134,9 @@ public sealed partial class AparatosViewModel(
                 textos.Formato("Aparatos_Detalle", aparato.Cantidad, aparato.Watts, aparato.HorasPorDia, aparato.DiasPorSemana),
                 textos.Formato("Aparatos_KwhMes", ConsumoAparato.KwhPorMes(aparato)),
                 new RelayCommand(() => Editar(id)),
-                new AsyncRelayCommand(() => EliminarAsync(id, nombre))));
+                new AsyncRelayCommand(() => EliminarAsync(id, nombre)),
+                new RelayCommand(() => WeakReferenceMessenger.Default.Send(
+                    new IrAModuloMensaje(ModuloApp.Aparatos, SeccionesAparatos.SimuladorDe(id))))));
         }
 
         TieneAparatos = Filas.Count > 0;

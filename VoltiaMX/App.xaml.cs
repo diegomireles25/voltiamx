@@ -95,6 +95,7 @@ namespace VoltiaMX
             servicios.AddSingleton<IHistorialService, HistorialService>();
             servicios.AddSingleton<IValidadorRecibo, ValidadorRecibo>();
             servicios.AddSingleton<IAparatoService, AparatoService>();
+            servicios.AddSingleton<ISimuladorAhorroService, SimuladorAhorroService>();
 
             // Servicios de UI
             servicios.AddSingleton<ITextos, TextosRecursos>();
@@ -115,6 +116,7 @@ namespace VoltiaMX
             servicios.AddTransient<TarifasViewModel>();
             servicios.AddTransient<TarifaEditorViewModel>();
             servicios.AddTransient<AparatosViewModel>();
+            servicios.AddTransient<SimuladorViewModel>();
 
             return builder.Build();
         }
