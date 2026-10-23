@@ -29,6 +29,9 @@ public sealed class NavegacionShell : INavegacionShell
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Predictor:
                 IrA(typeof(PredictorPage));
                 break;
+            case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Metas:
+                IrA(typeof(MetasPage));
+                break;
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Aparatos:
                 if (SeccionesAparatos.EsSimulador(seccion))
                 {

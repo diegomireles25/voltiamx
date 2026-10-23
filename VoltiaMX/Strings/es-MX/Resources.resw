@@ -1970,4 +1970,175 @@
   <data name="Simulador_FilaMasPeriodoBimestre" xml:space="preserve">
     <value>De más en tu recibo bimestral</value>
   </data>
+  <data name="Metas_Titulo.Text" xml:space="preserve">
+    <value>METAS</value>
+  </data>
+  <data name="Metas_Explicacion.Text" xml:space="preserve">
+    <value>Reducir tu consumo contra el periodo anterior. Todo en kWh, con tus lecturas.</value>
+  </data>
+  <data name="Metas_VacioTitulo.Text" xml:space="preserve">
+    <value>Crea tu meta</value>
+  </data>
+  <data name="Metas_VacioTexto.Text" xml:space="preserve">
+    <value>Elige cuánto quieres bajar tu consumo contra el periodo anterior. La meta se repite cada periodo.</value>
+  </data>
+  <data name="Metas_Porcentaje.Header" xml:space="preserve">
+    <value>Porcentaje a reducir (1 a 50)</value>
+  </data>
+  <data name="Metas_Crear.Content" xml:space="preserve">
+    <value>Crear meta</value>
+  </data>
+  <data name="Metas_GuardarCambio.Content" xml:space="preserve">
+    <value>Guardar porcentaje</value>
+  </data>
+  <data name="Metas_CancelarCambio.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Metas_MetaActual" xml:space="preserve">
+    <value>Tu meta: consumir {0}% menos que el periodo anterior.</value>
+  </data>
+  <data name="EstadoMeta_Cumpliendo" xml:space="preserve">
+    <value>VAS CUMPLIENDO</value>
+  </data>
+  <data name="EstadoMeta_EnRiesgo" xml:space="preserve">
+    <value>EN RIESGO</value>
+  </data>
+  <data name="EstadoMeta_Superada" xml:space="preserve">
+    <value>SUPERADA</value>
+  </data>
+  <data name="EstadoMeta_SinBase" xml:space="preserve">
+    <value>SIN PERIODO ANTERIOR</value>
+  </data>
+  <data name="EstadoMeta_SinConsumoMedido" xml:space="preserve">
+    <value>SIN LECTURAS</value>
+  </data>
+  <data name="EstadoMeta_Inactiva" xml:space="preserve">
+    <value>INACTIVA</value>
+  </data>
+  <data name="Metas_SinBaseTitulo" xml:space="preserve">
+    <value>Todavía no hay periodo anterior</value>
+  </data>
+  <data name="Metas_SinBaseTexto" xml:space="preserve">
+    <value>La meta se compara con tu último periodo cerrado. Un periodo se cierra al capturar la lectura de su fecha de corte.</value>
+  </data>
+  <data name="Metas_SinConsumoMedidoTitulo" xml:space="preserve">
+    <value>Falta la lectura de este periodo</value>
+  </data>
+  <data name="Metas_SinConsumoMedidoTexto" xml:space="preserve">
+    <value>Para saber cuánto llevas, captura la lectura del corte y otra de hoy.</value>
+  </data>
+  <data name="Metas_IrALecturas.Content" xml:space="preserve">
+    <value>Ir a Lecturas</value>
+  </data>
+  <data name="Metas_KwhPorDia" xml:space="preserve">
+    <value>{0:N1} KWH AL DÍA</value>
+  </data>
+  <data name="Metas_LeyendaKwhPorDia" xml:space="preserve">
+    <value>Es lo que puedes gastar al día de aquí al corte para lograr tu meta.</value>
+  </data>
+  <data name="Metas_LeyendaSuperada" xml:space="preserve">
+    <value>Ya pasaste el objetivo de este periodo; la meta vuelve a medirse en el siguiente.</value>
+  </data>
+  <data name="Metas_Progreso.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Consumido hasta hoy contra el objetivo del periodo</value>
+  </data>
+  <data name="Metas_ProgresoTexto" xml:space="preserve">
+    <value>{0:N0} DE {1:N0} KWH DEL OBJETIVO</value>
+  </data>
+  <data name="Metas_FilaBase" xml:space="preserve">
+    <value>Periodo anterior (base)</value>
+  </data>
+  <data name="Metas_FilaObjetivo" xml:space="preserve">
+    <value>Objetivo de este periodo</value>
+  </data>
+  <data name="Metas_FilaConsumido" xml:space="preserve">
+    <value>Consumido hasta hoy</value>
+  </data>
+  <data name="Metas_FilaProyectado" xml:space="preserve">
+    <value>Proyección al cierre</value>
+  </data>
+  <data name="Metas_FilaPesos" xml:space="preserve">
+    <value>El objetivo en tu recibo, sin IVA ni DAP</value>
+  </data>
+  <data name="Metas_FilaRacha" xml:space="preserve">
+    <value>Racha</value>
+  </data>
+  <data name="Metas_Racha0" xml:space="preserve">
+    <value>Sin periodos cumplidos seguidos</value>
+  </data>
+  <data name="Metas_Racha1" xml:space="preserve">
+    <value>1 periodo cumplido</value>
+  </data>
+  <data name="Metas_Racha" xml:space="preserve">
+    <value>{0} periodos cumplidos seguidos</value>
+  </data>
+  <data name="Metas_BaseEstimada" xml:space="preserve">
+    <value>Tu periodo anterior es estimado (su lectura de corte se calculó), así que el objetivo también lo es.</value>
+  </data>
+  <data name="Metas_Reduccion" xml:space="preserve">
+    <value>{0:0.0'% menos';0.0'% más';'Igual'}</value>
+  </data>
+  <data name="Metas_Cumplida" xml:space="preserve">
+    <value>CUMPLIDA</value>
+  </data>
+  <data name="Metas_NoCumplida" xml:space="preserve">
+    <value>NO CUMPLIDA</value>
+  </data>
+  <data name="Metas_HistorialTitulo.Text" xml:space="preserve">
+    <value>HISTORIAL</value>
+  </data>
+  <data name="Metas_HistorialVacio.Text" xml:space="preserve">
+    <value>Todavía no cierra ningún periodo desde que creaste la meta.</value>
+  </data>
+  <data name="Metas_CambiarPorcentaje.Content" xml:space="preserve">
+    <value>Cambiar porcentaje</value>
+  </data>
+  <data name="Metas_Desactivar.Content" xml:space="preserve">
+    <value>Desactivar meta</value>
+  </data>
+  <data name="Metas_DesactivarTitulo" xml:space="preserve">
+    <value>Desactivar meta</value>
+  </data>
+  <data name="Metas_DesactivarTexto" xml:space="preserve">
+    <value>La meta deja de medirse. Puedes crearla de nuevo cuando quieras; empezará a contar desde ese día.</value>
+  </data>
+  <data name="Metas_DesactivarConfirmar" xml:space="preserve">
+    <value>Desactivar</value>
+  </data>
+  <data name="Metas_Creada" xml:space="preserve">
+    <value>Meta creada: {0}% menos que el periodo anterior.</value>
+  </data>
+  <data name="Metas_Cambiada" xml:space="preserve">
+    <value>Meta cambiada a {0}%.</value>
+  </data>
+  <data name="Metas_Desactivada" xml:space="preserve">
+    <value>Meta desactivada.</value>
+  </data>
+  <data name="Meta_Error_PorcentajeFueraDeRango" xml:space="preserve">
+    <value>El porcentaje va de 1 a 50.</value>
+  </data>
+  <data name="Dashboard_MetaCumpliendo" xml:space="preserve">
+    <value>Vas cumpliendo tu meta del {0}%: puedes gastar {1:N1} kWh al día.</value>
+  </data>
+  <data name="Dashboard_MetaEnRiesgo" xml:space="preserve">
+    <value>Tu meta del {0}% está en riesgo: para lograrla, gasta máximo {1:N1} kWh al día.</value>
+  </data>
+  <data name="Dashboard_MetaSuperada" xml:space="preserve">
+    <value>Ya pasaste el objetivo de tu meta del {0}% en este periodo.</value>
+  </data>
+  <data name="Dashboard_MetaSinBase" xml:space="preserve">
+    <value>Tu meta empieza a medirse cuando cierre tu primer periodo.</value>
+  </data>
+  <data name="Dashboard_MetaSinConsumoMedido" xml:space="preserve">
+    <value>Captura una lectura para ver cómo va tu meta.</value>
+  </data>
+  <data name="Dashboard_MetaSinMeta" xml:space="preserve">
+    <value>Reduce tu consumo contra el periodo anterior.</value>
+  </data>
+  <data name="Dashboard_VerMeta" xml:space="preserve">
+    <value>Ver meta</value>
+  </data>
+  <data name="Dashboard_CrearMeta" xml:space="preserve">
+    <value>Crear meta</value>
+  </data>
 </root>

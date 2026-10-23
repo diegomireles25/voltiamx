@@ -313,7 +313,12 @@
                         <Border Style="{StaticResource EstadoRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarMeta), Mode=OneWay}">
                             <StackPanel Spacing="{StaticResource Spacing8}">
                                 <TextBlock x:Uid="Dashboard_Meta" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
-                                <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind ViewModel.TextoMetaObjetivo, Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind ViewModel.TextoMetaObjetivo, Mode=OneWay}" TextWrapping="Wrap" />
+                                <Button
+                                    Command="{x:Bind ViewModel.IrAMetasCommand}"
+                                    Content="{x:Bind ViewModel.TextoEnlaceMeta, Mode=OneWay}"
+                                    Style="{StaticResource TextLinkButtonSmStyle}"
+                                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.TextoEnlaceMeta), Mode=OneWay}" />
                             </StackPanel>
                         </Border>
                     </StackPanel>

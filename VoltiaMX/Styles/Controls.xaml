@@ -677,6 +677,12 @@
         <Setter Property="Maximum" Value="100" />
     </Style>
 
+    <!-- Sobre una tarjeta negra: avance mint y carril grafito (el avance negro no se vería) -->
+    <Style x:Key="ProgressOnDarkStyle" TargetType="ProgressBar" BasedOn="{StaticResource ProgressStyle}">
+        <Setter Property="Foreground" Value="{StaticResource MintChipBrush}" />
+        <Setter Property="Background" Value="{StaticResource GraphiteBrush}" />
+    </Style>
+
     <!-- Contenedor de filas: aporta la línea superior de la primera fila -->
     <Style x:Key="HairlineListStyle" TargetType="Border">
         <Setter Property="BorderBrush" Value="{StaticResource CarbonBlackBrush}" />

@@ -42,6 +42,7 @@ public sealed partial class DashboardViewModel(
     IPerfilService perfiles,
     IDatosDemoService datosDemo,
     IAparatoService aparatos,
+    IMetaService metas,
     ILecturaService lecturas,
     ITextos textos) : ObservableObject
 {
@@ -167,6 +168,14 @@ public sealed partial class DashboardViewModel(
     [RelayCommand(CanExecute = nameof(PredictorHabilitado))]
     private void IrAPredictor() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Predictor));
 
+    /// <summary>
+    /// Con el módulo Metas activo, la fila META muestra el progreso real y "Ver meta" o "Crear meta".
+    /// </summary>
+    [ObservableProperty] public partial string TextoEnlaceMeta { get; set; } = string.Empty;
+
+    [RelayCommand]
+    private void IrAMetas() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Metas));
+
     [RelayCommand(CanExecute = nameof(LecturasHabilitadas))]
     private void IrAHistorial()
         => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.Historial));
@@ -193,6 +202,11 @@ public sealed partial class DashboardViewModel(
             var resumen = await resumenes.ObtenerAsync(DateOnly.FromDateTime(DateTime.Today));
             AplicarResumen(resumen, perfil?.Objetivo?.Tipo, enPesos);
             await CargarAparatosAsync();
+            TextoEnlaceMeta = string.Empty;
+            if (modulos.Contains(ModuloApp.Metas))
+            {
+                await CargarMetaAsync();
+            }
 
             if (MostrarRentas)
             {
@@ -363,6 +377,33 @@ public sealed partial class DashboardViewModel(
         }
 
         TienePropiedades = Propiedades.Count > 0;
+    }
+
+    // Fila META con la meta del lugar principal; sustituye la comparación del objetivo del onboarding.
+    private async Task CargarMetaAsync()
+    {
+        if (await lecturas.ObtenerLugarPrincipalAsync() is not { } lugar)
+        {
+            return;
+        }
+
+        var progreso = await metas.ObtenerProgresoAsync(lugar.Id, DateOnly.FromDateTime(DateTime.Today));
+        MostrarMeta = true;
+        if (progreso is null || progreso.Estado == EstadoMeta.Inactiva)
+        {
+            TextoMetaObjetivo = textos["Dashboard_MetaSinMeta"];
+            TextoEnlaceMeta = textos["Dashboard_CrearMeta"];
+            return;
+        }
+
+        TextoMetaObjetivo = progreso.Estado switch
+        {
+            EstadoMeta.Cumpliendo or EstadoMeta.EnRiesgo => textos.Formato(
+                $"Dashboard_Meta{progreso.Estado}", progreso.PorcentajeObjetivo, progreso.KwhPorDiaPermitidos ?? 0m),
+            EstadoMeta.Superada => textos.Formato("Dashboard_MetaSuperada", progreso.PorcentajeObjetivo),
+            _ => textos[$"Dashboard_Meta{progreso.Estado}"],
+        };
+        TextoEnlaceMeta = textos["Dashboard_VerMeta"];
     }
 
     private async Task CargarAparatosAsync()

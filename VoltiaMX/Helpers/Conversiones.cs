@@ -43,6 +43,19 @@ public static class Conversiones
             _ => "RiskHighTagStyle",
         }];
 
+    // Meta: Cumpliendo en mint, En riesgo en amarillo, Superada en negro con amarillo.
+    public static Style EstiloEstadoMeta(EstadoMeta estado)
+        => (Style)Application.Current.Resources[estado switch
+        {
+            EstadoMeta.Cumpliendo => "MintTagStyle",
+            EstadoMeta.EnRiesgo => "YellowTagStyle",
+            _ => "RiskHighTagStyle",
+        }];
+
+    // Historial de la meta: CUMPLIDA en mint, NO CUMPLIDA en amarillo.
+    public static Style EstiloCumplida(bool cumplio)
+        => (Style)Application.Current.Resources[cumplio ? "MintTagStyle" : "YellowTagStyle"];
+
     // Recibo explicado del Predictor: la fila del total con más peso.
     public static Style EstiloFilaRecibo(bool esTotal)
         => (Style)Application.Current.Resources[esTotal ? "SubheadingLgTextStyle" : "BodyTextStyle"];
