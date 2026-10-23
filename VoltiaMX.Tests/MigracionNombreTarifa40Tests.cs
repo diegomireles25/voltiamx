@@ -86,7 +86,9 @@ public sealed class MigracionNombreTarifa40Tests
 
         Assert.Empty(await db.Database.GetPendingMigrationsAsync());
         Assert.Equal(conteosAntes, await ContarAsync(conexion));
-        Assert.Equal(indicesAntes, await IndicesUnicosAsync(conexion));
+        // Se migra hasta la última versión: las migraciones posteriores pueden traer tablas nuevas con
+        // sus índices (p. ej. IX_Metas_LugarId); lo que importa es que no se pierda ninguno de los que había.
+        Assert.Subset((await IndicesUnicosAsync(conexion)).ToHashSet(), indicesAntes.ToHashSet());
         Assert.Contains("IX_Tarifas_Nombre", indicesAntes);
         Assert.Contains("IX_TarifaRangos_TarifaId_Orden", indicesAntes);
 

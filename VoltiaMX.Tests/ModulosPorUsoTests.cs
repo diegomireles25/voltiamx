@@ -6,22 +6,22 @@ namespace VoltiaMX.Tests;
 public class ModulosPorUsoTests
 {
     [Fact]
-    public void Calcular_Casa_LecturasPredictorPresupuestoYAparatos()
+    public void Calcular_Casa_LecturasPredictorPresupuestoAparatosYMetas()
     {
         var modulos = ModulosPorUso.Calcular([UsoApp.Casa], modoAvanzado: false);
 
         Assert.Equal(
-            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Presupuesto, ModuloApp.Aparatos],
+            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Presupuesto, ModuloApp.Aparatos, ModuloApp.Metas],
             modulos.Order());
     }
 
     [Fact]
-    public void Calcular_Negocio_LecturasPredictorAparatosYReportes()
+    public void Calcular_Negocio_LecturasPredictorAparatosMetasYReportes()
     {
         var modulos = ModulosPorUso.Calcular([UsoApp.Negocio], modoAvanzado: false);
 
         Assert.Equal(
-            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Aparatos, ModuloApp.Reportes],
+            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Aparatos, ModuloApp.Metas, ModuloApp.Reportes],
             modulos.Order());
     }
 
@@ -58,7 +58,7 @@ public class ModulosPorUsoTests
 
         Assert.Equal(
             [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Presupuesto, ModuloApp.Aparatos,
-             ModuloApp.Solar, ModuloApp.Inquilinos],
+             ModuloApp.Solar, ModuloApp.Inquilinos, ModuloApp.Metas],
             modulos.Order());
     }
 
@@ -70,11 +70,12 @@ public class ModulosPorUsoTests
         Assert.Equal(ModulosPorUso.Calcular([UsoApp.Casa], modoAvanzado: false).Order(), modulos.Order());
     }
 
-    [Fact]
-    public void Calcular_TodosLosUsosEnModoAvanzado_MetasNoSeActiva()
+    [Theory]
+    [InlineData(UsoApp.Rentas)]
+    [InlineData(UsoApp.Solar)]
+    public void Calcular_RentasYSolar_NoActivanMetasNiEnModoAvanzado(UsoApp uso)
     {
-        var modulos = ModulosPorUso.Calcular(Enum.GetValues<UsoApp>(), modoAvanzado: true);
-
-        Assert.DoesNotContain(ModuloApp.Metas, modulos);
+        Assert.DoesNotContain(ModuloApp.Metas, ModulosPorUso.Calcular([uso], modoAvanzado: false));
+        Assert.DoesNotContain(ModuloApp.Metas, ModulosPorUso.Calcular([uso], modoAvanzado: true));
     }
 }

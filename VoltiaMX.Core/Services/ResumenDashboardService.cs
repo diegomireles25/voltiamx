@@ -15,16 +15,26 @@ public sealed class ResumenDashboardService(
     public async Task<ResumenDashboard?> ObtenerAsync(DateOnly hoy, CancellationToken cancellationToken = default)
     {
         await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
-        var lugares = await db.Lugares
-            .AsNoTracking()
-            .Include(l => l.Tarifa).ThenInclude(t => t!.Rangos)
-            .Include(l => l.Periodos)
-            .Include(l => l.Lecturas)
-            .AsSplitQuery()
-            .OrderBy(l => l.Id)
-            .ToListAsync(cancellationToken);
+        var lugares = await ConDatos(db).OrderBy(l => l.Id).ToListAsync(cancellationToken);
+        return await ResumirAsync(db, LugarPrincipal.Elegir(lugares), hoy, cancellationToken);
+    }
 
-        var lugar = LugarPrincipal.Elegir(lugares);
+    public async Task<ResumenDashboard?> ObtenerDeLugarAsync(int lugarId, DateOnly hoy, CancellationToken cancellationToken = default)
+    {
+        await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
+        var lugar = await ConDatos(db).FirstOrDefaultAsync(l => l.Id == lugarId, cancellationToken);
+        return await ResumirAsync(db, lugar, hoy, cancellationToken);
+    }
+
+    private static IQueryable<Lugar> ConDatos(VoltiaDbContext db) => db.Lugares
+        .AsNoTracking()
+        .Include(l => l.Tarifa).ThenInclude(t => t!.Rangos)
+        .Include(l => l.Periodos)
+        .Include(l => l.Lecturas)
+        .AsSplitQuery();
+
+    private async Task<ResumenDashboard?> ResumirAsync(VoltiaDbContext db, Lugar? lugar, DateOnly hoy, CancellationToken cancellationToken)
+    {
         if (lugar?.Tarifa is null)
         {
             return null;

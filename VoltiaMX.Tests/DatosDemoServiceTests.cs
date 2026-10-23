@@ -202,4 +202,40 @@ public sealed class DatosDemoServiceTests : IAsyncLifetime
         await using var db = _fabrica.CreateDbContext();
         Assert.Equal(0, await db.Aparatos.CountAsync());
     }
+
+    [Fact]
+    public async Task CargarAsync_CreaLaMetaDel10PorCientoConHistorialYRacha()
+    {
+        await _servicio.CargarAsync(Hoy);
+        var lugar = await LugarDemoAsync();
+        var calculadora = new TarifaCalculator();
+        var metas = new MetaService(
+            _fabrica,
+            new ResumenDashboardService(_fabrica, new ProyeccionService(calculadora), new DacService(), new PresupuestoInversoService(calculadora)),
+            calculadora);
+
+        var meta = await metas.ObtenerAsync(lugar.Id);
+        Assert.Equal(10, meta!.PorcentajeObjetivo);
+        Assert.True(meta.Activa);
+        Assert.Equal(Hoy.AddMonths(-7), meta.FechaInicio);
+
+        // Entran los 3 últimos bimestres: 1046 contra 912 (−14.7 %, no), 871 contra 1046 (16.7 %, sí) y
+        // 718 contra 871 (17.6 %, sí). Hoy: base 718 → objetivo 646.2; consumido 412.8; proyectado ≈1049.
+        var progreso = await metas.ObtenerProgresoAsync(lugar.Id, Hoy);
+        Assert.Equal([true, true, false], progreso!.Historial.Select(f => f.Cumplio));
+        Assert.Equal(2, progreso.Racha);
+        Assert.Equal(EstadoMeta.EnRiesgo, progreso.Estado);
+        Assert.Equal(646.2m, progreso.ObjetivoKwh);
+    }
+
+    [Fact]
+    public async Task QuitarAsync_BorraLaMetaDeLaDemo()
+    {
+        await _servicio.CargarAsync(Hoy);
+
+        await _servicio.QuitarAsync();
+
+        await using var db = _fabrica.CreateDbContext();
+        Assert.Equal(0, await db.Metas.CountAsync());
+    }
 }

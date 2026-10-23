@@ -138,6 +138,32 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.ToTable("Lugares");
                 });
 
+            modelBuilder.Entity("VoltiaMX.Core.Models.Meta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Activa")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateOnly>("FechaInicio")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LugarId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PorcentajeObjetivo")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LugarId")
+                        .IsUnique();
+
+                    b.ToTable("Metas");
+                });
+
             modelBuilder.Entity("VoltiaMX.Core.Models.Objetivo", b =>
                 {
                     b.Property<int>("Id")
@@ -377,6 +403,17 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.Navigation("Tarifa");
                 });
 
+            modelBuilder.Entity("VoltiaMX.Core.Models.Meta", b =>
+                {
+                    b.HasOne("VoltiaMX.Core.Models.Lugar", "Lugar")
+                        .WithOne("Meta")
+                        .HasForeignKey("VoltiaMX.Core.Models.Meta", "LugarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lugar");
+                });
+
             modelBuilder.Entity("VoltiaMX.Core.Models.Objetivo", b =>
                 {
                     b.HasOne("VoltiaMX.Core.Models.PerfilUsuario", "Perfil")
@@ -437,6 +474,8 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.Navigation("Aparatos");
 
                     b.Navigation("Lecturas");
+
+                    b.Navigation("Meta");
 
                     b.Navigation("Periodos");
                 });

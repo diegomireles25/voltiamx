@@ -9,6 +9,11 @@ public interface IResumenDashboardService
     Task<ResumenDashboard?> ObtenerAsync(DateOnly hoy, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// El mismo resumen para un lugar dado. Null si no existe o no tiene tarifa.
+    /// </summary>
+    Task<ResumenDashboard?> ObtenerDeLugarAsync(int lugarId, DateOnly hoy, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Último periodo de cada propiedad en renta (sin la demo).
     /// </summary>
     Task<IReadOnlyList<ResumenPropiedad>> ObtenerPropiedadesAsync(CancellationToken cancellationToken = default);

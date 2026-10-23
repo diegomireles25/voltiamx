@@ -61,6 +61,7 @@ public sealed class DatosDemoService(IDbContextFactory<VoltiaDbContext> fabrica,
             Periodos = PeriodosCerrados(cortes, tarifa),
             Lecturas = [.. LecturasDeCorte(cortes), .. LecturasDelPeriodoActual(ultimoCorte, hoy)],
             Aparatos = Aparatos(),
+            Meta = new Meta { PorcentajeObjetivo = 10, FechaInicio = hoy.AddMonths(-7), Activa = true }, // EJEMPLO: así se ve el historial
         };
 
         db.Lugares.Add(lugar);

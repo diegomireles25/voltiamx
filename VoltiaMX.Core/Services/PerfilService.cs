@@ -20,14 +20,20 @@ public sealed class PerfilService(IDbContextFactory<VoltiaDbContext> fabrica) : 
 
     public async Task<IReadOnlyList<ModuloApp>> ObtenerModulosActivosAsync(CancellationToken cancellationToken = default)
     {
+        // Se calculan con la regla vigente y los usos guardados, no con las filas de PerfilModulos:
+        // así un perfil creado antes de un módulo nuevo (p. ej. Metas) lo ve sin repetir el onboarding.
         await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
-        var activos = await db.PerfilModulos
-            .Where(m => m.Activo)
-            .Select(m => m.Modulo)
-            .ToListAsync(cancellationToken);
+        var perfil = await db.Perfiles
+            .AsNoTracking()
+            .Include(p => p.Usos)
+            .OrderBy(p => p.Id)
+            .FirstOrDefaultAsync(cancellationToken);
+        if (perfil is null)
+        {
+            return [];
+        }
 
-        // El enum se guarda como texto: se ordena en memoria por su valor.
-        return activos.Order().ToList();
+        return ModulosPorUso.Calcular(perfil.Usos.Select(u => u.Uso), perfil.ModoAvanzado).Order().ToList();
     }
 
     public async Task<Lugar?> ObtenerLugarPrincipalAsync(CancellationToken cancellationToken = default)

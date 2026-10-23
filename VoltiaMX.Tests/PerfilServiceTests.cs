@@ -60,8 +60,46 @@ public sealed class PerfilServiceTests : IAsyncLifetime
         Assert.Equal(800m, perfil.Objetivo?.PresupuestoMax);
         Assert.Equal(Enum.GetValues<ModuloApp>().Length, perfil.Modulos.Count);
         Assert.Equal(
-            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Presupuesto, ModuloApp.Aparatos],
+            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Presupuesto, ModuloApp.Aparatos, ModuloApp.Metas],
             await _servicio.ObtenerModulosActivosAsync());
+    }
+
+    [Fact]
+    public async Task ObtenerModulosActivosAsync_PerfilViejoSinLaFilaDeMetas_IncluyeMetasPorSusUsos()
+    {
+        // Un perfil guardado antes de que existiera Metas: sus filas no la tienen.
+        await using (var db = _fabrica.CreateDbContext())
+        {
+            db.Perfiles.Add(new PerfilUsuario
+            {
+                OnboardingCompletado = true,
+                Usos = [new PerfilUso { Uso = UsoApp.Casa }],
+                Modulos =
+                [
+                    new PerfilModulo { Modulo = ModuloApp.Lecturas, Activo = true },
+                    new PerfilModulo { Modulo = ModuloApp.Predictor, Activo = true },
+                    new PerfilModulo { Modulo = ModuloApp.Presupuesto, Activo = true },
+                    new PerfilModulo { Modulo = ModuloApp.Aparatos, Activo = true },
+                ],
+            });
+            await db.SaveChangesAsync();
+        }
+
+        Assert.Contains(ModuloApp.Metas, await _servicio.ObtenerModulosActivosAsync());
+    }
+
+    [Fact]
+    public async Task ObtenerModulosActivosAsync_PerfilDeRentas_SinMetas()
+    {
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Rentas] });
+
+        Assert.DoesNotContain(ModuloApp.Metas, await _servicio.ObtenerModulosActivosAsync());
+    }
+
+    [Fact]
+    public async Task ObtenerModulosActivosAsync_SinPerfil_Vacio()
+    {
+        Assert.Empty(await _servicio.ObtenerModulosActivosAsync());
     }
 
     [Fact]

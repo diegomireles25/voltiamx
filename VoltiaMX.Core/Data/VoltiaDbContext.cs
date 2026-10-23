@@ -25,6 +25,8 @@ public class VoltiaDbContext(DbContextOptions<VoltiaDbContext> options) : DbCont
 
     public DbSet<Aparato> Aparatos => Set<Aparato>();
 
+    public DbSet<Meta> Metas => Set<Meta>();
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         // Precios, montos y kWh.
@@ -131,6 +133,17 @@ public class VoltiaDbContext(DbContextOptions<VoltiaDbContext> options) : DbCont
             aparato.HasOne(a => a.Lugar)
                 .WithMany(l => l.Aparatos)
                 .HasForeignKey(a => a.LugarId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // Una meta por lugar.
+        modelBuilder.Entity<Meta>(meta =>
+        {
+            meta.HasIndex(m => m.LugarId).IsUnique();
+
+            meta.HasOne(m => m.Lugar)
+                .WithOne(l => l.Meta)
+                .HasForeignKey<Meta>(m => m.LugarId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }

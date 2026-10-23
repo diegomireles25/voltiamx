@@ -9,8 +9,8 @@ public static class ModulosPorUso
 {
     private static readonly Dictionary<UsoApp, ModuloApp[]> PorUso = new()
     {
-        [UsoApp.Casa] = [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Presupuesto, ModuloApp.Aparatos],
-        [UsoApp.Negocio] = [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Aparatos, ModuloApp.Reportes],
+        [UsoApp.Casa] = [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Presupuesto, ModuloApp.Aparatos, ModuloApp.Metas],
+        [UsoApp.Negocio] = [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Aparatos, ModuloApp.Metas, ModuloApp.Reportes],
         [UsoApp.Rentas] = [ModuloApp.Lecturas, ModuloApp.Inquilinos, ModuloApp.Reportes],
         [UsoApp.Solar] = [ModuloApp.Solar, ModuloApp.Reportes],
     };

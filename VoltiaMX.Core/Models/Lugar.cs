@@ -44,4 +44,6 @@ public class Lugar
     public List<Periodo> Periodos { get; set; } = [];
 
     public List<Aparato> Aparatos { get; set; } = [];
+
+    public Meta? Meta { get; set; }
 }
