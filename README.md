@@ -15,13 +15,13 @@ App de escritorio para Windows que ayuda a entender, predecir y reducir el recib
 - Predictor del recibo con su desglose por rangos y alerta de riesgo DAC.
 - Tarifas editables (rangos, precios, cargo fijo y límite DAC) y validación contra tu recibo.
 - Aparatos con su consumo estimado y ranking real contra lo que mide tu medidor.
+- Simulador de ahorro: menos horas de uso o un equipo más eficiente, con pesos según tu tarifa y recuperación de la inversión.
 - En `VoltiaMX.Core`: cálculo por rangos de tarifa, proyección del periodo, riesgo DAC con el promedio de los últimos 12 meses y presupuesto inverso.
 - Pruebas automáticas (`dotnet test`).
 - Base de datos local SQLite.
 
 ## Qué falta
 
-- Simulador de ahorro.
 - Metas.
 - OCR del recibo.
 - Notificaciones.
