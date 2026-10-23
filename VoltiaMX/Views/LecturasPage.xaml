@@ -46,10 +46,22 @@
                 Spacing="{StaticResource Spacing40}">
 
                 <StackPanel Spacing="{StaticResource Spacing16}">
-                    <TextBlock
-                        x:Uid="Lecturas_Titulo"
-                        AutomationProperties.HeadingLevel="Level1"
-                        Style="{StaticResource HeadingLgTextStyle}" />
+                    <Grid ColumnSpacing="{StaticResource Spacing16}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            x:Uid="Lecturas_Titulo"
+                            AutomationProperties.HeadingLevel="Level1"
+                            Style="{StaticResource HeadingLgTextStyle}" />
+                        <Button
+                            x:Uid="Lecturas_Escanear"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Command="{x:Bind ViewModel.EscanearReciboCommand}"
+                            Style="{StaticResource GhostButtonStyle}" />
+                    </Grid>
 
                     <!-- Lugar de demo: se puede capturar, pero se borra al quitar los datos de ejemplo -->
                     <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />

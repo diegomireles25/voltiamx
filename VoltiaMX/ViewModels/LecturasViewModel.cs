@@ -71,6 +71,24 @@ public sealed record FilaHistorial(string Periodo, string Kwh, string Pesos, str
 public static class SeccionesLecturas
 {
     public const string Historial = "Historial";
+
+    /// <summary>
+    /// Escanear recibo: se abre bajo Lecturas (no es un módulo del menú).
+    /// </summary>
+    public const string Escanear = "Escanear";
+
+    private const string PrefijoGuardada = "Guardada:";
+
+    /// <summary>
+    /// Volver a Lecturas después de guardar una lectura escaneada, con su aviso.
+    /// </summary>
+    public static string Guardada(int cierres) => PrefijoGuardada + cierres;
+
+    public static int? CierresDe(string? seccion)
+        => seccion?.StartsWith(PrefijoGuardada, StringComparison.Ordinal) == true
+            && int.TryParse(seccion[PrefijoGuardada.Length..], out var cierres)
+                ? cierres
+                : null;
 }
 
 /// <summary>
@@ -228,12 +246,7 @@ public sealed partial class LecturasViewModel(
             LimpiarFormulario();
             await CargarListaAsync();
             await CargarHistorialAsync();
-            MostrarAviso(resultado.Cierres.Count switch
-            {
-                0 => textos["Lectura_Guardada"],
-                1 => textos["Lectura_GuardadaUnCierre"],
-                var cierres => textos.Formato("Lectura_GuardadaCierres", cierres),
-            });
+            AvisarGuardada(resultado.Cierres.Count);
         }
         finally
         {
@@ -487,6 +500,20 @@ public sealed partial class LecturasViewModel(
             : textos.Formato("Historial_AcumuladoSinPresupuesto", ultimo.Kwh, consumo[^1].Dia);
         TieneAcumulado = true;
     }
+
+    /// <summary>
+    /// El aviso estándar de lectura guardada (también al volver de Escanear recibo).
+    /// </summary>
+    public void AvisarGuardada(int cierres) => MostrarAviso(cierres switch
+    {
+        0 => textos["Lectura_Guardada"],
+        1 => textos["Lectura_GuardadaUnCierre"],
+        _ => textos.Formato("Lectura_GuardadaCierres", cierres),
+    });
+
+    [RelayCommand]
+    private void EscanearRecibo()
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.Escanear));
 
     /// <summary>
     /// Aviso breve (la vista lo anuncia al lector de pantalla); se borra solo.

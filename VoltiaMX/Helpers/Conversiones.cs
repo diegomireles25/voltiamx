@@ -56,6 +56,19 @@ public static class Conversiones
     public static Style EstiloCumplida(bool cumplio)
         => (Style)Application.Current.Resources[cumplio ? "MintTagStyle" : "YellowTagStyle"];
 
+    // Recibo escaneado: LEÍDO en mint, REVISAR en amarillo, NO ENCONTRADO en negro con amarillo.
+    public static Style EstiloConfianza(Confianza confianza)
+        => (Style)Application.Current.Resources[confianza switch
+        {
+            Confianza.Alta => "MintTagStyle",
+            Confianza.Baja => "YellowTagStyle",
+            _ => "RiskHighTagStyle",
+        }];
+
+    // Botón secundario sobre el lienzo o sobre una tarjeta negra.
+    public static Style EstiloBotonSecundario(bool enTarjetaOscura)
+        => (Style)Application.Current.Resources[enTarjetaOscura ? "GhostOnDarkButtonStyle" : "GhostButtonStyle"];
+
     // Recibo explicado del Predictor: la fila del total con más peso.
     public static Style EstiloFilaRecibo(bool esTotal)
         => (Style)Application.Current.Resources[esTotal ? "SubheadingLgTextStyle" : "BodyTextStyle"];

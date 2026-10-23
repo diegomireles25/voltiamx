@@ -890,9 +890,6 @@
   <data name="Dashboard_CierreCapturar.Content" xml:space="preserve">
     <value>Capturar lectura</value>
   </data>
-  <data name="Dashboard_CierreEscanear.Content" xml:space="preserve">
-    <value>Escanear recibo</value>
-  </data>
   <data name="Dashboard_DatosEjemplo.Text" xml:space="preserve">
     <value>DATOS DE EJEMPLO</value>
   </data>
@@ -2140,5 +2137,155 @@
   </data>
   <data name="Dashboard_CrearMeta" xml:space="preserve">
     <value>Crear meta</value>
+  </data>
+  <data name="Dashboard_CierreEscanear" xml:space="preserve">
+    <value>Escanear recibo</value>
+  </data>
+  <data name="Dashboard_CierreEscanearProximamente" xml:space="preserve">
+    <value>Escanear recibo · Próximamente</value>
+  </data>
+  <data name="Lecturas_Escanear.Content" xml:space="preserve">
+    <value>Escanear recibo</value>
+  </data>
+  <data name="Escanear_VolverLecturas.Content" xml:space="preserve">
+    <value>Volver a lecturas</value>
+  </data>
+  <data name="Escanear_Titulo.Text" xml:space="preserve">
+    <value>ESCANEAR RECIBO</value>
+  </data>
+  <data name="Escanear_Privacidad.Text" xml:space="preserve">
+    <value>El texto se reconoce en este equipo, sin internet. No se guarda la imagen, el PDF ni el texto: solo los datos que confirmes, y se descartan al salir de esta pantalla.</value>
+  </data>
+  <data name="Escanear_Elegir.Content" xml:space="preserve">
+    <value>Elegir recibo</value>
+  </data>
+  <data name="Escanear_Leyendo.Text" xml:space="preserve">
+    <value>Leyendo el recibo…</value>
+  </data>
+  <data name="Escanear_Idioma" xml:space="preserve">
+    <value>Reconocimiento de texto: {0}</value>
+  </data>
+  <data name="Escanear_SinTexto" xml:space="preserve">
+    <value>No se reconoció texto en el archivo. Prueba con una imagen más nítida o captura la lectura a mano.</value>
+  </data>
+  <data name="Escanear_SinIdiomaTitulo.Text" xml:space="preserve">
+    <value>Falta el reconocimiento de texto de Windows</value>
+  </data>
+  <data name="Escanear_SinIdiomaTexto.Text" xml:space="preserve">
+    <value>Para leer recibos, instala un idioma con reconocimiento de texto: abre Configuración de Windows, Hora e idioma, Idioma y región; agrega Español (México) y, en sus opciones, instala el reconocimiento óptico de caracteres. Mientras, puedes capturar la lectura a mano.</value>
+  </data>
+  <data name="Escanear_CapturaManual.Content" xml:space="preserve">
+    <value>Capturar la lectura a mano</value>
+  </data>
+  <data name="ErrorOcr_FormatoNoSoportado" xml:space="preserve">
+    <value>Ese archivo no es una imagen (.png, .jpg) ni un PDF. Elige la foto o el PDF de tu recibo.</value>
+  </data>
+  <data name="ErrorOcr_ArchivoIlegible" xml:space="preserve">
+    <value>No se pudo abrir el archivo: puede estar vacío o dañado. Prueba con otra foto o con el PDF de tu recibo.</value>
+  </data>
+  <data name="Escanear_DatosTitulo.Text" xml:space="preserve">
+    <value>DATOS DEL RECIBO</value>
+  </data>
+  <data name="Escanear_DatosAyuda.Text" xml:space="preserve">
+    <value>Revisa y corrige lo que haga falta antes de guardar. LEÍDO: estaba junto a su etiqueta. REVISAR: se dedujo o estaba en la línea siguiente. NO ENCONTRADO: escríbelo tú.</value>
+  </data>
+  <data name="Confianza_Alta" xml:space="preserve">
+    <value>LEÍDO</value>
+  </data>
+  <data name="Confianza_Baja" xml:space="preserve">
+    <value>REVISAR</value>
+  </data>
+  <data name="Confianza_NoEncontrado" xml:space="preserve">
+    <value>NO ENCONTRADO</value>
+  </data>
+  <data name="CampoRecibo_Tarifa.Header" xml:space="preserve">
+    <value>Tarifa</value>
+  </data>
+  <data name="CampoRecibo_FechaLectura" xml:space="preserve">
+    <value>Fecha de la lectura actual (fin del periodo)</value>
+  </data>
+  <data name="CampoRecibo_PeriodoInicio" xml:space="preserve">
+    <value>Inicio del periodo</value>
+  </data>
+  <data name="CampoRecibo_PeriodoFin" xml:space="preserve">
+    <value>Fin del periodo</value>
+  </data>
+  <data name="CampoRecibo_FechaCorte" xml:space="preserve">
+    <value>Fecha de corte</value>
+  </data>
+  <data name="CampoRecibo_LecturaAnterior" xml:space="preserve">
+    <value>Lectura anterior (kWh)</value>
+  </data>
+  <data name="CampoRecibo_LecturaActual" xml:space="preserve">
+    <value>Lectura actual (kWh)</value>
+  </data>
+  <data name="CampoRecibo_Consumo" xml:space="preserve">
+    <value>Consumo (kWh)</value>
+  </data>
+  <data name="CampoRecibo_Dias" xml:space="preserve">
+    <value>Días del periodo</value>
+  </data>
+  <data name="CampoRecibo_ImporteEnergia" xml:space="preserve">
+    <value>Importe de energía, sin IVA ni DAP</value>
+  </data>
+  <data name="CampoRecibo_Total" xml:space="preserve">
+    <value>Total a pagar</value>
+  </data>
+  <data name="Escanear_RangosTitulo.Text" xml:space="preserve">
+    <value>RENGLONES DE ENERGÍA</value>
+  </data>
+  <data name="CampoRecibo_RangoKwh.Header" xml:space="preserve">
+    <value>kWh</value>
+  </data>
+  <data name="CampoRecibo_RangoPrecio.Header" xml:space="preserve">
+    <value>Precio por kWh</value>
+  </data>
+  <data name="CampoRecibo_RangoImporte.Header" xml:space="preserve">
+    <value>Importe</value>
+  </data>
+  <data name="AvisoRecibo_LecturasNoCuadranConConsumo" xml:space="preserve">
+    <value>La lectura actual menos la anterior da {0:N0} kWh, pero el consumo dice {1:N0} kWh.</value>
+  </data>
+  <data name="AvisoRecibo_RangosNoSumanConsumo" xml:space="preserve">
+    <value>Los renglones suman {0:N0} kWh, pero el consumo dice {1:N0} kWh.</value>
+  </data>
+  <data name="AvisoRecibo_ImportesNoSumanEnergia" xml:space="preserve">
+    <value>Los renglones suman ${0:N2}, pero el importe de energía dice ${1:N2}.</value>
+  </data>
+  <data name="AvisoRecibo_TarifaNoRegistrada" xml:space="preserve">
+    <value>La tarifa {0} no está entre tus tarifas. Puedes agregarla en Tarifas; no se cambia nada sola.</value>
+  </data>
+  <data name="Escanear_NoSeGuardaDemo" xml:space="preserve">
+    <value>Con los datos de ejemplo no se guardan lecturas escaneadas: quítalos en Configuración para usar tus datos.</value>
+  </data>
+  <data name="Escanear_Error_FaltaFecha" xml:space="preserve">
+    <value>Falta la fecha de la lectura.</value>
+  </data>
+  <data name="Escanear_Error_FaltaLecturaActual" xml:space="preserve">
+    <value>Falta la lectura actual.</value>
+  </data>
+  <data name="Escanear_Error_LecturaNegativa" xml:space="preserve">
+    <value>La lectura no puede ser negativa.</value>
+  </data>
+  <data name="Escanear_Guardar.Content" xml:space="preserve">
+    <value>Guardar lectura</value>
+  </data>
+  <data name="Escanear_Cancelar.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Escanear_AbrirTarifas.Content" xml:space="preserve">
+    <value>Abrir Tarifas</value>
+  </data>
+  <data name="Escanear_CompararTitulo.Text" xml:space="preserve">
+    <value>COMPARAR CON MI TARIFA</value>
+  </data>
+  <data name="Escanear_CompararTexto.Text" xml:space="preserve">
+    <value>Opcional: calcula la energía de este consumo con la tarifa de tu lugar y la compara con lo que dice el recibo. Sin IVA ni DAP. No cambia tu tarifa ni tus precios.</value>
+  </data>
+  <data name="Escanear_Comparar.Content" xml:space="preserve">
+    <value>Comparar con mi tarifa</value>
+  </data>
+  <data name="Escanear_ComparacionDetalle" xml:space="preserve">
+    <value>Con tu tarifa {0}: ${1:N2} calculados contra ${2:N2} del recibo.</value>
   </data>
 </root>

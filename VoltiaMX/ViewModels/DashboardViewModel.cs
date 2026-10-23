@@ -142,11 +142,21 @@ public sealed partial class DashboardViewModel(
     /// "Capturar lectura" y el aviso de periodo terminado llevan a Lecturas si el módulo está activo.
     /// </summary>
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(IrALecturasCommand), nameof(IrAHistorialCommand))]
+    [NotifyCanExecuteChangedFor(nameof(IrALecturasCommand), nameof(IrAHistorialCommand), nameof(EscanearReciboCommand))]
+    [NotifyPropertyChangedFor(nameof(TextoEscanear))]
     public partial bool LecturasHabilitadas { get; set; }
 
     [RelayCommand(CanExecute = nameof(LecturasHabilitadas))]
     private void IrALecturas() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas));
+
+    /// <summary>
+    /// "Escanear recibo" del cierre: solo con el módulo Lecturas activo.
+    /// </summary>
+    [RelayCommand(CanExecute = nameof(LecturasHabilitadas))]
+    private void EscanearRecibo()
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.Escanear));
+
+    public string TextoEscanear => textos[LecturasHabilitadas ? "Dashboard_CierreEscanear" : "Dashboard_CierreEscanearProximamente"];
 
     /// <summary>
     /// "Ajustar presupuesto" abre Presupuesto solo si ese módulo está activo en el perfil.

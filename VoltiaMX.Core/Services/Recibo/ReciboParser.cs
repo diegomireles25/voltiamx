@@ -110,9 +110,11 @@ public static partial class ReciboParser
 
     /// <summary>
     /// Valores junto a cada aparición de la etiqueta: en la misma línea (Alta) o, si ahí no hay
-    /// ninguno, al inicio de la siguiente (Baja).
+    /// ninguno, al inicio de la siguiente (Baja). Con <paramref name="unirConSiguiente"/> (fechas), un
+    /// valor incompleto se intenta completar con la línea siguiente: el OCR a veces deja ahí el año.
     /// </summary>
-    private static List<(T Valor, Confianza Confianza)> Candidatos<T>(List<string> lineas, Regex etiqueta, Func<string, T?> leer)
+    private static List<(T Valor, Confianza Confianza)> Candidatos<T>(
+        List<string> lineas, Regex etiqueta, Func<string, T?> leer, bool unirConSiguiente = false)
     {
         var candidatos = new List<(T, Confianza)>();
         for (var i = 0; i < lineas.Count; i++)
@@ -127,6 +129,10 @@ public static partial class ReciboParser
             if (leer(resto) is { } valor)
             {
                 candidatos.Add((valor, Confianza.Alta));
+            }
+            else if (unirConSiguiente && i + 1 < lineas.Count && leer($"{resto} {lineas[i + 1]}") is { } unido)
+            {
+                candidatos.Add((unido, Confianza.Baja));
             }
             else if (!resto.Any(char.IsDigit) && i + 1 < lineas.Count && leer(lineas[i + 1]) is { } siguiente)
             {
@@ -159,14 +165,15 @@ public static partial class ReciboParser
 
     private static CampoFecha FechaUnica(List<string> lineas, Regex etiqueta)
     {
-        var resuelto = Resolver(Candidatos<DateOnly?>(lineas, etiqueta, resto => Fechas(resto) is [var unica, ..] ? unica : null));
+        var resuelto = Resolver(Candidatos<DateOnly?>(
+            lineas, etiqueta, resto => Fechas(resto) is [var unica, ..] ? unica : null, unirConSiguiente: true));
         return resuelto is { } r ? new CampoFecha(r.Valor, r.Confianza) : CampoFecha.NoEncontrado;
     }
 
     private static (CampoFecha Inicio, CampoFecha Fin) Periodo(List<string> lineas)
     {
         var resuelto = Resolver(Candidatos<(DateOnly, DateOnly)?>(lineas, EtiquetaPeriodo(), resto =>
-            Fechas(resto) is [var inicio, var fin, ..] && inicio < fin ? (inicio, fin) : null));
+            Fechas(resto) is [var inicio, var fin, ..] && inicio < fin ? (inicio, fin) : null, unirConSiguiente: true));
         return resuelto is { Valor: var (inicio, fin) } r
             ? (new CampoFecha(inicio, r.Confianza), new CampoFecha(fin, r.Confianza))
             : (CampoFecha.NoEncontrado, CampoFecha.NoEncontrado);

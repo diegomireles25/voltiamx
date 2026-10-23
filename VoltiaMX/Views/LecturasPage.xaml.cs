@@ -21,6 +21,12 @@ namespace VoltiaMX.Views
             base.OnNavigatedTo(e);
             await ViewModel.CargarAsync();
 
+            // Vuelta de Escanear recibo después de guardar: el mismo aviso que al capturar a mano.
+            if (SeccionesLecturas.CierresDe(e.Parameter as string) is int cierres)
+            {
+                ViewModel.AvisarGuardada(cierres);
+            }
+
             // "Ver historial" del Dashboard abre la página en la sección HISTORIAL. Antes se termina de
             // medir el contenido recién cargado; si no, el ScrollViewer todavía no sabe dónde queda.
             if (e.Parameter as string == SeccionesLecturas.Historial)

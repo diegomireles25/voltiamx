@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Escanear recibo sobre el lienzo: elegir el archivo, el formulario editable en filas con línea (cada
+    dato con su confianza), los avisos de coherencia y una sola tarjeta para comparar con tu tarifa.
+-->
+<Page
+    x:Class="VoltiaMX.Views.EscanearReciboPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:local="using:VoltiaMX.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:VoltiaMX.ViewModels"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Grid>
+        <!-- Menos de 1200 de ancho: la comparación pasa debajo del formulario -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AnchoVentana">
+                <VisualState x:Name="Ancha">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource BreakpointWide}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Angosta">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ColumnaFormulario.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="ColumnaComparacion.(Grid.Row)" Value="1" />
+                        <Setter Target="ColumnaComparacion.(Grid.Column)" Value="0" />
+                        <Setter Target="ColumnaComparacion.(Grid.ColumnSpan)" Value="2" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <ScrollViewer>
+            <StackPanel
+                MaxWidth="{StaticResource ContentMaxWidth}"
+                Padding="{StaticResource PagePadding}"
+                Spacing="{StaticResource Spacing40}">
+
+                <StackPanel Spacing="{StaticResource Spacing16}">
+                    <Button
+                        x:Uid="Escanear_VolverLecturas"
+                        Command="{x:Bind ViewModel.IrALecturasCommand}"
+                        Style="{StaticResource TextLinkButtonSmStyle}" />
+                    <TextBlock
+                        x:Uid="Escanear_Titulo"
+                        AutomationProperties.HeadingLevel="Level1"
+                        Style="{StaticResource HeadingLgTextStyle}" />
+                    <TextBlock
+                        x:Uid="Escanear_Privacidad"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodySmTextStyle}"
+                        TextWrapping="Wrap" />
+                    <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
+                </StackPanel>
+
+                <!-- Elegir el archivo y estado de la lectura -->
+                <StackPanel Spacing="{StaticResource Spacing16}">
+                    <Button
+                        x:Uid="Escanear_Elegir"
+                        Command="{x:Bind ViewModel.ElegirReciboCommand}"
+                        Style="{StaticResource PrimaryButtonStyle}" />
+                    <!-- Solo en Debug: la página agrega aquí la lectura por ruta para pruebas automatizadas -->
+                    <StackPanel x:Name="ZonaDepuracion" Spacing="{StaticResource Spacing8}" />
+                    <TextBlock
+                        x:Uid="Escanear_Leyendo"
+                        AutomationProperties.LiveSetting="Polite"
+                        Style="{StaticResource BodyTextStyle}"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Leyendo), Mode=OneWay}" />
+                    <TextBlock
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource CaptionTextStyle}"
+                        Text="{x:Bind ViewModel.IdiomaTexto, Mode=OneWay}"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.IdiomaTexto), Mode=OneWay}" />
+                    <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
+                        <Grid ColumnSpacing="{StaticResource Spacing16}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                AutomationProperties.LiveSetting="Polite"
+                                Style="{StaticResource BodyTextStyle}"
+                                Text="{x:Bind ViewModel.Error, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- Sin idioma de reconocimiento de texto -->
+                <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SinIdioma), Mode=OneWay}">
+                    <TextBlock x:Uid="Escanear_SinIdiomaTitulo" Style="{StaticResource SubheadingLgTextStyle}" />
+                    <TextBlock
+                        x:Uid="Escanear_SinIdiomaTexto"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodyTextStyle}"
+                        TextWrapping="Wrap" />
+                    <Button
+                        x:Uid="Escanear_CapturaManual"
+                        Command="{x:Bind ViewModel.IrALecturasCommand}"
+                        Style="{StaticResource TextLinkButtonStyle}" />
+                </StackPanel>
+
+                <!-- Lo leído, editable -->
+                <Grid
+                    ColumnSpacing="{StaticResource Spacing48}"
+                    RowSpacing="{StaticResource Spacing32}"
+                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneFormulario), Mode=OneWay}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel x:Name="ColumnaFormulario" Spacing="{StaticResource Spacing24}">
+                        <StackPanel Spacing="{StaticResource Spacing8}">
+                            <TextBlock
+                                x:Uid="Escanear_DatosTitulo"
+                                AutomationProperties.HeadingLevel="Level2"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource CaptionTextStyle}" />
+                            <TextBlock
+                                x:Uid="Escanear_DatosAyuda"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource BodySmTextStyle}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <Border Style="{StaticResource HairlineListStyle}">
+                            <StackPanel>
+                                <!-- Tarifa -->
+                                <Border Style="{StaticResource HairlineRowStyle}">
+                                    <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="{StaticResource ColumnaEtiquetaConfianza}" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Uid="CampoRecibo_Tarifa" Style="{StaticResource InputStyle}" Text="{x:Bind ViewModel.Tarifa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <ContentPresenter
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                            Content="{x:Bind ViewModel.EtiquetaConfianzaTarifa, Mode=OneWay}"
+                                            Style="{x:Bind helpers:Conversiones.EstiloConfianza(ViewModel.ConfianzaTarifa), Mode=OneWay}" />
+                                    </Grid>
+                                </Border>
+
+                                <!-- Fechas -->
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Fechas}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:CampoReciboFecha">
+                                            <Border Style="{StaticResource HairlineRowStyle}">
+                                                <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="{StaticResource ColumnaEtiquetaConfianza}" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <CalendarDatePicker
+                                                        HorizontalAlignment="Stretch"
+                                                        Date="{x:Bind Fecha, Mode=TwoWay}"
+                                                        Header="{x:Bind Titulo}"
+                                                        Style="{StaticResource DatePickerStyle}" />
+                                                    <ContentPresenter
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        Content="{x:Bind EtiquetaConfianza, Mode=OneWay}"
+                                                        Style="{x:Bind helpers:Conversiones.EstiloConfianza(Confianza), Mode=OneWay}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+
+                                <!-- Números -->
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Numeros}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:CampoReciboNumero">
+                                            <Border Style="{StaticResource HairlineRowStyle}">
+                                                <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="{StaticResource ColumnaEtiquetaConfianza}" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <NumberBox Header="{x:Bind Titulo}" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind Valor, Mode=TwoWay}" />
+                                                    <ContentPresenter
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        Content="{x:Bind EtiquetaConfianza, Mode=OneWay}"
+                                                        Style="{x:Bind helpers:Conversiones.EstiloConfianza(Confianza), Mode=OneWay}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Renglones de energía -->
+                        <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneRangos), Mode=OneWay}">
+                            <TextBlock
+                                x:Uid="Escanear_RangosTitulo"
+                                AutomationProperties.HeadingLevel="Level2"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource CaptionTextStyle}" />
+                            <Border Style="{StaticResource HairlineListStyle}">
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Rangos}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:RangoReciboEditable">
+                                            <Border Style="{StaticResource HairlineRowStyle}">
+                                                <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="{StaticResource ColumnaEtiquetaConfianza}" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock VerticalAlignment="Bottom" Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Nombre}" />
+                                                    <NumberBox
+                                                        x:Uid="CampoRecibo_RangoKwh"
+                                                        Grid.Column="1"
+                                                        Style="{StaticResource NumberBoxStyle}"
+                                                        Value="{x:Bind Kwh, Mode=TwoWay}" />
+                                                    <NumberBox
+                                                        x:Uid="CampoRecibo_RangoPrecio"
+                                                        Grid.Column="2"
+                                                        Style="{StaticResource NumberBoxStyle}"
+                                                        Value="{x:Bind Precio, Mode=TwoWay}" />
+                                                    <NumberBox
+                                                        x:Uid="CampoRecibo_RangoImporte"
+                                                        Grid.Column="3"
+                                                        Style="{StaticResource NumberBoxStyle}"
+                                                        Value="{x:Bind Importe, Mode=TwoWay}" />
+                                                    <ContentPresenter
+                                                        Grid.Column="4"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        Content="{x:Bind EtiquetaConfianza, Mode=OneWay}"
+                                                        Style="{x:Bind helpers:Conversiones.EstiloConfianza(Confianza), Mode=OneWay}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Avisos de coherencia: filas destacadas -->
+                        <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneAvisos), Mode=OneWay}">
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Avisos}">
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:FilaAvisoRecibo">
+                                        <Border Style="{StaticResource HairlineRowStyle}">
+                                            <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource YellowTagStyle}" />
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    VerticalAlignment="Center"
+                                                    Style="{StaticResource BodyTextStyle}"
+                                                    Text="{x:Bind Texto}"
+                                                    TextWrapping="Wrap" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                        </Border>
+
+                        <TextBlock
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            Text="{x:Bind ViewModel.PorQueNoSeGuarda, Mode=OneWay}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.PorQueNoSeGuarda), Mode=OneWay}" />
+
+                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}">
+                            <Button
+                                x:Uid="Escanear_Guardar"
+                                Command="{x:Bind ViewModel.GuardarLecturaCommand}"
+                                Style="{StaticResource PrimaryButtonStyle}" />
+                            <Button
+                                x:Uid="Escanear_Cancelar"
+                                VerticalAlignment="Center"
+                                Command="{x:Bind ViewModel.CancelarCommand}"
+                                Style="{StaticResource TextLinkButtonStyle}" />
+                            <Button
+                                x:Uid="Escanear_AbrirTarifas"
+                                VerticalAlignment="Center"
+                                Command="{x:Bind ViewModel.AbrirTarifasCommand}"
+                                Style="{StaticResource TextLinkButtonStyle}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TarifaNoRegistrada), Mode=OneWay}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- La única tarjeta: comparar con tu tarifa (paso opcional, no cambia nada) -->
+                    <ContentPresenter
+                        x:Name="ColumnaComparacion"
+                        Grid.Column="1"
+                        VerticalAlignment="Top"
+                        Style="{x:Bind helpers:Conversiones.EstiloTarjetaPrevia(ViewModel.TieneComparacion), Mode=OneWay}">
+                        <StackPanel Spacing="{StaticResource Spacing16}">
+                            <TextBlock x:Uid="Escanear_CompararTitulo" Style="{StaticResource CaptionTextStyle}" />
+                            <TextBlock
+                                x:Uid="Escanear_CompararTexto"
+                                Foreground="{x:Bind helpers:Conversiones.BrochaSecundaria(ViewModel.TieneComparacion), Mode=OneWay}"
+                                Style="{StaticResource BodySmTextStyle}"
+                                TextWrapping="Wrap" />
+                            <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneComparacion), Mode=OneWay}">
+                                <ContentPresenter
+                                    HorizontalAlignment="Left"
+                                    Content="{x:Bind ViewModel.VeredictoTexto, Mode=OneWay}"
+                                    Style="{x:Bind helpers:Conversiones.EstiloVeredicto(ViewModel.Veredicto), Mode=OneWay}" />
+                                <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind ViewModel.DiferenciaTexto, Mode=OneWay}" TextWrapping="Wrap" />
+                                <TextBlock
+                                    Foreground="{x:Bind helpers:Conversiones.BrochaSecundaria(ViewModel.TieneComparacion), Mode=OneWay}"
+                                    Style="{StaticResource BodySmTextStyle}"
+                                    Text="{x:Bind ViewModel.ComparacionDetalle, Mode=OneWay}"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                            <Button
+                                x:Uid="Escanear_Comparar"
+                                HorizontalAlignment="Left"
+                                Command="{x:Bind ViewModel.CompararCommand}"
+                                Style="{x:Bind helpers:Conversiones.EstiloBotonSecundario(ViewModel.TieneComparacion), Mode=OneWay}" />
+                        </StackPanel>
+                    </ContentPresenter>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

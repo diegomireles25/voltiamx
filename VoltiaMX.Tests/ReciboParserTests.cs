@@ -200,4 +200,23 @@ public class ReciboParserTests
         Assert.Equal(Confianza.NoEncontrado, ReciboParser.Analizar(["TARIFA: XYZ"]).Tarifa.Confianza);
         Assert.Equal("PDBT", ReciboParser.Analizar(["Tarifa PDBT"]).Tarifa.Valor);
     }
+
+    [Fact]
+    public void Analizar_FechaPartidaEnDosLineas_SeUneParaRevisar()
+    {
+        // El OCR a veces deja el año final en otra línea: se une con la siguiente, pero queda REVISAR.
+        var recibo = ReciboParser.Analizar(["PERIODO FACTURADO: DEL 12 JUL 26 AL 12 SEP", "26", "FECHA DE CORTE 28 SEP", "2026"]);
+
+        Assert.Equal(new CampoFecha(new DateOnly(2026, 7, 12), Confianza.Baja), recibo.PeriodoInicio);
+        Assert.Equal(new CampoFecha(new DateOnly(2026, 9, 12), Confianza.Baja), recibo.PeriodoFin);
+        Assert.Equal(new CampoFecha(new DateOnly(2026, 9, 28), Confianza.Baja), recibo.FechaCorte);
+    }
+
+    [Fact]
+    public void Analizar_FechaIncompletaSinContinuacion_NoEncontrado()
+    {
+        var recibo = ReciboParser.Analizar(["PERIODO FACTURADO: DEL 12 JUL 26 AL 12 SEP", "LECTURA ACTUAL 48,623"]);
+
+        Assert.Equal(Confianza.NoEncontrado, recibo.PeriodoFin.Confianza);
+    }
 }

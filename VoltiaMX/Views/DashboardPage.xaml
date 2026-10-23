@@ -429,7 +429,10 @@
                             Orientation="Horizontal"
                             Spacing="{StaticResource Spacing16}">
                             <Button x:Uid="Dashboard_CierreCapturar" Command="{x:Bind ViewModel.IrALecturasCommand}" Style="{StaticResource PrimaryOnDarkButtonStyle}" />
-                            <Button x:Uid="Dashboard_CierreEscanear" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource GhostOnDarkButtonStyle}" />
+                            <Button
+                                Command="{x:Bind ViewModel.EscanearReciboCommand}"
+                                Content="{x:Bind ViewModel.TextoEscanear, Mode=OneWay}"
+                                Style="{StaticResource GhostOnDarkButtonStyle}" />
                         </StackPanel>
                     </Grid>
                     <TextBlock

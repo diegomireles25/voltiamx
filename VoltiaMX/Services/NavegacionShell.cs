@@ -21,7 +21,7 @@ public sealed class NavegacionShell : INavegacionShell
                 IrA(seccion == SeccionesConfiguracion.Tarifas ? typeof(TarifasPage) : typeof(ConfiguracionPage));
                 break;
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Lecturas:
-                IrA(typeof(LecturasPage), seccion);
+                IrA(seccion == SeccionesLecturas.Escanear ? typeof(EscanearReciboPage) : typeof(LecturasPage), seccion);
                 break;
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Presupuesto:
                 IrA(typeof(PresupuestoPage));

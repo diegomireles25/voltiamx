@@ -36,6 +36,11 @@ namespace VoltiaMX
         public static IServiceProvider Servicios => ((App)Current)._host.Services;
 
         /// <summary>
+        /// Ventana abierta (onboarding o Shell); el selector de archivos necesita su handle.
+        /// </summary>
+        public static Window? VentanaPrincipal => ((App)Current)._ventana;
+
+        /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
@@ -105,6 +110,8 @@ namespace VoltiaMX
             servicios.AddSingleton<NavegacionShell>();
             servicios.AddSingleton<INavegacionShell>(sp => sp.GetRequiredService<NavegacionShell>());
             servicios.AddSingleton<IDialogos, Dialogos>();
+            servicios.AddSingleton<IReciboOcr, ReciboOcr>();
+            servicios.AddSingleton<ISelectorArchivos, SelectorArchivos>();
 
             // ViewModels
             servicios.AddTransient<OnboardingViewModel>();
@@ -119,6 +126,7 @@ namespace VoltiaMX
             servicios.AddTransient<AparatosViewModel>();
             servicios.AddTransient<SimuladorViewModel>();
             servicios.AddTransient<MetasViewModel>();
+            servicios.AddTransient<EscanearReciboViewModel>();
 
             return builder.Build();
         }

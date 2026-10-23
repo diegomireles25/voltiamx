@@ -114,6 +114,9 @@
     <x:Double x:Key="BrandIconSize">28</x:Double>
     <!-- Dashboard -->
     <x:Double x:Key="BreakpointWide">1200</x:Double>
+
+    <!-- Escanear recibo: columna de la etiqueta de confianza (cabe "NO ENCONTRADO"), igual en todas las filas -->
+    <GridLength x:Key="ColumnaEtiquetaConfianza">152</GridLength>
     <x:Double x:Key="ChartHeight">240</x:Double>
     <x:Double x:Key="ChartBarMinWidth">40</x:Double>
     <x:Double x:Key="ProgressHeight">8</x:Double>
