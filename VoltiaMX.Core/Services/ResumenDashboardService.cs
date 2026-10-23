@@ -11,7 +11,6 @@ public sealed class ResumenDashboardService(
     IPresupuestoInversoService presupuesto) : IResumenDashboardService
 {
     private const int PeriodosCerradosEnHistorial = 5;
-    private const int MesesDelHistorialDac = 12;
 
     public async Task<ResumenDashboard?> ObtenerAsync(DateOnly hoy, CancellationToken cancellationToken = default)
     {
@@ -116,8 +115,7 @@ public sealed class ResumenDashboardService(
         return historial;
     }
 
-    // El DAC se evalúa con consumo mensual: cada periodo se reparte en partes iguales entre sus
-    // meses y cuentan los últimos 12.
+    // El DAC se evalúa con consumo mensual (HistorialMensualDac); el simulador usa el mismo historial.
     private ResumenDashboard ConDac(ResumenDashboard resumen, List<Periodo> cerrados, int meses, Tarifa tarifa)
     {
         if (tarifa.LimiteDacKwhMensual is not decimal limite || cerrados.Count == 0)
@@ -125,10 +123,7 @@ public sealed class ResumenDashboardService(
             return resumen;
         }
 
-        var mensuales = cerrados
-            .SelectMany(p => Enumerable.Repeat(p.KwhTotales / meses, meses))
-            .TakeLast(MesesDelHistorialDac)
-            .ToList();
+        var mensuales = HistorialMensualDac.Desde(cerrados, meses);
 
         return resumen with
         {
