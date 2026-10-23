@@ -29,6 +29,9 @@ public sealed class NavegacionShell : INavegacionShell
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Predictor:
                 IrA(typeof(PredictorPage));
                 break;
+            case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Aparatos:
+                IrA(typeof(AparatosPage));
+                break;
             default:
                 // Los módulos llegan en fases posteriores; mientras, muestran su estado vacío.
                 IrA(typeof(ModuloPendientePage), elemento.Titulo);

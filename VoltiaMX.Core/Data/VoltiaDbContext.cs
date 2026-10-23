@@ -23,6 +23,8 @@ public class VoltiaDbContext(DbContextOptions<VoltiaDbContext> options) : DbCont
 
     public DbSet<Objetivo> Objetivos => Set<Objetivo>();
 
+    public DbSet<Aparato> Aparatos => Set<Aparato>();
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         // Precios, montos y kWh.
@@ -118,6 +120,17 @@ public class VoltiaDbContext(DbContextOptions<VoltiaDbContext> options) : DbCont
             periodo.HasOne(p => p.Lugar)
                 .WithMany(l => l.Periodos)
                 .HasForeignKey(p => p.LugarId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Aparato>(aparato =>
+        {
+            aparato.Property(a => a.Nombre).IsRequired().HasMaxLength(40);
+            aparato.Property(a => a.Categoria).HasConversion<string>().HasMaxLength(20);
+
+            aparato.HasOne(a => a.Lugar)
+                .WithMany(l => l.Aparatos)
+                .HasForeignKey(a => a.LugarId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }

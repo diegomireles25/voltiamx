@@ -1631,4 +1631,178 @@
   <data name="Recalcular_Hecho" xml:space="preserve">
     <value>Listo: {0} periodos recalculados ({1} cambiaron); {2} saltados por tener monto de recibo.</value>
   </data>
+  <data name="Aparatos_Titulo.Text" xml:space="preserve">
+    <value>APARATOS</value>
+  </data>
+  <data name="Aparatos_Subtitulo.Text" xml:space="preserve">
+    <value>Estima cuánto consume cada aparato al mes con su potencia y su uso.</value>
+  </data>
+  <data name="Aparatos_Plantilla.Header" xml:space="preserve">
+    <value>Agregar desde una plantilla</value>
+  </data>
+  <data name="Aparatos_Plantilla.PlaceholderText" xml:space="preserve">
+    <value>Elige un aparato típico</value>
+  </data>
+  <data name="Aparatos_Agregar.Content" xml:space="preserve">
+    <value>Agregar aparato</value>
+  </data>
+  <data name="Aparatos_NotaReferencia.Text" xml:space="preserve">
+    <value>Valores típicos de referencia: usa los de la etiqueta de tu aparato.</value>
+  </data>
+  <data name="Aparatos_TituloNuevo" xml:space="preserve">
+    <value>NUEVO APARATO</value>
+  </data>
+  <data name="Aparatos_TituloEditar" xml:space="preserve">
+    <value>EDITAR APARATO</value>
+  </data>
+  <data name="Aparatos_Nombre.Header" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Aparatos_Categoria.Header" xml:space="preserve">
+    <value>Categoría</value>
+  </data>
+  <data name="Aparatos_Cantidad.Header" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
+  <data name="Aparatos_Watts.Header" xml:space="preserve">
+    <value>Potencia (W)</value>
+  </data>
+  <data name="Aparatos_Horas.Header" xml:space="preserve">
+    <value>Horas al día</value>
+  </data>
+  <data name="Aparatos_Dias.Header" xml:space="preserve">
+    <value>Días a la semana</value>
+  </data>
+  <data name="Aparatos_Ciclo.Header" xml:space="preserve">
+    <value>Ciclo de trabajo (0.05 a 1)</value>
+  </data>
+  <data name="Aparatos_AsiSeVeria.Text" xml:space="preserve">
+    <value>ASÍ SE VERÍA</value>
+  </data>
+  <data name="Aparatos_KwhPrevia" xml:space="preserve">
+    <value>{0:N1} KWH AL MES</value>
+  </data>
+  <data name="Aparatos_AsiSeVeriaTexto.Text" xml:space="preserve">
+    <value>Consumo estimado con estos datos. Es una estimación, no lo que mide tu medidor.</value>
+  </data>
+  <data name="Aparatos_SinVistaPrevia.Text" xml:space="preserve">
+    <value>Completa los datos para ver cuánto consumiría al mes.</value>
+  </data>
+  <data name="Aparatos_Guardar.Content" xml:space="preserve">
+    <value>Guardar aparato</value>
+  </data>
+  <data name="Aparatos_Cancelar.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Aparatos_Tuyos.Text" xml:space="preserve">
+    <value>TUS APARATOS</value>
+  </data>
+  <data name="Aparatos_VacioTitulo.Text" xml:space="preserve">
+    <value>Agrega tu primer aparato</value>
+  </data>
+  <data name="Aparatos_VacioTexto.Text" xml:space="preserve">
+    <value>Elige una plantilla o captura uno a mano para estimar cuánto consume al mes.</value>
+  </data>
+  <data name="Aparatos_Detalle" xml:space="preserve">
+    <value>{0} × {1:N0} W · {2:0.##} h/día · {3} días/sem</value>
+  </data>
+  <data name="Aparatos_KwhMes" xml:space="preserve">
+    <value>{0:N1} kWh/mes</value>
+  </data>
+  <data name="Aparatos_Editar.Content" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Aparatos_Eliminar.Content" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="Aparatos_EliminarTitulo" xml:space="preserve">
+    <value>Eliminar aparato</value>
+  </data>
+  <data name="Aparatos_EliminarTexto" xml:space="preserve">
+    <value>¿Eliminar «{0}»? Esta acción no se puede deshacer.</value>
+  </data>
+  <data name="Aparatos_Guardado" xml:space="preserve">
+    <value>Se guardó «{0}».</value>
+  </data>
+  <data name="Aparatos_Eliminado" xml:space="preserve">
+    <value>Se eliminó «{0}».</value>
+  </data>
+  <data name="Aparato_Error_NombreVacio" xml:space="preserve">
+    <value>Escribe el nombre del aparato.</value>
+  </data>
+  <data name="Aparato_Error_NombreMuyLargo" xml:space="preserve">
+    <value>El nombre puede tener hasta 40 caracteres.</value>
+  </data>
+  <data name="Aparato_Error_CategoriaInvalida" xml:space="preserve">
+    <value>Elige una categoría.</value>
+  </data>
+  <data name="Aparato_Error_CantidadFueraDeRango" xml:space="preserve">
+    <value>La cantidad va de 1 a 99.</value>
+  </data>
+  <data name="Aparato_Error_WattsFueraDeRango" xml:space="preserve">
+    <value>La potencia debe ser mayor que 0 y de hasta 20,000 W.</value>
+  </data>
+  <data name="Aparato_Error_HorasFueraDeRango" xml:space="preserve">
+    <value>Las horas al día deben ser más de 0 y hasta 24.</value>
+  </data>
+  <data name="Aparato_Error_DiasFueraDeRango" xml:space="preserve">
+    <value>Los días a la semana van de 1 a 7.</value>
+  </data>
+  <data name="Aparato_Error_CicloFueraDeRango" xml:space="preserve">
+    <value>El ciclo de trabajo va de 0.05 a 1.</value>
+  </data>
+  <data name="CategoriaAparato_Climatizacion" xml:space="preserve">
+    <value>Climatización</value>
+  </data>
+  <data name="CategoriaAparato_Refrigeracion" xml:space="preserve">
+    <value>Refrigeración</value>
+  </data>
+  <data name="CategoriaAparato_Lavado" xml:space="preserve">
+    <value>Lavado y planchado</value>
+  </data>
+  <data name="CategoriaAparato_Iluminacion" xml:space="preserve">
+    <value>Iluminación</value>
+  </data>
+  <data name="CategoriaAparato_Electronica" xml:space="preserve">
+    <value>Electrónica</value>
+  </data>
+  <data name="CategoriaAparato_Cocina" xml:space="preserve">
+    <value>Cocina</value>
+  </data>
+  <data name="CategoriaAparato_Otro" xml:space="preserve">
+    <value>Otro</value>
+  </data>
+  <data name="Plantilla_AireAcondicionado" xml:space="preserve">
+    <value>Aire acondicionado</value>
+  </data>
+  <data name="Plantilla_Refrigerador" xml:space="preserve">
+    <value>Refrigerador</value>
+  </data>
+  <data name="Plantilla_Lavadora" xml:space="preserve">
+    <value>Lavadora</value>
+  </data>
+  <data name="Plantilla_IluminacionLed" xml:space="preserve">
+    <value>Iluminación LED</value>
+  </data>
+  <data name="Plantilla_Televisor" xml:space="preserve">
+    <value>Televisor</value>
+  </data>
+  <data name="Plantilla_Computadora" xml:space="preserve">
+    <value>Computadora</value>
+  </data>
+  <data name="Plantilla_Microondas" xml:space="preserve">
+    <value>Microondas</value>
+  </data>
+  <data name="Plantilla_Ventilador" xml:space="preserve">
+    <value>Ventilador</value>
+  </data>
+  <data name="Plantilla_Plancha" xml:space="preserve">
+    <value>Plancha</value>
+  </data>
+  <data name="Plantilla_BombaDeAgua" xml:space="preserve">
+    <value>Bomba de agua</value>
+  </data>
+  <data name="Aparatos_AyudaCampos.Text" xml:space="preserve">
+    <value>La potencia viene en la etiqueta o en el manual del aparato. El ciclo de trabajo es la fracción del tiempo encendido en que consume esa potencia: 1 si no se apaga solo.</value>
+  </data>
 </root>

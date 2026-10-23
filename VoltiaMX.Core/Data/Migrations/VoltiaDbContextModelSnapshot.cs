@@ -17,6 +17,50 @@ namespace VoltiaMX.Core.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.13");
 
+            modelBuilder.Entity("VoltiaMX.Core.Models.Aparato", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Categoria")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("CicloDeTrabajo")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("DiasPorSemana")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("HorasPorDia")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LugarId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Watts")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LugarId");
+
+                    b.ToTable("Aparatos");
+                });
+
             modelBuilder.Entity("VoltiaMX.Core.Models.Lectura", b =>
                 {
                     b.Property<int>("Id")
@@ -300,6 +344,17 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.ToTable("TarifaRangos");
                 });
 
+            modelBuilder.Entity("VoltiaMX.Core.Models.Aparato", b =>
+                {
+                    b.HasOne("VoltiaMX.Core.Models.Lugar", "Lugar")
+                        .WithMany("Aparatos")
+                        .HasForeignKey("LugarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lugar");
+                });
+
             modelBuilder.Entity("VoltiaMX.Core.Models.Lectura", b =>
                 {
                     b.HasOne("VoltiaMX.Core.Models.Lugar", "Lugar")
@@ -379,6 +434,8 @@ namespace VoltiaMX.Core.Data.Migrations
 
             modelBuilder.Entity("VoltiaMX.Core.Models.Lugar", b =>
                 {
+                    b.Navigation("Aparatos");
+
                     b.Navigation("Lecturas");
 
                     b.Navigation("Periodos");

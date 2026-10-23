@@ -42,4 +42,6 @@ public class Lugar
     public List<Lectura> Lecturas { get; set; } = [];
 
     public List<Periodo> Periodos { get; set; } = [];
+
+    public List<Aparato> Aparatos { get; set; } = [];
 }

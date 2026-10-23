@@ -15,7 +15,7 @@ public sealed class MigracionNombreTarifa40Tests
     /// cerrado por lecturas (con su lectura de corte) y otro del recibo (sin lectura de corte), y un
     /// lugar de demo con su periodo y lecturas.
     /// </summary>
-    private const string Poblar = """
+    internal const string Poblar = """
         INSERT INTO Tarifas (Id, Nombre, Tipo, LimiteDacKwhMensual, CargoFijoMensual, Vigencia) VALUES
             (1, '1', 'Domestica', '250.0', '0.0', '2026-01-01'),
             (2, '1C', 'Domestica', '850.0', '0.0', '2026-01-01'),
@@ -38,7 +38,7 @@ public sealed class MigracionNombreTarifa40Tests
             (3, '2026-07-26', '47492.0', 'Manual', 0), (3, '2026-09-26', '48210.0', 'Manual', 0);
         """;
 
-    private static async Task<Dictionary<string, long>> ContarAsync(SqliteConnection conexion)
+    internal static async Task<Dictionary<string, long>> ContarAsync(SqliteConnection conexion)
     {
         var conteos = new Dictionary<string, long>();
         foreach (var tabla in new[] { "Tarifas", "TarifaRangos", "Lugares", "Periodos", "Lecturas" })
