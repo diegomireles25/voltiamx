@@ -962,7 +962,7 @@
     <value>Abrir galería</value>
   </data>
   <data name="Config_Version.Text" xml:space="preserve">
-    <value>Versión 0.2 · avance</value>
+    <value>Versión 0.3 · avance</value>
   </data>
 
   <!-- Lecturas -->
@@ -1617,7 +1617,7 @@
     <value>Vuelve a calcular el monto de tus periodos con la tarifa de tu lugar. Los periodos con monto de recibo no se tocan.</value>
   </data>
   <data name="Recalcular_Boton.Content" xml:space="preserve">
-    <value>Recalcular mis periodos con esta tarifa</value>
+    <value>Recalcular mis periodos con la tarifa de mi lugar</value>
   </data>
   <data name="Recalcular_Titulo" xml:space="preserve">
     <value>Recalcular periodos</value>
