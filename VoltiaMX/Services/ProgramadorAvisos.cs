@@ -45,6 +45,24 @@ public sealed class ProgramadorAvisos(IAvisoService avisos, INotificador notific
     }
 
     /// <summary>
+    /// Detiene las evaluaciones y espera la que esté en curso (antes de reemplazar la base).
+    /// </summary>
+    public async Task PausarAsync()
+    {
+        _reloj?.Stop();
+        await _uno.WaitAsync();
+    }
+
+    /// <summary>
+    /// Deshace <see cref="PausarAsync"/> si la restauración no se completó.
+    /// </summary>
+    public void Reanudar()
+    {
+        _uno.Release();
+        _reloj?.Start();
+    }
+
+    /// <summary>
     /// La app se abrió desde una notificación: navega cuando el Shell esté listo.
     /// </summary>
     public void AbrirAlIniciar(TipoAviso? tipo)

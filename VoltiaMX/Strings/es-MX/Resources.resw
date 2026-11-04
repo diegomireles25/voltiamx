@@ -2645,4 +2645,187 @@
   <data name="Reportes_VolverConfiguracion.Content" xml:space="preserve">
     <value>Volver a Configuración</value>
   </data>
+  <data name="Config_RespaldoTitulo.Text" xml:space="preserve">
+    <value>Respaldo y restauración</value>
+  </data>
+  <data name="Config_RespaldoTexto.Text" xml:space="preserve">
+    <value>Guarda todos tus datos en un archivo y recupéralos cuando lo necesites.</value>
+  </data>
+  <data name="Config_RespaldoBoton.Content" xml:space="preserve">
+    <value>Abrir respaldo</value>
+  </data>
+  <data name="Respaldo_Titulo.Text" xml:space="preserve">
+    <value>RESPALDO</value>
+  </data>
+  <data name="Respaldo_Privacidad.Text" xml:space="preserve">
+    <value>El respaldo contiene todos tus datos de consumo y no está cifrado. VoltiaMX no lo envía a ningún lado; guárdalo en un lugar seguro.</value>
+  </data>
+  <data name="Respaldo_ExcelNoRestaura.Text" xml:space="preserve">
+    <value>El Excel de Reportes sirve para revisar tus datos; solo un respaldo sirve para restaurarlos.</value>
+  </data>
+  <data name="Respaldo_CrearTitulo.Text" xml:space="preserve">
+    <value>CREAR RESPALDO</value>
+  </data>
+  <data name="Respaldo_CrearTexto.Text" xml:space="preserve">
+    <value>Un archivo .voltiabak con todos tus lugares, lecturas, periodos, tarifas, aparatos, metas y ajustes.</value>
+  </data>
+  <data name="Respaldo_Crear.Content" xml:space="preserve">
+    <value>Crear respaldo</value>
+  </data>
+  <data name="Respaldo_RestaurarTitulo.Text" xml:space="preserve">
+    <value>RESTAURAR DESDE UN ARCHIVO</value>
+  </data>
+  <data name="Respaldo_RestaurarTexto.Text" xml:space="preserve">
+    <value>Primero se revisa el archivo y se muestra qué contiene. Nada cambia hasta que confirmes.</value>
+  </data>
+  <data name="Respaldo_Elegir.Content" xml:space="preserve">
+    <value>Elegir respaldo</value>
+  </data>
+  <data name="Respaldo_EtiquetaRechazo.Content" xml:space="preserve">
+    <value>NO VÁLIDO</value>
+  </data>
+  <data name="Respaldo_AdvertenciaTitulo.Text" xml:space="preserve">
+    <value>ESTO REEMPLAZARÁ TODOS LOS DATOS ACTUALES</value>
+  </data>
+  <data name="Respaldo_AdvertenciaTexto.Text" xml:space="preserve">
+    <value>Antes de restaurar se guarda una copia de tus datos actuales en la carpeta de copias automáticas.</value>
+  </data>
+  <data name="Respaldo_Restaurar.Content" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="Respaldo_Trabajando.Text" xml:space="preserve">
+    <value>Trabajando…</value>
+  </data>
+  <data name="Respaldo_Guardado" xml:space="preserve">
+    <value>Respaldo guardado en {0}</value>
+  </data>
+  <data name="Respaldo_CopiasTitulo.Text" xml:space="preserve">
+    <value>COPIAS AUTOMÁTICAS</value>
+  </data>
+  <data name="Respaldo_CopiasTexto.Text" xml:space="preserve">
+    <value>VoltiaMX guarda una copia antes de actualizar su base de datos y antes de restaurar un respaldo. Se conservan las 5 más recientes.</value>
+  </data>
+  <data name="Respaldo_SinCopias.Text" xml:space="preserve">
+    <value>Aún no hay copias automáticas.</value>
+  </data>
+  <data name="Respaldo_AbrirCarpeta.Content" xml:space="preserve">
+    <value>Abrir carpeta</value>
+  </data>
+  <data name="Respaldo_TipoAntesDeMigrar" xml:space="preserve">
+    <value>ANTES DE MIGRAR</value>
+  </data>
+  <data name="Respaldo_TipoAntesDeRestaurar" xml:space="preserve">
+    <value>ANTES DE RESTAURAR</value>
+  </data>
+  <data name="Respaldo_TamanoKb" xml:space="preserve">
+    <value>{0} KB</value>
+  </data>
+  <data name="Respaldo_TamanoMb" xml:space="preserve">
+    <value>{0:0.0} MB</value>
+  </data>
+  <data name="Respaldo_DatoFecha" xml:space="preserve">
+    <value>Creado</value>
+  </data>
+  <data name="Respaldo_DatoVersion" xml:space="preserve">
+    <value>Versión de la app</value>
+  </data>
+  <data name="Respaldo_DatoLugares" xml:space="preserve">
+    <value>Lugares</value>
+  </data>
+  <data name="Respaldo_DatoLecturas" xml:space="preserve">
+    <value>Lecturas</value>
+  </data>
+  <data name="Respaldo_DatoPeriodos" xml:space="preserve">
+    <value>Periodos</value>
+  </data>
+  <data name="Respaldo_DatoTarifas" xml:space="preserve">
+    <value>Tarifas</value>
+  </data>
+  <data name="Respaldo_DatoAparatos" xml:space="preserve">
+    <value>Aparatos</value>
+  </data>
+  <data name="Respaldo_ConfirmarTitulo" xml:space="preserve">
+    <value>¿RESTAURAR ESTE RESPALDO?</value>
+  </data>
+  <data name="Respaldo_ConfirmarTexto" xml:space="preserve">
+    <value>Esto reemplazará TODOS los datos actuales por los del respaldo. Antes se guardará una copia de tus datos actuales en {0}</value>
+  </data>
+  <data name="Respaldo_ConfirmarBoton" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="Respaldo_Cancelar" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Respaldo_RestauradoTitulo" xml:space="preserve">
+    <value>DATOS RESTAURADOS</value>
+  </data>
+  <data name="Respaldo_RestauradoTexto" xml:space="preserve">
+    <value>Datos restaurados. Cierra VoltiaMX y vuelve a abrirla para continuar.</value>
+  </data>
+  <data name="Respaldo_RestauradoPagina.Text" xml:space="preserve">
+    <value>Datos restaurados. Cierra VoltiaMX y vuelve a abrirla para continuar.</value>
+  </data>
+  <data name="Respaldo_CerrarApp" xml:space="preserve">
+    <value>Cerrar VoltiaMX</value>
+  </data>
+  <data name="Respaldo_Revertido" xml:space="preserve">
+    <value>Se recuperaron tus datos anteriores: no cambió nada.</value>
+  </data>
+  <data name="Respaldo_TipoArchivo" xml:space="preserve">
+    <value>Respaldo de VoltiaMX</value>
+  </data>
+  <data name="Respaldo_Rechazo_NoSePudoLeer" xml:space="preserve">
+    <value>No se pudo abrir el archivo. Revisa que exista y que no esté abierto en otro programa.</value>
+  </data>
+  <data name="Respaldo_Rechazo_NoEsZip" xml:space="preserve">
+    <value>Este archivo no es un respaldo de VoltiaMX.</value>
+  </data>
+  <data name="Respaldo_Rechazo_FaltaManifiesto" xml:space="preserve">
+    <value>Al archivo le falta la información del respaldo: no es un respaldo de VoltiaMX o está incompleto.</value>
+  </data>
+  <data name="Respaldo_Rechazo_FaltaBase" xml:space="preserve">
+    <value>Al respaldo le faltan tus datos: está incompleto.</value>
+  </data>
+  <data name="Respaldo_Rechazo_ManifiestoIlegible" xml:space="preserve">
+    <value>La información del respaldo está dañada.</value>
+  </data>
+  <data name="Respaldo_Rechazo_FormatoNoCompatible" xml:space="preserve">
+    <value>Este respaldo usa un formato que esta versión de VoltiaMX no reconoce.</value>
+  </data>
+  <data name="Respaldo_Rechazo_HashNoCoincide" xml:space="preserve">
+    <value>El respaldo fue modificado o está dañado: sus datos no coinciden con su firma.</value>
+  </data>
+  <data name="Respaldo_Rechazo_BaseDanada" xml:space="preserve">
+    <value>Los datos del respaldo están dañados.</value>
+  </data>
+  <data name="Respaldo_Rechazo_SinHistorialDeMigraciones" xml:space="preserve">
+    <value>Los datos del respaldo no son de VoltiaMX.</value>
+  </data>
+  <data name="Respaldo_Rechazo_ProcedeDeVersionMasNueva" xml:space="preserve">
+    <value>Este respaldo viene de una versión más nueva de VoltiaMX. Actualiza la app para restaurarlo.</value>
+  </data>
+  <data name="Respaldo_Error_SinPermiso" xml:space="preserve">
+    <value>No hay permiso para guardar en esa carpeta. Elige otra, por ejemplo Documentos.</value>
+  </data>
+  <data name="Respaldo_Error_EnUso" xml:space="preserve">
+    <value>El archivo o los datos están en uso por otro programa. Ciérralo e inténtalo de nuevo.</value>
+  </data>
+  <data name="Respaldo_Error_DiscoLleno" xml:space="preserve">
+    <value>No hay espacio suficiente en el disco.</value>
+  </data>
+  <data name="Respaldo_Error_DestinoNoExiste" xml:space="preserve">
+    <value>La carpeta de destino no existe. Elige otra.</value>
+  </data>
+  <data name="Respaldo_Error_IntegridadFallo" xml:space="preserve">
+    <value>La copia no pasó la revisión de integridad. Inténtalo de nuevo.</value>
+  </data>
+  <data name="Respaldo_Error_CopiaPreviaFallo" xml:space="preserve">
+    <value>No se pudo guardar la copia de tus datos actuales, así que no se restauró nada. Revisa el espacio en disco.</value>
+  </data>
+  <data name="Respaldo_Error_MigracionFallo" xml:space="preserve">
+    <value>No se pudo preparar el respaldo restaurado.</value>
+  </data>
+  <data name="Respaldo_Error_Desconocido" xml:space="preserve">
+    <value>No se pudo completar. Inténtalo de nuevo.</value>
+  </data>
 </root>

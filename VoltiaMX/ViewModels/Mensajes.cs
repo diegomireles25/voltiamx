@@ -53,6 +53,11 @@ public static class SeccionesConfiguracion
     /// Reportes y exportación (también desde el módulo Reportes).
     /// </summary>
     public const string Reportes = "Reportes";
+
+    /// <summary>
+    /// Respaldo y restauración.
+    /// </summary>
+    public const string Respaldo = "Respaldo";
 }
 
 /// <summary>

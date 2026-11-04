@@ -2,6 +2,7 @@ using System.Globalization;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -59,8 +60,6 @@ public sealed partial class RespaldoService(OpcionesRespaldo opciones, TimeProvi
     private const string EntradaManifiesto = "manifiesto.json";
     private const string TablaHistorial = "__EFMigrationsHistory";
     private const string FormatoFecha = "yyyyMMdd-HHmmss";
-
-    private static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web) { WriteIndented = true };
 
     private static readonly Lazy<HashSet<string>> MigracionesConocidas = new(() =>
     {
@@ -249,7 +248,7 @@ public sealed partial class RespaldoService(OpcionesRespaldo opciones, TimeProvi
                 {
                     zip.CreateEntryFromFile(copia, EntradaBase, CompressionLevel.Optimal);
                     using var flujo = zip.CreateEntry(EntradaManifiesto).Open();
-                    JsonSerializer.Serialize(flujo, manifiesto, Json);
+                    JsonSerializer.Serialize(flujo, manifiesto, ManifiestoJson.Default.ManifiestoRespaldo);
                 }
 
                 File.Move(parcial, destino, overwrite: true);
@@ -345,7 +344,7 @@ public sealed partial class RespaldoService(OpcionesRespaldo opciones, TimeProvi
             try
             {
                 using var flujo = entradaManifiesto.Open();
-                manifiesto = JsonSerializer.Deserialize<ManifiestoRespaldo>(flujo, Json);
+                manifiesto = JsonSerializer.Deserialize(flujo, ManifiestoJson.Default.ManifiestoRespaldo);
             }
             catch (JsonException)
             {
@@ -626,3 +625,10 @@ public sealed partial class RespaldoService(OpcionesRespaldo opciones, TimeProvi
         public ErrorRespaldo Error { get; } = error;
     }
 }
+
+/// <summary>
+/// manifiesto.json en camelCase, generado al compilar (sin reflexión).
+/// </summary>
+[JsonSourceGenerationOptions(JsonSerializerDefaults.Web, WriteIndented = true)]
+[JsonSerializable(typeof(ManifiestoRespaldo))]
+internal sealed partial class ManifiestoJson : JsonSerializerContext;

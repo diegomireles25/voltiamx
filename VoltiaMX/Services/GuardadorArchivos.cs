@@ -48,6 +48,11 @@ public interface IGuardadorArchivos
 
     Task<bool> AbrirCarpetaAsync(string rutaDelArchivo);
 
+    /// <summary>
+    /// Abre la carpeta en el Explorador; false si no existe o no se pudo abrir.
+    /// </summary>
+    Task<bool> AbrirDirectorioAsync(string carpeta);
+
 #if DEBUG
     /// <summary>
     /// Solo para pruebas: si tiene valor, se escribe en esta carpeta sin abrir el selector.
@@ -119,10 +124,13 @@ public sealed class GuardadorArchivos(ITextos textos) : IGuardadorArchivos
     }
 
     public async Task<bool> AbrirCarpetaAsync(string rutaDelArchivo)
+        => Path.GetDirectoryName(rutaDelArchivo) is { Length: > 0 } carpeta && await AbrirDirectorioAsync(carpeta);
+
+    public async Task<bool> AbrirDirectorioAsync(string carpeta)
     {
         try
         {
-            return Path.GetDirectoryName(rutaDelArchivo) is { Length: > 0 } carpeta && await Launcher.LaunchFolderPathAsync(carpeta);
+            return Directory.Exists(carpeta) && await Launcher.LaunchFolderPathAsync(carpeta);
         }
         catch (Exception)
         {

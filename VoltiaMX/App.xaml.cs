@@ -142,6 +142,7 @@ namespace VoltiaMX
             servicios.AddSingleton<ProgramadorAvisos>();
             servicios.AddSingleton<IGuardadorArchivos, GuardadorArchivos>();
             servicios.AddSingleton(_ => FuentesDelReporte.Cargar());
+            servicios.AddSingleton<IAplicacion, Aplicacion>();
 
             // ViewModels
             servicios.AddTransient<OnboardingViewModel>();
@@ -158,6 +159,7 @@ namespace VoltiaMX
             servicios.AddTransient<MetasViewModel>();
             servicios.AddTransient<EscanearReciboViewModel>();
             servicios.AddTransient<ReportesViewModel>();
+            servicios.AddTransient<RespaldoViewModel>();
 
             return builder.Build();
         }

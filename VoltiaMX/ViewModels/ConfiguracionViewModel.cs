@@ -114,6 +114,10 @@ public sealed partial class ConfiguracionViewModel(
         => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje(SeccionesConfiguracion.Reportes));
 
     [RelayCommand]
+    private void AbrirRespaldo()
+        => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje(SeccionesConfiguracion.Respaldo));
+
+    [RelayCommand]
     private void AbrirTarifas()
         => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje(SeccionesConfiguracion.Tarifas));
 }

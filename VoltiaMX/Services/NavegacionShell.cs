@@ -22,6 +22,7 @@ public sealed class NavegacionShell : INavegacionShell
                 {
                     SeccionesConfiguracion.Tarifas => typeof(TarifasPage),
                     SeccionesConfiguracion.Reportes => typeof(ReportesPage),
+                    SeccionesConfiguracion.Respaldo => typeof(RespaldoPage),
                     _ => typeof(ConfiguracionPage),
                 });
                 break;

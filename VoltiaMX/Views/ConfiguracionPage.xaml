@@ -152,6 +152,26 @@
                         </Grid>
                     </Border>
 
+                    <!-- Respaldo y restauración (para todos los perfiles) -->
+                    <Border Style="{StaticResource HairlineRowStyle}">
+                        <Grid ColumnSpacing="{StaticResource Spacing24}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Spacing="{StaticResource Spacing8}">
+                                <TextBlock x:Uid="Config_RespaldoTitulo" Style="{StaticResource SubheadingTextStyle}" />
+                                <TextBlock x:Uid="Config_RespaldoTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" />
+                            </StackPanel>
+                            <Button
+                                x:Uid="Config_RespaldoBoton"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Command="{x:Bind ViewModel.AbrirRespaldoCommand}"
+                                Style="{StaticResource TextLinkButtonStyle}" />
+                        </Grid>
+                    </Border>
+
                     <!-- Solo en compilaciones Debug -->
                     <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDebug)}">
                         <Grid ColumnSpacing="{StaticResource Spacing24}">
