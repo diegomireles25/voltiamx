@@ -17,13 +17,13 @@ App de escritorio para Windows que ayuda a entender, predecir y reducir el recib
 - Aparatos con su consumo estimado y ranking real contra lo que mide tu medidor.
 - Simulador de ahorro: menos horas de uso o un equipo más eficiente, con pesos según tu tarifa y recuperación de la inversión.
 - Metas de ahorro: reducir tu consumo contra el periodo anterior, con progreso, historial y racha.
+- Escanear el recibo (foto o PDF) con reconocimiento de texto local, sin internet: revisas los datos leídos y guardas la lectura.
 - En `VoltiaMX.Core`: cálculo por rangos de tarifa, proyección del periodo, riesgo DAC con el promedio de los últimos 12 meses y presupuesto inverso.
 - Pruebas automáticas (`dotnet test`).
 - Base de datos local SQLite.
 
 ## Qué falta
 
-- OCR del recibo.
 - Notificaciones.
 - Inquilinos.
 - Simulador solar.
