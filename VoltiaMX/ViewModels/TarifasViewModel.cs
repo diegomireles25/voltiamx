@@ -115,6 +115,7 @@ public sealed partial class TarifasViewModel(
 
         var resultado = await tarifas.RecalcularPeriodosAsync(lugarId);
         MostrarAviso(textos.Formato("Recalcular_Hecho", resultado.Recalculados, resultado.Cambiados, resultado.SaltadosPorRecibo));
+        WeakReferenceMessenger.Default.Send(new EvaluarAvisosMensaje());
     }
 
     private static readonly TimeSpan DuracionAviso = TimeSpan.FromSeconds(6);
@@ -193,6 +194,7 @@ public sealed partial class TarifasViewModel(
         await tarifas.AsignarALugarAsync(lugarId, tarifa.Id);
         await CargarAsync();
         MostrarAviso(textos.Formato("Tarifas_Asignada", tarifa.Nombre));
+        WeakReferenceMessenger.Default.Send(new EvaluarAvisosMensaje());
     }
 
     [RelayCommand]

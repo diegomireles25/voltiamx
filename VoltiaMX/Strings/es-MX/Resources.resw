@@ -535,7 +535,7 @@
     <value>No</value>
   </data>
   <data name="Presupuesto_AvisosNota.Text" xml:space="preserve">
-    <value>Por ahora solo guardamos tu preferencia. Los avisos llegarán en una próxima versión de VoltiaMX.</value>
+    <value>Los avisos se muestran como notificaciones de Windows mientras VoltiaMX está abierta.</value>
   </data>
 
   <!-- Onboarding: listo y resumen -->
@@ -603,7 +603,7 @@
     <value>AVISOS</value>
   </data>
   <data name="Resumen_AvisosActivos" xml:space="preserve">
-    <value>Activados (llegan más adelante)</value>
+    <value>Activados</value>
   </data>
   <data name="Resumen_AvisosInactivos" xml:space="preserve">
     <value>Desactivados</value>
@@ -2287,5 +2287,65 @@
   </data>
   <data name="Escanear_ComparacionDetalle" xml:space="preserve">
     <value>Con tu tarifa {0}: ${1:N2} calculados contra ${2:N2} del recibo.</value>
+  </data>
+  <data name="Config_NotificacionesTitulo.Text" xml:space="preserve">
+    <value>Notificaciones</value>
+  </data>
+  <data name="Config_NotificacionesTexto.Text" xml:space="preserve">
+    <value>Te avisamos cuando se acerca tu corte, si subes de riesgo DAC, si tu meta está en riesgo o si vas a pasar tu tope. Los avisos se muestran mientras VoltiaMX está abierta.</value>
+  </data>
+  <data name="Config_NotificacionesNoDisponibles.Text" xml:space="preserve">
+    <value>Las notificaciones de Windows no están disponibles en esta instalación. Los avisos siguen apareciendo en el Dashboard.</value>
+  </data>
+  <data name="Config_NotificacionesPrueba.Content" xml:space="preserve">
+    <value>Enviar notificación de prueba</value>
+  </data>
+  <data name="Config_NotificacionesSwitch.OnContent" xml:space="preserve">
+    <value>Activadas</value>
+  </data>
+  <data name="Config_NotificacionesSwitch.OffContent" xml:space="preserve">
+    <value>Desactivadas</value>
+  </data>
+  <data name="Aviso_Lectura_Titulo" xml:space="preserve">
+    <value>Se acerca tu fecha de corte</value>
+  </data>
+  <data name="Aviso_Lectura_Cuerpo" xml:space="preserve">
+    <value>Tu periodo cierra en {0} días ({1:d MMM}): captura tu lectura.</value>
+  </data>
+  <data name="Aviso_Lectura_CuerpoHoy" xml:space="preserve">
+    <value>Tu periodo cierra hoy: captura tu lectura.</value>
+  </data>
+  <data name="Aviso_Lectura_CuerpoTerminado" xml:space="preserve">
+    <value>Tu periodo cerró el {0:d MMM}: captura la lectura para cerrarlo.</value>
+  </data>
+  <data name="Aviso_Dac_Titulo" xml:space="preserve">
+    <value>Riesgo de tarifa DAC</value>
+  </data>
+  <data name="Aviso_Dac_Cuerpo_Medio" xml:space="preserve">
+    <value>Tu consumo promedio se acerca al límite DAC de tu tarifa. Revisa el detalle en el Predictor.</value>
+  </data>
+  <data name="Aviso_Dac_Cuerpo_Alto" xml:space="preserve">
+    <value>Tu consumo promedio está muy cerca del límite DAC de tu tarifa o ya lo pasó. Revisa el detalle en el Predictor.</value>
+  </data>
+  <data name="Aviso_Meta_Titulo" xml:space="preserve">
+    <value>Tu meta de ahorro</value>
+  </data>
+  <data name="Aviso_Meta_Cuerpo_EnRiesgo" xml:space="preserve">
+    <value>A este ritmo no llegas a tu meta del periodo que cierra el {0:d MMM}.</value>
+  </data>
+  <data name="Aviso_Meta_Cuerpo_Superada" xml:space="preserve">
+    <value>Ya pasaste el objetivo de tu meta del periodo que cierra el {0:d MMM}.</value>
+  </data>
+  <data name="Aviso_Presupuesto_Titulo" xml:space="preserve">
+    <value>Tu tope de pago</value>
+  </data>
+  <data name="Aviso_Presupuesto_Cuerpo" xml:space="preserve">
+    <value>A este ritmo, el recibo que cierra el {0:d MMM} pasará tu tope.</value>
+  </data>
+  <data name="Aviso_Prueba_Titulo" xml:space="preserve">
+    <value>VoltiaMX</value>
+  </data>
+  <data name="Aviso_Prueba_Cuerpo" xml:space="preserve">
+    <value>Así se ven tus avisos.</value>
   </data>
 </root>

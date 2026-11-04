@@ -418,6 +418,7 @@ public sealed partial class EscanearReciboViewModel : ObservableObject
             }
 
             Descartar();
+            WeakReferenceMessenger.Default.Send(new EvaluarAvisosMensaje());
             WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.Guardada(resultado.Cierres.Count)));
         }
         finally

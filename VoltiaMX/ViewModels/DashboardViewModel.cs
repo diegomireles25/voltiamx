@@ -222,6 +222,8 @@ public sealed partial class DashboardViewModel(
             {
                 await CargarPropiedadesAsync();
             }
+
+            WeakReferenceMessenger.Default.Send(new EvaluarAvisosMensaje());
         }
         finally
         {

@@ -53,8 +53,11 @@ public sealed partial class ShellViewModel(IPerfilService perfiles, ITextos text
             this, static (receptor, mensaje) => receptor.IrA(e => e.Modulo == mensaje.Modulo, mensaje.Seccion));
         WeakReferenceMessenger.Default.Register<ShellViewModel, IrAConfiguracionMensaje>(
             this, static (receptor, mensaje) => receptor.IrA(e => e.Destino == DestinoShell.Configuracion, mensaje.Seccion));
+        WeakReferenceMessenger.Default.Register<ShellViewModel, IrADashboardMensaje>(
+            this, static (receptor, _) => receptor.IrA(e => e.Destino == DestinoShell.Dashboard, null));
 
         await CargarElementosAsync(DestinoShell.Dashboard);
+        WeakReferenceMessenger.Default.Send(new ShellListoMensaje());
     }
 
     [RelayCommand(CanExecute = nameof(NuevaLecturaHabilitada))]

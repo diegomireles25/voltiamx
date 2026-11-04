@@ -7,13 +7,40 @@ using VoltiaMX.Services;
 namespace VoltiaMX.ViewModels;
 
 /// <summary>
-/// Configuración: modo simple/avanzado, repetir el onboarding y datos de demo.
+/// Configuración: modo simple/avanzado, notificaciones, repetir el onboarding y datos de demo.
 /// </summary>
 public sealed partial class ConfiguracionViewModel(
     IPerfilService perfiles,
     IDatosDemoService datosDemo,
-    INavegacionShell navegacion) : ObservableObject
+    INavegacionShell navegacion,
+    ProgramadorAvisos avisos) : ObservableObject
 {
+    [ObservableProperty] public partial bool NotificacionesActivas { get; set; }
+
+    /// <summary>
+    /// Windows acepta notificaciones en esta instalación (la copia sin empaquetar, por ejemplo, no).
+    /// </summary>
+    public bool NotificacionesDisponibles => avisos.NotificacionesDisponibles;
+
+    public bool NotificacionesNoDisponibles => !NotificacionesDisponibles;
+
+    partial void OnNotificacionesActivasChanged(bool value)
+    {
+        if (!_cargando)
+        {
+            _ = CambiarNotificacionesAsync(value);
+        }
+    }
+
+    private async Task CambiarNotificacionesAsync(bool activas)
+    {
+        await perfiles.CambiarNotificacionesAsync(activas);
+        WeakReferenceMessenger.Default.Send(new EvaluarAvisosMensaje());
+    }
+
+    [RelayCommand(CanExecute = nameof(NotificacionesDisponibles))]
+    private void EnviarPrueba() => avisos.EnviarPrueba();
+
     // Evita guardar el modo mientras se carga el valor inicial.
     private bool _cargando;
 
@@ -35,7 +62,9 @@ public sealed partial class ConfiguracionViewModel(
     public async Task CargarAsync()
     {
         _cargando = true;
-        ModoAvanzado = (await perfiles.ObtenerPerfilAsync())?.ModoAvanzado == true;
+        var perfil = await perfiles.ObtenerPerfilAsync();
+        ModoAvanzado = perfil?.ModoAvanzado == true;
+        NotificacionesActivas = perfil?.NotificacionesActivas == true;
         HayDemo = await datosDemo.HayDemoAsync();
         _cargando = false;
     }

@@ -247,6 +247,7 @@ public sealed partial class LecturasViewModel(
             await CargarListaAsync();
             await CargarHistorialAsync();
             AvisarGuardada(resultado.Cierres.Count);
+            WeakReferenceMessenger.Default.Send(new EvaluarAvisosMensaje());
         }
         finally
         {

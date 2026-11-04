@@ -2,7 +2,10 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
+using Microsoft.Windows.AppLifecycle;
+using Microsoft.Windows.AppNotifications;
 using VoltiaMX.Core.Data;
 using VoltiaMX.Core.Services;
 using VoltiaMX.Services;
@@ -56,8 +59,17 @@ namespace VoltiaMX
             WeakReferenceMessenger.Default.Register<App, OnboardingTerminadoMensaje>(this, static (app, _) => app.Mostrar(new ShellWindow()));
             WeakReferenceMessenger.Default.Register<App, RepetirOnboardingMensaje>(this, static (app, _) => app.Mostrar(new OnboardingWindow()));
 
+            // Avisos: se registran las notificaciones y se evalúan mientras la app está abierta.
+            var programador = Servicios.GetRequiredService<ProgramadorAvisos>();
+            if (AppInstance.GetCurrent().GetActivatedEventArgs() is { Kind: ExtendedActivationKind.AppNotification, Data: AppNotificationActivatedEventArgs desdeNotificacion })
+            {
+                // Se abrió la app tocando una notificación: al estar listo el Shell, abre su pantalla.
+                programador.AbrirAlIniciar(Notificador.TipoDe(desdeNotificacion.Arguments));
+            }
+
             var perfil = await Servicios.GetRequiredService<IPerfilService>().ObtenerPerfilAsync();
             Mostrar(perfil?.OnboardingCompletado == true ? new ShellWindow() : new OnboardingWindow());
+            programador.Iniciar(DispatcherQueue.GetForCurrentThread());
         }
 
         /// <summary>
@@ -99,6 +111,7 @@ namespace VoltiaMX
             servicios.AddSingleton<ILecturaService, LecturaService>();
             servicios.AddSingleton<IHistorialService, HistorialService>();
             servicios.AddSingleton<IValidadorRecibo, ValidadorRecibo>();
+            servicios.AddSingleton<IAvisoService, AvisoService>();
             servicios.AddSingleton<IAparatoService, AparatoService>();
             servicios.AddSingleton<ISimuladorAhorroService, SimuladorAhorroService>();
             servicios.AddSingleton<IMetaService, MetaService>();
@@ -112,6 +125,8 @@ namespace VoltiaMX
             servicios.AddSingleton<IDialogos, Dialogos>();
             servicios.AddSingleton<IReciboOcr, ReciboOcr>();
             servicios.AddSingleton<ISelectorArchivos, SelectorArchivos>();
+            servicios.AddSingleton<INotificador, Notificador>();
+            servicios.AddSingleton<ProgramadorAvisos>();
 
             // ViewModels
             servicios.AddTransient<OnboardingViewModel>();

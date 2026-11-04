@@ -29,6 +29,22 @@ public sealed record IrAModuloMensaje(ModuloApp Modulo, string? Seccion = null);
 /// </summary>
 public sealed record IrAConfiguracionMensaje(string? Seccion = null);
 
+/// <summary>
+/// Volver al Dashboard desde fuera del Shell (p. ej. al tocar una notificación de un módulo inactivo).
+/// </summary>
+public sealed record IrADashboardMensaje;
+
+/// <summary>
+/// Cambiaron datos que afectan los avisos (Dashboard cargado, lectura guardada, tarifa editada): se
+/// vuelven a evaluar las notificaciones.
+/// </summary>
+public sealed record EvaluarAvisosMensaje;
+
+/// <summary>
+/// El Shell terminó de armar su menú: ya puede recibir mensajes de navegación.
+/// </summary>
+public sealed record ShellListoMensaje;
+
 public static class SeccionesConfiguracion
 {
     public const string Tarifas = "Tarifas";

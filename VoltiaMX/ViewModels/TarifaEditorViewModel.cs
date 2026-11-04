@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using VoltiaMX.Core.Models;
 using VoltiaMX.Core.Services;
 using VoltiaMX.Services;
@@ -292,6 +293,7 @@ public sealed partial class TarifaEditorViewModel(
             var resultado = await tarifas.GuardarAsync(Editable());
             if (resultado.Guardada)
             {
+                WeakReferenceMessenger.Default.Send(new EvaluarAvisosMensaje());
                 navegacion.Volver();
                 return;
             }

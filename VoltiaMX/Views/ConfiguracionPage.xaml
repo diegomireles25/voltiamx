@@ -41,6 +41,40 @@
                         </Grid>
                     </Border>
 
+                    <!-- Notificaciones de Windows con los avisos -->
+                    <Border Style="{StaticResource HairlineRowStyle}">
+                        <Grid ColumnSpacing="{StaticResource Spacing24}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Spacing="{StaticResource Spacing8}">
+                                <TextBlock x:Name="TituloNotificaciones" x:Uid="Config_NotificacionesTitulo" Style="{StaticResource SubheadingTextStyle}" />
+                                <TextBlock
+                                    x:Uid="Config_NotificacionesTexto"
+                                    Foreground="{StaticResource SlateBrush}"
+                                    Style="{StaticResource BodySmTextStyle}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    x:Uid="Config_NotificacionesNoDisponibles"
+                                    Style="{StaticResource BodySmTextStyle}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.NotificacionesNoDisponibles)}" />
+                                <Button
+                                    x:Uid="Config_NotificacionesPrueba"
+                                    Command="{x:Bind ViewModel.EnviarPruebaCommand}"
+                                    Style="{StaticResource TextLinkButtonSmStyle}"
+                                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.NotificacionesDisponibles)}" />
+                            </StackPanel>
+                            <ToggleSwitch
+                                x:Uid="Config_NotificacionesSwitch"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                AutomationProperties.Name="{x:Bind TituloNotificaciones.Text}"
+                                IsOn="{x:Bind ViewModel.NotificacionesActivas, Mode=TwoWay}" />
+                        </Grid>
+                    </Border>
+
                     <Border Style="{StaticResource HairlineRowStyle}">
                         <Grid ColumnSpacing="{StaticResource Spacing24}">
                             <Grid.ColumnDefinitions>
