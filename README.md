@@ -21,6 +21,7 @@ App de escritorio para Windows que ayuda a entender, predecir y reducir el recib
 - Notificaciones de Windows con los avisos de corte, riesgo DAC, meta y presupuesto (verificación con la versión empaquetada pendiente).
 - Exportar a Excel y PDF: el reporte del periodo en PDF y todos tus datos en Excel, generados en tu equipo.
 - Respaldo y restauración en un solo archivo, con copia automática antes de actualizar la base de datos y antes de restaurar.
+- Inquilinos: reparto del recibo entre submedidores (solo lo medido o proporcional), con un recibo en PDF por inquilino y un resumen.
 - En `VoltiaMX.Core`: cálculo por rangos de tarifa, proyección del periodo, riesgo DAC con el promedio de los últimos 12 meses y presupuesto inverso.
 - Pruebas automáticas (`dotnet test`).
 - Base de datos local SQLite.
@@ -28,7 +29,9 @@ App de escritorio para Windows que ayuda a entender, predecir y reducir el recib
 ## Qué falta
 
 - Simulador solar.
-- Inquilinos, con su reporte en PDF.
+- Verificación con un recibo real.
+- Tarifas oficiales (hoy son datos de ejemplo editables).
+- Empaquetado para instalar.
 
 Las secciones que aún no existen aparecen en la app como "Próximamente" o con sus botones deshabilitados.
 
