@@ -2,7 +2,7 @@
 
 App de escritorio para Windows que ayuda a entender, predecir y reducir el recibo de luz de la CFE, en casa, en un negocio o en propiedades en renta, sin necesidad de internet.
 
-**Estado: AVANCE (fase 5 de 6), no es una versión final.**
+**Estado: AVANCE (fase 6 de 6), no es una versión final.**
 
 ## Qué ya funciona
 
@@ -18,17 +18,17 @@ App de escritorio para Windows que ayuda a entender, predecir y reducir el recib
 - Simulador de ahorro: menos horas de uso o un equipo más eficiente, con pesos según tu tarifa y recuperación de la inversión.
 - Metas de ahorro: reducir tu consumo contra el periodo anterior, con progreso, historial y racha.
 - Escanear el recibo (foto o PDF) con reconocimiento de texto local, sin internet: revisas los datos leídos y guardas la lectura.
+- Notificaciones de Windows con los avisos de corte, riesgo DAC, meta y presupuesto (verificación con la versión empaquetada pendiente).
 - En `VoltiaMX.Core`: cálculo por rangos de tarifa, proyección del periodo, riesgo DAC con el promedio de los últimos 12 meses y presupuesto inverso.
 - Pruebas automáticas (`dotnet test`).
 - Base de datos local SQLite.
 
 ## Qué falta
 
-- Notificaciones.
-- Inquilinos.
+- Inquilinos, con su reporte en PDF.
 - Simulador solar.
+- Respaldo y restauración.
 - Exportar a Excel y PDF.
-- Respaldo.
 
 Las secciones que aún no existen aparecen en la app como "Próximamente" o con sus botones deshabilitados.
 
