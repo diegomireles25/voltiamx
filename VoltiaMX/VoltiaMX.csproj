@@ -14,6 +14,8 @@
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>VoltiaMX</RootNamespace>
+        <!-- Versión de la app (se guarda en el manifiesto de los respaldos) -->
+        <Version>0.8.0</Version>
         <!-- Los textos viven en Strings/es-MX/Resources.resw -->
         <DefaultLanguage>es-MX</DefaultLanguage>
 
