@@ -1,3 +1,4 @@
+using System.Reflection;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,6 +51,14 @@ namespace VoltiaMX
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            // Antes de migrar, una copia de la base si tiene datos y hay migraciones pendientes. Si no se
+            // puede crear, se registra la causa (sin datos de la persona) y la app sigue.
+            var copia = await Servicios.GetRequiredService<IRespaldoService>().CrearCopiaAntesDeMigrarAsync();
+            if (copia.Estado == EstadoCopiaPrevia.Fallo)
+            {
+                RegistroDepuracion.Escribir($"[Respaldo] copia antes de migrar: {copia.Error}");
+            }
+
             var fabrica = Servicios.GetRequiredService<IDbContextFactory<VoltiaDbContext>>();
             await using (var db = await fabrica.CreateDbContextAsync())
             {
@@ -96,8 +105,10 @@ namespace VoltiaMX
             // En MSIX, Windows redirige LocalApplicationData a la carpeta del paquete.
             var carpeta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "VoltiaMX");
             Directory.CreateDirectory(carpeta);
+            var rutaBase = Path.Combine(carpeta, "voltia.db");
             servicios.AddDbContextFactory<VoltiaDbContext>(
-                opciones => opciones.UseSqlite($"Data Source={Path.Combine(carpeta, "voltia.db")}"));
+                opciones => opciones.UseSqlite($"Data Source={rutaBase}"));
+            servicios.AddSingleton(new OpcionesRespaldo(rutaBase, Path.Combine(carpeta, "Respaldos"), VersionDeLaApp()));
 
             // Core
             servicios.AddSingleton<ITarifaCalculator, TarifaCalculator>();
@@ -116,6 +127,7 @@ namespace VoltiaMX
             servicios.AddSingleton<IAparatoService, AparatoService>();
             servicios.AddSingleton<ISimuladorAhorroService, SimuladorAhorroService>();
             servicios.AddSingleton<IMetaService, MetaService>();
+            servicios.AddSingleton<IRespaldoService>(sp => new RespaldoService(sp.GetRequiredService<OpcionesRespaldo>()));
 
             // Servicios de UI
             servicios.AddSingleton<ITextos, TextosRecursos>();
@@ -148,6 +160,17 @@ namespace VoltiaMX
             servicios.AddTransient<ReportesViewModel>();
 
             return builder.Build();
+        }
+
+        /// <summary>
+        /// Versión del ensamblado (VoltiaMX.csproj), sin el identificador de compilación que agrega .NET tras "+".
+        /// </summary>
+        private static string VersionDeLaApp()
+        {
+            var version = typeof(App).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+                ?? typeof(App).Assembly.GetName().Version?.ToString()
+                ?? string.Empty;
+            return version.Split('+')[0];
         }
     }
 }

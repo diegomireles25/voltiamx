@@ -16,4 +16,9 @@
     <PackageReference Include="QuestPDF" Version="2026.9.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Las pruebas usan el punto de extensión interno de RespaldoService para simular fallos -->
+    <InternalsVisibleTo Include="VoltiaMX.Tests" />
+  </ItemGroup>
+
 </Project>
