@@ -37,17 +37,11 @@ public sealed class SimuladorAhorroService(
         var ahorroAplicadoMes = ahorroMes;
         if (entrada.KwhMedidoPorMes is > 0m and decimal medido)
         {
-            var consumoPeriodo = medido * meses;
-            var ahorroPeriodo = ahorroMes * meses;
-            if (ahorroPeriodo > consumoPeriodo)
+            (pesosPeriodo, ahorroAplicadoMes, var excede) = AhorroConTarifa.Pesos(calculadora, entrada.Tarifa, meses, medido, ahorroMes);
+            if (excede)
             {
-                ahorroPeriodo = consumoPeriodo;
-                ahorroAplicadoMes = consumoPeriodo / meses;
                 estado = EstadoSimulacion.AhorroExcedeConsumo;
             }
-
-            pesosPeriodo = calculadora.Calcular(consumoPeriodo, entrada.Tarifa, meses).Total
-                - calculadora.Calcular(consumoPeriodo - ahorroPeriodo, entrada.Tarifa, meses).Total;
         }
 
         var pesosMes = pesosPeriodo / meses;
@@ -56,7 +50,7 @@ public sealed class SimuladorAhorroService(
             ? precio / pesosMes
             : null;
 
-        var (dacAntes, dacDespues) = Dac(entrada, ahorroAplicadoMes);
+        var (dacAntes, dacDespues) = AhorroConTarifa.EfectoDac(dac, entrada.Tarifa, entrada.HistorialMensual, ahorroAplicadoMes);
 
         return new ResultadoSimulacion(
             antes,
@@ -70,18 +64,6 @@ public sealed class SimuladorAhorroService(
             recuperacion > MesesMaximosRecuperacion,
             dacAntes,
             dacDespues);
-    }
-
-    // Mismo historial y misma evaluación que el Dashboard, con el ahorro restado a cada mes.
-    private (EvaluacionDac? Antes, EvaluacionDac? Despues) Dac(EntradaSimulacion entrada, decimal ahorroMes)
-    {
-        if (entrada.Tarifa.LimiteDacKwhMensual is not decimal limite || entrada.HistorialMensual.Count == 0)
-        {
-            return (null, null);
-        }
-
-        var despues = entrada.HistorialMensual.Select(kwh => Math.Max(0m, kwh - ahorroMes)).ToList();
-        return (dac.Evaluar(entrada.HistorialMensual, limite), dac.Evaluar(despues, limite));
     }
 
     public async Task<ResultadoSimulacion?> SimularAsync(

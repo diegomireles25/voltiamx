@@ -3182,4 +3182,121 @@
   <data name="Reparto_LecturaActualDe" xml:space="preserve">
     <value>Lectura actual de {0}</value>
   </data>
+  <data name="Solar_AvisoEstimacion" xml:space="preserve">
+    <value>Estimación con supuestos editables. No es una cotización. Las condiciones para conectar un sistema a la red de CFE dependen de tu contrato y de la normativa vigente: verifícalas antes de decidir.</value>
+  </data>
+  <data name="Solar_AvisoNoIncluye" xml:space="preserve">
+    <value>No incluye aumentos de tarifa, degradación de los paneles ni IVA.</value>
+  </data>
+  <data name="Solar_SinPesos_SinTarifa" xml:space="preserve">
+    <value>Sin tarifa no se calcula el ahorro en pesos.</value>
+  </data>
+  <data name="Solar_SinPesos_SinConsumoMedido" xml:space="preserve">
+    <value>Sin consumo medido no se calcula el ahorro en pesos: captura tus lecturas para verlo.</value>
+  </data>
+  <data name="Solar_SinPesos_Normal" xml:space="preserve">
+    <value>Sin ahorro en pesos.</value>
+  </data>
+  <data name="Solar_RecuperacionMeses" xml:space="preserve">
+    <value>{0} meses ({1} años)</value>
+  </data>
+  <data name="Solar_RecuperacionMasDe20" xml:space="preserve">
+    <value>Más de 20 años</value>
+  </data>
+  <data name="SolarPdf_Titulo" xml:space="preserve">
+    <value>ESTIMACIÓN SOLAR</value>
+  </data>
+  <data name="SolarPdf_Lugar" xml:space="preserve">
+    <value>Lugar</value>
+  </data>
+  <data name="SolarPdf_Fecha" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="SolarPdf_Tarifa" xml:space="preserve">
+    <value>Tarifa</value>
+  </data>
+  <data name="SolarPdf_SinTarifa" xml:space="preserve">
+    <value>Sin tarifa</value>
+  </data>
+  <data name="SolarPdf_Referencia" xml:space="preserve">
+    <value>Referencia</value>
+  </data>
+  <data name="SolarPdf_ParametrosTitulo" xml:space="preserve">
+    <value>SUPUESTOS USADOS</value>
+  </data>
+  <data name="SolarPdf_ParametrosNota" xml:space="preserve">
+    <value>Supuestos editables. Los valores por defecto son de ejemplo: cámbialos por los de tu ciudad y tu instalador.</value>
+  </data>
+  <data name="SolarPdf_Consumo" xml:space="preserve">
+    <value>Consumo mensual a cubrir</value>
+  </data>
+  <data name="SolarPdf_Porcentaje" xml:space="preserve">
+    <value>Porcentaje del consumo a cubrir</value>
+  </data>
+  <data name="SolarPdf_Horas" xml:space="preserve">
+    <value>Horas de sol pico por día</value>
+  </data>
+  <data name="SolarPdf_Eficiencia" xml:space="preserve">
+    <value>Eficiencia global del sistema</value>
+  </data>
+  <data name="SolarPdf_WattsPanel" xml:space="preserve">
+    <value>Potencia de cada panel</value>
+  </data>
+  <data name="SolarPdf_Costo" xml:space="preserve">
+    <value>Costo por kWp instalado</value>
+  </data>
+  <data name="SolarPdf_SinCosto" xml:space="preserve">
+    <value>No se indicó costo del sistema</value>
+  </data>
+  <data name="SolarPdf_ResultadoTitulo" xml:space="preserve">
+    <value>RESULTADO</value>
+  </data>
+  <data name="SolarPdf_Paneles" xml:space="preserve">
+    <value>PANELES</value>
+  </data>
+  <data name="SolarPdf_Kwp" xml:space="preserve">
+    <value>Potencia instalada</value>
+  </data>
+  <data name="SolarPdf_Generacion" xml:space="preserve">
+    <value>Generación estimada al mes</value>
+  </data>
+  <data name="SolarPdf_Aprovechados" xml:space="preserve">
+    <value>kWh aprovechados al mes</value>
+  </data>
+  <data name="SolarPdf_Excedente" xml:space="preserve">
+    <value>Excedente al mes (no se valora en pesos)</value>
+  </data>
+  <data name="SolarPdf_AhorroMes" xml:space="preserve">
+    <value>Ahorro estimado al mes</value>
+  </data>
+  <data name="SolarPdf_AhorroAnio" xml:space="preserve">
+    <value>Ahorro estimado al año</value>
+  </data>
+  <data name="SolarPdf_Ahorro" xml:space="preserve">
+    <value>Ahorro en pesos</value>
+  </data>
+  <data name="SolarPdf_Inversion" xml:space="preserve">
+    <value>Inversión estimada</value>
+  </data>
+  <data name="SolarPdf_Recuperacion" xml:space="preserve">
+    <value>Recuperación de la inversión</value>
+  </data>
+  <data name="SolarPdf_SinRecuperacion" xml:space="preserve">
+    <value>Sin ahorro en pesos para calcularla</value>
+  </data>
+  <data name="SolarPdf_DacTitulo" xml:space="preserve">
+    <value>EFECTO EN DAC (ESTIMACIÓN)</value>
+  </data>
+  <data name="SolarPdf_DacAntes" xml:space="preserve">
+    <value>Riesgo DAC hoy</value>
+  </data>
+  <data name="SolarPdf_DacDespues" xml:space="preserve">
+    <value>Riesgo DAC con los paneles</value>
+  </data>
+  <data name="SolarPdf_SinSupuestos" xml:space="preserve">
+    <value>No se suponen aumentos de tarifa, degradación de los paneles, vida útil, inflación, subsidios ni financiamiento.</value>
+  </data>
+  <data name="SolarPdf_SinIvaNiDap" xml:space="preserve">
+    <value>Montos sin IVA ni DAP, calculados con la tarifa del lugar.</value>
+  </data>
 </root>
