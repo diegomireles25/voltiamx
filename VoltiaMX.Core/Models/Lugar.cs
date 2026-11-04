@@ -48,4 +48,8 @@ public class Lugar
     public Meta? Meta { get; set; }
 
     public List<AvisoEnviado> AvisosEnviados { get; set; } = [];
+
+    public List<Inquilino> Inquilinos { get; set; } = [];
+
+    public List<Reparto> Repartos { get; set; } = [];
 }

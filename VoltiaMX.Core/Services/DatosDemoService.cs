@@ -63,9 +63,55 @@ public sealed class DatosDemoService(IDbContextFactory<VoltiaDbContext> fabrica,
             Aparatos = Aparatos(),
             Meta = new Meta { PorcentajeObjetivo = 10, FechaInicio = hoy.AddMonths(-7), Activa = true }, // EJEMPLO: así se ve el historial
         };
+        AgregarInquilinosYReparto(lugar, hoy);
 
         db.Lugares.Add(lugar);
         await db.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// Tres departamentos con submedidor y el reparto del último periodo cerrado, calculado con
+    /// <see cref="Repartidor"/> sobre el monto que calcula la app.
+    /// </summary>
+    private static void AgregarInquilinosYReparto(Lugar lugar, DateOnly hoy)
+    {
+        lugar.Inquilinos =
+        [
+            new() { Nombre = "Depto 1", Activo = true, FechaAlta = hoy.AddYears(-1) }, // EJEMPLO
+            new() { Nombre = "Depto 2", Activo = true, FechaAlta = hoy.AddYears(-1) }, // EJEMPLO
+            new() { Nombre = "Depto 3", Activo = true, FechaAlta = hoy.AddMonths(-8) }, // EJEMPLO
+        ];
+
+        var periodo = lugar.Periodos[^1];
+        LecturasSubmedidor[] submedidores =
+        [
+            new(3_180m, 3_400m), // EJEMPLO: 220 kWh
+            new(5_610m, 5_820m), // EJEMPLO: 210 kWh
+            new(1_240m, 1_430m), // EJEMPLO: 190 kWh
+        ];
+        var resultado = Repartidor.Calcular(periodo.Monto, ModoReparto.SoloMedido, periodo.KwhTotales, submedidores);
+        lugar.Repartos =
+        [
+            new()
+            {
+                PeriodoInicio = periodo.Inicio,
+                PeriodoFin = periodo.Fin,
+                TotalRepartido = periodo.Monto,
+                OrigenTotal = OrigenTotal.MontoCalculado,
+                Modo = ModoReparto.SoloMedido,
+                KwhPrincipal = periodo.KwhTotales,
+                FechaCreacion = periodo.Fin.AddDays(2).ToDateTime(new TimeOnly(10, 0)), // EJEMPLO
+                Inquilinos = lugar.Inquilinos.Select((inquilino, i) => new RepartoInquilino
+                {
+                    Inquilino = inquilino,
+                    NombreInquilino = inquilino.Nombre,
+                    LecturaAnterior = submedidores[i].Anterior,
+                    LecturaActual = submedidores[i].Actual,
+                    Kwh = resultado.Kwh[i],
+                    Cuota = resultado.Cuotas[i],
+                }).ToList(),
+            },
+        ];
     }
 
     public async Task QuitarAsync(CancellationToken cancellationToken = default)

@@ -238,4 +238,46 @@ public sealed class DatosDemoServiceTests : IAsyncLifetime
         await using var db = _fabrica.CreateDbContext();
         Assert.Equal(0, await db.Metas.CountAsync());
     }
+
+    [Fact]
+    public async Task CargarAsync_CreaTresInquilinosYElRepartoDelUltimoPeriodo()
+    {
+        await _servicio.CargarAsync(Hoy);
+
+        var lugar = await LugarDemoAsync();
+        var repartos = new RepartoService(_fabrica);
+        var inquilinos = await new InquilinoService(_fabrica).ListarAsync(lugar.Id);
+        Assert.Equal(["Depto 1", "Depto 2", "Depto 3"], inquilinos.Select(i => i.Nombre));
+        Assert.All(inquilinos, i => Assert.True(i.Activo && i.TieneRepartos));
+
+        // SoloMedido sobre el último bimestre (718 kWh): los submedidores suman 220 + 210 + 190 = 620,
+        // así que el propietario absorbe la parte de 98 kWh.
+        var listado = Assert.Single(await repartos.ListarAsync(lugar.Id));
+        var reparto = (await repartos.ObtenerAsync(listado.Id))!;
+        var ultimo = lugar.Periodos.MaxBy(p => p.Fin)!;
+        Assert.Equal((ultimo.Inicio, ultimo.Fin, ultimo.Monto, 718m), (reparto.Inicio, reparto.Fin, reparto.TotalRepartido, reparto.KwhPrincipal));
+        Assert.Equal((OrigenTotal.MontoCalculado, ModoReparto.SoloMedido), (reparto.Origen, reparto.Modo));
+        Assert.Equal([220m, 210m, 190m], reparto.Lineas.Select(l => l.Kwh));
+        Assert.Equal(Math.Round(ultimo.Monto * 620m / 718m, 2, MidpointRounding.AwayFromZero), reparto.TotalCobrado);
+        Assert.True(reparto.EsDemo);
+        Assert.Empty(reparto.Avisos);
+
+        // Un reparto nuevo de ese periodo precarga las lecturas guardadas.
+        var preparado = await repartos.PrepararAsync(lugar.Id);
+        Assert.True(preparado.Periodo!.TieneReparto);
+        Assert.Equal([3_400m, 5_820m, 1_430m], preparado.Filas.Select(f => f.LecturaActual));
+    }
+
+    [Fact]
+    public async Task QuitarAsync_BorraInquilinosYRepartosDeLaDemo()
+    {
+        await _servicio.CargarAsync(Hoy);
+
+        await _servicio.QuitarAsync();
+
+        await using var db = _fabrica.CreateDbContext();
+        Assert.Equal(0, await db.Inquilinos.CountAsync());
+        Assert.Equal(0, await db.Repartos.CountAsync());
+        Assert.Equal(0, await db.RepartoInquilinos.CountAsync());
+    }
 }

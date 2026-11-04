@@ -29,6 +29,12 @@ public class VoltiaDbContext(DbContextOptions<VoltiaDbContext> options) : DbCont
 
     public DbSet<AvisoEnviado> AvisosEnviados => Set<AvisoEnviado>();
 
+    public DbSet<Inquilino> Inquilinos => Set<Inquilino>();
+
+    public DbSet<Reparto> Repartos => Set<Reparto>();
+
+    public DbSet<RepartoInquilino> RepartoInquilinos => Set<RepartoInquilino>();
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         // Precios, montos y kWh.
@@ -160,6 +166,48 @@ public class VoltiaDbContext(DbContextOptions<VoltiaDbContext> options) : DbCont
                 .WithMany(l => l.AvisosEnviados)
                 .HasForeignKey(a => a.LugarId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // Nombre único por lugar sin distinguir mayúsculas.
+        modelBuilder.Entity<Inquilino>(inquilino =>
+        {
+            inquilino.Property(i => i.Nombre).IsRequired().HasMaxLength(40).UseCollation("NOCASE");
+            inquilino.HasIndex(i => new { i.LugarId, i.Nombre }).IsUnique();
+
+            inquilino.HasOne(i => i.Lugar)
+                .WithMany(l => l.Inquilinos)
+                .HasForeignKey(i => i.LugarId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // Un reparto por periodo y lugar.
+        modelBuilder.Entity<Reparto>(reparto =>
+        {
+            reparto.Property(r => r.OrigenTotal).HasConversion<string>().HasMaxLength(30);
+            reparto.Property(r => r.Modo).HasConversion<string>().HasMaxLength(30);
+            reparto.HasIndex(r => new { r.LugarId, r.PeriodoInicio, r.PeriodoFin }).IsUnique();
+
+            reparto.HasOne(r => r.Lugar)
+                .WithMany(l => l.Repartos)
+                .HasForeignKey(r => r.LugarId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // Al borrar el lugar, la línea se borra con su reparto; el inquilino solo se desliga (SetNull)
+        // para que las dos cascadas no choquen. La regla "no borrar con repartos" vive en el servicio.
+        modelBuilder.Entity<RepartoInquilino>(linea =>
+        {
+            linea.Property(l => l.NombreInquilino).IsRequired().HasMaxLength(40);
+
+            linea.HasOne(l => l.Reparto)
+                .WithMany(r => r.Inquilinos)
+                .HasForeignKey(l => l.RepartoId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            linea.HasOne(l => l.Inquilino)
+                .WithMany()
+                .HasForeignKey(l => l.InquilinoId)
+                .OnDelete(DeleteBehavior.SetNull);
         });
     }
 }

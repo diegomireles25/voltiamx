@@ -2828,4 +2828,106 @@
   <data name="Respaldo_Error_Desconocido" xml:space="preserve">
     <value>No se pudo completar. Inténtalo de nuevo.</value>
   </data>
+  <data name="RepartoPdf_Titulo" xml:space="preserve">
+    <value>RECIBO DE LUZ</value>
+  </data>
+  <data name="RepartoPdf_ResumenTitulo" xml:space="preserve">
+    <value>REPARTO DEL RECIBO DE LUZ</value>
+  </data>
+  <data name="RepartoPdf_Lugar" xml:space="preserve">
+    <value>Lugar</value>
+  </data>
+  <data name="RepartoPdf_Periodo" xml:space="preserve">
+    <value>Periodo</value>
+  </data>
+  <data name="RepartoPdf_Inquilino" xml:space="preserve">
+    <value>Inquilino o unidad</value>
+  </data>
+  <data name="RepartoPdf_LecturaAnterior" xml:space="preserve">
+    <value>Lectura anterior del submedidor</value>
+  </data>
+  <data name="RepartoPdf_LecturaActual" xml:space="preserve">
+    <value>Lectura actual del submedidor</value>
+  </data>
+  <data name="RepartoPdf_Kwh" xml:space="preserve">
+    <value>Consumo del periodo</value>
+  </data>
+  <data name="RepartoPdf_FormaCalculo" xml:space="preserve">
+    <value>FORMA DE CÁLCULO</value>
+  </data>
+  <data name="RepartoPdf_Modo_SoloMedido" xml:space="preserve">
+    <value>Cada inquilino paga lo que mide su submedidor. Lo que no miden los submedidores (áreas comunes, pérdidas) lo absorbe el propietario.</value>
+  </data>
+  <data name="RepartoPdf_Modo_ProporcionalAlMedido" xml:space="preserve">
+    <value>El total se reparte completo entre los inquilinos, en proporción a lo que mide cada submedidor.</value>
+  </data>
+  <data name="RepartoPdf_Total" xml:space="preserve">
+    <value>Total a repartir</value>
+  </data>
+  <data name="RepartoPdf_Origen_MontoRecibo" xml:space="preserve">
+    <value>monto del recibo de CFE</value>
+  </data>
+  <data name="RepartoPdf_Origen_MontoCalculado" xml:space="preserve">
+    <value>calculado por VoltiaMX, sin IVA ni DAP</value>
+  </data>
+  <data name="RepartoPdf_Origen_Capturado" xml:space="preserve">
+    <value>capturado por el propietario</value>
+  </data>
+  <data name="RepartoPdf_KwhPrincipal" xml:space="preserve">
+    <value>Consumo del medidor principal</value>
+  </data>
+  <data name="RepartoPdf_KwhRepartidos" xml:space="preserve">
+    <value>kWh repartidos (suma de submedidores)</value>
+  </data>
+  <data name="RepartoPdf_PrecioPromedio" xml:space="preserve">
+    <value>Precio promedio por kWh</value>
+  </data>
+  <data name="RepartoPdf_SinRangos" xml:space="preserve">
+    <value>No se aplican los rangos de la tarifa por inquilino: el costo total del recibo se reparte entre todos.</value>
+  </data>
+  <data name="RepartoPdf_Cuota" xml:space="preserve">
+    <value>CUOTA A PAGAR</value>
+  </data>
+  <data name="RepartoPdf_Nota" xml:space="preserve">
+    <value>Documento informativo. No es un comprobante fiscal ni sustituye tu contrato de arrendamiento.</value>
+  </data>
+  <data name="RepartoPdf_Unidad" xml:space="preserve">
+    <value>Inquilino o unidad</value>
+  </data>
+  <data name="RepartoPdf_ColLecturas" xml:space="preserve">
+    <value>Lecturas</value>
+  </data>
+  <data name="RepartoPdf_ColKwh" xml:space="preserve">
+    <value>kWh</value>
+  </data>
+  <data name="RepartoPdf_ColCuota" xml:space="preserve">
+    <value>Cuota</value>
+  </data>
+  <data name="RepartoPdf_TotalCobrado" xml:space="preserve">
+    <value>Total que se cobra a los inquilinos</value>
+  </data>
+  <data name="RepartoPdf_Absorbe" xml:space="preserve">
+    <value>Absorbe el propietario</value>
+  </data>
+  <data name="RepartoPdf_Avisos" xml:space="preserve">
+    <value>AVISOS</value>
+  </data>
+  <data name="RepartoPdf_SinAvisos" xml:space="preserve">
+    <value>Sin avisos.</value>
+  </data>
+  <data name="Reparto_Aviso_SinConsumoSubmedido" xml:space="preserve">
+    <value>Los submedidores no marcan consumo en este periodo: captura las lecturas para calcular el reparto.</value>
+  </data>
+  <data name="Reparto_Aviso_SubmedidoresExcedenPrincipal" xml:space="preserve">
+    <value>Los submedidores suman más de lo que marcó el medidor principal. Revisa las lecturas; el total se reparte completo entre los inquilinos.</value>
+  </data>
+  <data name="Reparto_Aviso_LecturaMenorQueAnterior" xml:space="preserve">
+    <value>Una lectura actual es menor que la anterior. Revísala: el medidor no retrocede.</value>
+  </data>
+  <data name="Reparto_Aviso_LecturaNegativa" xml:space="preserve">
+    <value>Las lecturas no pueden ser negativas.</value>
+  </data>
+  <data name="Reparto_Aviso_TotalInvalido" xml:space="preserve">
+    <value>El total a repartir debe ser mayor que $0 y menor que $10,000,000.</value>
+  </data>
 </root>

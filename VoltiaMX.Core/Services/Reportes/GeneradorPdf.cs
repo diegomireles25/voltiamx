@@ -79,7 +79,7 @@ public static class GeneradorPdf
     /// <summary>
     /// Registra las fuentes una sola vez; si no llegan o no se pueden leer, se usa la de respaldo.
     /// </summary>
-    private static (string Titulos, string Cuerpo) Registrar(OpcionesPdf? opciones)
+    internal static (string Titulos, string Cuerpo) Registrar(OpcionesPdf? opciones)
     {
         lock (Candado)
         {
@@ -322,7 +322,7 @@ public static class GeneradorPdf
     // el resto del texto se acomoda por palabras.
     private const int PalabraMasLarga = 28;
 
-    private static TextBlockDescriptor Valor(IContainer contenedor, string valor)
+    internal static TextBlockDescriptor Valor(IContainer contenedor, string valor)
     {
         var texto = contenedor.Text(valor);
         return valor.Split(' ').Any(palabra => palabra.Length > PalabraMasLarga) ? texto.BreakAnywhere() : texto;

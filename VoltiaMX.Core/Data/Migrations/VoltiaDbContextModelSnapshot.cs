@@ -91,6 +91,35 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.ToTable("AvisosEnviados");
                 });
 
+            modelBuilder.Entity("VoltiaMX.Core.Models.Inquilino", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateOnly>("FechaAlta")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LugarId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LugarId", "Nombre")
+                        .IsUnique();
+
+                    b.ToTable("Inquilinos");
+                });
+
             modelBuilder.Entity("VoltiaMX.Core.Models.Lectura", b =>
                 {
                     b.Property<int>("Id")
@@ -328,6 +357,92 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.ToTable("Periodos");
                 });
 
+            modelBuilder.Entity("VoltiaMX.Core.Models.Reparto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("KwhPrincipal")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LugarId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Modo")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OrigenTotal")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("PeriodoFin")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("PeriodoInicio")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("TotalRepartido")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LugarId", "PeriodoInicio", "PeriodoFin")
+                        .IsUnique();
+
+                    b.ToTable("Repartos");
+                });
+
+            modelBuilder.Entity("VoltiaMX.Core.Models.RepartoInquilino", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Cuota")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("InquilinoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Kwh")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("LecturaActual")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("LecturaAnterior")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NombreInquilino")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RepartoId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InquilinoId");
+
+                    b.HasIndex("RepartoId");
+
+                    b.ToTable("RepartoInquilinos");
+                });
+
             modelBuilder.Entity("VoltiaMX.Core.Models.Tarifa", b =>
                 {
                     b.Property<int>("Id")
@@ -422,6 +537,17 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.Navigation("Lugar");
                 });
 
+            modelBuilder.Entity("VoltiaMX.Core.Models.Inquilino", b =>
+                {
+                    b.HasOne("VoltiaMX.Core.Models.Lugar", "Lugar")
+                        .WithMany("Inquilinos")
+                        .HasForeignKey("LugarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lugar");
+                });
+
             modelBuilder.Entity("VoltiaMX.Core.Models.Lectura", b =>
                 {
                     b.HasOne("VoltiaMX.Core.Models.Lugar", "Lugar")
@@ -499,6 +625,35 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.Navigation("Lugar");
                 });
 
+            modelBuilder.Entity("VoltiaMX.Core.Models.Reparto", b =>
+                {
+                    b.HasOne("VoltiaMX.Core.Models.Lugar", "Lugar")
+                        .WithMany("Repartos")
+                        .HasForeignKey("LugarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lugar");
+                });
+
+            modelBuilder.Entity("VoltiaMX.Core.Models.RepartoInquilino", b =>
+                {
+                    b.HasOne("VoltiaMX.Core.Models.Inquilino", "Inquilino")
+                        .WithMany()
+                        .HasForeignKey("InquilinoId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("VoltiaMX.Core.Models.Reparto", "Reparto")
+                        .WithMany("Inquilinos")
+                        .HasForeignKey("RepartoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Inquilino");
+
+                    b.Navigation("Reparto");
+                });
+
             modelBuilder.Entity("VoltiaMX.Core.Models.TarifaRango", b =>
                 {
                     b.HasOne("VoltiaMX.Core.Models.Tarifa", "Tarifa")
@@ -516,11 +671,15 @@ namespace VoltiaMX.Core.Data.Migrations
 
                     b.Navigation("AvisosEnviados");
 
+                    b.Navigation("Inquilinos");
+
                     b.Navigation("Lecturas");
 
                     b.Navigation("Meta");
 
                     b.Navigation("Periodos");
+
+                    b.Navigation("Repartos");
                 });
 
             modelBuilder.Entity("VoltiaMX.Core.Models.PerfilUsuario", b =>
@@ -530,6 +689,11 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.Navigation("Objetivo");
 
                     b.Navigation("Usos");
+                });
+
+            modelBuilder.Entity("VoltiaMX.Core.Models.Reparto", b =>
+                {
+                    b.Navigation("Inquilinos");
                 });
 
             modelBuilder.Entity("VoltiaMX.Core.Models.Tarifa", b =>

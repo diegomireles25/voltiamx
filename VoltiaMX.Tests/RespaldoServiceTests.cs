@@ -237,7 +237,11 @@ public sealed class RespaldoServiceTests : IDisposable
         var conteos = await ConteosAsync(origen);
         Assert.Equal(1, manifiesto.Formato);
         Assert.Equal("0.8.0", manifiesto.VersionApp);
-        Assert.EndsWith("_Avisos", manifiesto.UltimaMigracion, StringComparison.Ordinal);
+        await using (var db = Contexto(origen))
+        {
+            Assert.Equal(db.Database.GetMigrations().Last(), manifiesto.UltimaMigracion);
+        }
+
         Assert.Equal(new DateTime(2026, 11, 3, 10, 30, 0, DateTimeKind.Utc), manifiesto.CreadoUtc);
         Assert.Equal(
             (conteos["Lugares"], conteos["Lecturas"], conteos["Periodos"], conteos["Tarifas"], conteos["Aparatos"]),
@@ -606,6 +610,47 @@ public sealed class RespaldoServiceTests : IDisposable
         File.WriteAllText(Path.Combine(CarpetaRespaldos, "notas.txt"), "x");
         File.WriteAllText(Path.Combine(CarpetaRespaldos, "VoltiaMX-respaldo-2026-11-03.voltiabak"), "x");
         Assert.Empty(servicio.ListarCopias());
+    }
+
+    [Fact]
+    public async Task IdaYVuelta_ConInquilinosYRepartos_RestauraLasTablasNuevas()
+    {
+        var actual = Ruta("voltia.db");
+        var fabrica = new FabricaDeArchivo(actual);
+        await using (var db = fabrica.CreateDbContext())
+        {
+            await new DbInicializador(db).InicializarAsync();
+        }
+
+        var demo = new DatosDemoService(fabrica, new TarifaCalculator());
+        await demo.CargarAsync(new DateOnly(2026, 11, 3));
+        var servicio = Servicio(actual);
+        var respaldo = Ruta("con-inquilinos.voltiabak");
+        Assert.Null((await servicio.CrearAsync(respaldo)).Error);
+
+        // Vaciar: quitar la demo borra lugar, inquilinos y repartos.
+        await demo.QuitarAsync();
+        Assert.Equal((0, 0, 0), await ConteosInquilinosAsync(actual));
+
+        var validacion = await servicio.ValidarAsync(respaldo);
+        var restauracion = await servicio.RestaurarAsync(respaldo);
+
+        // El manifiesto no cambia: sus conteos siguen siendo los de siempre.
+        Assert.True(validacion.EsValido);
+        Assert.Equal(new ConteosRespaldo(1, 15, 6, 5, 4), validacion.Manifiesto!.Conteos);
+        Assert.True(restauracion.Restaurado);
+        Assert.Equal((3, 1, 3), await ConteosInquilinosAsync(actual));
+    }
+
+    private static async Task<(long, long, long)> ConteosInquilinosAsync(string ruta)
+    {
+        await using var db = Contexto(ruta);
+        return (await db.Inquilinos.LongCountAsync(), await db.Repartos.LongCountAsync(), await db.RepartoInquilinos.LongCountAsync());
+    }
+
+    private sealed class FabricaDeArchivo(string ruta) : IDbContextFactory<VoltiaDbContext>
+    {
+        public VoltiaDbContext CreateDbContext() => Contexto(ruta);
     }
 
     private sealed class RelojDePrueba(DateTimeOffset ahora) : TimeProvider
