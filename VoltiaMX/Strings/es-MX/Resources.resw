@@ -2433,7 +2433,7 @@
     <value>EST.</value>
   </data>
   <data name="Reporte_Actual" xml:space="preserve">
-    <value>ACTUAL (PROYECCIÓN)</value>
+    <value>PROYECCIÓN</value>
   </data>
   <data name="Reporte_NotaEstimado" xml:space="preserve">
     <value>EST.: periodo estimado (su lectura de corte se calculó).</value>
@@ -2572,5 +2572,77 @@
   </data>
   <data name="Reporte_No" xml:space="preserve">
     <value>No</value>
+  </data>
+  <data name="Config_ReportesTitulo.Text" xml:space="preserve">
+    <value>Reportes y exportación</value>
+  </data>
+  <data name="Config_ReportesTexto.Text" xml:space="preserve">
+    <value>Tu reporte del periodo en PDF y todos tus datos en Excel.</value>
+  </data>
+  <data name="Config_ReportesBoton.Content" xml:space="preserve">
+    <value>Abrir reportes</value>
+  </data>
+  <data name="Reportes_Titulo.Text" xml:space="preserve">
+    <value>REPORTES</value>
+  </data>
+  <data name="Reportes_Local.Text" xml:space="preserve">
+    <value>Los archivos se generan en este equipo, sin internet.</value>
+  </data>
+  <data name="Reportes_Privacidad.Text" xml:space="preserve">
+    <value>El archivo contiene tus consumos. VoltiaMX no lo envía a ningún lado; guárdalo donde quieras.</value>
+  </data>
+  <data name="Reportes_PdfTitulo.Text" xml:space="preserve">
+    <value>REPORTE DEL PERIODO (PDF)</value>
+  </data>
+  <data name="Reportes_PdfTexto.Text" xml:space="preserve">
+    <value>Periodo actual con su desglose, historial de periodos, riesgo DAC, meta y aparatos. Montos sin IVA ni DAP.</value>
+  </data>
+  <data name="Reportes_ExportarPdf.Content" xml:space="preserve">
+    <value>Exportar PDF</value>
+  </data>
+  <data name="Reportes_ExcelTitulo.Text" xml:space="preserve">
+    <value>MIS DATOS (EXCEL)</value>
+  </data>
+  <data name="Reportes_ExcelTexto.Text" xml:space="preserve">
+    <value>Tus lecturas, periodos, tarifa y aparatos en hojas de cálculo, para revisarlos o hacer tus propias cuentas.</value>
+  </data>
+  <data name="Reportes_ExportarExcel.Content" xml:space="preserve">
+    <value>Exportar Excel</value>
+  </data>
+  <data name="Reportes_Generando.Text" xml:space="preserve">
+    <value>Generando…</value>
+  </data>
+  <data name="Reportes_Guardado" xml:space="preserve">
+    <value>Guardado en {0}</value>
+  </data>
+  <data name="Reportes_AbrirCarpeta.Content" xml:space="preserve">
+    <value>Abrir carpeta</value>
+  </data>
+  <data name="Reportes_TipoPdf" xml:space="preserve">
+    <value>Documento PDF</value>
+  </data>
+  <data name="Reportes_TipoExcel" xml:space="preserve">
+    <value>Libro de Excel</value>
+  </data>
+  <data name="Reportes_Error_NoSeGenero" xml:space="preserve">
+    <value>No se pudo generar el archivo. Inténtalo de nuevo.</value>
+  </data>
+  <data name="Reportes_Error_SinPermiso" xml:space="preserve">
+    <value>No hay permiso para guardar en esa carpeta. Elige otra, por ejemplo Documentos.</value>
+  </data>
+  <data name="Reportes_Error_EnUso" xml:space="preserve">
+    <value>El archivo está abierto en otro programa. Ciérralo o guárdalo con otro nombre.</value>
+  </data>
+  <data name="Reportes_Error_DiscoLleno" xml:space="preserve">
+    <value>No hay espacio suficiente en el disco para guardar el archivo.</value>
+  </data>
+  <data name="Reportes_Error_DestinoNoExiste" xml:space="preserve">
+    <value>La carpeta de destino no existe. Elige otra.</value>
+  </data>
+  <data name="Reportes_Error_Desconocido" xml:space="preserve">
+    <value>No se pudo guardar el archivo. Prueba en otra carpeta.</value>
+  </data>
+  <data name="Reportes_VolverConfiguracion.Content" xml:space="preserve">
+    <value>Volver a Configuración</value>
   </data>
 </root>

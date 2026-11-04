@@ -112,6 +112,7 @@ namespace VoltiaMX
             servicios.AddSingleton<IHistorialService, HistorialService>();
             servicios.AddSingleton<IValidadorRecibo, ValidadorRecibo>();
             servicios.AddSingleton<IAvisoService, AvisoService>();
+            servicios.AddSingleton<IReporteService, ReporteService>();
             servicios.AddSingleton<IAparatoService, AparatoService>();
             servicios.AddSingleton<ISimuladorAhorroService, SimuladorAhorroService>();
             servicios.AddSingleton<IMetaService, MetaService>();
@@ -127,6 +128,8 @@ namespace VoltiaMX
             servicios.AddSingleton<ISelectorArchivos, SelectorArchivos>();
             servicios.AddSingleton<INotificador, Notificador>();
             servicios.AddSingleton<ProgramadorAvisos>();
+            servicios.AddSingleton<IGuardadorArchivos, GuardadorArchivos>();
+            servicios.AddSingleton(_ => FuentesDelReporte.Cargar());
 
             // ViewModels
             servicios.AddTransient<OnboardingViewModel>();
@@ -142,6 +145,7 @@ namespace VoltiaMX
             servicios.AddTransient<SimuladorViewModel>();
             servicios.AddTransient<MetasViewModel>();
             servicios.AddTransient<EscanearReciboViewModel>();
+            servicios.AddTransient<ReportesViewModel>();
 
             return builder.Build();
         }

@@ -48,6 +48,11 @@ public sealed record ShellListoMensaje;
 public static class SeccionesConfiguracion
 {
     public const string Tarifas = "Tarifas";
+
+    /// <summary>
+    /// Reportes y exportación (también desde el módulo Reportes).
+    /// </summary>
+    public const string Reportes = "Reportes";
 }
 
 /// <summary>

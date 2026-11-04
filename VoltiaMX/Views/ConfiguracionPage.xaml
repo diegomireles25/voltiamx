@@ -132,6 +132,26 @@
                         </Grid>
                     </Border>
 
+                    <!-- Reportes y exportación (para todos los perfiles) -->
+                    <Border Style="{StaticResource HairlineRowStyle}">
+                        <Grid ColumnSpacing="{StaticResource Spacing24}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Spacing="{StaticResource Spacing8}">
+                                <TextBlock x:Uid="Config_ReportesTitulo" Style="{StaticResource SubheadingTextStyle}" />
+                                <TextBlock x:Uid="Config_ReportesTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" />
+                            </StackPanel>
+                            <Button
+                                x:Uid="Config_ReportesBoton"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Command="{x:Bind ViewModel.AbrirReportesCommand}"
+                                Style="{StaticResource TextLinkButtonStyle}" />
+                        </Grid>
+                    </Border>
+
                     <!-- Solo en compilaciones Debug -->
                     <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDebug)}">
                         <Grid ColumnSpacing="{StaticResource Spacing24}">

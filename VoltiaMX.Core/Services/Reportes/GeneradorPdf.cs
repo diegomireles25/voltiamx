@@ -44,8 +44,7 @@ public static class GeneradorPdf
                 pagina.Size(PageSizes.A4);
                 pagina.Margin(40);
                 pagina.PageColor(Colors.White);
-                // BreakAnywhere: un nombre larguísimo sin espacios se corta en lugar de no caber.
-                pagina.DefaultTextStyle(t => t.FontFamily(cuerpo).FontSize(10).FontColor(Colors.Black).BreakAnywhere());
+                pagina.DefaultTextStyle(t => t.FontFamily(cuerpo).FontSize(10).FontColor(Colors.Black));
 
                 pagina.Header().Element(c => Encabezado(c, datos, texto, titulos));
                 pagina.Content().PaddingVertical(12).Column(columna =>
@@ -129,8 +128,8 @@ public static class GeneradorPdf
     private static void Dato(ColumnDescriptor columna, string etiqueta, string valor)
         => columna.Item().BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten1).PaddingVertical(3).Row(fila =>
         {
-            fila.RelativeItem(2).Text(etiqueta);
-            fila.RelativeItem(3).AlignRight().Text(valor).SemiBold();
+            fila.RelativeItem(3).Text(etiqueta);
+            Valor(fila.RelativeItem(2).AlignRight(), valor).SemiBold();
         });
 
     private static void Portada(IContainer c, ReporteDatos datos, Func<string, string> texto, string titulos)
@@ -319,6 +318,16 @@ public static class GeneradorPdf
             columna.Item().Text(texto("Reporte_NotaAparatos")).FontSize(8).FontColor(Colors.Grey.Darken2);
         });
 
+    // Palabras más largas que esto (p. ej. un nombre escrito sin espacios) se cortan donde haga falta;
+    // el resto del texto se acomoda por palabras.
+    private const int PalabraMasLarga = 28;
+
+    private static TextBlockDescriptor Valor(IContainer contenedor, string valor)
+    {
+        var texto = contenedor.Text(valor);
+        return valor.Split(' ').Any(palabra => palabra.Length > PalabraMasLarga) ? texto.BreakAnywhere() : texto;
+    }
+
     private static void Cabecera(TableCellDescriptor tabla, params string[] titulos)
     {
         foreach (var titulo in titulos)
@@ -344,7 +353,7 @@ public static class GeneradorPdf
     {
         foreach (var valor in valores)
         {
-            var texto = tabla.Cell().BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten1).PaddingVertical(3).Text(valor);
+            var texto = Valor(tabla.Cell().BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten1).PaddingVertical(3), valor);
             if (negritas)
             {
                 texto.SemiBold();

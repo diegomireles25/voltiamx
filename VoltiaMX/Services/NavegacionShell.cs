@@ -18,7 +18,12 @@ public sealed class NavegacionShell : INavegacionShell
                 IrA(typeof(DashboardPage));
                 break;
             case DestinoShell.Configuracion:
-                IrA(seccion == SeccionesConfiguracion.Tarifas ? typeof(TarifasPage) : typeof(ConfiguracionPage));
+                IrA(seccion switch
+                {
+                    SeccionesConfiguracion.Tarifas => typeof(TarifasPage),
+                    SeccionesConfiguracion.Reportes => typeof(ReportesPage),
+                    _ => typeof(ConfiguracionPage),
+                });
                 break;
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Lecturas:
                 IrA(seccion == SeccionesLecturas.Escanear ? typeof(EscanearReciboPage) : typeof(LecturasPage), seccion);
@@ -28,6 +33,9 @@ public sealed class NavegacionShell : INavegacionShell
                 break;
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Predictor:
                 IrA(typeof(PredictorPage));
+                break;
+            case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Reportes:
+                IrA(typeof(ReportesPage));
                 break;
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Metas:
                 IrA(typeof(MetasPage));
