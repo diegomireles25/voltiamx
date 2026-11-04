@@ -186,6 +186,16 @@ public sealed partial class DashboardViewModel(
     [RelayCommand]
     private void IrAMetas() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Metas));
 
+    /// <summary>
+    /// El enlace de la sección Solar se habilita solo con el módulo activo.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(IrASolarCommand))]
+    public partial bool SolarHabilitado { get; set; }
+
+    [RelayCommand(CanExecute = nameof(SolarHabilitado))]
+    private void IrASolar() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Solar));
+
     [RelayCommand(CanExecute = nameof(LecturasHabilitadas))]
     private void IrAHistorial()
         => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.Historial));
@@ -202,6 +212,7 @@ public sealed partial class DashboardViewModel(
             MostrarHogar = usos.Count == 0 || usos.Contains(UsoApp.Casa) || usos.Contains(UsoApp.Negocio);
             MostrarRentas = usos.Contains(UsoApp.Rentas);
             MostrarSolar = usos.Contains(UsoApp.Solar);
+            SolarHabilitado = modulos.Contains(ModuloApp.Solar);
             MostrarAparatos = modulos.Contains(ModuloApp.Aparatos);
             LecturasHabilitadas = modulos.Contains(ModuloApp.Lecturas);
             PresupuestoHabilitado = modulos.Contains(ModuloApp.Presupuesto);

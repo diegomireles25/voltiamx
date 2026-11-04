@@ -60,8 +60,8 @@ public static class GeneradorPdfSolar
                 });
                 pagina.Content().PaddingVertical(12).Column(columna =>
                 {
-                    columna.Spacing(6);
-                    columna.Item().Text(texto("SolarPdf_Titulo")).FontFamily(titulos).Bold().FontSize(28);
+                    columna.Spacing(4);
+                    columna.Item().Text(texto("SolarPdf_Titulo")).FontFamily(titulos).Bold().FontSize(24);
                     Datos(columna, s.Encabezado);
 
                     Titulo(columna, texto("SolarPdf_ParametrosTitulo"), titulos);
@@ -69,11 +69,11 @@ public static class GeneradorPdfSolar
                     Datos(columna, s.Parametros);
 
                     Titulo(columna, texto("SolarPdf_ResultadoTitulo"), titulos);
-                    columna.Item().Background(Colors.Black).Padding(16).Row(fila =>
+                    columna.Item().Background(Colors.Black).PaddingHorizontal(16).PaddingVertical(8).Row(fila =>
                     {
                         fila.RelativeItem().AlignMiddle().Text(texto("SolarPdf_Paneles")).FontFamily(titulos).Bold().FontSize(18).FontColor(Colors.White);
                         fila.AutoItem().AlignMiddle().Text(datos.Resultado.Paneles.ToString(CultureInfo.InvariantCulture))
-                            .FontFamily(titulos).Bold().FontSize(28).FontColor(Colors.White);
+                            .FontFamily(titulos).Bold().FontSize(24).FontColor(Colors.White);
                     });
                     Datos(columna, s.Resultado);
 
@@ -83,9 +83,9 @@ public static class GeneradorPdfSolar
                         Datos(columna, s.Dac);
                     }
 
-                    columna.Item().PaddingTop(10).Column(avisos =>
+                    columna.Item().PaddingTop(6).Column(avisos =>
                     {
-                        avisos.Spacing(4);
+                        avisos.Spacing(2);
                         foreach (var aviso in s.Avisos)
                         {
                             avisos.Item().Text(aviso).Italic().FontSize(9);
@@ -209,13 +209,13 @@ public static class GeneradorPdfSolar
     private static string Numero(decimal valor) => valor.ToString("#,##0.##", CultureInfo.InvariantCulture);
 
     private static void Titulo(ColumnDescriptor columna, string texto, string titulos)
-        => columna.Item().PaddingTop(8).BorderBottom(1).PaddingBottom(3).Text(texto).FontFamily(titulos).Bold().FontSize(14);
+        => columna.Item().PaddingTop(6).BorderBottom(1).PaddingBottom(2).Text(texto).FontFamily(titulos).Bold().FontSize(13);
 
     private static void Datos(ColumnDescriptor columna, IEnumerable<LineaPdf> lineas)
     {
         foreach (var dato in lineas)
         {
-            columna.Item().BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten1).PaddingVertical(3).Row(fila =>
+            columna.Item().BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten1).PaddingVertical(2).Row(fila =>
             {
                 fila.RelativeItem(3).Text(dato.Etiqueta);
                 GeneradorPdf.Valor(fila.RelativeItem(2).AlignRight(), dato.Valor).SemiBold();

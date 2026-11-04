@@ -360,7 +360,7 @@
                     <TextBlock x:Uid="Dashboard_CotizacionesTitulo" Style="{StaticResource DisplayTextStyle}" />
                     <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}">
                         <TextBlock x:Uid="Dashboard_CotizacionesVacio" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodyTextStyle}" />
-                        <Button x:Uid="Dashboard_CotizacionesProximamente" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource GhostButtonStyle}" />
+                        <Button x:Uid="Dashboard_AbrirSimuladorSolar" Command="{x:Bind ViewModel.IrASolarCommand}" Style="{StaticResource GhostButtonStyle}" />
                     </StackPanel>
                 </Grid>
 

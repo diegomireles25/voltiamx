@@ -49,6 +49,9 @@ public sealed class NavegacionShell : INavegacionShell
                 }
 
                 break;
+            case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Solar:
+                IrA(typeof(SolarPage));
+                break;
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Metas:
                 IrA(typeof(MetasPage));
                 break;

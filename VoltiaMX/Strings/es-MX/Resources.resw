@@ -873,8 +873,8 @@
   <data name="Dashboard_CotizacionesVacio.Text" xml:space="preserve">
     <value>Aún no tienes cotizaciones de paneles solares.</value>
   </data>
-  <data name="Dashboard_CotizacionesProximamente.Content" xml:space="preserve">
-    <value>Próximamente</value>
+  <data name="Dashboard_AbrirSimuladorSolar.Content" xml:space="preserve">
+    <value>Abrir simulador solar</value>
   </data>
   <data name="Dashboard_AparatosTitulo.Text" xml:space="preserve">
     <value>QUÉ GASTA MÁS</value>
@@ -3298,5 +3298,116 @@
   </data>
   <data name="SolarPdf_SinIvaNiDap" xml:space="preserve">
     <value>Montos sin IVA ni DAP, calculados con la tarifa del lugar.</value>
+  </data>
+  <data name="Solar_Titulo.Text" xml:space="preserve">
+    <value>SIMULADOR SOLAR</value>
+  </data>
+  <data name="Solar_SupuestosTitulo.Text" xml:space="preserve">
+    <value>TUS SUPUESTOS</value>
+  </data>
+  <data name="Solar_ValoresEjemplo.Text" xml:space="preserve">
+    <value>Valores de ejemplo: cámbialos por los de tu ciudad y tu instalador.</value>
+  </data>
+  <data name="Solar_SinConsumoMedido.Text" xml:space="preserve">
+    <value>Aún no hay lecturas para medir tu consumo: escribe tu consumo mensual en kWh (está en tu recibo). Sin consumo medido se calculan los kWh, pero no el ahorro en pesos.</value>
+  </data>
+  <data name="Solar_Consumo.Header" xml:space="preserve">
+    <value>Consumo mensual a cubrir (kWh)</value>
+  </data>
+  <data name="Solar_Porcentaje.Header" xml:space="preserve">
+    <value>Porcentaje del consumo a cubrir (10 a 100)</value>
+  </data>
+  <data name="Solar_Horas.Header" xml:space="preserve">
+    <value>Horas de sol pico por día (1 a 9)</value>
+  </data>
+  <data name="Solar_Eficiencia.Header" xml:space="preserve">
+    <value>Eficiencia global del sistema (0.50 a 0.95)</value>
+  </data>
+  <data name="Solar_WattsPanel.Header" xml:space="preserve">
+    <value>Potencia de cada panel (W)</value>
+  </data>
+  <data name="Solar_Costo.Header" xml:space="preserve">
+    <value>Costo por kWp instalado (opcional)</value>
+  </data>
+  <data name="Solar_Error_ConsumoRequerido" xml:space="preserve">
+    <value>Escribe tu consumo mensual en kWh.</value>
+  </data>
+  <data name="Solar_Error_ConsumoFueraDeRango" xml:space="preserve">
+    <value>El consumo mensual debe ser mayor que 0 y de hasta 100,000 kWh.</value>
+  </data>
+  <data name="Solar_Error_PorcentajeFueraDeRango" xml:space="preserve">
+    <value>El porcentaje a cubrir debe estar entre 10 y 100.</value>
+  </data>
+  <data name="Solar_Error_HorasFueraDeRango" xml:space="preserve">
+    <value>Las horas de sol pico deben estar entre 1 y 9.</value>
+  </data>
+  <data name="Solar_Error_EficienciaFueraDeRango" xml:space="preserve">
+    <value>La eficiencia debe estar entre 0.50 y 0.95.</value>
+  </data>
+  <data name="Solar_Error_WattsFueraDeRango" xml:space="preserve">
+    <value>La potencia del panel debe estar entre 100 y 800 W.</value>
+  </data>
+  <data name="Solar_Error_CostoFueraDeRango" xml:space="preserve">
+    <value>El costo por kWp debe estar entre $0 y $1,000,000.</value>
+  </data>
+  <data name="Solar_PanelesTitulo.Text" xml:space="preserve">
+    <value>PANELES · ESTIMACIÓN</value>
+  </data>
+  <data name="Solar_FilaKwp" xml:space="preserve">
+    <value>Potencia instalada</value>
+  </data>
+  <data name="Solar_FilaGeneracion" xml:space="preserve">
+    <value>Generación estimada al mes</value>
+  </data>
+  <data name="Solar_FilaAprovechados" xml:space="preserve">
+    <value>kWh aprovechados al mes</value>
+  </data>
+  <data name="Solar_FilaExcedente" xml:space="preserve">
+    <value>Excedente al mes</value>
+  </data>
+  <data name="Solar_FilaAhorroMes" xml:space="preserve">
+    <value>Ahorro estimado al mes</value>
+  </data>
+  <data name="Solar_FilaAhorroAnio" xml:space="preserve">
+    <value>Ahorro estimado al año</value>
+  </data>
+  <data name="Solar_FilaInversion" xml:space="preserve">
+    <value>Inversión estimada</value>
+  </data>
+  <data name="Solar_FilaRecuperacion" xml:space="preserve">
+    <value>Recuperación de la inversión</value>
+  </data>
+  <data name="Solar_Kwp" xml:space="preserve">
+    <value>{0:#,##0.00} kWp</value>
+  </data>
+  <data name="Solar_Kwh" xml:space="preserve">
+    <value>{0:#,##0.00} kWh</value>
+  </data>
+  <data name="Solar_Pesos" xml:space="preserve">
+    <value>{0:$#,##0.00}</value>
+  </data>
+  <data name="Solar_NotaExcedente.Text" xml:space="preserve">
+    <value>El excedente es lo que se generaría por encima de tu consumo: no se valora en pesos. Ahorro con tu tarifa, sin IVA ni DAP.</value>
+  </data>
+  <data name="Solar_DacConPaneles.Text" xml:space="preserve">
+    <value>Con paneles</value>
+  </data>
+  <data name="Solar_AvisoEstimacionTexto.Text" xml:space="preserve">
+    <value>Estimación con supuestos editables. No es una cotización. Las condiciones para conectar un sistema a la red de CFE dependen de tu contrato y de la normativa vigente: verifícalas antes de decidir.</value>
+  </data>
+  <data name="Solar_AvisoNoIncluyeTexto.Text" xml:space="preserve">
+    <value>No incluye aumentos de tarifa, degradación de los paneles ni IVA.</value>
+  </data>
+  <data name="Solar_SinSupuestos.Text" xml:space="preserve">
+    <value>No se suponen aumentos de tarifa, degradación de los paneles, vida útil, inflación, subsidios ni financiamiento.</value>
+  </data>
+  <data name="Solar_Referencia.Header" xml:space="preserve">
+    <value>Referencia para el PDF (opcional)</value>
+  </data>
+  <data name="Solar_Referencia.PlaceholderText" xml:space="preserve">
+    <value>Por ejemplo, Proyecto techo</value>
+  </data>
+  <data name="Solar_ExportarPdf.Content" xml:space="preserve">
+    <value>Exportar PDF</value>
   </data>
 </root>

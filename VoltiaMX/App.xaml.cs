@@ -128,6 +128,7 @@ namespace VoltiaMX
             servicios.AddSingleton<ISimuladorAhorroService, SimuladorAhorroService>();
             servicios.AddSingleton<IMetaService, MetaService>();
             servicios.AddSingleton<IInquilinoService, InquilinoService>();
+            servicios.AddSingleton<ISimuladorSolarService, SimuladorSolarService>();
             servicios.AddSingleton<IRepartoService>(sp => new RepartoService(sp.GetRequiredService<IDbContextFactory<VoltiaDbContext>>()));
             servicios.AddSingleton<IRespaldoService>(sp => new RespaldoService(sp.GetRequiredService<OpcionesRespaldo>()));
 
@@ -164,6 +165,7 @@ namespace VoltiaMX
             servicios.AddTransient<RespaldoViewModel>();
             servicios.AddTransient<InquilinosViewModel>();
             servicios.AddTransient<RepartoViewModel>();
+            servicios.AddTransient<SolarViewModel>();
 
             return builder.Build();
         }
