@@ -46,4 +46,6 @@ public class Lugar
     public List<Aparato> Aparatos { get; set; } = [];
 
     public Meta? Meta { get; set; }
+
+    public List<AvisoEnviado> AvisosEnviados { get; set; } = [];
 }

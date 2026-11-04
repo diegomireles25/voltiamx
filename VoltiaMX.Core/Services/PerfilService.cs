@@ -96,6 +96,12 @@ public sealed class PerfilService(IDbContextFactory<VoltiaDbContext> fabrica) : 
         await db.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task<bool> CambiarNotificacionesAsync(bool activas, CancellationToken cancellationToken = default)
+    {
+        await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
+        return await db.Perfiles.ExecuteUpdateAsync(p => p.SetProperty(x => x.NotificacionesActivas, activas), cancellationToken) > 0;
+    }
+
     public async Task CambiarModoAvanzadoAsync(bool modoAvanzado, CancellationToken cancellationToken = default)
     {
         await using var db = await fabrica.CreateDbContextAsync(cancellationToken);

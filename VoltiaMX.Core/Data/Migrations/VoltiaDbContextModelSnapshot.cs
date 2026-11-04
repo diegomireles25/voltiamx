@@ -61,6 +61,36 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.ToTable("Aparatos");
                 });
 
+            modelBuilder.Entity("VoltiaMX.Core.Models.AvisoEnviado", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Clave")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("FechaEnvio")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LugarId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LugarId", "Tipo", "Clave")
+                        .IsUnique();
+
+                    b.ToTable("AvisosEnviados");
+                });
+
             modelBuilder.Entity("VoltiaMX.Core.Models.Lectura", b =>
                 {
                     b.Property<int>("Id")
@@ -381,6 +411,17 @@ namespace VoltiaMX.Core.Data.Migrations
                     b.Navigation("Lugar");
                 });
 
+            modelBuilder.Entity("VoltiaMX.Core.Models.AvisoEnviado", b =>
+                {
+                    b.HasOne("VoltiaMX.Core.Models.Lugar", "Lugar")
+                        .WithMany("AvisosEnviados")
+                        .HasForeignKey("LugarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lugar");
+                });
+
             modelBuilder.Entity("VoltiaMX.Core.Models.Lectura", b =>
                 {
                     b.HasOne("VoltiaMX.Core.Models.Lugar", "Lugar")
@@ -472,6 +513,8 @@ namespace VoltiaMX.Core.Data.Migrations
             modelBuilder.Entity("VoltiaMX.Core.Models.Lugar", b =>
                 {
                     b.Navigation("Aparatos");
+
+                    b.Navigation("AvisosEnviados");
 
                     b.Navigation("Lecturas");
 

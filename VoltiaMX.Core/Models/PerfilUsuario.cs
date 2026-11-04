@@ -14,7 +14,7 @@ public class PerfilUsuario
     public bool ModoAvanzado { get; set; }
 
     /// <summary>
-    /// Preferencia guardada en el onboarding; los avisos llegan en una fase posterior.
+    /// Mostrar avisos (corte, DAC, meta, presupuesto) como notificaciones de Windows mientras la app está abierta.
     /// </summary>
     public bool NotificacionesActivas { get; set; }
 

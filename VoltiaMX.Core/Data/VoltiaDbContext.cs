@@ -27,6 +27,8 @@ public class VoltiaDbContext(DbContextOptions<VoltiaDbContext> options) : DbCont
 
     public DbSet<Meta> Metas => Set<Meta>();
 
+    public DbSet<AvisoEnviado> AvisosEnviados => Set<AvisoEnviado>();
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         // Precios, montos y kWh.
@@ -144,6 +146,19 @@ public class VoltiaDbContext(DbContextOptions<VoltiaDbContext> options) : DbCont
             meta.HasOne(m => m.Lugar)
                 .WithOne(l => l.Meta)
                 .HasForeignKey<Meta>(m => m.LugarId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // Cada clave se avisa una sola vez por lugar.
+        modelBuilder.Entity<AvisoEnviado>(aviso =>
+        {
+            aviso.Property(a => a.Tipo).HasConversion<string>().HasMaxLength(20);
+            aviso.Property(a => a.Clave).IsRequired().HasMaxLength(80);
+            aviso.HasIndex(a => new { a.LugarId, a.Tipo, a.Clave }).IsUnique();
+
+            aviso.HasOne(a => a.Lugar)
+                .WithMany(l => l.AvisosEnviados)
+                .HasForeignKey(a => a.LugarId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }

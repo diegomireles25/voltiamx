@@ -28,6 +28,11 @@ public interface IPerfilService
     Task CambiarModoAvanzadoAsync(bool modoAvanzado, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Enciende o apaga las notificaciones. False si todavía no hay perfil.
+    /// </summary>
+    Task<bool> CambiarNotificacionesAsync(bool activas, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Tope por recibo (sin IVA ni DAP). Crea el objetivo "no pasarme de mi presupuesto" si no hay
     /// ninguno; si ya hay otro, solo cambia el monto. Null quita el tope. Acepta de 0 a 1,000,000 (sin 0).
     /// </summary>

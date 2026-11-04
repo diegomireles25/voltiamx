@@ -13,6 +13,8 @@ public sealed record PeriodoHistorial(DateOnly Inicio, DateOnly Fin, decimal Kwh
 /// </summary>
 public sealed record ResumenDashboard
 {
+    public int LugarId { get; init; }
+
     public required string NombreLugar { get; init; }
 
     public required TipoLugar TipoLugar { get; init; }

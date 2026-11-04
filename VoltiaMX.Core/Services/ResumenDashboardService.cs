@@ -80,6 +80,7 @@ public sealed class ResumenDashboardService(
 
         var resumen = new ResumenDashboard
         {
+            LugarId = lugar.Id,
             NombreLugar = lugar.Nombre,
             TipoLugar = lugar.Tipo,
             NombreTarifa = tarifa.Nombre,
