@@ -78,3 +78,5 @@ docs/                  Sistema visual (DESIGN.md), mockup del Dashboard y prompt
 
 - **Three.js r128**: copyright 2010-2021 three.js authors, licencia MIT. Ver `VoltiaMX/Assets/Escena3D/LICENSE-three.txt`.
 - **Barlow Condensed**, **Inter** y **JetBrains Mono**: licencia SIL Open Font License 1.1. Ver los textos de licencia en `VoltiaMX/Assets/Fonts/`.
+- **QuestPDF 2026.9.1** (reporte en PDF): QuestPDF Community License, gratuita para individuos, organizaciones sin fines de lucro, proyectos open source y organizaciones con ingresos brutos anuales menores a USD 1,000,000; no aplica a empresas que cotizan en bolsa ni a entidades del sector público. Se declara en el código con `QuestPDF.Settings.License = LicenseType.Community` (`VoltiaMX.Core/Services/Reportes/GeneradorPdf.cs`). Si quien publica la app deja de cumplir esas condiciones, necesita una licencia comercial. Ver https://www.questpdf.com/license.
+- **ClosedXML 0.105.1** (exportación a Excel): licencia MIT.

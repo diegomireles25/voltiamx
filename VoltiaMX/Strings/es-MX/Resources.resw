@@ -2348,4 +2348,229 @@
   <data name="Aviso_Prueba_Cuerpo" xml:space="preserve">
     <value>Así se ven tus avisos.</value>
   </data>
+  <data name="Reporte_Titulo" xml:space="preserve">
+    <value>REPORTE DE CONSUMO</value>
+  </data>
+  <data name="Reporte_Lugar" xml:space="preserve">
+    <value>Lugar</value>
+  </data>
+  <data name="Reporte_Tarifa" xml:space="preserve">
+    <value>Tarifa</value>
+  </data>
+  <data name="Reporte_Generado" xml:space="preserve">
+    <value>Generado el</value>
+  </data>
+  <data name="Reporte_SinIvaNiDap" xml:space="preserve">
+    <value>Montos sin IVA ni DAP.</value>
+  </data>
+  <data name="Reporte_DatosDeEjemplo" xml:space="preserve">
+    <value>DATOS DE EJEMPLO</value>
+  </data>
+  <data name="Reporte_SinDatos" xml:space="preserve">
+    <value>Sin datos suficientes.</value>
+  </data>
+  <data name="Reporte_Pagina" xml:space="preserve">
+    <value>Página</value>
+  </data>
+  <data name="Reporte_De" xml:space="preserve">
+    <value>de</value>
+  </data>
+  <data name="Reporte_SeccionPeriodo" xml:space="preserve">
+    <value>PERIODO ACTUAL</value>
+  </data>
+  <data name="Reporte_Periodo" xml:space="preserve">
+    <value>Periodo</value>
+  </data>
+  <data name="Reporte_KwhHastaHoy" xml:space="preserve">
+    <value>Consumo hasta hoy (kWh)</value>
+  </data>
+  <data name="Reporte_KwhProyectados" xml:space="preserve">
+    <value>Proyección al cierre (kWh)</value>
+  </data>
+  <data name="Reporte_PagoProyectado" xml:space="preserve">
+    <value>Pago proyectado al cierre</value>
+  </data>
+  <data name="Reporte_Desglose" xml:space="preserve">
+    <value>Desglose del pago proyectado</value>
+  </data>
+  <data name="Reporte_Rango" xml:space="preserve">
+    <value>Rango</value>
+  </data>
+  <data name="Reporte_Kwh" xml:space="preserve">
+    <value>kWh</value>
+  </data>
+  <data name="Reporte_Precio" xml:space="preserve">
+    <value>Precio por kWh</value>
+  </data>
+  <data name="Reporte_Subtotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="Reporte_CargoFijo" xml:space="preserve">
+    <value>Cargo fijo</value>
+  </data>
+  <data name="Reporte_Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Reporte_Tope" xml:space="preserve">
+    <value>Tu tope de pago</value>
+  </data>
+  <data name="Reporte_DiferenciaTope" xml:space="preserve">
+    <value>Diferencia contra el tope (proyección menos tope)</value>
+  </data>
+  <data name="Reporte_SeccionHistorial" xml:space="preserve">
+    <value>HISTORIAL DE PERIODOS</value>
+  </data>
+  <data name="Reporte_Inicio" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="Reporte_Fin" xml:space="preserve">
+    <value>Fin</value>
+  </data>
+  <data name="Reporte_Monto" xml:space="preserve">
+    <value>Monto</value>
+  </data>
+  <data name="Reporte_Estimado" xml:space="preserve">
+    <value>EST.</value>
+  </data>
+  <data name="Reporte_Actual" xml:space="preserve">
+    <value>ACTUAL (PROYECCIÓN)</value>
+  </data>
+  <data name="Reporte_NotaEstimado" xml:space="preserve">
+    <value>EST.: periodo estimado (su lectura de corte se calculó).</value>
+  </data>
+  <data name="Reporte_SeccionDac" xml:space="preserve">
+    <value>RIESGO DAC</value>
+  </data>
+  <data name="Reporte_Nivel" xml:space="preserve">
+    <value>Nivel</value>
+  </data>
+  <data name="Reporte_Promedio" xml:space="preserve">
+    <value>Promedio mensual (kWh)</value>
+  </data>
+  <data name="Reporte_Limite" xml:space="preserve">
+    <value>Límite de tu tarifa (kWh al mes)</value>
+  </data>
+  <data name="Reporte_Margen" xml:space="preserve">
+    <value>Margen antes del límite (kWh al mes)</value>
+  </data>
+  <data name="Reporte_NotaDac" xml:space="preserve">
+    <value>Los niveles Bajo, Medio y Alto (80% y 95% del límite) son una guía de la app, no criterios oficiales de CFE.</value>
+  </data>
+  <data name="Reporte_SeccionMeta" xml:space="preserve">
+    <value>META</value>
+  </data>
+  <data name="Reporte_MetaPorcentaje" xml:space="preserve">
+    <value>Reducir el consumo contra el periodo anterior</value>
+  </data>
+  <data name="Reporte_Estado" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="Reporte_Objetivo" xml:space="preserve">
+    <value>Objetivo del periodo (kWh)</value>
+  </data>
+  <data name="Reporte_Consumido" xml:space="preserve">
+    <value>Consumido hasta hoy (kWh)</value>
+  </data>
+  <data name="Reporte_Racha" xml:space="preserve">
+    <value>Periodos cumplidos seguidos</value>
+  </data>
+  <data name="Reporte_SeccionAparatos" xml:space="preserve">
+    <value>QUÉ GASTA MÁS</value>
+  </data>
+  <data name="Reporte_Aparato" xml:space="preserve">
+    <value>Aparato</value>
+  </data>
+  <data name="Reporte_KwhMes" xml:space="preserve">
+    <value>kWh al mes</value>
+  </data>
+  <data name="Reporte_Porcentaje" xml:space="preserve">
+    <value>% del medido</value>
+  </data>
+  <data name="Reporte_SinIdentificar" xml:space="preserve">
+    <value>Sin identificar</value>
+  </data>
+  <data name="Reporte_NotaAparatos" xml:space="preserve">
+    <value>Estimación con la potencia y las horas que capturaste.</value>
+  </data>
+  <data name="Reporte_HojaResumen" xml:space="preserve">
+    <value>Resumen</value>
+  </data>
+  <data name="Reporte_HojaLecturas" xml:space="preserve">
+    <value>Lecturas</value>
+  </data>
+  <data name="Reporte_HojaPeriodos" xml:space="preserve">
+    <value>Periodos</value>
+  </data>
+  <data name="Reporte_HojaTarifa" xml:space="preserve">
+    <value>Tarifa</value>
+  </data>
+  <data name="Reporte_HojaAparatos" xml:space="preserve">
+    <value>Aparatos</value>
+  </data>
+  <data name="Reporte_Dato" xml:space="preserve">
+    <value>Dato</value>
+  </data>
+  <data name="Reporte_Valor" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="Reporte_Fecha" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="Reporte_LecturaAcumulada" xml:space="preserve">
+    <value>Lectura del medidor (kWh)</value>
+  </data>
+  <data name="Reporte_ConsumoDesdeAnterior" xml:space="preserve">
+    <value>Consumo desde la anterior (kWh)</value>
+  </data>
+  <data name="Reporte_Estimada" xml:space="preserve">
+    <value>Estimada</value>
+  </data>
+  <data name="Reporte_MontoCalculado" xml:space="preserve">
+    <value>Monto calculado</value>
+  </data>
+  <data name="Reporte_MontoRecibo" xml:space="preserve">
+    <value>Monto del recibo</value>
+  </data>
+  <data name="Reporte_EstimadoColumna" xml:space="preserve">
+    <value>Estimado</value>
+  </data>
+  <data name="Reporte_Desde" xml:space="preserve">
+    <value>Desde (kWh al mes)</value>
+  </data>
+  <data name="Reporte_Hasta" xml:space="preserve">
+    <value>Hasta (kWh al mes)</value>
+  </data>
+  <data name="Reporte_CargoFijoMensual" xml:space="preserve">
+    <value>Cargo fijo mensual</value>
+  </data>
+  <data name="Reporte_LimiteDac" xml:space="preserve">
+    <value>Límite DAC (kWh al mes)</value>
+  </data>
+  <data name="Reporte_Nombre" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Reporte_Categoria" xml:space="preserve">
+    <value>Categoría</value>
+  </data>
+  <data name="Reporte_Cantidad" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
+  <data name="Reporte_Watts" xml:space="preserve">
+    <value>Watts</value>
+  </data>
+  <data name="Reporte_HorasPorDia" xml:space="preserve">
+    <value>Horas al día</value>
+  </data>
+  <data name="Reporte_DiasPorSemana" xml:space="preserve">
+    <value>Días a la semana</value>
+  </data>
+  <data name="Reporte_Ciclo" xml:space="preserve">
+    <value>Ciclo de trabajo</value>
+  </data>
+  <data name="Reporte_Si" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="Reporte_No" xml:space="preserve">
+    <value>No</value>
+  </data>
 </root>
