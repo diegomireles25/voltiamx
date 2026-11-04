@@ -1,3 +1,4 @@
+using VoltiaMX.Core.Services;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
@@ -47,6 +48,12 @@ public interface IGuardadorArchivos
     Task<ResultadoGuardado> GuardarAsync(string nombreSugerido, TipoArchivo tipo, Func<Task<byte[]>> generar);
 
     Task<bool> AbrirCarpetaAsync(string rutaDelArchivo);
+
+    /// <summary>
+    /// Genera y escribe varios archivos en <paramref name="carpeta"/> sin sobrescribir los que ya existen
+    /// (agrega "-2", "-3"…). Devuelve la ruta del último archivo o el primer error.
+    /// </summary>
+    Task<ResultadoGuardado> GuardarEnCarpetaAsync(string carpeta, IReadOnlyList<(string Nombre, Func<Task<byte[]>> Generar)> archivos);
 
     /// <summary>
     /// Abre la carpeta en el Explorador; false si no existe o no se pudo abrir.
@@ -121,6 +128,37 @@ public sealed class GuardadorArchivos(ITextos textos) : IGuardadorArchivos
         {
             return ResultadoGuardado.ConError(Clasificar(ex));
         }
+    }
+
+    public async Task<ResultadoGuardado> GuardarEnCarpetaAsync(string carpeta, IReadOnlyList<(string Nombre, Func<Task<byte[]>> Generar)> archivos)
+    {
+        ArgumentNullException.ThrowIfNull(archivos);
+        string? ultima = null;
+        foreach (var (nombre, generar) in archivos)
+        {
+            var contenido = await GenerarAsync(generar);
+            if (contenido is null)
+            {
+                return ResultadoGuardado.ConError(ErrorGuardado.NoSeGenero);
+            }
+
+            try
+            {
+                if (!Directory.Exists(carpeta))
+                {
+                    return ResultadoGuardado.ConError(ErrorGuardado.DestinoNoExiste);
+                }
+
+                ultima = NombreArchivo.Disponible(carpeta, nombre);
+                await File.WriteAllBytesAsync(ultima, contenido);
+            }
+            catch (Exception ex)
+            {
+                return ResultadoGuardado.ConError(Clasificar(ex));
+            }
+        }
+
+        return ultima is null ? ResultadoGuardado.PorCancelacion : ResultadoGuardado.Guardado(ultima);
     }
 
     public async Task<bool> AbrirCarpetaAsync(string rutaDelArchivo)

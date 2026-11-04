@@ -24,6 +24,11 @@ public interface ISelectorArchivos
     /// </summary>
     Task<string?> ElegirDestinoRespaldoAsync(string nombreSugerido);
 
+    /// <summary>
+    /// Una carpeta (por ejemplo, para exportar todos los recibos); null si la persona cancela.
+    /// </summary>
+    Task<string?> ElegirCarpetaAsync();
+
 #if DEBUG
     /// <summary>
     /// Solo para pruebas: si tiene valor, el respaldo nuevo se guarda en esta carpeta sin abrir el selector.
@@ -94,6 +99,21 @@ public sealed class SelectorArchivos(ITextos textos) : ISelectorArchivos
         AsociarALaVentana(selector);
         var archivo = await selector.PickSaveFileAsync();
         return archivo?.Path;
+    }
+
+    public async Task<string?> ElegirCarpetaAsync()
+    {
+#if DEBUG
+        if (!string.IsNullOrWhiteSpace(CarpetaPrueba))
+        {
+            return CarpetaPrueba.Trim().Trim('"');
+        }
+#endif
+        var selector = new FolderPicker { SuggestedStartLocation = PickerLocationId.DocumentsLibrary };
+        selector.FileTypeFilter.Add("*");
+        AsociarALaVentana(selector);
+        var carpeta = await selector.PickSingleFolderAsync();
+        return carpeta?.Path;
     }
 
     /// <summary>

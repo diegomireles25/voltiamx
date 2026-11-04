@@ -127,6 +127,8 @@ namespace VoltiaMX
             servicios.AddSingleton<IAparatoService, AparatoService>();
             servicios.AddSingleton<ISimuladorAhorroService, SimuladorAhorroService>();
             servicios.AddSingleton<IMetaService, MetaService>();
+            servicios.AddSingleton<IInquilinoService, InquilinoService>();
+            servicios.AddSingleton<IRepartoService>(sp => new RepartoService(sp.GetRequiredService<IDbContextFactory<VoltiaDbContext>>()));
             servicios.AddSingleton<IRespaldoService>(sp => new RespaldoService(sp.GetRequiredService<OpcionesRespaldo>()));
 
             // Servicios de UI
@@ -160,6 +162,8 @@ namespace VoltiaMX
             servicios.AddTransient<EscanearReciboViewModel>();
             servicios.AddTransient<ReportesViewModel>();
             servicios.AddTransient<RespaldoViewModel>();
+            servicios.AddTransient<InquilinosViewModel>();
+            servicios.AddTransient<RepartoViewModel>();
 
             return builder.Build();
         }

@@ -2930,4 +2930,256 @@
   <data name="Reparto_Aviso_TotalInvalido" xml:space="preserve">
     <value>El total a repartir debe ser mayor que $0 y menor que $10,000,000.</value>
   </data>
+  <data name="Inquilinos_Titulo.Text" xml:space="preserve">
+    <value>INQUILINOS</value>
+  </data>
+  <data name="Inquilinos_NuevoReparto.Content" xml:space="preserve">
+    <value>Nuevo reparto</value>
+  </data>
+  <data name="Inquilinos_Privacidad.Text" xml:space="preserve">
+    <value>Son datos de terceros: viajan en los respaldos y en los PDF. Guarda solo lo necesario; basta con la unidad, por ejemplo "Depto 2".</value>
+  </data>
+  <data name="Inquilinos_Nombre.Header" xml:space="preserve">
+    <value>Nombre o unidad</value>
+  </data>
+  <data name="Inquilinos_Nombre.PlaceholderText" xml:space="preserve">
+    <value>Por ejemplo, Depto 2</value>
+  </data>
+  <data name="Inquilinos_Agregar" xml:space="preserve">
+    <value>Agregar</value>
+  </data>
+  <data name="Inquilinos_GuardarCambios" xml:space="preserve">
+    <value>Guardar cambios</value>
+  </data>
+  <data name="Inquilinos_Cancelar.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Inquilino_Error_NombreVacio" xml:space="preserve">
+    <value>Escribe el nombre o la unidad del inquilino.</value>
+  </data>
+  <data name="Inquilino_Error_NombreMuyLargo" xml:space="preserve">
+    <value>El nombre puede tener hasta 40 caracteres.</value>
+  </data>
+  <data name="Inquilino_Error_NombreRepetido" xml:space="preserve">
+    <value>Ya hay un inquilino con ese nombre en este lugar.</value>
+  </data>
+  <data name="Inquilino_Error_MaximoAlcanzado" xml:space="preserve">
+    <value>Puedes tener hasta 30 inquilinos activos. Da de baja a alguno para agregar otro.</value>
+  </data>
+  <data name="Inquilinos_Guardado" xml:space="preserve">
+    <value>{0} quedó guardado.</value>
+  </data>
+  <data name="Inquilinos_DadoDeBaja" xml:space="preserve">
+    <value>{0} quedó dado de baja; sigue en el historial de repartos.</value>
+  </data>
+  <data name="Inquilinos_Reactivado" xml:space="preserve">
+    <value>{0} está activo otra vez.</value>
+  </data>
+  <data name="Inquilinos_Eliminado" xml:space="preserve">
+    <value>{0} quedó eliminado.</value>
+  </data>
+  <data name="Inquilinos_DarDeBaja" xml:space="preserve">
+    <value>Dar de baja</value>
+  </data>
+  <data name="Inquilinos_Reactivar" xml:space="preserve">
+    <value>Reactivar</value>
+  </data>
+  <data name="Inquilinos_EliminarTitulo" xml:space="preserve">
+    <value>¿ELIMINAR AL INQUILINO?</value>
+  </data>
+  <data name="Inquilinos_EliminarTexto" xml:space="preserve">
+    <value>Se eliminará {0}. Esta acción no se puede deshacer.</value>
+  </data>
+  <data name="Inquilinos_NoSeEliminaConRepartos" xml:space="preserve">
+    <value>Ese inquilino ya figura en un reparto: dalo de baja para conservar el historial.</value>
+  </data>
+  <data name="Inquilinos_ListaTitulo.Text" xml:space="preserve">
+    <value>TUS INQUILINOS</value>
+  </data>
+  <data name="Inquilinos_EtiquetaActivo.Content" xml:space="preserve">
+    <value>ACTIVO</value>
+  </data>
+  <data name="Inquilinos_EtiquetaBaja.Content" xml:space="preserve">
+    <value>BAJA</value>
+  </data>
+  <data name="Inquilinos_Editar.Content" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Inquilinos_Eliminar.Content" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="Inquilinos_VacioTitulo.Text" xml:space="preserve">
+    <value>Agrega tu primer inquilino</value>
+  </data>
+  <data name="Inquilinos_VacioTexto.Text" xml:space="preserve">
+    <value>Escribe el nombre o la unidad (por ejemplo, Depto 1) y presiona Agregar. Después podrás repartir el recibo según lo que marque cada submedidor.</value>
+  </data>
+  <data name="Inquilinos_HistorialTitulo.Text" xml:space="preserve">
+    <value>HISTORIAL DE REPARTOS</value>
+  </data>
+  <data name="Inquilinos_HistorialTexto.Text" xml:space="preserve">
+    <value>Cada reparto guardado es una copia fija: no cambia aunque después cambien las tarifas o se recalculen los periodos.</value>
+  </data>
+  <data name="Inquilinos_RepartoTotal" xml:space="preserve">
+    <value>{0:$#,##0.00}</value>
+  </data>
+  <data name="Inquilinos_RepartoDetalle" xml:space="preserve">
+    <value>{0} inquilinos · total a repartir {1:$#,##0.00}</value>
+  </data>
+  <data name="Inquilinos_Ver.Content" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="Inquilinos_ExportarPdf.Content" xml:space="preserve">
+    <value>Exportar PDF</value>
+  </data>
+  <data name="Inquilinos_EliminarReparto.Content" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="Inquilinos_EliminarRepartoTitulo" xml:space="preserve">
+    <value>¿ELIMINAR EL REPARTO?</value>
+  </data>
+  <data name="Inquilinos_EliminarRepartoTexto" xml:space="preserve">
+    <value>Se eliminará el reparto con sus cuotas. Los PDF que ya exportaste no cambian.</value>
+  </data>
+  <data name="Inquilinos_RepartoEliminado" xml:space="preserve">
+    <value>Reparto eliminado.</value>
+  </data>
+  <data name="Inquilinos_SinRepartos.Text" xml:space="preserve">
+    <value>Aún no hay repartos guardados.</value>
+  </data>
+  <data name="Reparto_TituloNuevo" xml:space="preserve">
+    <value>NUEVO REPARTO</value>
+  </data>
+  <data name="Reparto_TituloGuardado" xml:space="preserve">
+    <value>REPARTO</value>
+  </data>
+  <data name="Reparto_Volver.Content" xml:space="preserve">
+    <value>Volver a inquilinos</value>
+  </data>
+  <data name="Reparto_CopiaFija.Text" xml:space="preserve">
+    <value>Este reparto es una copia fija: no cambia aunque después cambien las tarifas o se recalculen los periodos. Para corregirlo, haz un reparto nuevo del mismo periodo.</value>
+  </data>
+  <data name="Reparto_SinPeriodosTitulo.Text" xml:space="preserve">
+    <value>Aún no hay periodos cerrados</value>
+  </data>
+  <data name="Reparto_SinPeriodosTexto.Text" xml:space="preserve">
+    <value>El reparto se hace sobre un periodo cerrado. Captura la lectura del día de corte para cerrar el primero.</value>
+  </data>
+  <data name="Reparto_Periodo.Header" xml:space="preserve">
+    <value>Periodo</value>
+  </data>
+  <data name="Reparto_OpcionPeriodo" xml:space="preserve">
+    <value>{0} – {1} · {2:#,##0.##} kWh</value>
+  </data>
+  <data name="Reparto_OpcionPeriodoConReparto" xml:space="preserve">
+    <value>{0} – {1} · {2:#,##0.##} kWh · YA TIENE REPARTO</value>
+  </data>
+  <data name="Reparto_Principal" xml:space="preserve">
+    <value>El medidor principal marcó {0:#,##0.##} kWh en este periodo.</value>
+  </data>
+  <data name="Reparto_Total.Header" xml:space="preserve">
+    <value>Total a repartir</value>
+  </data>
+  <data name="Reparto_Origen_MontoRecibo" xml:space="preserve">
+    <value>DEL RECIBO</value>
+  </data>
+  <data name="Reparto_Origen_MontoCalculado" xml:space="preserve">
+    <value>CALCULADO POR VOLTIAMX, SIN IVA NI DAP</value>
+  </data>
+  <data name="Reparto_Origen_Capturado" xml:space="preserve">
+    <value>CAPTURADO</value>
+  </data>
+  <data name="Reparto_Recomendacion.Text" xml:space="preserve">
+    <value>Si vas a repartir lo que realmente pagaste, captura el total a pagar de tu recibo de CFE (con IVA).</value>
+  </data>
+  <data name="Reparto_ModoTitulo.Text" xml:space="preserve">
+    <value>MODO DE REPARTO</value>
+  </data>
+  <data name="Reparto_ModoSoloMedido.Content" xml:space="preserve">
+    <value>Solo lo medido</value>
+  </data>
+  <data name="Reparto_ModoSoloMedidoTexto.Text" xml:space="preserve">
+    <value>Cada inquilino paga lo que marca su submedidor; lo que no miden (áreas comunes, pérdidas) lo absorbes tú.</value>
+  </data>
+  <data name="Reparto_ModoProporcional.Content" xml:space="preserve">
+    <value>Proporcional a lo medido</value>
+  </data>
+  <data name="Reparto_ModoProporcionalTexto.Text" xml:space="preserve">
+    <value>Se reparte el total completo entre los inquilinos, en proporción a lo que marca cada submedidor.</value>
+  </data>
+  <data name="Reparto_LecturasTitulo.Text" xml:space="preserve">
+    <value>LECTURAS DE LOS SUBMEDIDORES</value>
+  </data>
+  <data name="Reparto_SinInquilinos.Text" xml:space="preserve">
+    <value>No hay inquilinos activos. Agrégalos en Inquilinos.</value>
+  </data>
+  <data name="Reparto_LecturaAnterior.Header" xml:space="preserve">
+    <value>Lectura anterior</value>
+  </data>
+  <data name="Reparto_LecturaActual.Header" xml:space="preserve">
+    <value>Lectura actual</value>
+  </data>
+  <data name="Reparto_Kwh" xml:space="preserve">
+    <value>{0:#,##0.##} kWh</value>
+  </data>
+  <data name="Reparto_FaltanLecturas" xml:space="preserve">
+    <value>Captura la lectura anterior y la actual de cada submedidor para calcular el reparto.</value>
+  </data>
+  <data name="Reparto_SeCobra.Text" xml:space="preserve">
+    <value>SE COBRA A LOS INQUILINOS</value>
+  </data>
+  <data name="Reparto_Pesos" xml:space="preserve">
+    <value>{0:$#,##0.00}</value>
+  </data>
+  <data name="Reparto_PrecioKwh" xml:space="preserve">
+    <value>{0:$#,##0.00##} por kWh</value>
+  </data>
+  <data name="Reparto_Absorbe.Text" xml:space="preserve">
+    <value>Absorbe el propietario</value>
+  </data>
+  <data name="Reparto_PrecioPromedio.Text" xml:space="preserve">
+    <value>Precio promedio por kWh</value>
+  </data>
+  <data name="Reparto_SinRangos.Text" xml:space="preserve">
+    <value>No se aplican los rangos de la tarifa por inquilino: el costo total del recibo se reparte entre todos, así nadie gasta el rango básico completo.</value>
+  </data>
+  <data name="Reparto_ReciboPdf.Content" xml:space="preserve">
+    <value>Recibo PDF</value>
+  </data>
+  <data name="Reparto_Guardar.Content" xml:space="preserve">
+    <value>Guardar reparto</value>
+  </data>
+  <data name="Reparto_Cancelar.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Reparto_ExportarPdf.Content" xml:space="preserve">
+    <value>Exportar PDF</value>
+  </data>
+  <data name="Reparto_ExportarTodos.Content" xml:space="preserve">
+    <value>Exportar todos</value>
+  </data>
+  <data name="Reparto_ReemplazarTitulo" xml:space="preserve">
+    <value>¿REEMPLAZAR EL REPARTO?</value>
+  </data>
+  <data name="Reparto_ReemplazarTexto" xml:space="preserve">
+    <value>El periodo {0} – {1} ya tiene un reparto guardado. Si continúas, se reemplaza por este.</value>
+  </data>
+  <data name="Reparto_Reemplazar" xml:space="preserve">
+    <value>Reemplazar</value>
+  </data>
+  <data name="Reparto_Guardado" xml:space="preserve">
+    <value>Reparto guardado. Ya puedes exportar los recibos.</value>
+  </data>
+  <data name="Reparto_NoSeGuardo" xml:space="preserve">
+    <value>No se pudo guardar el reparto. Revisa los datos e inténtalo de nuevo.</value>
+  </data>
+  <data name="Reparto_ExportadosTodos" xml:space="preserve">
+    <value>{0} archivos guardados en {1}</value>
+  </data>
+  <data name="Reparto_LecturaAnteriorDe" xml:space="preserve">
+    <value>Lectura anterior de {0}</value>
+  </data>
+  <data name="Reparto_LecturaActualDe" xml:space="preserve">
+    <value>Lectura actual de {0}</value>
+  </data>
 </root>

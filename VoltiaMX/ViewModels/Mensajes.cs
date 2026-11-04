@@ -83,3 +83,24 @@ public static class SeccionesAparatos
                 ? id
                 : null;
 }
+
+/// <summary>
+/// Secciones del módulo Inquilinos: el reparto (nuevo o uno guardado, de solo lectura) se abre bajo Inquilinos.
+/// </summary>
+public static class SeccionesInquilinos
+{
+    public const string NuevoReparto = "Reparto";
+
+    private const string PrefijoReparto = NuevoReparto + ":";
+
+    public static string VerReparto(int repartoId) => PrefijoReparto + repartoId;
+
+    public static bool EsReparto(string? seccion)
+        => seccion == NuevoReparto || seccion?.StartsWith(PrefijoReparto, StringComparison.Ordinal) == true;
+
+    public static int? RepartoDe(string? seccion)
+        => seccion?.StartsWith(PrefijoReparto, StringComparison.Ordinal) == true
+            && int.TryParse(seccion[PrefijoReparto.Length..], out var id)
+                ? id
+                : null;
+}

@@ -38,6 +38,17 @@ public sealed class NavegacionShell : INavegacionShell
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Reportes:
                 IrA(typeof(ReportesPage));
                 break;
+            case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Inquilinos:
+                if (SeccionesInquilinos.EsReparto(seccion))
+                {
+                    IrA(typeof(RepartoPage), SeccionesInquilinos.RepartoDe(seccion));
+                }
+                else
+                {
+                    IrA(typeof(InquilinosPage));
+                }
+
+                break;
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Metas:
                 IrA(typeof(MetasPage));
                 break;

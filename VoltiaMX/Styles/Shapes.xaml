@@ -117,6 +117,13 @@
 
     <!-- Escanear recibo: columna de la etiqueta de confianza (cabe "NO ENCONTRADO"), igual en todas las filas -->
     <GridLength x:Key="ColumnaEtiquetaConfianza">152</GridLength>
+
+    <!-- Reparto entre inquilinos: anchos de los campos y columnas iguales en todas las filas -->
+    <x:Double x:Key="CampoPeriodoMinWidth">360</x:Double>
+    <x:Double x:Key="CampoMontoMinWidth">240</x:Double>
+    <x:Double x:Key="CampoLecturaMinWidth">180</x:Double>
+    <GridLength x:Key="ColumnaKwhReparto">120</GridLength>
+    <GridLength x:Key="ColumnaCuotaReparto">140</GridLength>
     <x:Double x:Key="ChartHeight">240</x:Double>
     <x:Double x:Key="ChartBarMinWidth">40</x:Double>
     <x:Double x:Key="ProgressHeight">8</x:Double>
