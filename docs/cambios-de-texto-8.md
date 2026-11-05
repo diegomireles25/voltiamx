@@ -71,6 +71,7 @@ nadie usa. Dos claves solo cambiaron de nombre porque ahora las pone el ViewMode
 | `Metas_CifraSuperada` | (nueva) | YA PASASTE EL OBJETIVO |
 | `Metas_ComoLograrlo.Text` | (nueva) | CÓMO LOGRARLO |
 | `Metas_Explicacion.Text` | Gasta menos que en tu recibo anterior. Todo en kWh, con tus lecturas. | Paga menos que en tu recibo anterior. Lo calculamos con tus lecturas y tu tarifa. |
+| `Metas_FilaPesos` | El objetivo en tu recibo, antes de impuestos | Lo que buscas ahorrar en este recibo |
 | `Metas_KwhPorDia` | {0:N1} KWH AL DÍA | (borrada) |
 | `Metas_LeyendaKwhPorDia` | Es lo que puedes gastar al día de aquí al corte para lograr tu meta. | (borrada) |
 | `Metas_LeyendaPesos` | (nueva) | Tu recibo debería quedar en unos ${0:N0} o menos. A este ritmo irías en unos ${1:N0}. Te faltan unos ${2:N0}. |
@@ -112,7 +113,7 @@ nadie usa. Dos claves solo cambiaron de nombre porque ahora las pone el ViewMode
 | `ReciboMonto_Incompleto.Text` | (nueva) | Escribe el total y el día de corte para continuar. |
 | `ReciboMonto_SinConfirmacion.Text` | (nueva) | Escribe el total de tu recibo para ver cuánto consumiste. |
 | `ReciboMonto_SinLugar.Text` | (nueva) | Primero termina de configurar tu lugar para agregar recibos. |
-| `ReciboMonto_Titulo.Text` | (nueva) | Un recibo anterior por su monto |
+| `ReciboMonto_Titulo.Text` | (nueva) | UN RECIBO ANTERIOR POR SU MONTO |
 | `ReciboMonto_Total.Header` | (nueva) | Total a pagar del recibo |
 | `ReciboMonto_Volver.Content` | (nueva) | Volver a Lecturas |
 | `Recibo_PorMonto_Descripcion.Text` | (nueva) | Escribe el total de tu último recibo y calculamos tu consumo. |

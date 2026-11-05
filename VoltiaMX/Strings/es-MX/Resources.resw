@@ -1809,7 +1809,7 @@
     <value>A este ritmo al cierre</value>
   </data>
   <data name="Metas_FilaPesos" xml:space="preserve">
-    <value>El objetivo en tu recibo, antes de impuestos</value>
+    <value>Lo que buscas ahorrar en este recibo</value>
   </data>
   <data name="Metas_FilaRacha" xml:space="preserve">
     <value>Racha</value>
@@ -3522,7 +3522,7 @@
     <value>Volver a Lecturas</value>
   </data>
   <data name="ReciboMonto_Titulo.Text" xml:space="preserve">
-    <value>Un recibo anterior por su monto</value>
+    <value>UN RECIBO ANTERIOR POR SU MONTO</value>
   </data>
   <data name="ReciboMonto_Explicacion.Text" xml:space="preserve">
     <value>Si no tienes las lecturas de tu medidor, escribe cuánto pagaste. Calculamos más o menos cuánto consumiste.</value>

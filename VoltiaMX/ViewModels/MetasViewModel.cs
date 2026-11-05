@@ -157,7 +157,7 @@ public sealed partial class MetasViewModel(
         Agregar("Metas_FilaProyectado", progreso.MontoARitmo);
         if (progreso.AhorroPesosObjetivo is decimal pesos)
         {
-            Filas.Add(new FilaDetalle(textos["Metas_FilaPesos"], textos.Formato("Formato_Centavos", pesos)));
+            Filas.Add(new FilaDetalle(textos["Metas_FilaPesos"], textos.Formato("Formato_Unos", pesos)));
         }
 
         Filas.Add(new FilaDetalle(textos["Metas_FilaRacha"], progreso.Racha switch
