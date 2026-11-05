@@ -2,36 +2,35 @@
 
 App de escritorio para Windows que ayuda a entender, predecir y reducir el recibo de luz de la CFE, en casa, en un negocio o en propiedades en renta, sin necesidad de internet.
 
-**Estado: AVANCE (fase 6 de 6), no es una versión final.**
+**Estado: AVANCE (versión 1.1), no es una versión final.**
 
 ## Qué ya funciona
 
-- Onboarding de 7 pasos con escena 3D de bienvenida.
-- Perfiles y módulos dinámicos: la navegación se arma según el uso que elijas.
-- Dashboard con datos reales o de demostración.
-- Captura de lecturas del medidor con cierre automático de periodos en la fecha de corte.
+- Onboarding corto de 3 preguntas (uso, ubicación y tarifa, recibo opcional) con escena 3D de bienvenida.
+- Experiencia simplificada: el menú muestra Inicio, hasta dos módulos principales según tu perfil y Más.
+- Inicio con el pago estimado del recibo, la comparación con tu recibo anterior, la tarifa alta (DAC), el historial y lo que más gasta.
+- Captura de lecturas del medidor con cierre automático de cada recibo en el día de corte.
 - Historial de consumo y gasto con gráficas.
-- Presupuesto: un tope de pago y cuántos kWh al día puedes gastar para no pasarte.
-- Predictor del recibo con su desglose por rangos y alerta de riesgo DAC.
-- Tarifas editables (rangos, precios, cargo fijo y límite DAC) y validación contra tu recibo.
-- Aparatos con su consumo estimado y ranking real contra lo que mide tu medidor.
+- "Cómo se calcula tu recibo": el desglose por tramos de precio y la cercanía a la tarifa alta (DAC).
+- Tarifas editables (tramos, precios, cargo fijo y límite de la tarifa alta) y validación contra tu recibo.
+- Aparatos con su consumo aproximado y lo que más gasta contra lo que mide tu medidor.
 - Simulador de ahorro: menos horas de uso o un equipo más eficiente, con pesos según tu tarifa y recuperación de la inversión.
-- Metas de ahorro: reducir tu consumo contra el periodo anterior, con progreso, historial y racha.
+- Metas de ahorro: gastar menos que el recibo anterior, con progreso, historial y racha.
 - Escanear el recibo (foto o PDF) con reconocimiento de texto local, sin internet: revisas los datos leídos y guardas la lectura.
-- Notificaciones de Windows con los avisos de corte, riesgo DAC, meta y presupuesto (verificación con la versión empaquetada pendiente).
-- Exportar a Excel y PDF: el reporte del periodo en PDF y todos tus datos en Excel, generados en tu equipo.
+- Notificaciones de Windows con los avisos del día de corte, la tarifa alta y la meta (verificación con la versión empaquetada pendiente).
+- Exportar a Excel y PDF: el reporte del recibo en PDF y todos tus datos en Excel, generados en tu equipo.
 - Respaldo y restauración en un solo archivo, con copia automática antes de actualizar la base de datos y antes de restaurar.
-- Inquilinos: reparto del recibo entre submedidores (solo lo medido o proporcional), con un recibo en PDF por inquilino y un resumen.
-- En `VoltiaMX.Core`: cálculo por rangos de tarifa, proyección del periodo, riesgo DAC con el promedio de los últimos 12 meses y presupuesto inverso.
+- Inquilinos: reparto del recibo según el medidor propio de cada uno (solo lo medido o proporcional), con un recibo en PDF por inquilino y un resumen.
+- Simulador solar: una estimación de paneles, generación, ahorro y recuperación con supuestos editables, exportable a PDF.
+- En `VoltiaMX.Core`: cálculo por tramos de la tarifa, el ritmo de consumo del recibo y la tarifa alta (DAC) con el promedio de los últimos 12 meses.
 - Pruebas automáticas (`dotnet test`).
 - Base de datos local SQLite.
 
 ## Qué falta
 
-- Simulador solar.
 - Verificación con un recibo real.
-- Tarifas oficiales (hoy son datos de ejemplo editables).
-- Empaquetado para instalar.
+- Tarifas oficiales de CFE (hoy son datos de ejemplo editables).
+- Empaquetado e instalación en otro equipo.
 
 Las secciones que aún no existen aparecen en la app como "Próximamente" o con sus botones deshabilitados.
 
