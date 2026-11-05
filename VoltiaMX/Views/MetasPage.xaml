@@ -139,11 +139,11 @@
                                         HorizontalAlignment="Left"
                                         Content="{x:Bind ViewModel.EstadoEtiqueta, Mode=OneWay}"
                                         Style="{x:Bind helpers:Conversiones.EstiloEstadoMeta(ViewModel.Estado), Mode=OneWay}" />
-                                    <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.KwhPorDiaTexto, Mode=OneWay}" TextWrapping="Wrap" />
+                                    <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.CifraMeta, Mode=OneWay}" TextWrapping="Wrap" />
                                     <TextBlock
                                         Foreground="{StaticResource AshBrush}"
                                         Style="{StaticResource BodyTextStyle}"
-                                        Text="{x:Bind ViewModel.LeyendaKwhPorDia, Mode=OneWay}"
+                                        Text="{x:Bind ViewModel.LeyendaMeta, Mode=OneWay}"
                                         TextWrapping="Wrap" />
                                     <ProgressBar
                                         x:Uid="Metas_Progreso"
@@ -201,6 +201,36 @@
                         </StackPanel>
                     </Grid>
 
+                    <!-- Cómo lograrlo (D8): las sugerencias calculadas; sin sugerencias no aparece -->
+                    <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneSugerencias), Mode=OneWay}">
+                        <TextBlock
+                            x:Uid="Metas_ComoLograrlo"
+                            AutomationProperties.HeadingLevel="Level2"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}" />
+                        <Border Style="{StaticResource HairlineListStyle}">
+                            <StackPanel>
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Sugerencias}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="x:String">
+                                            <Border Style="{StaticResource HairlineRowStyle}">
+                                                <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind}" TextWrapping="Wrap" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                                <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.TextoLograrlo), Mode=OneWay}">
+                                    <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind ViewModel.TextoLograrlo, Mode=OneWay}" TextWrapping="Wrap" />
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                        <TextBlock
+                            x:Uid="Sugerencia_Depende"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
                     <!-- Historial -->
                     <StackPanel Spacing="{StaticResource Spacing16}">
                         <TextBlock
@@ -231,7 +261,7 @@
                                                     Grid.Column="1"
                                                     VerticalAlignment="Center"
                                                     Style="{StaticResource SubheadingTextStyle}"
-                                                    Text="{x:Bind Kwh}" />
+                                                    Text="{x:Bind Monto}" />
                                                 <TextBlock
                                                     Grid.Column="2"
                                                     VerticalAlignment="Center"

@@ -148,8 +148,9 @@ public sealed partial class LecturasViewModel(
 
     [ObservableProperty] public partial bool TieneHistorial { get; set; }
     [ObservableProperty] public partial IReadOnlyList<BarraPeriodo> BarrasHistorial { get; set; } = [];
-    [ObservableProperty] public partial bool? HistorialEnKwh { get; set; } = true;
-    [ObservableProperty] public partial bool? HistorialEnPesos { get; set; } = false;
+    // Fase 8 (D7): la gráfica inicia en pesos; el selector kWh/Pesos se conserva.
+    [ObservableProperty] public partial bool? HistorialEnKwh { get; set; } = false;
+    [ObservableProperty] public partial bool? HistorialEnPesos { get; set; } = true;
     [ObservableProperty] public partial bool TieneAcumulado { get; set; }
     [ObservableProperty] public partial GraficaAcumulado? Acumulado { get; set; }
     [ObservableProperty] public partial string ResumenAcumulado { get; set; } = string.Empty;

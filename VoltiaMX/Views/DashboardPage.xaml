@@ -104,12 +104,10 @@
                                     x:Uid="Dashboard_Progreso"
                                     Style="{StaticResource ProgressStyle}"
                                     Value="{x:Bind ViewModel.ProgresoPeriodo, Mode=OneWay}" />
+                                <!-- D7: el día del recibo y los días para el corte, sin kWh -->
                                 <Grid>
-                                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
-                                        <TextBlock VerticalAlignment="Center" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.KwhHastaHoyTexto, Mode=OneWay}" />
-                                        <local:TerminoAyuda Clave="Kwh" />
-                                    </StackPanel>
-                                    <TextBlock HorizontalAlignment="Right" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.KwhCierreTexto, Mode=OneWay}" />
+                                    <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.TextoDiaDelPeriodo, Mode=OneWay}" />
+                                    <TextBlock HorizontalAlignment="Right" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.TextoFaltanDias, Mode=OneWay}" />
                                 </Grid>
                             </StackPanel>
                             <!-- "antes de impuestos" siempre junto a la cifra, con su explicación -->
@@ -196,6 +194,38 @@
                                 Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PredictorHabilitado), Mode=OneWay}" />
                         </Grid>
                     </ContentPresenter>
+                </Grid>
+
+                <!-- PARA AHORRAR (D5, D6): acciones calculadas con tus aparatos y tu tarifa; sin sugerencias no aparece -->
+                <Grid ColumnSpacing="{StaticResource Spacing48}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneSugerencias), Mode=OneWay}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Uid="Dashboard_ParaAhorrar" Style="{StaticResource DisplayTextStyle}" />
+                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}">
+                        <Border Style="{StaticResource HairlineListStyle}">
+                            <StackPanel>
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Sugerencias}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="x:String">
+                                            <Border Style="{StaticResource HairlineRowStyle}">
+                                                <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind}" TextWrapping="Wrap" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                                <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.TextoCombinado), Mode=OneWay}">
+                                    <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind ViewModel.TextoCombinado, Mode=OneWay}" TextWrapping="Wrap" />
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                        <TextBlock
+                            x:Uid="Sugerencia_Depende"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
                 </Grid>
 
                 <!-- HISTORIAL + ESTADO -->
@@ -288,14 +318,6 @@
                                         Content="{x:Bind ViewModel.TextoNivelDac, Mode=OneWay}"
                                         Style="{x:Bind helpers:Conversiones.EstiloDac(ViewModel.NivelDac), Mode=OneWay}" />
                                 </Grid>
-                                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing12}">
-                                    <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.PromedioDacTexto, Mode=OneWay}" />
-                                    <TextBlock
-                                        VerticalAlignment="Bottom"
-                                        Foreground="{StaticResource SlateBrush}"
-                                        Style="{StaticResource BodyTextStyle}"
-                                        Text="{x:Bind ViewModel.LimiteDacTexto, Mode=OneWay}" />
-                                </StackPanel>
                                 <TextBlock
                                     x:Uid="Dashboard_DacExplicacion"
                                     Foreground="{StaticResource SlateBrush}"
@@ -428,6 +450,12 @@
                                 </ItemsRepeater.ItemTemplate>
                             </ItemsRepeater>
                         </Border>
+                        <TextBlock
+                            x:Uid="Dashboard_NoSumanRecibo"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.AparatosConPesos), Mode=OneWay}" />
                         <TextBlock
                             Foreground="{StaticResource SlateBrush}"
                             Style="{StaticResource BodySmTextStyle}"

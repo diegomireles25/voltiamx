@@ -51,8 +51,87 @@ internal static class TerminosProhibidos
     }
 }
 
+/// <summary>
+/// Fase 8 (D1, D10): Inicio, Aparatos, Metas y los avisos de Inicio hablan en pesos; "kWh" no aparece en sus textos.
+/// </summary>
+internal static class KwhFueraDeLugar
+{
+    /// <summary>
+    /// Prefijos de las claves que se ven en Inicio, Aparatos y Metas (y en los avisos de Inicio).
+    /// </summary>
+    public static readonly string[] PrefijosVigilados =
+    [
+        "Dashboard_", "Aparatos_", "Aparato_", "Ranking_", "Metas_", "Meta_", "MetaObjetivo_", "EstadoMeta_",
+        "Propiedad_", "Aviso_", "PreciosEjemplo_", "Sugerencia_",
+    ];
+
+    public static IReadOnlyList<string> Buscar(IReadOnlyDictionary<string, string> textos)
+        => textos
+            .Where(t => PrefijosVigilados.Any(p => t.Key.StartsWith(p, StringComparison.Ordinal))
+                && t.Value.Contains("kWh", StringComparison.OrdinalIgnoreCase))
+            .Select(t => t.Key)
+            .OrderBy(k => k, StringComparer.Ordinal)
+            .ToList();
+}
+
 public sealed class LenguajeSencilloTests
 {
+    /// <summary>
+    /// Claves vigiladas que sí pueden decir "kWh", cada una con su motivo.
+    /// </summary>
+    private static readonly Dictionary<string, string> ExcepcionesKwh = new()
+    {
+        // D4 pide esta línea tal cual: explica por qué los costos de los aparatos no suman el recibo.
+        ["Aparatos_NoSumanRecibo"] = "Texto exigido por D4: los primeros kWh cuestan menos.",
+    };
+
+    [Fact]
+    public void InicioAparatosYMetas_NoDicenKwh()
+    {
+        var hallazgos = KwhFueraDeLugar.Buscar(TextosDeRecursos.Todos()).Where(c => !ExcepcionesKwh.ContainsKey(c)).ToList();
+
+        Assert.True(hallazgos.Count == 0, "Textos de Inicio, Aparatos o Metas con kWh:\n" + string.Join("\n", hallazgos));
+    }
+
+    [Fact]
+    public void CadaExcepcionDeKwh_TieneMotivoYTodaviaHaceFalta()
+    {
+        var conKwh = KwhFueraDeLugar.Buscar(TextosDeRecursos.Todos()).ToHashSet();
+        foreach (var (clave, motivo) in ExcepcionesKwh)
+        {
+            Assert.False(string.IsNullOrWhiteSpace(motivo), $"La excepción {clave} no dice por qué.");
+            Assert.True(conKwh.Contains(clave), $"La excepción {clave} ya no hace falta: quítala.");
+        }
+    }
+
+    [Fact]
+    public void LaGuardianaDeKwh_DetectaUnTextoMalo()
+    {
+        var textos = new Dictionary<string, string>
+        {
+            ["Dashboard_Bueno"] = "A este ritmo pagarías unos $1,572.",
+            ["Dashboard_Malo"] = "Llevas 412 KWH hasta hoy",
+            ["Metas_Malo"] = "Puedes gastar 6.3 kWh al día.",
+            ["Predictor_Kwh"] = "1,049 kWh a este ritmo",
+            ["Ayuda_Kwh"] = "Kilowatt hora (kWh).",
+        };
+
+        Assert.Equal(["Dashboard_Malo", "Metas_Malo"], KwhFueraDeLugar.Buscar(textos));
+    }
+
+    [Theory]
+    [InlineData("DashboardViewModel.cs")]
+    [InlineData("AparatosViewModel.cs")]
+    [InlineData("MetasViewModel.cs")]
+    public void LasPantallasEnPesos_NoUsanFormatosDeKwh(string archivo)
+    {
+        // Un "{0:N0}" de Formato_Kwh no dice "kWh" pero muestra kWh: la guardiana de claves no lo vería.
+        var codigo = File.ReadAllText(Path.Combine(TextosDeRecursos.Raiz(), "VoltiaMX", "ViewModels", archivo));
+
+        Assert.DoesNotContain("\"Formato_Kwh", codigo, StringComparison.Ordinal);
+        Assert.DoesNotContain("\"Aparatos_KwhMes\"", codigo, StringComparison.Ordinal);
+    }
+
     /// <summary>
     /// Textos que pueden conservar un término, cada uno con su motivo. Hoy no hace falta ninguno: si algún día se
     /// agrega uno, debe llevar el motivo y la prueba avisa cuando deje de hacer falta.

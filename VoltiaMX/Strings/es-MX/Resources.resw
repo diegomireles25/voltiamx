@@ -588,9 +588,6 @@
   <data name="Formato_Kwh" xml:space="preserve">
     <value>{0:N0}</value>
   </data>
-  <data name="Formato_Entero" xml:space="preserve">
-    <value>{0:N0}</value>
-  </data>
   <data name="Formato_Porcentaje" xml:space="preserve">
     <value>{0}%</value>
   </data>
@@ -644,12 +641,6 @@
   <data name="Dashboard_Progreso.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Consumo de este recibo hasta hoy</value>
   </data>
-  <data name="Dashboard_KwhHastaHoy" xml:space="preserve">
-    <value>{0:N0} KWH HASTA HOY</value>
-  </data>
-  <data name="Dashboard_KwhAlCierre" xml:space="preserve">
-    <value>~{0:N0} A ESTE RITMO</value>
-  </data>
   <data name="Dashboard_SinIva.Text" xml:space="preserve">
     <value>ANTES DE IMPUESTOS</value>
   </data>
@@ -671,12 +662,6 @@
   <!-- Dashboard: presupuesto inverso -->
 
   <!-- Dashboard: historial -->
-  <data name="Dashboard_HistorialBimestre" xml:space="preserve">
-    <value>CONSUMO POR BIMESTRE</value>
-  </data>
-  <data name="Dashboard_HistorialMes" xml:space="preserve">
-    <value>CONSUMO POR MES</value>
-  </data>
   <data name="Dashboard_HistorialGasto" xml:space="preserve">
     <value>GASTO POR RECIBO</value>
   </data>
@@ -706,17 +691,11 @@
   <data name="Dac_Alto" xml:space="preserve">
     <value>MUY CERCA</value>
   </data>
-  <data name="Dashboard_DacLimite" xml:space="preserve">
-    <value>de {0:N0} kWh al mes</value>
-  </data>
   <data name="Dashboard_DacExplicacion.Text" xml:space="preserve">
     <value>Tu promedio de los últimos 12 meses contra el límite de tu tarifa.</value>
   </data>
   <data name="Dashboard_Avisos.Text" xml:space="preserve">
     <value>AVISOS</value>
-  </data>
-  <data name="Aviso_Corte" xml:space="preserve">
-    <value>Tu recibo cierra en {0} días.</value>
   </data>
   <data name="Aviso_PeriodoTerminado" xml:space="preserve">
     <value>Tu recibo ya cerró. Anota lo que marca tu medidor.</value>
@@ -751,7 +730,7 @@
     <value>Próximamente</value>
   </data>
   <data name="Propiedad_Detalle" xml:space="preserve">
-    <value>${0:N0} · {1:N0} kWh</value>
+    <value>unos ${0:N0}</value>
   </data>
   <data name="Propiedad_SinRecibos" xml:space="preserve">
     <value>Sin recibos todavía</value>
@@ -1404,7 +1383,7 @@
     <value>APARATOS</value>
   </data>
   <data name="Aparatos_Subtitulo.Text" xml:space="preserve">
-    <value>Calcula cuánto consume cada aparato al mes con su potencia y su uso.</value>
+    <value>Calcula cuánto te cuesta cada aparato al mes con su potencia y su uso.</value>
   </data>
   <data name="Aparatos_Plantilla.Header" xml:space="preserve">
     <value>Agregar desde una plantilla</value>
@@ -1448,14 +1427,11 @@
   <data name="Aparatos_AsiSeVeria.Text" xml:space="preserve">
     <value>ASÍ SE VERÍA</value>
   </data>
-  <data name="Aparatos_KwhPrevia" xml:space="preserve">
-    <value>{0:N1} KWH AL MES</value>
-  </data>
   <data name="Aparatos_AsiSeVeriaTexto.Text" xml:space="preserve">
-    <value>Consumo aproximado con estos datos. No es lo que mide tu medidor.</value>
+    <value>Lo que te costaría al mes con estos datos, antes de impuestos.</value>
   </data>
-  <data name="Aparatos_SinVistaPrevia.Text" xml:space="preserve">
-    <value>Completa los datos para ver cuánto consumiría al mes.</value>
+  <data name="Aparatos_SinVistaPrevia" xml:space="preserve">
+    <value>Completa los datos para ver cuánto te costaría al mes.</value>
   </data>
   <data name="Aparatos_Guardar.Content" xml:space="preserve">
     <value>Guardar aparato</value>
@@ -1474,9 +1450,6 @@
   </data>
   <data name="Aparatos_Detalle" xml:space="preserve">
     <value>{0} × {1:N0} W · {2:0.##} h/día · {3} días/sem</value>
-  </data>
-  <data name="Aparatos_KwhMes" xml:space="preserve">
-    <value>{0:N1} kWh/mes</value>
   </data>
   <data name="Aparatos_Editar.Content" xml:space="preserve">
     <value>Editar</value>
@@ -1583,14 +1556,11 @@
   <data name="Ranking_Titulo.Text" xml:space="preserve">
     <value>LO QUE MÁS GASTA</value>
   </data>
-  <data name="Ranking_Medido" xml:space="preserve">
-    <value>Porcentaje de lo que mide tu medidor: {0:N0} kWh al mes.</value>
-  </data>
   <data name="Ranking_SinConsumo" xml:space="preserve">
-    <value>Aún no medimos tu consumo. Con dos lecturas o un recibo anterior verás porcentajes. Mientras, ves los kWh al mes aproximados.</value>
+    <value>Aún no medimos tu consumo. Registra un recibo o dos lecturas para ver cuánto cuesta cada aparato.</value>
   </data>
   <data name="Ranking_SinConsumoCorto" xml:space="preserve">
-    <value>Aún no medimos tu consumo: son kWh al mes aproximados.</value>
+    <value>Registra un recibo o dos lecturas para ver cuánto cuesta cada aparato.</value>
   </data>
   <data name="Ranking_SinIdentificar.Text" xml:space="preserve">
     <value>SIN IDENTIFICAR</value>
@@ -1761,7 +1731,7 @@
     <value>TU META DE AHORRO</value>
   </data>
   <data name="Metas_Explicacion.Text" xml:space="preserve">
-    <value>Gasta menos que en tu recibo anterior. Todo en kWh, con tus lecturas.</value>
+    <value>Paga menos que en tu recibo anterior. Lo calculamos con tus lecturas y tu tarifa.</value>
   </data>
   <data name="Metas_VacioTitulo.Text" xml:space="preserve">
     <value>Crea tu meta</value>
@@ -1817,12 +1787,6 @@
   <data name="Metas_IrALecturas.Content" xml:space="preserve">
     <value>Ir a Lecturas</value>
   </data>
-  <data name="Metas_KwhPorDia" xml:space="preserve">
-    <value>{0:N1} KWH AL DÍA</value>
-  </data>
-  <data name="Metas_LeyendaKwhPorDia" xml:space="preserve">
-    <value>Es lo que puedes gastar al día de aquí al corte para lograr tu meta.</value>
-  </data>
   <data name="Metas_LeyendaSuperada" xml:space="preserve">
     <value>Ya pasaste el objetivo de este recibo. La meta vuelve a medirse en el siguiente.</value>
   </data>
@@ -1830,7 +1794,7 @@
     <value>Consumo hasta hoy contra el objetivo de este recibo</value>
   </data>
   <data name="Metas_ProgresoTexto" xml:space="preserve">
-    <value>{0:N0} DE {1:N0} KWH DEL OBJETIVO</value>
+    <value>LLEVAS {0:0} % DEL OBJETIVO</value>
   </data>
   <data name="Metas_FilaBase" xml:space="preserve">
     <value>Recibo anterior (base)</value>
@@ -1905,10 +1869,10 @@
     <value>Escribe un porcentaje de 1 a 50.</value>
   </data>
   <data name="Dashboard_MetaCumpliendo" xml:space="preserve">
-    <value>Vas cumpliendo tu meta del {0}%: puedes gastar {1:N1} kWh al día.</value>
+    <value>Vas cumpliendo tu meta del {0}%. Tu recibo debería quedar en unos ${1:N0} o menos, y vas en unos ${2:N0}.</value>
   </data>
   <data name="Dashboard_MetaEnRiesgo" xml:space="preserve">
-    <value>Tu meta del {0}% está en riesgo: para lograrla, gasta máximo {1:N1} kWh al día.</value>
+    <value>Tu meta del {0}% está en riesgo. Te faltan unos ${1:N0} para lograrla.</value>
   </data>
   <data name="Dashboard_MetaSuperada" xml:space="preserve">
     <value>Ya pasaste el objetivo de tu meta del {0}% en este recibo.</value>
@@ -3189,22 +3153,22 @@
     <value>COMPARADO CON TU RECIBO ANTERIOR</value>
   </data>
   <data name="Dashboard_ComparacionCifraArriba" xml:space="preserve">
-    <value>+{0:0} %</value>
+    <value>+${0:N0}</value>
   </data>
   <data name="Dashboard_ComparacionCifraAbajo" xml:space="preserve">
-    <value>−{0:0} %</value>
+    <value>−${0:N0}</value>
   </data>
   <data name="Dashboard_ComparacionCifraIgual" xml:space="preserve">
     <value>PARECIDO</value>
   </data>
   <data name="Dashboard_ComparacionArriba" xml:space="preserve">
-    <value>A este ritmo vas {0:0} % más alto que tu recibo anterior</value>
+    <value>A este ritmo pagarías unos ${0:N0}. Tu recibo anterior habría sido de unos ${1:N0}, o sea unos ${2:N0} más.</value>
   </data>
   <data name="Dashboard_ComparacionAbajo" xml:space="preserve">
-    <value>A este ritmo vas {0:0} % más bajo que tu recibo anterior</value>
+    <value>A este ritmo pagarías unos ${0:N0}. Tu recibo anterior habría sido de unos ${1:N0}, o sea unos ${2:N0} menos.</value>
   </data>
   <data name="Dashboard_ComparacionIgual" xml:space="preserve">
-    <value>A este ritmo vas parecido a tu recibo anterior</value>
+    <value>A este ritmo pagarías unos ${0:N0}. Tu recibo anterior habría sido de unos ${1:N0}: casi lo mismo.</value>
   </data>
   <data name="Dashboard_ComparacionSinAnterior.Text" xml:space="preserve">
     <value>Cuando tengas dos recibos registrados, aquí verás si vas mejor o peor.</value>
@@ -3472,5 +3436,83 @@
   </data>
   <data name="Reporte_PreciosDeEjemplo" xml:space="preserve">
     <value>Estos precios son de ejemplo. Escribe los de tu recibo en Tarifas para ver cifras reales.</value>
+  </data>
+  <data name="Formato_Unos" xml:space="preserve">
+    <value>unos ${0:N0}</value>
+  </data>
+  <data name="Dashboard_DiaDe" xml:space="preserve">
+    <value>DÍA {0} DE {1}</value>
+  </data>
+  <data name="Dashboard_FaltanDias" xml:space="preserve">
+    <value>FALTAN {0} DÍAS PARA TU CORTE</value>
+  </data>
+  <data name="Dashboard_FaltaUnDia" xml:space="preserve">
+    <value>FALTA 1 DÍA PARA TU CORTE</value>
+  </data>
+  <data name="Dashboard_ParaAhorrar.Text" xml:space="preserve">
+    <value>PARA AHORRAR</value>
+  </data>
+  <data name="Dashboard_NoSumanRecibo.Text" xml:space="preserve">
+    <value>Estas cifras no suman tu recibo: lo primero que consumes cuesta menos.</value>
+  </data>
+  <data name="Sugerencia_Accion" xml:space="preserve">
+    <value>Usa {0} 1 hora menos al día y ahorras unos ${1:N0} al mes.</value>
+  </data>
+  <data name="Sugerencia_CombinadoTres" xml:space="preserve">
+    <value>Con las tres ahorrarías unos ${0:N0} al mes.</value>
+  </data>
+  <data name="Sugerencia_CombinadoDos" xml:space="preserve">
+    <value>Con las dos ahorrarías unos ${0:N0} al mes.</value>
+  </data>
+  <data name="Sugerencia_Depende.Text" xml:space="preserve">
+    <value>Depende de lo que registraste en Aparatos.</value>
+  </data>
+  <data name="Aparatos_CostoMes" xml:space="preserve">
+    <value>unos ${0:N0} al mes</value>
+  </data>
+  <data name="Aparatos_CostoPrevia" xml:space="preserve">
+    <value>UNOS ${0:N0} AL MES</value>
+  </data>
+  <data name="Aparatos_PreviaSinPesos" xml:space="preserve">
+    <value>Registra un recibo o dos lecturas para ver cuánto te costaría.</value>
+  </data>
+  <data name="Aparatos_NoSumanRecibo" xml:space="preserve">
+    <value>Estas cifras no suman tu recibo: los primeros kWh cuestan menos.</value>
+  </data>
+  <data name="Simulador_KwhMes" xml:space="preserve">
+    <value>{0:N1} kWh/mes</value>
+  </data>
+  <data name="Metas_CifraFalta" xml:space="preserve">
+    <value>TE FALTAN UNOS ${0:N0}</value>
+  </data>
+  <data name="Metas_CifraDentro" xml:space="preserve">
+    <value>VAS DENTRO DE TU META</value>
+  </data>
+  <data name="Metas_CifraSuperada" xml:space="preserve">
+    <value>YA PASASTE EL OBJETIVO</value>
+  </data>
+  <data name="Metas_LeyendaPesos" xml:space="preserve">
+    <value>Tu recibo debería quedar en unos ${0:N0} o menos. A este ritmo irías en unos ${1:N0}. Te faltan unos ${2:N0}.</value>
+  </data>
+  <data name="Metas_LeyendaPesosCumplida" xml:space="preserve">
+    <value>Tu recibo debería quedar en unos ${0:N0} o menos. A este ritmo irías en unos ${1:N0}: vas dentro de tu meta.</value>
+  </data>
+  <data name="Metas_ComoLograrlo.Text" xml:space="preserve">
+    <value>CÓMO LOGRARLO</value>
+  </data>
+  <data name="Metas_LograrloTres" xml:space="preserve">
+    <value>Con las tres ahorrarías unos ${0:N0} por recibo.</value>
+  </data>
+  <data name="Metas_LograrloDos" xml:space="preserve">
+    <value>Con las dos ahorrarías unos ${0:N0} por recibo.</value>
+  </data>
+  <data name="Metas_LograrloUna" xml:space="preserve">
+    <value>Con esta ahorrarías unos ${0:N0} por recibo.</value>
+  </data>
+  <data name="Metas_LograrloCubre" xml:space="preserve">
+    <value>Eso cubre lo que te falta.</value>
+  </data>
+  <data name="Metas_LograrloParte" xml:space="preserve">
+    <value>Eso cubre una parte de lo que te falta.</value>
   </data>
 </root>

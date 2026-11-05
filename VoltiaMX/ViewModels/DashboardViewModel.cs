@@ -79,14 +79,22 @@ public sealed partial class DashboardViewModel(
     [ObservableProperty] public partial string TextoMeta { get; set; } = string.Empty;
     [ObservableProperty] public partial bool TieneProyeccion { get; set; }
     [ObservableProperty] public partial double ProgresoPeriodo { get; set; }
-    [ObservableProperty] public partial string KwhHastaHoyTexto { get; set; } = string.Empty;
-    [ObservableProperty] public partial string KwhCierreTexto { get; set; } = string.Empty;
+
+    // Bajo la barra (D7): "DÍA n DE m" y "FALTAN d DÍAS PARA TU CORTE" (sin texto si ya pasó el corte).
+    [ObservableProperty] public partial string TextoDiaDelPeriodo { get; set; } = string.Empty;
+    [ObservableProperty] public partial string TextoFaltanDias { get; set; } = string.Empty;
 
     // Comparado con tu recibo anterior
     [ObservableProperty] public partial bool TieneComparacion { get; set; }
     [ObservableProperty] public partial string CifraComparacion { get; set; } = string.Empty;
     [ObservableProperty] public partial string TextoComparacion { get; set; } = string.Empty;
     [ObservableProperty] public partial string LoQueMasGasta { get; set; } = string.Empty;
+
+    // Para ahorrar (D5, D6): hasta 3 acciones calculadas y, con dos o más, su ahorro junto.
+    [ObservableProperty] public partial bool TieneSugerencias { get; set; }
+    [ObservableProperty] public partial string TextoCombinado { get; set; } = string.Empty;
+
+    public ObservableCollection<string> Sugerencias { get; } = [];
 
     // Historial
     [ObservableProperty] public partial string TituloHistorial { get; set; } = string.Empty;
@@ -96,8 +104,6 @@ public sealed partial class DashboardViewModel(
     [ObservableProperty] public partial bool MostrarDac { get; set; }
     [ObservableProperty] public partial NivelRiesgoDac NivelDac { get; set; }
     [ObservableProperty] public partial string TextoNivelDac { get; set; } = string.Empty;
-    [ObservableProperty] public partial string PromedioDacTexto { get; set; } = string.Empty;
-    [ObservableProperty] public partial string LimiteDacTexto { get; set; } = string.Empty;
     [ObservableProperty] public partial bool TieneAvisos { get; set; }
     [ObservableProperty] public partial bool MostrarMeta { get; set; }
     [ObservableProperty] public partial string TextoMetaObjetivo { get; set; } = string.Empty;
@@ -120,6 +126,11 @@ public sealed partial class DashboardViewModel(
 
     [ObservableProperty] public partial bool TieneAparatos { get; set; }
     [ObservableProperty] public partial string AvisoAparatos { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Con pesos se aclara que los costos de los aparatos no suman el recibo (D4).
+    /// </summary>
+    [ObservableProperty] public partial bool AparatosConPesos { get; set; }
 
     public ObservableCollection<FilaDetalle> Aparatos { get; } = [];
 
@@ -214,12 +225,10 @@ public sealed partial class DashboardViewModel(
             LecturasHabilitadas = modulos.Contains(ModuloApp.Lecturas);
             PredictorHabilitado = modulos.Contains(ModuloApp.Predictor);
 
-            // Negocio sin casa: el historial muestra pesos ("gasto por periodo").
-            var enPesos = usos.Contains(UsoApp.Negocio) && !usos.Contains(UsoApp.Casa);
             var resumen = await resumenes.ObtenerAsync(DateOnly.FromDateTime(DateTime.Today));
             // Un objetivo viejo de presupuesto se trata como "sin objetivo": el presupuesto salió de la app (Fase 7a).
             var objetivo = perfil?.Objetivo?.Tipo is TipoObjetivo.NoPasarmeDePresupuesto ? null : perfil?.Objetivo?.Tipo;
-            AplicarResumen(resumen, objetivo, enPesos);
+            AplicarResumen(resumen, objetivo);
             await CargarAparatosAsync();
             LoQueMasGasta = TieneAparatos ? textos.Formato("Dashboard_LoQueMasGasta", Aparatos[0].Titulo) : string.Empty;
             TextoEnlaceMeta = string.Empty;
@@ -250,7 +259,7 @@ public sealed partial class DashboardViewModel(
 
     private bool PuedeCargarDemo() => !Cargando;
 
-    private void AplicarResumen(ResumenDashboard? resumen, TipoObjetivo? objetivo, bool enPesos)
+    private void AplicarResumen(ResumenDashboard? resumen, TipoObjetivo? objetivo)
     {
         MostrarTarifa = resumen is not null;
         TieneDatos = resumen?.TieneDatos == true;
@@ -278,7 +287,7 @@ public sealed partial class DashboardViewModel(
 
         AplicarProyeccion(resumen);
         AplicarComparacion(resumen);
-        AplicarHistorial(resumen, enPesos);
+        AplicarHistorial(resumen);
         AplicarEstado(resumen, objetivo);
     }
 
@@ -294,44 +303,55 @@ public sealed partial class DashboardViewModel(
         if (resumen.KwhHastaHoy is decimal hastaHoy && resumen.KwhProyectados is decimal proyectados && proyectados > 0)
         {
             ProgresoPeriodo = (double)(hastaHoy / proyectados * 100);
-            KwhHastaHoyTexto = textos.Formato("Dashboard_KwhHastaHoy", hastaHoy);
-            KwhCierreTexto = textos.Formato("Dashboard_KwhAlCierre", proyectados);
         }
+
+        // D7: bajo la barra, el día del recibo y los días para el corte; si ya pasó, queda el aviso de captura.
+        TextoDiaDelPeriodo = textos.Formato("Dashboard_DiaDe", resumen.DiaDelPeriodo, resumen.DiasDelPeriodo);
+        TextoFaltanDias = resumen.PeriodoTerminado || resumen.DiasParaCorte <= 0 ? string.Empty
+            : resumen.DiasParaCorte == 1 ? textos["Dashboard_FaltaUnDia"]
+            : textos.Formato("Dashboard_FaltanDias", resumen.DiasParaCorte);
     }
 
     /// <summary>
-    /// "Comparado con tu recibo anterior": el ritmo de este recibo (consumo a este ritmo del Resumen) contra el
-    /// último recibo cerrado del historial, con las reglas de <see cref="ComparacionRecibo"/>.
+    /// "Comparado con tu recibo anterior", en pesos (D6): lo que pagarías a este ritmo contra el recibo anterior
+    /// recalculado con la tarifa actual, con las reglas de <see cref="ComparacionRecibo"/>.
     /// </summary>
     private void AplicarComparacion(ResumenDashboard resumen)
     {
         // D6: en pesos, contra el recibo anterior recalculado con la tarifa actual.
         var comparacion = ComparacionRecibo.Evaluar(resumen.MontoProyectado, resumen.MontoReciboAnterior, resumen.DiaDelPeriodo);
         TieneComparacion = comparacion.Estado != EstadoComparacion.SinReciboAnterior;
+
+        // "unos $N": se redondean los dos montos y la diferencia es la de los redondeados, para que la frase cuadre.
+        var ritmo = Math.Round(comparacion.MontoARitmo, MidpointRounding.AwayFromZero);
+        var anterior = Math.Round(comparacion.MontoAnterior, MidpointRounding.AwayFromZero);
+        var diferencia = Math.Abs(ritmo - anterior);
         (CifraComparacion, TextoComparacion) = comparacion.Estado switch
         {
             EstadoComparacion.MasAlto => (
-                textos.Formato("Dashboard_ComparacionCifraArriba", comparacion.Porcentaje),
-                textos.Formato("Dashboard_ComparacionArriba", comparacion.Porcentaje)),
+                textos.Formato("Dashboard_ComparacionCifraArriba", diferencia),
+                textos.Formato("Dashboard_ComparacionArriba", ritmo, anterior, diferencia)),
             EstadoComparacion.MasBajo => (
-                textos.Formato("Dashboard_ComparacionCifraAbajo", comparacion.Porcentaje),
-                textos.Formato("Dashboard_ComparacionAbajo", comparacion.Porcentaje)),
-            EstadoComparacion.Igual => (textos["Dashboard_ComparacionCifraIgual"], textos["Dashboard_ComparacionIgual"]),
+                textos.Formato("Dashboard_ComparacionCifraAbajo", diferencia),
+                textos.Formato("Dashboard_ComparacionAbajo", ritmo, anterior, diferencia)),
+            EstadoComparacion.Igual => (
+                textos["Dashboard_ComparacionCifraIgual"],
+                textos.Formato("Dashboard_ComparacionIgual", ritmo, anterior)),
             EstadoComparacion.AunEsPronto => (string.Empty, textos.Formato("Dashboard_ComparacionPronto", comparacion.Dias)),
             _ => (string.Empty, string.Empty),
         };
     }
 
-    private void AplicarHistorial(ResumenDashboard resumen, bool enPesos)
+    // D7: el historial de Inicio va siempre en pesos (antes de impuestos).
+    private void AplicarHistorial(ResumenDashboard resumen)
     {
-        TituloHistorial = textos[enPesos ? "Dashboard_HistorialGasto"
-            : resumen.MesesDelPeriodo == 1 ? "Dashboard_HistorialMes" : "Dashboard_HistorialBimestre"];
+        TituloHistorial = textos["Dashboard_HistorialGasto"];
 
-        var maximo = resumen.Historial.Select(p => enPesos ? p.Monto : p.Kwh).DefaultIfEmpty(0m).Max();
+        var maximo = resumen.Historial.Select(p => p.Monto).DefaultIfEmpty(0m).Max();
         foreach (var periodo in resumen.Historial)
         {
-            var valor = enPesos ? periodo.Monto : periodo.Kwh;
-            var texto = enPesos ? textos.Formato("Formato_Monto", periodo.Monto) : textos.Formato("Formato_Kwh", periodo.Kwh);
+            var valor = periodo.Monto;
+            var texto = textos.Formato("Formato_Monto", periodo.Monto);
             var etiqueta = EtiquetaCorta(periodo.Inicio, resumen.MesesDelPeriodo);
             Historial.Add(new BarraHistorial(
                 periodo.EsActual ? textos.Formato("Dashboard_EtiquetaActual", etiqueta) : etiqueta,
@@ -346,12 +366,11 @@ public sealed partial class DashboardViewModel(
     private void AplicarEstado(ResumenDashboard resumen, TipoObjetivo? objetivo)
     {
         MostrarDac = resumen.Dac is not null;
-        if (resumen.Dac is { } dac && resumen.LimiteDacKwhMensual is decimal limite)
+        // Inicio muestra solo el semáforo; el promedio y el límite en kWh están en Cómo se calcula tu recibo.
+        if (resumen.Dac is { } dac)
         {
             NivelDac = dac.Nivel;
             TextoNivelDac = textos[$"Dac_{dac.Nivel}"];
-            PromedioDacTexto = textos.Formato("Formato_Entero", dac.PromedioMensualKwh);
-            LimiteDacTexto = textos.Formato("Dashboard_DacLimite", limite);
         }
 
         if (resumen.PeriodoTerminado)
@@ -359,10 +378,8 @@ public sealed partial class DashboardViewModel(
             // Ya pasó el corte y falta la lectura que lo cierra.
             Avisos.Add(new AvisoDashboard(textos["Aviso_PeriodoTerminado"], LecturasHabilitadas ? IrALecturasCommand : null));
         }
-        else if (resumen.TieneDatos)
-        {
-            Avisos.Add(new AvisoDashboard(textos.Formato("Aviso_Corte", resumen.DiasParaCorte)));
-        }
+
+        // Los días para el corte ya se ven bajo la barra (D7): no se repiten aquí.
 
         // Riesgo DAC Medio o Alto: aviso con enlace al detalle en el Predictor.
         if (resumen.Dac is { Nivel: NivelRiesgoDac.Medio or NivelRiesgoDac.Alto } riesgo)
@@ -392,8 +409,8 @@ public sealed partial class DashboardViewModel(
         {
             Propiedades.Add(new FilaDetalle(
                 propiedad.Nombre,
-                propiedad.UltimoMonto is decimal monto && propiedad.UltimoKwh is decimal kwh
-                    ? textos.Formato("Propiedad_Detalle", monto, kwh)
+                propiedad.UltimoMonto is decimal monto
+                    ? textos.Formato("Propiedad_Detalle", monto)
                     : textos["Propiedad_SinRecibos"]));
         }
 
@@ -417,10 +434,13 @@ public sealed partial class DashboardViewModel(
             return;
         }
 
+        // D8: en pesos con la tarifa actual.
         TextoMetaObjetivo = progreso.Estado switch
         {
-            EstadoMeta.Cumpliendo or EstadoMeta.EnRiesgo => textos.Formato(
-                $"Dashboard_Meta{progreso.Estado}", progreso.PorcentajeObjetivo, progreso.KwhPorDiaPermitidos ?? 0m),
+            EstadoMeta.Cumpliendo => textos.Formato(
+                "Dashboard_MetaCumpliendo", progreso.PorcentajeObjetivo, progreso.ObjetivoPesos ?? 0m, progreso.MontoARitmo ?? 0m),
+            EstadoMeta.EnRiesgo => textos.Formato(
+                "Dashboard_MetaEnRiesgo", progreso.PorcentajeObjetivo, progreso.FaltaPorAhorrar ?? 0m),
             EstadoMeta.Superada => textos.Formato("Dashboard_MetaSuperada", progreso.PorcentajeObjetivo),
             _ => textos[$"Dashboard_Meta{progreso.Estado}"],
         };
@@ -430,6 +450,9 @@ public sealed partial class DashboardViewModel(
     private async Task CargarAparatosAsync()
     {
         Aparatos.Clear();
+        Sugerencias.Clear();
+        TieneSugerencias = AparatosConPesos = false;
+        TextoCombinado = string.Empty;
         AvisoAparatos = string.Empty;
         var lugar = MostrarAparatos ? await lecturas.ObtenerLugarPrincipalAsync() : null;
         if (lugar is null)
@@ -439,21 +462,40 @@ public sealed partial class DashboardViewModel(
             return;
         }
 
-        var ranking = await aparatos.ObtenerRankingAsync(lugar.Id, DateOnly.FromDateTime(DateTime.Today));
-        foreach (var fila in ranking.Filas.Take(AparatosEnElDashboard))
+        // D7: los primeros por costo con "unos $N al mes"; sin pesos, solo los nombres (por consumo estimado).
+        var costos = await aparatos.ObtenerCostosAsync(lugar.Id, DateOnly.FromDateTime(DateTime.Today));
+        foreach (var fila in costos.Costos.Filas.Take(AparatosEnElDashboard))
         {
-            Aparatos.Add(new FilaDetalle(fila.Nombre, FormatoRanking.Valor(fila, textos)));
+            Aparatos.Add(new FilaDetalle(
+                fila.Nombre, fila.CostoMensual is decimal costo ? textos.Formato("Aparatos_CostoMes", costo) : string.Empty));
         }
 
         TieneAparatos = Aparatos.Count > 0;
+        AparatosConPesos = TieneAparatos && costos.Costos.ConPesos;
         PuedeSimular = TieneAparatos;
         TextoSimular = textos[PuedeSimular ? "Dashboard_Simular" : "Dashboard_SimularProximamente"];
-        AvisoAparatos = ranking.Estado switch
+        AvisoAparatos = costos.Ranking.Estado switch
         {
             EstadoRanking.SumaExcedeMedido => textos["Ranking_SumaExcede"],
             EstadoRanking.SinConsumoMedido => textos["Ranking_SinConsumoCorto"],
             _ => string.Empty,
         };
+
+        AplicarSugerencias(costos.Sugerencias);
+    }
+
+    // "PARA AHORRAR": cada acción con su ahorro y, con dos o tres, el ahorro de hacerlas juntas (no la suma).
+    private void AplicarSugerencias(SugerenciasDeAhorro sugerencias)
+    {
+        foreach (var sugerencia in sugerencias.Sugerencias)
+        {
+            Sugerencias.Add(textos.Formato("Sugerencia_Accion", sugerencia.Nombre, sugerencia.AhorroMensual));
+        }
+
+        TieneSugerencias = Sugerencias.Count > 0;
+        TextoCombinado = sugerencias.AhorroCombinadoMensual is decimal combinado && Sugerencias.Count > 1
+            ? textos.Formato(Sugerencias.Count == 3 ? "Sugerencia_CombinadoTres" : "Sugerencia_CombinadoDos", combinado)
+            : string.Empty;
     }
 
     // Bimestres B1..B6 del año; meses con su abreviatura.

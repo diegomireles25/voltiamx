@@ -32,7 +32,7 @@ public sealed record FilaAparato(
     string Nombre,
     string Categoria,
     string Detalle,
-    string KwhTexto,
+    string CostoTexto,
     IRelayCommand Editar,
     IAsyncRelayCommand Eliminar,
     IRelayCommand Simular);
@@ -45,6 +45,7 @@ public sealed partial class AparatosViewModel(
     IAparatoService aparatos,
     ILecturaService lecturas,
     IDialogos dialogos,
+    ITarifaCalculator calculadora,
     ITextos textos) : ObservableObject
 {
     private static readonly TimeSpan EsperaValidacion = TimeSpan.FromMilliseconds(300);
@@ -56,6 +57,7 @@ public sealed partial class AparatosViewModel(
     private CancellationTokenSource? _validacion;
     private CancellationTokenSource? _aviso;
     private IReadOnlyList<Aparato> _lista = [];
+    private CostosDelLugar? _costos;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(AgregarAparatoCommand))]
@@ -98,6 +100,7 @@ public sealed partial class AparatosViewModel(
     [ObservableProperty] public partial bool TieneErrores { get; set; }
     [ObservableProperty] public partial bool TieneVistaPrevia { get; set; }
     [ObservableProperty] public partial string VistaPreviaTexto { get; set; } = string.Empty;
+    [ObservableProperty] public partial string TextoSinVistaPrevia { get; set; } = string.Empty;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(GuardarCommand))]
@@ -132,6 +135,8 @@ public sealed partial class AparatosViewModel(
     private async Task RecargarListaAsync()
     {
         _lista = _lugarId is int lugarId ? await aparatos.ListarAsync(lugarId) : [];
+        _costos = _lugarId is int lugar ? await aparatos.ObtenerCostosAsync(lugar, DateOnly.FromDateTime(DateTime.Today)) : null;
+        var costoPorId = _costos?.Costos.Filas.ToDictionary(f => f.Id, f => f.CostoMensual) ?? [];
         Filas.Clear();
         foreach (var aparato in _lista)
         {
@@ -141,7 +146,7 @@ public sealed partial class AparatosViewModel(
                 aparato.Nombre,
                 textos[$"CategoriaAparato_{aparato.Categoria}"],
                 textos.Formato("Aparatos_Detalle", aparato.Cantidad, aparato.Watts, aparato.HorasPorDia, aparato.DiasPorSemana),
-                textos.Formato("Aparatos_KwhMes", ConsumoAparato.KwhPorMes(aparato)),
+                costoPorId.GetValueOrDefault(aparato.Id) is decimal costo ? textos.Formato("Aparatos_CostoMes", costo) : string.Empty,
                 new RelayCommand(() => Editar(id)),
                 new AsyncRelayCommand(() => EliminarAsync(id, nombre)),
                 new RelayCommand(() => WeakReferenceMessenger.Default.Send(
@@ -150,22 +155,24 @@ public sealed partial class AparatosViewModel(
 
         TieneAparatos = Filas.Count > 0;
         MostrarVacio = !TieneAparatos;
-        await RecargarRankingAsync();
+        RecargarRanking();
     }
 
-    private async Task RecargarRankingAsync()
+    // D4: "unos $N al mes" por aparato, del que más cuesta al que menos; sin pesos, solo los nombres.
+    private void RecargarRanking()
     {
         FilasRanking.Clear();
-        if (_lugarId is not int lugarId || !TieneAparatos)
+        if (_costos is not { } costos || !TieneAparatos)
         {
             TieneRanking = SumaExcedeMedido = TieneSinIdentificar = false;
             return;
         }
 
-        var ranking = await aparatos.ObtenerRankingAsync(lugarId, DateOnly.FromDateTime(DateTime.Today));
-        foreach (var fila in ranking.Filas)
+        var ranking = costos.Ranking;
+        foreach (var fila in costos.Costos.Filas)
         {
-            FilasRanking.Add(new FilaDetalle(fila.Nombre, FormatoRanking.Valor(fila, textos)));
+            FilasRanking.Add(new FilaDetalle(
+                fila.Nombre, fila.CostoMensual is decimal costo ? textos.Formato("Aparatos_CostoMes", costo) : string.Empty));
         }
 
         TieneRanking = FilasRanking.Count > 0;
@@ -174,9 +181,7 @@ public sealed partial class AparatosViewModel(
         SinIdentificarTexto = ranking.SinIdentificar is decimal sinIdentificar
             ? FormatoRanking.Porcentaje(sinIdentificar, textos)
             : string.Empty;
-        TextoRanking = ranking.KwhMedidoPorMes is decimal medido && ranking.Estado != EstadoRanking.SinConsumoMedido
-            ? textos.Formato("Ranking_Medido", medido)
-            : textos["Ranking_SinConsumo"];
+        TextoRanking = textos[costos.Costos.ConPesos ? "Aparatos_NoSumanRecibo" : "Ranking_SinConsumo"];
     }
 
     partial void OnNombreChanged(string value) => ProgramarValidacion();
@@ -325,8 +330,11 @@ public sealed partial class AparatosViewModel(
 
         TieneErrores = Errores.Count > 0;
         Valida = !TieneErrores;
-        TieneVistaPrevia = Valida;
-        VistaPreviaTexto = Valida ? textos.Formato("Aparatos_KwhPrevia", ConsumoAparato.KwhPorMes(editable)) : string.Empty;
+        // Vista previa en pesos con la tarifa y el consumo del lugar; sin consumo medido no hay cifra.
+        var costo = Valida ? _costos?.CostoDe(calculadora, ConsumoAparato.KwhPorMes(editable)) : null;
+        TieneVistaPrevia = costo is not null;
+        VistaPreviaTexto = costo is decimal pesos ? textos.Formato("Aparatos_CostoPrevia", pesos) : string.Empty;
+        TextoSinVistaPrevia = textos[Valida ? "Aparatos_PreviaSinPesos" : "Aparatos_SinVistaPrevia"];
     }
 
     private bool PuedeGuardar() => Valida && !Guardando;

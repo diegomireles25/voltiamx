@@ -186,9 +186,9 @@
                                     TextWrapping="Wrap"
                                     Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneVistaPrevia), Mode=OneWay}" />
                                 <TextBlock
-                                    x:Uid="Aparatos_SinVistaPrevia"
                                     Foreground="{StaticResource SlateBrush}"
                                     Style="{StaticResource BodyTextStyle}"
+                                    Text="{x:Bind ViewModel.TextoSinVistaPrevia, Mode=OneWay}"
                                     TextWrapping="Wrap"
                                     Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneVistaPrevia), Mode=OneWay}" />
                             </StackPanel>
@@ -329,7 +329,7 @@
                                                 Grid.Column="1"
                                                 VerticalAlignment="Center"
                                                 Style="{StaticResource SubheadingTextStyle}"
-                                                Text="{x:Bind KwhTexto}" />
+                                                Text="{x:Bind CostoTexto}" />
                                             <StackPanel
                                                 Grid.Column="2"
                                                 VerticalAlignment="Center"

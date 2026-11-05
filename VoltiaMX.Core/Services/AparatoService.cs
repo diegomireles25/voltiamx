@@ -109,7 +109,10 @@ public sealed class AparatoService(IDbContextFactory<VoltiaDbContext> fabrica, I
         return new CostosDelLugar(
             RankingAparatos.Calcular(lugar.Aparatos, medido),
             CostoAparato.Calcular(lugar.Aparatos, calculadora, lugar.Tarifa, lugar.MesesPorPeriodo, medido),
-            SugerenciasAhorro.Generar(lugar.Aparatos, calculadora, lugar.Tarifa, lugar.MesesPorPeriodo, medido));
+            SugerenciasAhorro.Generar(lugar.Aparatos, calculadora, lugar.Tarifa, lugar.MesesPorPeriodo, medido),
+            lugar.Tarifa,
+            lugar.MesesPorPeriodo,
+            medido);
     }
 
     public IReadOnlyList<PlantillaAparato> PlantillasDeReferencia() => Plantillas;

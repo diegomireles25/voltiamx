@@ -18,7 +18,10 @@ internal static class TextosDeRecursos
     /// </summary>
     public static IReadOnlyDictionary<string, string> Todos() => Textos.Value;
 
-    private static Dictionary<string, string> Cargar()
+    /// <summary>
+    /// Carpeta raíz del repositorio (donde están VoltiaMX, VoltiaMX.Core y VoltiaMX.Tests).
+    /// </summary>
+    public static string Raiz()
     {
         var carpeta = new DirectoryInfo(AppContext.BaseDirectory);
         while (carpeta is not null && !File.Exists(Path.Combine(carpeta.FullName, "VoltiaMX.sln")) && !Directory.Exists(Path.Combine(carpeta.FullName, "VoltiaMX.Core")))
@@ -26,7 +29,12 @@ internal static class TextosDeRecursos
             carpeta = carpeta.Parent;
         }
 
-        var ruta = Path.Combine(carpeta?.FullName ?? throw new DirectoryNotFoundException("No encontré la raíz del repositorio"), "VoltiaMX", "Strings", "es-MX", "Resources.resw");
+        return carpeta?.FullName ?? throw new DirectoryNotFoundException("No encontré la raíz del repositorio");
+    }
+
+    private static Dictionary<string, string> Cargar()
+    {
+        var ruta = Path.Combine(Raiz(), "VoltiaMX", "Strings", "es-MX", "Resources.resw");
         return XDocument.Load(ruta).Root!
             .Elements("data")
             .ToDictionary(d => (string)d.Attribute("name")!, d => (string?)d.Element("value") ?? string.Empty);

@@ -229,8 +229,8 @@ public sealed partial class SimuladorViewModel(
                 textos.Formato("Formato_Centavos", Math.Abs(pesosPeriodo))));
         }
 
-        FilasResultado.Add(new FilaDetalle(textos["Simulador_FilaKwhAntes"], textos.Formato("Aparatos_KwhMes", resultado.KwhPorMesAntes)));
-        FilasResultado.Add(new FilaDetalle(textos["Simulador_FilaKwhDespues"], textos.Formato("Aparatos_KwhMes", resultado.KwhPorMesDespues)));
+        FilasResultado.Add(new FilaDetalle(textos["Simulador_FilaKwhAntes"], textos.Formato("Simulador_KwhMes", resultado.KwhPorMesAntes)));
+        FilasResultado.Add(new FilaDetalle(textos["Simulador_FilaKwhDespues"], textos.Formato("Simulador_KwhMes", resultado.KwhPorMesDespues)));
 
         // La recuperación solo tiene sentido si se compra un equipo.
         MostrarNotaRecuperacion = escenario.Tipo == TipoEscenario.EquipoEficiente;

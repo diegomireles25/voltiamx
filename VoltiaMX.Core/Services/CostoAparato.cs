@@ -14,9 +14,26 @@ public sealed record CostoDeAparato(int Id, string Nombre, CategoriaAparato Cate
 public sealed record CostosAparatos(bool ConPesos, IReadOnlyList<CostoDeAparato> Filas);
 
 /// <summary>
-/// Lo que Inicio, Aparatos y Metas necesitan de los aparatos de un lugar.
+/// Lo que Inicio, Aparatos y Metas necesitan de los aparatos de un lugar. <see cref="Tarifa"/>,
+/// <see cref="MesesPorPeriodo"/> y <see cref="ConsumoMedidoMes"/> sirven para calcular el costo de un aparato
+/// que todavía se está escribiendo (vista previa del formulario).
 /// </summary>
-public sealed record CostosDelLugar(RankingAparatos Ranking, CostosAparatos Costos, SugerenciasDeAhorro Sugerencias);
+public sealed record CostosDelLugar(
+    RankingAparatos Ranking,
+    CostosAparatos Costos,
+    SugerenciasDeAhorro Sugerencias,
+    Tarifa? Tarifa = null,
+    int MesesPorPeriodo = 1,
+    decimal? ConsumoMedidoMes = null)
+{
+    /// <summary>
+    /// Costo mensual de un aparato con la tarifa y el consumo del lugar; null si no se puede calcular en pesos.
+    /// </summary>
+    public decimal? CostoDe(ITarifaCalculator calculadora, decimal kwhPorMes)
+        => Tarifa is not null && ConsumoMedidoMes is > 0m and decimal consumo
+            ? CostoAparato.CostoMensual(calculadora, Tarifa, MesesPorPeriodo, consumo, kwhPorMes)
+            : null;
+}
 
 /// <summary>
 /// Cuánto cuesta cada aparato al mes (D4): lo que dejarías de pagar si no lo usaras. Es un costo marginal:

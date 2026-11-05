@@ -12,7 +12,7 @@ namespace VoltiaMX.ViewModels;
 /// <summary>
 /// Periodo del historial de la meta, ya en texto.
 /// </summary>
-public sealed record FilaHistorialMetaVista(string Periodo, string Kwh, string Reduccion, bool Cumplio, string Etiqueta);
+public sealed record FilaHistorialMetaVista(string Periodo, string Monto, string Reduccion, bool Cumplio, string Etiqueta);
 
 /// <summary>
 /// Meta del lugar principal: "reducir X % contra el periodo anterior". El progreso no se guarda; se
@@ -21,6 +21,7 @@ public sealed record FilaHistorialMetaVista(string Periodo, string Kwh, string R
 public sealed partial class MetasViewModel(
     IMetaService metas,
     ILecturaService lecturas,
+    IAparatoService aparatos,
     IDialogos dialogos,
     ITextos textos) : ObservableObject
 {
@@ -78,12 +79,19 @@ public sealed partial class MetasViewModel(
     [ObservableProperty] public partial bool MostrarSinDatos { get; set; }
     [ObservableProperty] public partial string SinDatosTitulo { get; set; } = string.Empty;
     [ObservableProperty] public partial string SinDatosTexto { get; set; } = string.Empty;
-    [ObservableProperty] public partial string KwhPorDiaTexto { get; set; } = string.Empty;
-    [ObservableProperty] public partial string LeyendaKwhPorDia { get; set; } = string.Empty;
+    // D8: la cifra y la leyenda de la tarjeta, en pesos con la tarifa actual.
+    [ObservableProperty] public partial string CifraMeta { get; set; } = string.Empty;
+    [ObservableProperty] public partial string LeyendaMeta { get; set; } = string.Empty;
     [ObservableProperty] public partial double Progreso { get; set; }
     [ObservableProperty] public partial string ProgresoTexto { get; set; } = string.Empty;
     [ObservableProperty] public partial string AvisoBase { get; set; } = string.Empty;
     [ObservableProperty] public partial bool TieneHistorial { get; set; }
+
+    // Cómo lograrlo (D5, D8): las sugerencias calculadas y su ahorro junto contra lo que falta.
+    [ObservableProperty] public partial bool TieneSugerencias { get; set; }
+    [ObservableProperty] public partial string TextoLograrlo { get; set; } = string.Empty;
+
+    public ObservableCollection<string> Sugerencias { get; } = [];
 
     public ObservableCollection<FilaDetalle> Filas { get; } = [];
 
@@ -110,10 +118,16 @@ public sealed partial class MetasViewModel(
         PorcentajeValido = true;
         Filas.Clear();
         Historial.Clear();
-        TieneHistorial = false;
+        Sugerencias.Clear();
+        TieneHistorial = TieneSugerencias = false;
+        TextoLograrlo = string.Empty;
         if (TieneMeta)
         {
             Mostrar(progreso!);
+            if (MostrarTarjeta && _lugarId is int lugar)
+            {
+                MostrarSugerencias(await aparatos.ObtenerCostosAsync(lugar, DateOnly.FromDateTime(DateTime.Today)), progreso!);
+            }
         }
     }
 
@@ -128,22 +142,19 @@ public sealed partial class MetasViewModel(
         SinDatosTitulo = MostrarSinDatos ? textos[$"Metas_{progreso.Estado}Titulo"] : string.Empty;
         SinDatosTexto = MostrarSinDatos ? textos[$"Metas_{progreso.Estado}Texto"] : string.Empty;
 
-        if (progreso.KwhPorDiaPermitidos is decimal porDia)
-        {
-            KwhPorDiaTexto = textos.Formato("Metas_KwhPorDia", porDia);
-            LeyendaKwhPorDia = textos[progreso.Estado == EstadoMeta.Superada ? "Metas_LeyendaSuperada" : "Metas_LeyendaKwhPorDia"];
-        }
+        MostrarCifra(progreso);
 
+        // La barra sigue la parte del objetivo en kWh ya consumida; el texto solo dice el porcentaje (I5).
         if (progreso.ConsumidoKwh is decimal consumido && progreso.ObjetivoKwh is decimal objetivo && objetivo > 0m)
         {
             Progreso = Math.Min(100d, (double)(consumido / objetivo * 100m));
-            ProgresoTexto = textos.Formato("Metas_ProgresoTexto", consumido, objetivo);
+            ProgresoTexto = textos.Formato("Metas_ProgresoTexto", Math.Round(consumido / objetivo * 100m, MidpointRounding.AwayFromZero));
         }
 
-        Agregar("Metas_FilaBase", progreso.BaseKwh);
-        Agregar("Metas_FilaObjetivo", progreso.ObjetivoKwh);
-        Agregar("Metas_FilaConsumido", progreso.ConsumidoKwh);
-        Agregar("Metas_FilaProyectado", progreso.ProyectadoKwh);
+        Agregar("Metas_FilaBase", progreso.BasePesos);
+        Agregar("Metas_FilaObjetivo", progreso.ObjetivoPesos);
+        Agregar("Metas_FilaConsumido", progreso.ConsumidoPesos);
+        Agregar("Metas_FilaProyectado", progreso.MontoARitmo);
         if (progreso.AhorroPesosObjetivo is decimal pesos)
         {
             Filas.Add(new FilaDetalle(textos["Metas_FilaPesos"], textos.Formato("Formato_Centavos", pesos)));
@@ -161,7 +172,7 @@ public sealed partial class MetasViewModel(
         {
             Historial.Add(new FilaHistorialMetaVista(
                 textos.Formato("Historial_Periodo", fila.Inicio, fila.Fin),
-                textos.Formato("Formato_KwhUnidad", fila.Kwh),
+                fila.Monto is decimal monto ? textos.Formato("Formato_Unos", monto) : string.Empty,
                 textos.Formato("Metas_Reduccion", fila.Reduccion * 100m),
                 fila.Cumplio,
                 textos[fila.Cumplio ? "Metas_Cumplida" : "Metas_NoCumplida"]));
@@ -169,13 +180,61 @@ public sealed partial class MetasViewModel(
 
         TieneHistorial = Historial.Count > 0;
 
-        void Agregar(string clave, decimal? kwh)
+        void Agregar(string clave, decimal? pesos)
         {
-            if (kwh is decimal valor)
+            if (pesos is decimal valor)
             {
-                Filas.Add(new FilaDetalle(textos[clave], textos.Formato("Formato_KwhUnidad", valor)));
+                Filas.Add(new FilaDetalle(textos[clave], textos.Formato("Formato_Unos", valor)));
             }
         }
+    }
+
+    // "Tu recibo debería quedar en unos $x o menos. A este ritmo irías en unos $y. Te faltan unos $z."
+    private void MostrarCifra(ProgresoMeta progreso)
+    {
+        CifraMeta = LeyendaMeta = string.Empty;
+        if (progreso.ObjetivoPesos is not decimal objetivoPesos || progreso.MontoARitmo is not decimal ritmoPesos)
+        {
+            return;
+        }
+
+        if (progreso.Estado == EstadoMeta.Superada)
+        {
+            CifraMeta = textos["Metas_CifraSuperada"];
+            LeyendaMeta = textos["Metas_LeyendaSuperada"];
+            return;
+        }
+
+        // Se redondean los dos montos y lo que falta es la diferencia de los redondeados, para que la frase cuadre.
+        var objetivo = Math.Round(objetivoPesos, MidpointRounding.AwayFromZero);
+        var ritmo = Math.Round(ritmoPesos, MidpointRounding.AwayFromZero);
+        var falta = Math.Max(0m, ritmo - objetivo);
+        (CifraMeta, LeyendaMeta) = falta > 0m
+            ? (textos.Formato("Metas_CifraFalta", falta), textos.Formato("Metas_LeyendaPesos", objetivo, ritmo, falta))
+            : (textos["Metas_CifraDentro"], textos.Formato("Metas_LeyendaPesosCumplida", objetivo, ritmo));
+    }
+
+    // Cómo lograrlo: las acciones de Inicio y lo que ahorrarían juntas en un recibo, contra lo que falta.
+    private void MostrarSugerencias(CostosDelLugar costos, ProgresoMeta progreso)
+    {
+        var sugerencias = costos.Sugerencias;
+        foreach (var sugerencia in sugerencias.Sugerencias)
+        {
+            Sugerencias.Add(textos.Formato("Sugerencia_Accion", sugerencia.Nombre, sugerencia.AhorroMensual));
+        }
+
+        TieneSugerencias = Sugerencias.Count > 0;
+        if (sugerencias.AhorroCombinadoMensual is not decimal combinado)
+        {
+            return;
+        }
+
+        var porRecibo = combinado * Math.Max(costos.MesesPorPeriodo, 1);
+        var juntas = textos.Formato(
+            Sugerencias.Count switch { 1 => "Metas_LograrloUna", 2 => "Metas_LograrloDos", _ => "Metas_LograrloTres" }, porRecibo);
+        TextoLograrlo = progreso.FaltaPorAhorrar is decimal falta && falta > 0m
+            ? $"{juntas} {textos[porRecibo >= falta ? "Metas_LograrloCubre" : "Metas_LograrloParte"]}"
+            : juntas;
     }
 
     partial void OnPorcentajeChanged(double value) => ProgramarValidacion();
