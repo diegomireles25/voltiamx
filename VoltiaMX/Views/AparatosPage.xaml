@@ -158,6 +158,7 @@
                                     Style="{StaticResource NumberBoxStyle}"
                                     Value="{x:Bind ViewModel.CicloDeTrabajo, Mode=TwoWay}" />
                             </Grid>
+                            <local:TerminoAyuda Clave="QueParteDelTiempo" />
                             <TextBlock
                                 x:Uid="Aparatos_AyudaCampos"
                                 Foreground="{StaticResource SlateBrush}"

@@ -38,6 +38,13 @@
                         Command="{x:Bind ViewModel.NuevoRepartoCommand}"
                         Style="{StaticResource PrimaryButtonStyle}" />
                 </Grid>
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                    <TextBlock
+                        x:Uid="Inquilinos_MedidorPropio"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodySmTextStyle}" />
+                    <local:TerminoAyuda Clave="MedidorPropio" />
+                </StackPanel>
                 <TextBlock
                     x:Uid="Inquilinos_Privacidad"
                     Foreground="{StaticResource SlateBrush}"

@@ -89,12 +89,15 @@
             <!-- Tus tarifas -->
             <StackPanel Spacing="{StaticResource Spacing16}">
                 <Grid>
-                    <TextBlock
-                        x:Uid="Tarifas_Tuyas"
-                        VerticalAlignment="Center"
-                        AutomationProperties.HeadingLevel="Level2"
-                        Foreground="{StaticResource SlateBrush}"
-                        Style="{StaticResource CaptionTextStyle}" />
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                        <TextBlock
+                            x:Uid="Tarifas_Tuyas"
+                            VerticalAlignment="Center"
+                            AutomationProperties.HeadingLevel="Level2"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}" />
+                        <local:TerminoAyuda Clave="TramosDePrecio" />
+                    </StackPanel>
                     <Button
                         x:Uid="Tarifas_Nueva"
                         HorizontalAlignment="Right"

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Ayuda sobre el lienzo: tres bloques en filas con línea, sin tarjetas.
+-->
+<Page
+    x:Class="VoltiaMX.Views.AyudaPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:VoltiaMX.ViewModels"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel
+            MaxWidth="{StaticResource ContentMaxWidth}"
+            Padding="{StaticResource PagePadding}"
+            Spacing="{StaticResource Spacing40}">
+
+            <StackPanel Spacing="{StaticResource Spacing16}">
+                <Button
+                    x:Uid="Reportes_VolverConfiguracion"
+                    Command="{x:Bind ViewModel.VolverAMasCommand}"
+                    Style="{StaticResource TextLinkButtonSmStyle}" />
+                <TextBlock
+                    x:Uid="Ayuda_Titulo"
+                    AutomationProperties.HeadingLevel="Level1"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+            </StackPanel>
+
+            <!-- 1. Cómo se calcula tu recibo -->
+            <StackPanel Spacing="{StaticResource Spacing16}">
+                <TextBlock
+                    x:Uid="Ayuda_CalculoTitulo"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Style="{StaticResource CaptionTextStyle}" />
+                <Border Style="{StaticResource HairlineListStyle}">
+                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Calculo}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Border Style="{StaticResource HairlineRowStyle}">
+                                    <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind}" TextWrapping="Wrap" />
+                                </Border>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </Border>
+            </StackPanel>
+
+            <!-- 2. Palabras que verás -->
+            <StackPanel Spacing="{StaticResource Spacing16}">
+                <TextBlock
+                    x:Uid="Ayuda_PalabrasTitulo"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Style="{StaticResource CaptionTextStyle}" />
+                <Border Style="{StaticResource HairlineListStyle}">
+                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Palabras}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="vm:FilaDetalle">
+                                <Border Style="{StaticResource HairlineRowStyle}">
+                                    <StackPanel Spacing="{StaticResource Spacing8}">
+                                        <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Titulo}" />
+                                        <TextBlock
+                                            Foreground="{StaticResource SlateBrush}"
+                                            Style="{StaticResource BodySmTextStyle}"
+                                            Text="{x:Bind Detalle}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </Border>
+            </StackPanel>
+
+            <!-- 3. Lo que VoltiaMX no hace -->
+            <StackPanel Spacing="{StaticResource Spacing16}">
+                <TextBlock
+                    x:Uid="Ayuda_NoHaceTitulo"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Style="{StaticResource CaptionTextStyle}" />
+                <Border Style="{StaticResource HairlineListStyle}">
+                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.NoHace}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Border Style="{StaticResource HairlineRowStyle}">
+                                    <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind}" TextWrapping="Wrap" />
+                                </Border>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

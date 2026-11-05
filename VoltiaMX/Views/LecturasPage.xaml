@@ -93,6 +93,7 @@
                             KeyUp="AlSoltarTeclaEnCampo"
                             Style="{StaticResource NumberBoxStyle}"
                             Value="{x:Bind ViewModel.ValorKwh, Mode=TwoWay}" />
+                        <local:TerminoAyuda Clave="LoQueMarcaTuMedidor" />
                         <NumberBox
                             x:Uid="Lecturas_Monto"
                             KeyUp="AlSoltarTeclaEnCampo"
@@ -166,11 +167,15 @@
 
                 <!-- Últimas lecturas -->
                 <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLugar), Mode=OneWay}">
-                    <TextBlock
-                        x:Uid="Lecturas_Ultimas"
-                        AutomationProperties.HeadingLevel="Level2"
-                        Foreground="{StaticResource SlateBrush}"
-                        Style="{StaticResource CaptionTextStyle}" />
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                        <TextBlock
+                            x:Uid="Lecturas_Ultimas"
+                            VerticalAlignment="Center"
+                            AutomationProperties.HeadingLevel="Level2"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}" />
+                        <local:TerminoAyuda Clave="DiaDeCorte" />
+                    </StackPanel>
 
                     <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneLecturas), Mode=OneWay}">
                         <TextBlock x:Uid="Lecturas_VacioTitulo" Style="{StaticResource SubheadingLgTextStyle}" />

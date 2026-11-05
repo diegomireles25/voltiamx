@@ -52,11 +52,15 @@
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource Spacing16}">
-                    <TextBlock
-                        x:Uid="Predictor_ReciboTitulo"
-                        AutomationProperties.HeadingLevel="Level2"
-                        Foreground="{StaticResource SlateBrush}"
-                        Style="{StaticResource CaptionTextStyle}" />
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                        <TextBlock
+                            x:Uid="Predictor_ReciboTitulo"
+                            VerticalAlignment="Center"
+                            AutomationProperties.HeadingLevel="Level2"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}" />
+                        <local:TerminoAyuda Clave="TramosDePrecio" />
+                    </StackPanel>
                     <Border Style="{StaticResource HairlineListStyle}">
                         <ItemsRepeater ItemsSource="{x:Bind ViewModel.Recibo}">
                             <ItemsRepeater.ItemTemplate>

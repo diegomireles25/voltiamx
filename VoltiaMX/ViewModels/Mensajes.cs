@@ -58,6 +58,11 @@ public static class SeccionesConfiguracion
     /// Respaldo y restauración.
     /// </summary>
     public const string Respaldo = "Respaldo";
+
+    /// <summary>
+    /// Ayuda: qué significa cada palabra.
+    /// </summary>
+    public const string Ayuda = "Ayuda";
 }
 
 /// <summary>

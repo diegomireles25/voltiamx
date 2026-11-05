@@ -155,6 +155,10 @@ public sealed partial class MasViewModel(
         => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje(SeccionesConfiguracion.Respaldo));
 
     [RelayCommand]
+    private void AbrirAyuda()
+        => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje(SeccionesConfiguracion.Ayuda));
+
+    [RelayCommand]
     private void AbrirTarifas()
         => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje(SeccionesConfiguracion.Tarifas));
 }

@@ -3297,7 +3297,7 @@
     <value>¿Qué es esto?</value>
   </data>
   <data name="Ayuda_Termino_AntesDeImpuestos" xml:space="preserve">
-    <value>antes de impuestos</value>
+    <value>Antes de impuestos</value>
   </data>
   <data name="Ayuda_AntesDeImpuestos" xml:space="preserve">
     <value>Tu recibo de CFE suma el IVA y otros cargos. Esta cifra es solo la energía y el cargo fijo, así que tu recibo será un poco mayor.</value>
@@ -3307,5 +3307,155 @@
   </data>
   <data name="Reportes_AntesDeImpuestos.Text" xml:space="preserve">
     <value>Los montos son antes de impuestos.</value>
+  </data>
+  <data name="Ayuda_Termino_Kwh" xml:space="preserve">
+    <value>kWh</value>
+  </data>
+  <data name="Ayuda_Kwh" xml:space="preserve">
+    <value>Kilowatt hora. Es la unidad con la que CFE mide tu consumo. Un aparato de 1,000 watts prendido una hora gasta 1 kWh.</value>
+  </data>
+  <data name="Ayuda_Termino_LoQueMarcaTuMedidor" xml:space="preserve">
+    <value>Lo que marca tu medidor</value>
+  </data>
+  <data name="Ayuda_LoQueMarcaTuMedidor" xml:space="preserve">
+    <value>Es el número que ves en tu medidor de luz. Siempre avanza. La resta entre dos lecturas es lo que consumiste.</value>
+  </data>
+  <data name="Ayuda_Termino_DiaDeCorte" xml:space="preserve">
+    <value>Día de corte</value>
+  </data>
+  <data name="Ayuda_DiaDeCorte" xml:space="preserve">
+    <value>Es el día en que CFE lee tu medidor y termina tu recibo. Búscalo en las fechas de tu recibo.</value>
+  </data>
+  <data name="Ayuda_Termino_Recibo" xml:space="preserve">
+    <value>Recibo</value>
+  </data>
+  <data name="Ayuda_Recibo" xml:space="preserve">
+    <value>Las fechas que cubre un recibo de CFE, de un día de corte al siguiente. Puede ser de dos meses o de uno.</value>
+  </data>
+  <data name="Ayuda_Termino_ReciboAnterior" xml:space="preserve">
+    <value>Recibo anterior</value>
+  </data>
+  <data name="Ayuda_ReciboAnterior" xml:space="preserve">
+    <value>El último recibo que ya terminó. Con él comparamos cómo vas ahora.</value>
+  </data>
+  <data name="Ayuda_Termino_AEsteRitmo" xml:space="preserve">
+    <value>A este ritmo</value>
+  </data>
+  <data name="Ayuda_AEsteRitmo" xml:space="preserve">
+    <value>Lo que pasaría si sigues consumiendo igual que hasta hoy, hasta el día de corte.</value>
+  </data>
+  <data name="Ayuda_Termino_Aproximado" xml:space="preserve">
+    <value>Aproximado (APROX.)</value>
+  </data>
+  <data name="Ayuda_Aproximado" xml:space="preserve">
+    <value>Un cálculo, no un dato exacto. APROX. marca los recibos cuyo día de corte calculamos nosotros.</value>
+  </data>
+  <data name="Ayuda_Termino_TramosDePrecio" xml:space="preserve">
+    <value>Tramos de precio</value>
+  </data>
+  <data name="Ayuda_TramosDePrecio" xml:space="preserve">
+    <value>CFE cobra tus primeros kWh a un precio y los siguientes más caros. Cada escalón es un tramo: Básico, Intermedio y Excedente.</value>
+  </data>
+  <data name="Ayuda_Termino_TarifaAlta" xml:space="preserve">
+    <value>Tarifa alta (DAC)</value>
+  </data>
+  <data name="Ayuda_TarifaAlta" xml:space="preserve">
+    <value>DAC quiere decir Doméstica de Alto Consumo. Es una tarifa más cara para las casas que consumen mucho. VoltiaMX compara tu promedio de 12 meses contra el límite de tu tarifa.</value>
+  </data>
+  <data name="Ayuda_Termino_LoQueMasGasta" xml:space="preserve">
+    <value>Lo que más gasta</value>
+  </data>
+  <data name="Ayuda_LoQueMasGasta" xml:space="preserve">
+    <value>Tus aparatos ordenados del que más consume al que menos, con los datos que escribiste.</value>
+  </data>
+  <data name="Ayuda_Termino_QueParteDelTiempo" xml:space="preserve">
+    <value>Qué parte del tiempo consume</value>
+  </data>
+  <data name="Ayuda_QueParteDelTiempo" xml:space="preserve">
+    <value>Algunos aparatos se prenden y se apagan solos, como el refrigerador. Escribe 1 si consume todo el tiempo y 0.5 si la mitad.</value>
+  </data>
+  <data name="Ayuda_Termino_MedidorPropio" xml:space="preserve">
+    <value>Medidor propio</value>
+  </data>
+  <data name="Ayuda_MedidorPropio" xml:space="preserve">
+    <value>Un medidor aparte para un inquilino o una parte de tu casa o negocio. Con su lectura sabemos cuánto consume cada uno.</value>
+  </data>
+  <data name="Ayuda_Termino_Kwp" xml:space="preserve">
+    <value>kWp</value>
+  </data>
+  <data name="Ayuda_Kwp" xml:space="preserve">
+    <value>Kilowatt pico. Es la potencia de los paneles solares con sol pleno. Más kWp producen más energía.</value>
+  </data>
+  <data name="Ayuda_Termino_HorasDeSol" xml:space="preserve">
+    <value>Horas de sol</value>
+  </data>
+  <data name="Ayuda_HorasDeSol" xml:space="preserve">
+    <value>Las horas al día con sol fuerte en tu zona. Una mañana nublada cuenta menos que una tarde despejada.</value>
+  </data>
+  <data name="Ayuda_Termino_Rendimiento" xml:space="preserve">
+    <value>Rendimiento del sistema</value>
+  </data>
+  <data name="Ayuda_Rendimiento" xml:space="preserve">
+    <value>La parte de la energía de los paneles que de verdad llega a tu casa o negocio. Algo se pierde en cables y equipos.</value>
+  </data>
+  <data name="Ayuda_Termino_LoQueCubre" xml:space="preserve">
+    <value>Lo que cubre</value>
+  </data>
+  <data name="Ayuda_LoQueCubre" xml:space="preserve">
+    <value>Qué parte de tu consumo produciría el sistema solar.</value>
+  </data>
+  <data name="Ayuda_Termino_LoQueSobra" xml:space="preserve">
+    <value>Lo que sobra</value>
+  </data>
+  <data name="Ayuda_LoQueSobra" xml:space="preserve">
+    <value>La energía solar que produces de más. VoltiaMX no le pone precio.</value>
+  </data>
+  <data name="Ayuda_Titulo.Text" xml:space="preserve">
+    <value>AYUDA</value>
+  </data>
+  <data name="Ayuda_CalculoTitulo.Text" xml:space="preserve">
+    <value>CÓMO SE CALCULA TU RECIBO</value>
+  </data>
+  <data name="Ayuda_Calculo_1" xml:space="preserve">
+    <value>Tu consumo se mide en kWh: es lo que avanza tu medidor entre dos lecturas.</value>
+  </data>
+  <data name="Ayuda_Calculo_2" xml:space="preserve">
+    <value>CFE cobra cada tramo de precio más caro que el anterior.</value>
+  </data>
+  <data name="Ayuda_Calculo_3" xml:space="preserve">
+    <value>VoltiaMX suma lo de cada tramo y el cargo fijo de tu tarifa.</value>
+  </data>
+  <data name="Ayuda_Calculo_4" xml:space="preserve">
+    <value>Esa cifra no incluye impuestos, así que tu recibo será un poco mayor.</value>
+  </data>
+  <data name="Ayuda_Calculo_5" xml:space="preserve">
+    <value>Los precios que usa están en Tarifas, y puedes cambiarlos.</value>
+  </data>
+  <data name="Ayuda_PalabrasTitulo.Text" xml:space="preserve">
+    <value>PALABRAS QUE VERÁS</value>
+  </data>
+  <data name="Ayuda_NoHaceTitulo.Text" xml:space="preserve">
+    <value>LO QUE VOLTIAMX NO HACE</value>
+  </data>
+  <data name="Ayuda_NoHace_1" xml:space="preserve">
+    <value>No es un comprobante ni una cotización.</value>
+  </data>
+  <data name="Ayuda_NoHace_2" xml:space="preserve">
+    <value>No usa datos oficiales de CFE, solo los precios que tú cargues en Tarifas.</value>
+  </data>
+  <data name="Ayuda_NoHace_3" xml:space="preserve">
+    <value>No sustituye a tu recibo de CFE. Para pagar, usa siempre tu recibo.</value>
+  </data>
+  <data name="Mas_AyudaTitulo.Text" xml:space="preserve">
+    <value>Ayuda: qué significa cada palabra</value>
+  </data>
+  <data name="Mas_AyudaTexto.Text" xml:space="preserve">
+    <value>Cómo se calcula tu recibo y qué quiere decir cada palabra de la app.</value>
+  </data>
+  <data name="Mas_AyudaBoton.Content" xml:space="preserve">
+    <value>Abrir ayuda</value>
+  </data>
+  <data name="Inquilinos_MedidorPropio.Text" xml:space="preserve">
+    <value>Cada inquilino necesita su medidor propio.</value>
   </data>
 </root>

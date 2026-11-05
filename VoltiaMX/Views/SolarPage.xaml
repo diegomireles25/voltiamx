@@ -61,7 +61,10 @@
                                 <NumberBox x:Uid="Solar_Porcentaje" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Porcentaje, Mode=TwoWay}" />
                             </Border>
                             <Border Style="{StaticResource HairlineRowStyle}">
-                                <NumberBox x:Uid="Solar_Horas" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Horas, Mode=TwoWay}" />
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <NumberBox x:Uid="Solar_Horas" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Horas, Mode=TwoWay}" />
+                                    <local:TerminoAyuda Clave="HorasDeSol" />
+                                </StackPanel>
                             </Border>
                             <Border Style="{StaticResource HairlineRowStyle}">
                                 <NumberBox x:Uid="Solar_Eficiencia" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Eficiencia, Mode=TwoWay}" />
@@ -70,7 +73,10 @@
                                 <NumberBox x:Uid="Solar_WattsPanel" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.WattsPanel, Mode=TwoWay}" />
                             </Border>
                             <Border Style="{StaticResource HairlineRowStyle}">
-                                <NumberBox x:Uid="Solar_Costo" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Costo, Mode=TwoWay}" />
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <NumberBox x:Uid="Solar_Costo" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Costo, Mode=TwoWay}" />
+                                    <local:TerminoAyuda Clave="Kwp" />
+                                </StackPanel>
                             </Border>
                         </StackPanel>
                     </Border>

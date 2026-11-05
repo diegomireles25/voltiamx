@@ -152,6 +152,7 @@ namespace VoltiaMX
             servicios.AddTransient<ShellViewModel>();
             servicios.AddTransient<DashboardViewModel>();
             servicios.AddTransient<MasViewModel>();
+            servicios.AddTransient<AyudaViewModel>();
             servicios.AddTransient<LecturasViewModel>();
             servicios.AddTransient<PredictorViewModel>();
             servicios.AddTransient<TarifasViewModel>();

@@ -100,7 +100,10 @@
                                     Style="{StaticResource ProgressStyle}"
                                     Value="{x:Bind ViewModel.ProgresoPeriodo, Mode=OneWay}" />
                                 <Grid>
-                                    <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.KwhHastaHoyTexto, Mode=OneWay}" />
+                                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                                        <TextBlock VerticalAlignment="Center" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.KwhHastaHoyTexto, Mode=OneWay}" />
+                                        <local:TerminoAyuda Clave="Kwh" />
+                                    </StackPanel>
                                     <TextBlock HorizontalAlignment="Right" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.KwhCierreTexto, Mode=OneWay}" />
                                 </Grid>
                             </StackPanel>
@@ -262,11 +265,14 @@
                         <Border Style="{StaticResource EstadoRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarDac), Mode=OneWay}">
                             <StackPanel Spacing="{StaticResource Spacing12}">
                                 <Grid>
-                                    <TextBlock
-                                        x:Uid="Dashboard_RiesgoDac"
-                                        VerticalAlignment="Center"
-                                        Foreground="{StaticResource SlateBrush}"
-                                        Style="{StaticResource CaptionTextStyle}" />
+                                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                                        <TextBlock
+                                            x:Uid="Dashboard_RiesgoDac"
+                                            VerticalAlignment="Center"
+                                            Foreground="{StaticResource SlateBrush}"
+                                            Style="{StaticResource CaptionTextStyle}" />
+                                        <local:TerminoAyuda Clave="TarifaAlta" />
+                                    </StackPanel>
                                     <ContentPresenter
                                         HorizontalAlignment="Right"
                                         Content="{x:Bind ViewModel.TextoNivelDac, Mode=OneWay}"

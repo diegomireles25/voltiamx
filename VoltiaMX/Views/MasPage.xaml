@@ -133,6 +133,26 @@
                         </Grid>
                     </Border>
 
+                    <!-- Ayuda: qué significa cada palabra -->
+                    <Border Style="{StaticResource HairlineRowStyle}">
+                        <Grid ColumnSpacing="{StaticResource Spacing24}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Spacing="{StaticResource Spacing8}">
+                                <TextBlock x:Uid="Mas_AyudaTitulo" Style="{StaticResource SubheadingTextStyle}" />
+                                <TextBlock x:Uid="Mas_AyudaTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
+                            </StackPanel>
+                            <Button
+                                x:Uid="Mas_AyudaBoton"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Command="{x:Bind ViewModel.AbrirAyudaCommand}"
+                                Style="{StaticResource TextLinkButtonStyle}" />
+                        </Grid>
+                    </Border>
+
                     <!-- Notificaciones de Windows con los avisos -->
                     <Border Style="{StaticResource HairlineRowStyle}">
                         <Grid ColumnSpacing="{StaticResource Spacing24}">
