@@ -14,7 +14,7 @@ public enum VeredictoRecibo
 /// fijo). <paramref name="Diferencia"/> = calculado − recibo; <paramref name="DiferenciaPorcentaje"/>
 /// es relativa al recibo (null si el recibo es 0).
 /// </summary>
-public sealed record ComparacionRecibo(
+public sealed record ComparacionContraTarifa(
     ResultadoCalculo Calculo,
     decimal SubtotalEnergia,
     decimal Diferencia,
@@ -23,7 +23,7 @@ public sealed record ComparacionRecibo(
 
 public interface IValidadorRecibo
 {
-    ComparacionRecibo Comparar(Tarifa tarifa, int mesesDelPeriodo, decimal kwh, decimal montoEnergiaRecibo);
+    ComparacionContraTarifa Comparar(Tarifa tarifa, int mesesDelPeriodo, decimal kwh, decimal montoEnergiaRecibo);
 }
 
 /// <summary>
@@ -40,7 +40,7 @@ public sealed class ValidadorRecibo(ITarifaCalculator calculadora) : IValidadorR
     /// <summary>Diferencia relativa hasta la que la tarifa está cerca pero no exacta: 3 %.</summary>
     public const decimal ToleranciaCercano = 0.03m;
 
-    public ComparacionRecibo Comparar(Tarifa tarifa, int mesesDelPeriodo, decimal kwh, decimal montoEnergiaRecibo)
+    public ComparacionContraTarifa Comparar(Tarifa tarifa, int mesesDelPeriodo, decimal kwh, decimal montoEnergiaRecibo)
     {
         ArgumentNullException.ThrowIfNull(tarifa);
         ArgumentOutOfRangeException.ThrowIfNegative(montoEnergiaRecibo);
@@ -55,6 +55,6 @@ public sealed class ValidadorRecibo(ITarifaCalculator calculadora) : IValidadorR
             : relativa <= ToleranciaCercano ? VeredictoRecibo.Cercano
             : VeredictoRecibo.NoCoincide;
 
-        return new ComparacionRecibo(calculo, calculo.SubtotalEnergia, diferencia, porcentaje, veredicto);
+        return new ComparacionContraTarifa(calculo, calculo.SubtotalEnergia, diferencia, porcentaje, veredicto);
     }
 }

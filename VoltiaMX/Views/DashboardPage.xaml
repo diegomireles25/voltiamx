@@ -10,6 +10,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:local="using:VoltiaMX.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:VoltiaMX.ViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -103,7 +104,15 @@
                                     <TextBlock HorizontalAlignment="Right" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.KwhCierreTexto, Mode=OneWay}" />
                                 </Grid>
                             </StackPanel>
-                            <TextBlock x:Uid="Dashboard_SinIva" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                            <!-- "antes de impuestos" siempre junto a la cifra, con su explicación -->
+                            <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                                <TextBlock
+                                    x:Uid="Dashboard_SinIva"
+                                    VerticalAlignment="Center"
+                                    Foreground="{StaticResource SlateBrush}"
+                                    Style="{StaticResource CaptionTextStyle}" />
+                                <local:TerminoAyuda VerticalAlignment="Center" Clave="AntesDeImpuestos" />
+                            </StackPanel>
                         </StackPanel>
 
                         <!-- Sin datos -->
@@ -138,7 +147,10 @@
                             <StackPanel Spacing="{StaticResource Spacing24}">
                                 <ContentPresenter x:Uid="Dashboard_ComparacionEtiqueta" Style="{StaticResource MintTagStyle}" />
                                 <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneComparacion), Mode=OneWay}">
-                                    <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.CifraComparacion, Mode=OneWay}" />
+                                    <TextBlock
+                                        Style="{StaticResource DisplayTextStyle}"
+                                        Text="{x:Bind ViewModel.CifraComparacion, Mode=OneWay}"
+                                        Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.CifraComparacion), Mode=OneWay}" />
                                     <TextBlock
                                         MaxWidth="{StaticResource InverseTextMaxWidth}"
                                         HorizontalAlignment="Left"

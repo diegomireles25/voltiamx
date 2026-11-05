@@ -141,6 +141,8 @@ public static class GeneradorPdf
             Dato(columna, texto("Reporte_Tarifa"), datos.Tarifa?.Nombre ?? datos.Resumen?.NombreTarifa ?? texto("Reporte_SinDatos"));
             Dato(columna, texto("Reporte_Generado"), FormatoReporte.Fecha(datos.GeneradoEl));
             columna.Item().PaddingTop(4).Text(texto("Reporte_SinIvaNiDap")).FontColor(Colors.Grey.Darken2);
+            // Un PDF no abre la ayuda "¿Qué es esto?": la explicación va escrita.
+            columna.Item().Text(texto("Ayuda_AntesDeImpuestos")).FontColor(Colors.Grey.Darken2).FontSize(9);
         });
 
     private static void Periodo(IContainer c, ReporteDatos datos, Func<string, string> texto, string titulos)

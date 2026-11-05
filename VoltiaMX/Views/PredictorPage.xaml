@@ -82,11 +82,14 @@
                             </ItemsRepeater.ItemTemplate>
                         </ItemsRepeater>
                     </Border>
-                    <TextBlock
-                        x:Uid="Predictor_NotaMontos"
-                        Foreground="{StaticResource SlateBrush}"
-                        Style="{StaticResource CaptionTextStyle}"
-                        TextWrapping="Wrap" />
+                    <StackPanel Spacing="{StaticResource Spacing8}">
+                        <TextBlock
+                            x:Uid="Predictor_NotaMontos"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource CaptionTextStyle}"
+                            TextWrapping="Wrap" />
+                        <local:TerminoAyuda Clave="AntesDeImpuestos" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
 

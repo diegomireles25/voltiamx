@@ -294,24 +294,26 @@ public sealed partial class DashboardViewModel(
     }
 
     /// <summary>
-    /// "Comparado con tu recibo anterior": el cambio del consumo proyectado contra el último periodo cerrado,
-    /// tal como lo calcula el Resumen.
+    /// "Comparado con tu recibo anterior": el ritmo de este recibo (consumo a este ritmo del Resumen) contra el
+    /// último recibo cerrado del historial, con las reglas de <see cref="ComparacionRecibo"/>.
     /// </summary>
     private void AplicarComparacion(ResumenDashboard resumen)
     {
-        TieneComparacion = resumen.VariacionVsPeriodoAnterior is not null;
-        if (resumen.VariacionVsPeriodoAnterior is not decimal variacion)
+        var anterior = resumen.Historial.LastOrDefault(p => !p.EsActual)?.Kwh;
+        var comparacion = ComparacionRecibo.Evaluar(resumen.KwhProyectados, anterior, resumen.DiaDelPeriodo);
+        TieneComparacion = comparacion.Estado != EstadoComparacion.SinReciboAnterior;
+        (CifraComparacion, TextoComparacion) = comparacion.Estado switch
         {
-            CifraComparacion = TextoComparacion = string.Empty;
-            return;
-        }
-
-        var porcentaje = Math.Round(Math.Abs(variacion) * 100m, 0, MidpointRounding.AwayFromZero);
-        (CifraComparacion, TextoComparacion) = porcentaje == 0m
-            ? (textos.Formato("Dashboard_ComparacionCifraIgual", 0), textos["Dashboard_ComparacionIgual"])
-            : variacion > 0m
-                ? (textos.Formato("Dashboard_ComparacionCifraArriba", porcentaje), textos.Formato("Dashboard_ComparacionArriba", porcentaje))
-                : (textos.Formato("Dashboard_ComparacionCifraAbajo", porcentaje), textos.Formato("Dashboard_ComparacionAbajo", porcentaje));
+            EstadoComparacion.MasAlto => (
+                textos.Formato("Dashboard_ComparacionCifraArriba", comparacion.Porcentaje),
+                textos.Formato("Dashboard_ComparacionArriba", comparacion.Porcentaje)),
+            EstadoComparacion.MasBajo => (
+                textos.Formato("Dashboard_ComparacionCifraAbajo", comparacion.Porcentaje),
+                textos.Formato("Dashboard_ComparacionAbajo", comparacion.Porcentaje)),
+            EstadoComparacion.Igual => (textos["Dashboard_ComparacionCifraIgual"], textos["Dashboard_ComparacionIgual"]),
+            EstadoComparacion.AunEsPronto => (string.Empty, textos.Formato("Dashboard_ComparacionPronto", comparacion.Dias)),
+            _ => (string.Empty, string.Empty),
+        };
     }
 
     private void AplicarHistorial(ResumenDashboard resumen, bool enPesos)

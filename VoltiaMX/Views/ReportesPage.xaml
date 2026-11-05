@@ -34,6 +34,14 @@
                     Foreground="{StaticResource SlateBrush}"
                     Style="{StaticResource BodySmTextStyle}"
                     TextWrapping="Wrap" />
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                    <TextBlock
+                        x:Uid="Reportes_AntesDeImpuestos"
+                        VerticalAlignment="Center"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodySmTextStyle}" />
+                    <local:TerminoAyuda VerticalAlignment="Center" Clave="AntesDeImpuestos" />
+                </StackPanel>
                 <TextBlock
                     x:Uid="Reportes_Privacidad"
                     Foreground="{StaticResource SlateBrush}"

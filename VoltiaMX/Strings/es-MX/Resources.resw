@@ -714,7 +714,7 @@
     <value>~{0:N0} AL CIERRE</value>
   </data>
   <data name="Dashboard_SinIva.Text" xml:space="preserve">
-    <value>MONTOS SIN IVA NI DAP</value>
+    <value>ANTES DE IMPUESTOS</value>
   </data>
 
   <!-- Dashboard: estado vacío -->
@@ -1192,7 +1192,7 @@
     <value>${0:N2}</value>
   </data>
   <data name="Predictor_NotaMontos.Text" xml:space="preserve">
-    <value>Montos sin IVA ni DAP. Se redondean a centavos al mostrarlos; el total es la suma de las filas.</value>
+    <value>Montos antes de impuestos. Se redondean a centavos; el total es la suma de las filas.</value>
   </data>
   <data name="Predictor_DacTitulo.Text" xml:space="preserve">
     <value>RIESGO DAC</value>
@@ -2274,7 +2274,7 @@
     <value>Generado el</value>
   </data>
   <data name="Reporte_SinIvaNiDap" xml:space="preserve">
-    <value>Montos sin IVA ni DAP.</value>
+    <value>Montos antes de impuestos.</value>
   </data>
   <data name="Reporte_DatosDeEjemplo" xml:space="preserve">
     <value>DATOS DE EJEMPLO</value>
@@ -3327,16 +3327,16 @@
     <value>−{0:0} %</value>
   </data>
   <data name="Dashboard_ComparacionCifraIgual" xml:space="preserve">
-    <value>{0:0} %</value>
+    <value>PARECIDO</value>
   </data>
   <data name="Dashboard_ComparacionArriba" xml:space="preserve">
-    <value>Vas {0:0} % arriba</value>
+    <value>A este ritmo vas {0:0} % más alto que tu recibo anterior</value>
   </data>
   <data name="Dashboard_ComparacionAbajo" xml:space="preserve">
-    <value>Vas {0:0} % abajo</value>
+    <value>A este ritmo vas {0:0} % más bajo que tu recibo anterior</value>
   </data>
   <data name="Dashboard_ComparacionIgual" xml:space="preserve">
-    <value>Igual que el anterior</value>
+    <value>A este ritmo vas parecido a tu recibo anterior</value>
   </data>
   <data name="Dashboard_ComparacionSinAnterior.Text" xml:space="preserve">
     <value>Cuando tengas dos recibos registrados, aquí verás si vas mejor o peor.</value>
@@ -3424,5 +3424,20 @@
   </data>
   <data name="Dashboard_VerCalculo.Content" xml:space="preserve">
     <value>Ver cómo se calcula tu recibo</value>
+  </data>
+  <data name="Ayuda_QueEsEsto" xml:space="preserve">
+    <value>¿Qué es esto?</value>
+  </data>
+  <data name="Ayuda_Termino_AntesDeImpuestos" xml:space="preserve">
+    <value>antes de impuestos</value>
+  </data>
+  <data name="Ayuda_AntesDeImpuestos" xml:space="preserve">
+    <value>Tu recibo de CFE suma el IVA y otros cargos. Esta cifra es solo la energía y el cargo fijo, así que tu recibo será un poco mayor.</value>
+  </data>
+  <data name="Dashboard_ComparacionPronto" xml:space="preserve">
+    <value>Aún es pronto para comparar: llevas {0} días de este recibo</value>
+  </data>
+  <data name="Reportes_AntesDeImpuestos.Text" xml:space="preserve">
+    <value>Los montos son antes de impuestos.</value>
   </data>
 </root>
