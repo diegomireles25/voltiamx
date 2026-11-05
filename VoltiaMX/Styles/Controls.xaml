@@ -708,5 +708,7 @@
         <Setter Property="CornerRadius" Value="{StaticResource RadiusTag}" />
         <Setter Property="Padding" Value="{StaticResource CardPadding}" />
         <Setter Property="IsDefaultShadowEnabled" Value="False" />
+        <Setter Property="MaxWidth" Value="{StaticResource AyudaFlyoutMaxWidth}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
     </Style>
 </ResourceDictionary>
