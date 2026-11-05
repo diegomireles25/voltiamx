@@ -40,7 +40,7 @@ public static class CalculoMeta
 
         var ordenados = cerrados.OrderBy(p => p.Inicio).ToList();
         var fraccion = meta.PorcentajeObjetivo / 100m;
-        var historial = Historial(ordenados, meta.FechaInicio, fraccion);
+        var historial = Historial(ordenados, meta.FechaInicio, fraccion, totalDe);
         var racha = historial.TakeWhile(f => f.Cumplio).Count();
 
         if (ordenados.Count == 0)
@@ -66,11 +66,16 @@ public static class CalculoMeta
 
         return new ProgresoMeta(
             estado, meta.PorcentajeObjetivo, baseKwh, periodoBase.Estimado, objetivo, consumidoKwh, proyectadoKwh,
-            porDia, pesos, historial, racha);
+            porDia, pesos, historial, racha,
+            BasePesos: totalDe?.Invoke(baseKwh),
+            ObjetivoPesos: totalDe?.Invoke(objetivo),
+            ConsumidoPesos: totalDe is not null && consumidoKwh is decimal c ? totalDe(c) : null,
+            MontoARitmo: totalDe is not null && proyectadoKwh is decimal p ? totalDe(p) : null);
     }
 
     // Cada periodo que empieza desde la fecha de inicio contra el anterior, del más reciente al más antiguo.
-    private static List<FilaHistorialMeta> Historial(List<Periodo> ordenados, DateOnly fechaInicio, decimal fraccion)
+    private static List<FilaHistorialMeta> Historial(
+        List<Periodo> ordenados, DateOnly fechaInicio, decimal fraccion, Func<decimal, decimal>? totalDe)
     {
         var filas = new List<FilaHistorialMeta>();
         for (var i = ordenados.Count - 1; i >= 1; i--)
@@ -82,7 +87,8 @@ public static class CalculoMeta
             }
 
             var reduccion = (anterior.KwhTotales - actual.KwhTotales) / anterior.KwhTotales;
-            filas.Add(new FilaHistorialMeta(actual.Inicio, actual.Fin, actual.KwhTotales, reduccion, reduccion >= fraccion));
+            filas.Add(new FilaHistorialMeta(
+                actual.Inicio, actual.Fin, actual.KwhTotales, reduccion, reduccion >= fraccion, totalDe?.Invoke(actual.KwhTotales)));
         }
 
         return filas;

@@ -25,6 +25,12 @@ public interface IAparatoService
     Task<RankingAparatos> ObtenerRankingAsync(int lugarId, DateOnly hoy, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Ranking, costo mensual de cada aparato (D4) y sugerencias de ahorro (D5) del lugar, con su tarifa y su
+    /// consumo medido. Sin consumo medido o sin tarifa no hay pesos ni sugerencias.
+    /// </summary>
+    Task<CostosDelLugar> ObtenerCostosAsync(int lugarId, DateOnly hoy, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Valores típicos para empezar a capturar (de ejemplo, no de la etiqueta del aparato).
     /// </summary>
     IReadOnlyList<PlantillaAparato> PlantillasDeReferencia();

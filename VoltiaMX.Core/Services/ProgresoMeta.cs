@@ -39,12 +39,13 @@ public sealed record ResultadoGuardarMeta(IReadOnlyList<CodigoErrorMeta> Errores
 
 /// <summary>
 /// Un periodo cerrado contra el anterior. <see cref="Reduccion"/> es la fracción (0.10 = 10 % menos;
-/// negativa si se consumió más).
+/// negativa si se consumió más). <see cref="Monto"/> es su consumo con la tarifa actual (null sin tarifa).
 /// </summary>
-public sealed record FilaHistorialMeta(DateOnly Inicio, DateOnly Fin, decimal Kwh, decimal Reduccion, bool Cumplio);
+public sealed record FilaHistorialMeta(DateOnly Inicio, DateOnly Fin, decimal Kwh, decimal Reduccion, bool Cumplio, decimal? Monto = null);
 
 /// <summary>
-/// Progreso de la meta en el periodo actual, en kWh. Lo que no se puede calcular queda en null.
+/// Progreso de la meta en el periodo actual, en kWh y, con tarifa, en pesos (con la tarifa actual, antes de
+/// impuestos). Lo que no se puede calcular queda en null.
 /// <see cref="AhorroPesosObjetivo"/> es sin IVA ni DAP. <see cref="Historial"/> va del más reciente al más antiguo.
 /// </summary>
 public sealed record ProgresoMeta(
@@ -58,4 +59,16 @@ public sealed record ProgresoMeta(
     decimal? KwhPorDiaPermitidos,
     decimal? AhorroPesosObjetivo,
     IReadOnlyList<FilaHistorialMeta> Historial,
-    int Racha);
+    int Racha,
+    decimal? BasePesos = null,
+    decimal? ObjetivoPesos = null,
+    decimal? ConsumidoPesos = null,
+    decimal? MontoARitmo = null)
+{
+    /// <summary>
+    /// Cuánto te falta bajar para que el recibo quede en el objetivo (D8); nunca negativo. Null sin pesos.
+    /// </summary>
+    public decimal? FaltaPorAhorrar => MontoARitmo is decimal ritmo && ObjetivoPesos is decimal objetivo
+        ? Math.Max(0m, ritmo - objetivo)
+        : null;
+}

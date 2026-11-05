@@ -230,7 +230,7 @@ public sealed class TarifasEditablesTests : IAsyncLifetime
         var calculadora = new TarifaCalculator();
         await new DatosDemoService(_fabrica, calculadora).CargarAsync(Hoy);
         var resumenes = new ResumenDashboardService(
-            _fabrica, new ProyeccionService(calculadora), new DacService(), new PresupuestoInversoService(calculadora));
+            _fabrica, new ProyeccionService(calculadora), new DacService(), new PresupuestoInversoService(calculadora), new TarifaCalculator());
         var antes = await resumenes.ObtenerAsync(Hoy);
 
         var editable = await _servicio.ObtenerParaEditarAsync(await IdAsync("1C"));

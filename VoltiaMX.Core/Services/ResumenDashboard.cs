@@ -122,6 +122,12 @@ public sealed record ResumenDashboard
     /// </summary>
     public decimal? VariacionVsPeriodoAnterior { get; init; }
 
+    /// <summary>
+    /// Lo que costaría el último recibo cerrado con la tarifa actual (antes de impuestos); null si no hay. No es el
+    /// monto guardado: así la comparación de Inicio no cambia por precios distintos.
+    /// </summary>
+    public decimal? MontoReciboAnterior { get; init; }
+
     public bool TieneDatos => Historial.Count > 0 || KwhHastaHoy is not null;
 }
 

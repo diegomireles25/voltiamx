@@ -8,7 +8,8 @@ public sealed class ResumenDashboardService(
     IDbContextFactory<VoltiaDbContext> fabrica,
     IProyeccionService proyeccion,
     IDacService dac,
-    IPresupuestoInversoService presupuesto) : IResumenDashboardService
+    IPresupuestoInversoService presupuesto,
+    ITarifaCalculator calculadora) : IResumenDashboardService
 {
     private const int PeriodosCerradosEnHistorial = 5;
 
@@ -100,6 +101,8 @@ public sealed class ResumenDashboardService(
             PromedioDiarioKwh = proyectado?.PromedioDiarioKwh,
             DesgloseProyectado = proyectado?.Calculo,
             Historial = Historial(cerrados, inicio, fin, proyectado),
+            // D6: el recibo anterior con la tarifa de hoy, para que la comparación dependa solo del consumo.
+            MontoReciboAnterior = cerrados.Count > 0 ? calculadora.Calcular(cerrados[^1].KwhTotales, tarifa, meses).Total : null,
             VariacionVsPeriodoAnterior = cerrados.Count > 0 && cerrados[^1].KwhTotales > 0m
                 ? proyectado?.KwhProyectados / cerrados[^1].KwhTotales - 1
                 : null,

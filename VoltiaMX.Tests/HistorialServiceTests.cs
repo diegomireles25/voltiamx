@@ -21,7 +21,7 @@ public sealed class HistorialServiceTests : IAsyncLifetime
         var proyeccion = new ProyeccionService(_calculadora);
         var presupuesto = new PresupuestoInversoService(_calculadora);
         _servicio = new HistorialService(_fabrica, proyeccion, presupuesto);
-        _resumenes = new ResumenDashboardService(_fabrica, proyeccion, new DacService(), presupuesto);
+        _resumenes = new ResumenDashboardService(_fabrica, proyeccion, new DacService(), presupuesto, new TarifaCalculator());
         _demo = new DatosDemoService(_fabrica, _calculadora);
         _perfiles = new PerfilService(_fabrica);
     }

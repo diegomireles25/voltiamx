@@ -56,7 +56,7 @@ public sealed class ConsumoMedidoTests : IAsyncLifetime
         await new DatosDemoService(_fabrica, new TarifaCalculator()).CargarAsync(Hoy);
         var calculadora = new TarifaCalculator();
         var resumen = await new ResumenDashboardService(
-            _fabrica, new ProyeccionService(calculadora), new DacService(), new PresupuestoInversoService(calculadora))
+            _fabrica, new ProyeccionService(calculadora), new DacService(), new PresupuestoInversoService(calculadora), new TarifaCalculator())
             .ObtenerAsync(Hoy);
 
         await using var db = _fabrica.CreateDbContext();

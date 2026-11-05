@@ -12,7 +12,7 @@ public sealed class AparatoServiceTests : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _fabrica = await FabricaDePrueba.CrearAsync();
-        _servicio = new AparatoService(_fabrica);
+        _servicio = new AparatoService(_fabrica, new TarifaCalculator());
     }
 
     public Task DisposeAsync()
@@ -184,6 +184,44 @@ public sealed class AparatoServiceTests : IAsyncLifetime
         Assert.Equal(["Aire", "Lavadora"], ranking.Filas.Select(f => f.Nombre));
         Assert.Equal([0.5m, 0.25m], ranking.Filas.Select(f => Math.Round(f.Porcentaje!.Value, 4)));
         Assert.Equal(0.25m, Math.Round(ranking.SinIdentificar!.Value, 4));
+    }
+
+    [Fact]
+    public async Task ObtenerCostosAsync_CuentaAMano_ConLaTarifaDelLugar()
+    {
+        // Tarifa 1 bimestral: 0–150 a $1, 150–280 a $1.25 y 280+ a $3.50. Medido 728 kWh: Total = 150 + 162.50 + 448 × 3.50 = $1,880.50.
+        // Aire 364 kWh del bimestre: Total(364) = 312.50 + 84 × 3.50 = $606.50 → 1,274 / 2 = $637 al mes.
+        // Lavadora 182 kWh: Total(546) = 312.50 + 266 × 3.50 = $1,243.50 → 637 / 2 = $318.50 al mes.
+        var lugarId = await CrearLugarAsync("Mi casa");
+        await AgregarPeriodoAsync(lugarId, 728m);
+        await _servicio.GuardarAsync(DeUnKilowatt(lugarId, "Lavadora", 0.125m));
+        await _servicio.GuardarAsync(DeUnKilowatt(lugarId, "Aire", 0.25m));
+
+        var costos = await _servicio.ObtenerCostosAsync(lugarId, new DateOnly(2026, 10, 19));
+
+        Assert.Equal(EstadoRanking.Normal, costos.Ranking.Estado);
+        Assert.True(costos.Costos.ConPesos);
+        Assert.Equal(["Aire", "Lavadora"], costos.Costos.Filas.Select(f => f.Nombre));
+        Assert.Equal([637m, 318.5m], costos.Costos.Filas.Select(f => Math.Round(f.CostoMensual!.Value, 2)));
+
+        // Una hora menos de 24: aire 182 / 24 = 7.58 kWh al mes y lavadora 3.79, todo en el tramo de $3.50.
+        // Aire 15.17 kWh del bimestre × 3.50 / 2 = $26.54; lavadora $13.27; juntos $39.81.
+        Assert.Equal(["Aire", "Lavadora"], costos.Sugerencias.Sugerencias.Select(s => s.Nombre));
+        Assert.Equal([26.54m, 13.27m], costos.Sugerencias.Sugerencias.Select(s => Math.Round(s.AhorroMensual, 2)));
+        Assert.Equal(39.81m, Math.Round(costos.Sugerencias.AhorroCombinadoMensual!.Value, 2));
+    }
+
+    [Fact]
+    public async Task ObtenerCostosAsync_SinConsumoMedido_SinPesosNiSugerencias()
+    {
+        var lugarId = await CrearLugarAsync("Mi casa");
+        await _servicio.GuardarAsync(DeUnKilowatt(lugarId, "Aire", 0.25m));
+
+        var costos = await _servicio.ObtenerCostosAsync(lugarId, new DateOnly(2026, 10, 19));
+
+        Assert.False(costos.Costos.ConPesos);
+        Assert.Equal(["Aire"], costos.Costos.Filas.Select(f => f.Nombre));
+        Assert.Empty(costos.Sugerencias.Sugerencias);
     }
 
     [Fact]

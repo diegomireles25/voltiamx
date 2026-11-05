@@ -2,12 +2,16 @@ using VoltiaMX.Core.Services;
 
 namespace VoltiaMX.Tests;
 
+/// <summary>
+/// Fase 8 (D6): la comparación es en pesos. Lo que pagarías a este ritmo contra el recibo anterior
+/// recalculado con la tarifa de hoy; las reglas de la Fase 7b no cambian.
+/// </summary>
 public sealed class ComparacionReciboTests
 {
     [Fact]
     public void SeisDias_AunEsPronto()
     {
-        // 6 < DiasMinimos (7): aunque 1,049 contra 718 sea +46 %, todavía no se compara.
+        // 6 < DiasMinimos (7): aunque $1,049 contra $718 sea +46 %, todavía no se compara.
         var r = ComparacionRecibo.Evaluar(1_049m, 718m, 6);
 
         Assert.Equal(EstadoComparacion.AunEsPronto, r.Estado);
@@ -24,21 +28,23 @@ public sealed class ComparacionReciboTests
     [Fact]
     public void CuarentaYSeisPorCientoArriba()
     {
-        // 1,049 / 718 = 1.4610 → +46.10 % → 46.
+        // $1,049 / $718 = 1.4610 → +46.10 % → 46; unos $331 más.
         var r = ComparacionRecibo.Evaluar(1_049m, 718m, 24);
 
         Assert.Equal(EstadoComparacion.MasAlto, r.Estado);
         Assert.Equal(46m, r.Porcentaje);
+        Assert.Equal((1_049m, 718m, 331m), (r.MontoARitmo, r.MontoAnterior, r.Diferencia));
     }
 
     [Fact]
     public void OchoPorCientoAbajo()
     {
-        // 920 / 1,000 = 0.92 → −8 %.
+        // $920 / $1,000 = 0.92 → −8 %; unos $80 menos (la diferencia va sin signo).
         var r = ComparacionRecibo.Evaluar(920m, 1_000m, 30);
 
         Assert.Equal(EstadoComparacion.MasBajo, r.Estado);
         Assert.Equal(8m, r.Porcentaje);
+        Assert.Equal(80m, r.Diferencia);
     }
 
     [Theory]
@@ -55,7 +61,7 @@ public sealed class ComparacionReciboTests
     [Fact]
     public void JustoFueraDelMargen_Compara()
     {
-        // 1,021 / 1,000 = +2.1 % > 2 % → más alto, redondeado a 2.
+        // $1,021 / $1,000 = +2.1 % > 2 % → más alto, redondeado a 2.
         var r = ComparacionRecibo.Evaluar(1_021m, 1_000m, 30);
 
         Assert.Equal(EstadoComparacion.MasAlto, r.Estado);
@@ -70,7 +76,7 @@ public sealed class ComparacionReciboTests
     }
 
     [Fact]
-    public void ReciboAnteriorConConsumoCero_NoDividePorCero()
+    public void ReciboAnteriorEnCero_NoDividePorCero()
     {
         var r = ComparacionRecibo.Evaluar(500m, 0m, 30);
         Assert.Equal(EstadoComparacion.SinReciboAnterior, r.Estado);
@@ -81,6 +87,7 @@ public sealed class ComparacionReciboTests
     {
         var r = ComparacionRecibo.Evaluar(null, 718m, 20);
         Assert.Equal(EstadoComparacion.AunEsPronto, r.Estado);
+        Assert.Equal(0m, r.Diferencia);
     }
 
     [Fact]

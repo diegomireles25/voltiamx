@@ -19,8 +19,8 @@ public sealed class ReporteServiceTests : IAsyncLifetime
         var calculadora = new TarifaCalculator();
         var proyeccion = new ProyeccionService(calculadora);
         var presupuesto = new PresupuestoInversoService(calculadora);
-        _resumenes = new ResumenDashboardService(_fabrica, proyeccion, new DacService(), presupuesto);
-        _aparatos = new AparatoService(_fabrica);
+        _resumenes = new ResumenDashboardService(_fabrica, proyeccion, new DacService(), presupuesto, new TarifaCalculator());
+        _aparatos = new AparatoService(_fabrica, new TarifaCalculator());
         _servicio = new ReporteService(
             _fabrica,
             _resumenes,

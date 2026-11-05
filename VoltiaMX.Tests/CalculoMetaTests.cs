@@ -169,4 +169,53 @@ public class CalculoMetaTests
     {
         Assert.Equal(valido ? [] : [CodigoErrorMeta.PorcentajeFueraDeRango], MetaValidador.Validar(porcentaje));
     }
+
+    // Fase 8 (D8): los pesos salen de la tarifa actual. Con $2 por kWh y $50 de cargo fijo: Total(k) = 50 + 2k.
+    private static decimal Total(decimal kwh) => 50m + 2m * kwh;
+
+    [Fact]
+    public void Calcular_EnPesos_ObjetivoARitmoYLoQueFalta()
+    {
+        // Objetivo 450 kWh → $950. A este ritmo 480 kWh → $1,010. Te faltan 1,010 − 950 = $60.
+        var progreso = Calcular(Meta(), Base500, consumido: 300m, proyectado: 480m, totalDe: Total);
+
+        Assert.Equal(EstadoMeta.EnRiesgo, progreso.Estado);
+        Assert.Equal(950m, progreso.ObjetivoPesos);
+        Assert.Equal(1_010m, progreso.MontoARitmo);
+        Assert.Equal(60m, progreso.FaltaPorAhorrar);
+        Assert.Equal(1_050m, progreso.BasePesos);
+        Assert.Equal(650m, progreso.ConsumidoPesos);
+    }
+
+    [Fact]
+    public void Calcular_EnPesos_LoQueFaltaNuncaEsNegativo()
+    {
+        // A este ritmo 440 kWh → $930, debajo del objetivo de $950: no falta nada.
+        var progreso = Calcular(Meta(), Base500, consumido: 200m, proyectado: 440m, totalDe: Total);
+
+        Assert.Equal(EstadoMeta.Cumpliendo, progreso.Estado);
+        Assert.Equal(0m, progreso.FaltaPorAhorrar);
+    }
+
+    [Fact]
+    public void Calcular_EnPesos_ElHistorialTraeElMontoConLaTarifaActual()
+    {
+        // Feb 500 kWh contra ene 520 kWh: Total(500) = $1,050.
+        var progreso = Calcular(Meta(), Base500, consumido: 200m, proyectado: 440m, totalDe: Total);
+
+        Assert.Equal(1_050m, progreso.Historial.Single().Monto);
+    }
+
+    [Fact]
+    public void Calcular_SinTarifa_NoHayPesosYLosEstadosNoCambian()
+    {
+        var conPesos = Calcular(Meta(), Base500, consumido: 300m, proyectado: 480m, totalDe: Total);
+        var sinPesos = Calcular(Meta(), Base500, consumido: 300m, proyectado: 480m);
+
+        Assert.Equal(conPesos.Estado, sinPesos.Estado);
+        Assert.Null(sinPesos.ObjetivoPesos);
+        Assert.Null(sinPesos.MontoARitmo);
+        Assert.Null(sinPesos.FaltaPorAhorrar);
+        Assert.Null(sinPesos.Historial.Single().Monto);
+    }
 }

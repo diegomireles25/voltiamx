@@ -17,7 +17,7 @@ public sealed class AvisoServiceTests : IAsyncLifetime
         _fabrica = await FabricaDePrueba.CrearAsync();
         var calculadora = new TarifaCalculator();
         var resumenes = new ResumenDashboardService(
-            _fabrica, new ProyeccionService(calculadora), new DacService(), new PresupuestoInversoService(calculadora));
+            _fabrica, new ProyeccionService(calculadora), new DacService(), new PresupuestoInversoService(calculadora), new TarifaCalculator());
         _perfiles = new PerfilService(_fabrica);
         _servicio = new AvisoService(_fabrica, resumenes, new MetaService(_fabrica, resumenes, calculadora));
     }

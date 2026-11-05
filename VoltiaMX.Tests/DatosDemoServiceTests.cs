@@ -179,7 +179,7 @@ public sealed class DatosDemoServiceTests : IAsyncLifetime
         await _servicio.CargarAsync(Hoy);
         var lugar = await LugarDemoAsync();
 
-        var ranking = await new AparatoService(_fabrica).ObtenerRankingAsync(lugar.Id, Hoy);
+        var ranking = await new AparatoService(_fabrica, new TarifaCalculator()).ObtenerRankingAsync(lugar.Id, Hoy);
 
         Assert.Equal(EstadoRanking.Normal, ranking.Estado);
         Assert.Equal(["Aire acondicionado", "Refrigerador", "Lavadora", "Iluminación"], ranking.Filas.Select(f => f.Nombre));
@@ -211,7 +211,7 @@ public sealed class DatosDemoServiceTests : IAsyncLifetime
         var calculadora = new TarifaCalculator();
         var metas = new MetaService(
             _fabrica,
-            new ResumenDashboardService(_fabrica, new ProyeccionService(calculadora), new DacService(), new PresupuestoInversoService(calculadora)),
+            new ResumenDashboardService(_fabrica, new ProyeccionService(calculadora), new DacService(), new PresupuestoInversoService(calculadora), new TarifaCalculator()),
             calculadora);
 
         var meta = await metas.ObtenerAsync(lugar.Id);

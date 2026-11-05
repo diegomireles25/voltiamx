@@ -305,8 +305,8 @@ public sealed partial class DashboardViewModel(
     /// </summary>
     private void AplicarComparacion(ResumenDashboard resumen)
     {
-        var anterior = resumen.Historial.LastOrDefault(p => !p.EsActual)?.Kwh;
-        var comparacion = ComparacionRecibo.Evaluar(resumen.KwhProyectados, anterior, resumen.DiaDelPeriodo);
+        // D6: en pesos, contra el recibo anterior recalculado con la tarifa actual.
+        var comparacion = ComparacionRecibo.Evaluar(resumen.MontoProyectado, resumen.MontoReciboAnterior, resumen.DiaDelPeriodo);
         TieneComparacion = comparacion.Estado != EstadoComparacion.SinReciboAnterior;
         (CifraComparacion, TextoComparacion) = comparacion.Estado switch
         {

@@ -17,7 +17,7 @@ public sealed class MetaServiceTests : IAsyncLifetime
         _fabrica = await FabricaDePrueba.CrearAsync();
         var calculadora = new TarifaCalculator();
         _resumenes = new ResumenDashboardService(
-            _fabrica, new ProyeccionService(calculadora), new DacService(), new PresupuestoInversoService(calculadora));
+            _fabrica, new ProyeccionService(calculadora), new DacService(), new PresupuestoInversoService(calculadora), new TarifaCalculator());
         _servicio = new MetaService(_fabrica, _resumenes, calculadora);
     }
 

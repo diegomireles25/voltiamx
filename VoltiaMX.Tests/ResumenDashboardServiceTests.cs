@@ -21,7 +21,7 @@ public sealed class ResumenDashboardServiceTests : IAsyncLifetime
             _fabrica,
             new ProyeccionService(_calculadora),
             new DacService(),
-            new PresupuestoInversoService(_calculadora));
+            new PresupuestoInversoService(_calculadora), new TarifaCalculator());
         _perfiles = new PerfilService(_fabrica);
         _demo = new DatosDemoService(_fabrica, _calculadora);
     }
@@ -63,6 +63,25 @@ public sealed class ResumenDashboardServiceTests : IAsyncLifetime
         await tarifas.AsignarALugarAsync(lugarId, copia!.Value);
 
         Assert.False((await _servicio.ObtenerAsync(Hoy))!.PreciosDeEjemplo);
+    }
+
+    [Fact]
+    public async Task ObtenerAsync_ReciboAnterior_SeRecalculaConLaTarifaActualYNoUsaElMontoGuardado()
+    {
+        // 1C bimestral: 0–300 a $1 y 300–900 a $1.25. 600 kWh = 300 + 300 × 1.25 = $675 (el guardado dice $9,999).
+        var tarifa = await TarifaAsync("1C");
+        await AgregarLugarAsync(new Lugar
+        {
+            Nombre = "Mi casa",
+            TarifaId = tarifa.Id,
+            DiaCorte = 26,
+            MesesPorPeriodo = 2,
+            Periodos = [new Periodo { Inicio = new DateOnly(2026, 7, 27), Fin = new DateOnly(2026, 9, 26), KwhTotales = 600m, Monto = 9_999m }],
+        });
+
+        var resumen = await _servicio.ObtenerAsync(Hoy);
+
+        Assert.Equal(675m, resumen!.MontoReciboAnterior);
     }
 
     [Fact]

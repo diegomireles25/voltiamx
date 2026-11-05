@@ -4,7 +4,7 @@ using VoltiaMX.Core.Models;
 
 namespace VoltiaMX.Core.Services;
 
-public sealed class AparatoService(IDbContextFactory<VoltiaDbContext> fabrica) : IAparatoService
+public sealed class AparatoService(IDbContextFactory<VoltiaDbContext> fabrica, ITarifaCalculator calculadora) : IAparatoService
 {
     // EJEMPLO: valores típicos de referencia, no de un aparato real; la persona debe usar los de su etiqueta.
     private static readonly PlantillaAparato[] Plantillas =
@@ -86,6 +86,30 @@ public sealed class AparatoService(IDbContextFactory<VoltiaDbContext> fabrica) :
         return lugar is null
             ? RankingAparatos.Calcular([], null)
             : RankingAparatos.Calcular(lugar.Aparatos, ConsumoMedido.KwhPorMes(lugar, hoy));
+    }
+
+    public async Task<CostosDelLugar> ObtenerCostosAsync(int lugarId, DateOnly hoy, CancellationToken cancellationToken = default)
+    {
+        await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
+        var lugar = await db.Lugares
+            .AsNoTracking()
+            .Include(l => l.Tarifa).ThenInclude(t => t!.Rangos)
+            .Include(l => l.Lecturas)
+            .Include(l => l.Periodos)
+            .Include(l => l.Aparatos)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(l => l.Id == lugarId, cancellationToken);
+
+        if (lugar is null)
+        {
+            return new CostosDelLugar(RankingAparatos.Calcular([], null), new CostosAparatos(false, []), SugerenciasDeAhorro.Ninguna);
+        }
+
+        var medido = ConsumoMedido.KwhPorMes(lugar, hoy);
+        return new CostosDelLugar(
+            RankingAparatos.Calcular(lugar.Aparatos, medido),
+            CostoAparato.Calcular(lugar.Aparatos, calculadora, lugar.Tarifa, lugar.MesesPorPeriodo, medido),
+            SugerenciasAhorro.Generar(lugar.Aparatos, calculadora, lugar.Tarifa, lugar.MesesPorPeriodo, medido));
     }
 
     public IReadOnlyList<PlantillaAparato> PlantillasDeReferencia() => Plantillas;

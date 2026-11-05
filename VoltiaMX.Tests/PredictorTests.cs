@@ -20,7 +20,7 @@ public sealed class PredictorTests : IAsyncLifetime
             _fabrica,
             new ProyeccionService(_calculadora),
             new DacService(),
-            new PresupuestoInversoService(_calculadora));
+            new PresupuestoInversoService(_calculadora), new TarifaCalculator());
     }
 
     public Task DisposeAsync()

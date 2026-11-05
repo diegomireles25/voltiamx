@@ -35,4 +35,20 @@ internal static class TarifasDePrueba
             new() { Nombre = "Único", KwhDesde = 0m, KwhHasta = null, PrecioPorKwh = 2m, Orden = 1 },
         ]
     };
+
+    /// <summary>
+    /// Tres tramos para los costos y las sugerencias (Fase 8): 0–100 a $1, 100–200 a $2 y 200+ a $4 por kWh;
+    /// sin cargo fijo. Con 250 kWh al mes: 100 + 200 + 200 = $500.
+    /// </summary>
+    public static Tarifa TresTramos() => new()
+    {
+        Nombre = "Tres tramos",
+        Tipo = TipoTarifa.Domestica,
+        Rangos =
+        [
+            new() { Nombre = "Básico", KwhDesde = 0m, KwhHasta = 100m, PrecioPorKwh = 1m, Orden = 1 },
+            new() { Nombre = "Intermedio", KwhDesde = 100m, KwhHasta = 200m, PrecioPorKwh = 2m, Orden = 2 },
+            new() { Nombre = "Excedente", KwhDesde = 200m, KwhHasta = null, PrecioPorKwh = 4m, Orden = 3 },
+        ]
+    };
 }
