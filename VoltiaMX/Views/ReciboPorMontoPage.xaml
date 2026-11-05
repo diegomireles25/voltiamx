@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Recibo anterior por su monto (D9): formulario sobre el lienzo y una sola tarjeta con la confirmación
+    de los kWh aproximados antes de guardar.
+-->
+<Page
+    x:Class="VoltiaMX.Views.ReciboPorMontoPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:local="using:VoltiaMX.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel
+            MaxWidth="{StaticResource ContentMaxWidth}"
+            Padding="{StaticResource PagePadding}"
+            Spacing="{StaticResource Spacing40}">
+
+            <StackPanel Spacing="{StaticResource Spacing16}">
+                <Button
+                    x:Uid="ReciboMonto_Volver"
+                    Command="{x:Bind ViewModel.CancelarCommand}"
+                    Style="{StaticResource TextLinkButtonSmStyle}" />
+                <TextBlock
+                    x:Uid="ReciboMonto_Titulo"
+                    AutomationProperties.HeadingLevel="Level1"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+                <TextBlock
+                    x:Uid="ReciboMonto_Explicacion"
+                    MaxWidth="{StaticResource HeroTextMaxWidth}"
+                    HorizontalAlignment="Left"
+                    Foreground="{StaticResource SlateBrush}"
+                    Style="{StaticResource BodyTextStyle}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <TextBlock
+                x:Uid="ReciboMonto_SinLugar"
+                Style="{StaticResource BodyTextStyle}"
+                TextWrapping="Wrap"
+                Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneLugar), Mode=OneWay}" />
+
+            <Grid ColumnSpacing="{StaticResource Spacing48}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLugar), Mode=OneWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Spacing="{StaticResource Spacing24}">
+                    <NumberBox
+                        x:Uid="ReciboMonto_Total"
+                        Style="{StaticResource NumberBoxStyle}"
+                        Value="{x:Bind ViewModel.Total, Mode=TwoWay}" />
+                    <CalendarDatePicker
+                        x:Uid="ReciboMonto_Fecha"
+                        HorizontalAlignment="Stretch"
+                        Date="{x:Bind ViewModel.Fecha, Mode=TwoWay}"
+                        MaxDate="{x:Bind ViewModel.FechaMaxima}"
+                        Style="{StaticResource DatePickerStyle}" />
+                    <NumberBox
+                        x:Uid="ReciboMonto_Cargos"
+                        Style="{StaticResource NumberBoxStyle}"
+                        Value="{x:Bind ViewModel.Porcentaje, Mode=TwoWay}" />
+                    <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
+                        <Grid ColumnSpacing="{StaticResource Spacing16}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                AutomationProperties.LiveSetting="Polite"
+                                Style="{StaticResource BodyTextStyle}"
+                                Text="{x:Bind ViewModel.Error, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </Border>
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                        <Button x:Uid="ReciboMonto_Guardar" Command="{x:Bind ViewModel.GuardarCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+                        <Button x:Uid="ReciboMonto_Cancelar" Command="{x:Bind ViewModel.CancelarCommand}" Style="{StaticResource GhostButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- La única tarjeta de la pantalla: la confirmación antes de guardar -->
+                <ContentPresenter Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="{StaticResource Spacing16}">
+                        <TextBlock x:Uid="ReciboMonto_ConfirmacionTitulo" Style="{StaticResource CaptionTextStyle}" />
+                        <TextBlock
+                            x:Uid="ReciboMonto_SinConfirmacion"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodyTextStyle}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneConfirmacion), Mode=OneWay}" />
+                        <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneConfirmacion), Mode=OneWay}">
+                            <TextBlock
+                                AutomationProperties.LiveSetting="Polite"
+                                Style="{StaticResource SubheadingLgTextStyle}"
+                                Text="{x:Bind ViewModel.Confirmacion, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                            <local:TerminoAyuda Clave="Kwh" />
+                            <TextBlock
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource BodySmTextStyle}"
+                                Text="{x:Bind ViewModel.FechasRecibo, Mode=OneWay}" />
+                            <TextBlock
+                                x:Uid="ReciboMonto_Honesto"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource BodySmTextStyle}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </StackPanel>
+                </ContentPresenter>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

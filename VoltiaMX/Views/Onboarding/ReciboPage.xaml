@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:local="using:VoltiaMX.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
@@ -21,22 +22,32 @@
                     Style="{StaticResource BodyTextStyle}" />
             </StackPanel>
 
-            <!-- Tres caminos; escanear llega en una fase posterior -->
+            <!-- Cuatro caminos: el primero es solo el monto (D9); escanear llega en una fase posterior -->
             <Grid ColumnSpacing="{StaticResource Spacing24}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <RadioButton GroupName="CaminoRecibo" IsEnabled="False" Style="{StaticResource SeleccionUnicaCardStyle}" AutomationProperties.Name="{x:Bind TituloReciboEscanear.Text}">
+                <RadioButton
+                    GroupName="CaminoRecibo"
+                    IsChecked="{x:Bind ViewModel.ReciboPorMonto, Mode=TwoWay}"
+                    Style="{StaticResource SeleccionUnicaCardStyle}" AutomationProperties.Name="{x:Bind TituloReciboPorMonto.Text}">
+                    <StackPanel Spacing="{StaticResource Spacing8}">
+                        <TextBlock x:Name="TituloReciboPorMonto" x:Uid="Recibo_PorMonto_Titulo" Style="{StaticResource HeadingSmTextStyle}" />
+                        <TextBlock x:Uid="Recibo_PorMonto_Descripcion" Style="{StaticResource BodyTextStyle}" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton Grid.Column="1" GroupName="CaminoRecibo" IsEnabled="False" Style="{StaticResource SeleccionUnicaCardStyle}" AutomationProperties.Name="{x:Bind TituloReciboEscanear.Text}">
                     <StackPanel Spacing="{StaticResource Spacing8}">
                         <TextBlock x:Name="TituloReciboEscanear" x:Uid="Recibo_Escanear_Titulo" Style="{StaticResource HeadingSmTextStyle}" />
                         <TextBlock x:Uid="Recibo_Escanear_Proximamente" Style="{StaticResource CaptionTextStyle}" />
                     </StackPanel>
                 </RadioButton>
                 <RadioButton
-                    Grid.Column="1"
+                    Grid.Column="2"
                     GroupName="CaminoRecibo"
                     IsChecked="{x:Bind ViewModel.ReciboManual, Mode=TwoWay}"
                     Style="{StaticResource SeleccionUnicaCardStyle}" AutomationProperties.Name="{x:Bind TituloReciboManual.Text}">
@@ -46,7 +57,7 @@
                     </StackPanel>
                 </RadioButton>
                 <RadioButton
-                    Grid.Column="2"
+                    Grid.Column="3"
                     GroupName="CaminoRecibo"
                     IsChecked="{x:Bind ViewModel.ReciboSaltar, Mode=TwoWay}"
                     Style="{StaticResource SeleccionUnicaCardStyle}" AutomationProperties.Name="{x:Bind TituloReciboSaltar.Text}">
@@ -56,6 +67,65 @@
                     </StackPanel>
                 </RadioButton>
             </Grid>
+
+            <!-- Solo el monto: confirmación de los kWh aproximados antes de terminar -->
+            <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.ReciboPorMonto), Mode=OneWay}">
+                <Grid ColumnSpacing="{StaticResource Spacing24}" RowSpacing="{StaticResource Spacing24}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <NumberBox
+                        x:Uid="ReciboMonto_Total"
+                        Style="{StaticResource NumberBoxStyle}"
+                        Value="{x:Bind ViewModel.TotalPagado, Mode=TwoWay}" />
+                    <NumberBox
+                        x:Uid="ReciboMonto_Cargos"
+                        Grid.Column="1"
+                        Style="{StaticResource NumberBoxStyle}"
+                        Value="{x:Bind ViewModel.CargosRecibo, Mode=TwoWay}" />
+                    <CalendarDatePicker
+                        x:Uid="Recibo_FechaCorte"
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch"
+                        Date="{x:Bind ViewModel.FechaCorte, Mode=TwoWay}"
+                        Style="{StaticResource DatePickerStyle}" />
+                    <StackPanel Grid.Row="1" Grid.Column="1" Spacing="{StaticResource Spacing8}">
+                        <TextBlock x:Uid="Recibo_Periodicidad" Style="{StaticResource BodySmTextStyle}" />
+                        <RadioButton x:Uid="Recibo_Bimestral" GroupName="PeriodicidadMonto" IsChecked="{x:Bind ViewModel.ReciboBimestral, Mode=TwoWay}" />
+                        <RadioButton x:Uid="Recibo_Mensual" GroupName="PeriodicidadMonto" IsChecked="{x:Bind ViewModel.ReciboMensual, Mode=TwoWay}" />
+                    </StackPanel>
+                </Grid>
+                <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneConfirmacionMonto), Mode=OneWay}">
+                    <TextBlock
+                        AutomationProperties.LiveSetting="Polite"
+                        Style="{StaticResource SubheadingLgTextStyle}"
+                        Text="{x:Bind ViewModel.ConfirmacionMonto, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <local:TerminoAyuda Clave="Kwh" />
+                    <TextBlock
+                        x:Uid="ReciboMonto_Honesto"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodySmTextStyle}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+                <TextBlock
+                    AutomationProperties.LiveSetting="Polite"
+                    Style="{StaticResource BodyTextStyle}"
+                    Text="{x:Bind ViewModel.ErrorMonto, Mode=OneWay}"
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.ErrorMonto), Mode=OneWay}" />
+                <TextBlock
+                    x:Uid="ReciboMonto_Incompleto"
+                    Foreground="{StaticResource SlateBrush}"
+                    Style="{StaticResource BodySmTextStyle}"
+                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.ReciboIncompleto), Mode=OneWay}" />
+            </StackPanel>
 
             <!-- Captura manual -->
             <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.ReciboManual), Mode=OneWay}">

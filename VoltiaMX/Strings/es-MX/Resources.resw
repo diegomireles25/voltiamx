@@ -3515,4 +3515,82 @@
   <data name="Metas_LograrloParte" xml:space="preserve">
     <value>Eso cubre una parte de lo que te falta.</value>
   </data>
+  <data name="Lecturas_AgregarPorMonto.Content" xml:space="preserve">
+    <value>Agregar un recibo anterior por su monto</value>
+  </data>
+  <data name="ReciboMonto_Volver.Content" xml:space="preserve">
+    <value>Volver a Lecturas</value>
+  </data>
+  <data name="ReciboMonto_Titulo.Text" xml:space="preserve">
+    <value>Un recibo anterior por su monto</value>
+  </data>
+  <data name="ReciboMonto_Explicacion.Text" xml:space="preserve">
+    <value>Si no tienes las lecturas de tu medidor, escribe cuánto pagaste. Calculamos más o menos cuánto consumiste.</value>
+  </data>
+  <data name="ReciboMonto_SinLugar.Text" xml:space="preserve">
+    <value>Primero termina de configurar tu lugar para agregar recibos.</value>
+  </data>
+  <data name="ReciboMonto_Total.Header" xml:space="preserve">
+    <value>Total a pagar del recibo</value>
+  </data>
+  <data name="ReciboMonto_Fecha.Header" xml:space="preserve">
+    <value>Día de corte del recibo</value>
+  </data>
+  <data name="ReciboMonto_Cargos.Header" xml:space="preserve">
+    <value>Impuestos y otros cargos (%)</value>
+  </data>
+  <data name="ReciboMonto_Cargos.Description" xml:space="preserve">
+    <value>16 % es un valor de ejemplo. Revisa los cargos de tu recibo.</value>
+  </data>
+  <data name="ReciboMonto_Guardar.Content" xml:space="preserve">
+    <value>Guardar recibo</value>
+  </data>
+  <data name="ReciboMonto_Cancelar.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ReciboMonto_ConfirmacionTitulo.Text" xml:space="preserve">
+    <value>ASÍ QUEDARÍA</value>
+  </data>
+  <data name="ReciboMonto_SinConfirmacion.Text" xml:space="preserve">
+    <value>Escribe el total de tu recibo para ver cuánto consumiste.</value>
+  </data>
+  <data name="ReciboMonto_Confirmacion" xml:space="preserve">
+    <value>Con ese monto, tu consumo habría sido de unos {0:N0} kWh (aproximado).</value>
+  </data>
+  <data name="ReciboMonto_Fechas" xml:space="preserve">
+    <value>Del {0:d 'de' MMMM} al {1:d 'de' MMMM 'de' yyyy}</value>
+  </data>
+  <data name="ReciboMonto_Honesto.Text" xml:space="preserve">
+    <value>Tu recibo incluye impuestos y cargos que VoltiaMX no calcula; si tienes las lecturas de tu medidor, úsalas.</value>
+  </data>
+  <data name="ReciboMonto_Incompleto.Text" xml:space="preserve">
+    <value>Escribe el total y el día de corte para continuar.</value>
+  </data>
+  <data name="ReciboMonto_Error_TotalFueraDeRango" xml:space="preserve">
+    <value>Escribe un total mayor a $0 y de hasta $1,000,000.</value>
+  </data>
+  <data name="ReciboMonto_Error_CargosFueraDeRango" xml:space="preserve">
+    <value>Los impuestos y cargos van de 0 % a 40 %.</value>
+  </data>
+  <data name="ReciboMonto_Error_MontoNoAlcanza" xml:space="preserve">
+    <value>Con ese monto no sale consumo: no alcanza ni para el cargo fijo de tu tarifa.</value>
+  </data>
+  <data name="ReciboMonto_Error_FechaFutura" xml:space="preserve">
+    <value>La fecha de corte no puede ser después de hoy.</value>
+  </data>
+  <data name="ReciboMonto_Error_Traslape" xml:space="preserve">
+    <value>Ya tienes un recibo en esas fechas. Elige otra fecha de corte.</value>
+  </data>
+  <data name="ReciboMonto_Error_LugarNoExiste" xml:space="preserve">
+    <value>No encontramos tu lugar. Termina de configurarlo primero.</value>
+  </data>
+  <data name="Recibo_PorMonto_Titulo.Text" xml:space="preserve">
+    <value>SOLO SÉ CUÁNTO PAGUÉ</value>
+  </data>
+  <data name="Recibo_PorMonto_Descripcion.Text" xml:space="preserve">
+    <value>Escribe el total de tu último recibo y calculamos tu consumo.</value>
+  </data>
+  <data name="Resumen_ReciboPorMonto" xml:space="preserve">
+    <value>Pagaste ${0:N0}: unos {1:N0} kWh (aproximado)</value>
+  </data>
 </root>

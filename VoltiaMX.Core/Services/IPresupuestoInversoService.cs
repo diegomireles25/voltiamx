@@ -2,7 +2,7 @@ using VoltiaMX.Core.Models;
 
 namespace VoltiaMX.Core.Services;
 
-// SIN USO EN LA INTERFAZ desde Fase 7a
+// Lo usa el recibo por monto (EstimadorPorMonto, Fase 8) para saber cuántos kWh caben en un monto.
 public interface IPresupuestoInversoService
 {
     /// <summary>

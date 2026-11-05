@@ -77,6 +77,11 @@ public static class SeccionesLecturas
     /// </summary>
     public const string Escanear = "Escanear";
 
+    /// <summary>
+    /// Agregar un recibo anterior por su monto (Fase 8, D9): también se abre bajo Lecturas.
+    /// </summary>
+    public const string PorMonto = "PorMonto";
+
     private const string PrefijoGuardada = "Guardada:";
 
     /// <summary>
@@ -511,6 +516,10 @@ public sealed partial class LecturasViewModel(
     [RelayCommand]
     private void EscanearRecibo()
         => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.Escanear));
+
+    [RelayCommand]
+    private void AgregarPorMonto()
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.PorMonto));
 
     /// <summary>
     /// Aviso breve (la vista lo anuncia al lector de pantalla); se borra solo.

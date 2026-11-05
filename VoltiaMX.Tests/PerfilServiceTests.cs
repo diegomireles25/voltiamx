@@ -206,6 +206,22 @@ public sealed class PerfilServiceTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task GuardarOnboardingAsync_ReciboPorMonto_QuedaAproximadoConElTotalEscrito()
+    {
+        // "Solo sé cuánto pagué" (D9): kWh y monto calculados con la tarifa; el total escrito va en MontoRecibo.
+        var recibo = new ReciboCapturado(
+            new DateOnly(2026, 9, 26), MesesDelPeriodo: 2, Kwh: 749m, Monto: 861.25m, Estimado: true, MontoRecibo: 1_000m);
+
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa], Recibo = recibo });
+
+        var periodo = Assert.Single((await LugarPrincipalAsync()).Periodos);
+        Assert.True(periodo.Estimado);
+        Assert.Equal(749m, periodo.KwhTotales);
+        Assert.Equal(861.25m, periodo.Monto);
+        Assert.Equal(1_000m, periodo.MontoRecibo);
+    }
+
+    [Fact]
     public async Task GuardarOnboardingAsync_ReciboMensual_ElLugarQuedaMensual()
     {
         var recibo = new ReciboCapturado(new DateOnly(2026, 9, 30), MesesDelPeriodo: 1, Kwh: 300m, Monto: 410m);

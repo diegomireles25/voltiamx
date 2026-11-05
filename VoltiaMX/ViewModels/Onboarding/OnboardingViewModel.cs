@@ -19,6 +19,7 @@ public sealed partial class OnboardingViewModel : ObservableObject
     private readonly IPerfilService perfiles;
     private readonly IDatosDemoService datosDemo;
     private readonly ITarifaService tarifas;
+    private readonly IRecibosService recibos;
     private readonly ITextos textos;
     private readonly INavegacionOnboarding navegacion;
 
@@ -26,12 +27,14 @@ public sealed partial class OnboardingViewModel : ObservableObject
         IPerfilService perfiles,
         IDatosDemoService datosDemo,
         ITarifaService tarifas,
+        IRecibosService recibos,
         ITextos textos,
         INavegacionOnboarding navegacion)
     {
         this.perfiles = perfiles;
         this.datosDemo = datosDemo;
         this.tarifas = tarifas;
+        this.recibos = recibos;
         this.textos = textos;
         this.navegacion = navegacion;
 
@@ -39,9 +42,10 @@ public sealed partial class OnboardingViewModel : ObservableObject
         UsaCasa = UsaNegocio = UsaRentas = UsaSolar = false;
         Municipio = NombreLugar = string.Empty;
         NoSeMiTarifa = false;
-        ReciboManual = ReciboSaltar = ReciboMensual = CargarDemo = false;
+        ReciboManual = ReciboSaltar = ReciboMensual = CargarDemo = ReciboPorMonto = false;
         ReciboBimestral = true;
-        KwhRecibo = MontoRecibo = LecturaMedidorRecibo = double.NaN;
+        KwhRecibo = MontoRecibo = LecturaMedidorRecibo = TotalPagado = double.NaN;
+        CargosRecibo = (double)EstimadorPorMonto.CargosPorDefecto;
     }
 
     [ObservableProperty]
@@ -71,6 +75,25 @@ public sealed partial class OnboardingViewModel : ObservableObject
     [ObservableProperty] public partial bool? ReciboSaltar { get; set; }
     [ObservableProperty] public partial bool? ReciboBimestral { get; set; }
     [ObservableProperty] public partial bool? ReciboMensual { get; set; }
+
+    // "Solo sé cuánto pagué" (D9): el total, los impuestos y cargos en % y la confirmación antes de terminar.
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ReciboIncompleto))]
+    [NotifyCanExecuteChangedFor(nameof(SiguienteCommand))]
+    public partial bool? ReciboPorMonto { get; set; }
+
+    [ObservableProperty] public partial double TotalPagado { get; set; }
+    [ObservableProperty] public partial double CargosRecibo { get; set; }
+    [ObservableProperty] public partial string ConfirmacionMonto { get; set; } = string.Empty;
+    [ObservableProperty] public partial string ErrorMonto { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ReciboIncompleto))]
+    [NotifyCanExecuteChangedFor(nameof(SiguienteCommand))]
+    public partial bool TieneConfirmacionMonto { get; set; }
+
+    private EstimacionPorMonto? _estimacion;
+    private int _versionEstimacion;
     [ObservableProperty] public partial bool? CargarDemo { get; set; }
 
     [ObservableProperty]
@@ -126,7 +149,8 @@ public sealed partial class OnboardingViewModel : ObservableObject
 
     public bool MostrarNavegacion => MostrarIndicador;
 
-    public bool ReciboIncompleto => ReciboManual == true && ReciboCapturado() is null;
+    public bool ReciboIncompleto => (ReciboManual == true && ReciboCapturado() is null)
+        || (ReciboPorMonto == true && ReciboPorMontoCapturado() is null);
 
     /// <summary>
     /// Carga las tarifas y, si el onboarding se repite, las respuestas anteriores.
@@ -207,7 +231,7 @@ public sealed partial class OnboardingViewModel : ObservableObject
     {
         if (value == true)
         {
-            ReciboSaltar = false;
+            ReciboSaltar = ReciboPorMonto = false;
         }
     }
 
@@ -215,8 +239,56 @@ public sealed partial class OnboardingViewModel : ObservableObject
     {
         if (value == true)
         {
-            ReciboManual = false;
+            ReciboManual = ReciboPorMonto = false;
         }
+    }
+
+    partial void OnReciboPorMontoChanged(bool? value)
+    {
+        if (value == true)
+        {
+            ReciboManual = ReciboSaltar = false;
+            _ = EstimarMontoAsync();
+        }
+    }
+
+    partial void OnTotalPagadoChanged(double value) => _ = EstimarMontoAsync();
+
+    partial void OnCargosReciboChanged(double value) => _ = EstimarMontoAsync();
+
+    partial void OnFechaCorteChanged(DateTimeOffset? value) => _ = EstimarMontoAsync();
+
+    partial void OnReciboMensualChanged(bool? value) => _ = EstimarMontoAsync();
+
+    // La confirmación usa la tarifa elegida en Ubicación (o la de por defecto si no la sabe): así se guardará.
+    private async Task EstimarMontoAsync()
+    {
+        var version = ++_versionEstimacion;
+        _estimacion = null;
+        ConfirmacionMonto = ErrorMonto = string.Empty;
+        TieneConfirmacionMonto = false;
+        if (ReciboPorMonto != true || double.IsNaN(TotalPagado))
+        {
+            return;
+        }
+
+        var tarifaId = NoSeMiTarifa == true ? null : (TarifaSeleccionada as OpcionTarifa)?.Id;
+        var cargos = double.IsNaN(CargosRecibo) ? EstimadorPorMonto.CargosPorDefecto : (decimal)CargosRecibo;
+        var estimacion = await recibos.EstimarSinLugarAsync(tarifaId, ReciboMensual == true ? 1 : 2, (decimal)TotalPagado, cargos);
+        if (version != _versionEstimacion)
+        {
+            return; // Llegó otro cambio mientras se calculaba.
+        }
+
+        if (estimacion.Error is { } error)
+        {
+            ErrorMonto = textos[$"ReciboMonto_Error_{error}"];
+            return;
+        }
+
+        _estimacion = estimacion;
+        ConfirmacionMonto = textos.Formato("ReciboMonto_Confirmacion", estimacion.Kwh);
+        TieneConfirmacionMonto = true;
     }
 
     partial void OnNoSeMiTarifaChanged(bool? value)
@@ -252,7 +324,7 @@ public sealed partial class OnboardingViewModel : ObservableObject
                 NoSeMiTarifa = false;
                 break;
             case PasoOnboarding.Recibo:
-                ReciboManual = ReciboSaltar = false;
+                ReciboManual = ReciboSaltar = ReciboPorMonto = false;
                 CargarDemo = false;
                 break;
         }
@@ -292,7 +364,7 @@ public sealed partial class OnboardingViewModel : ObservableObject
         Estado = EstadoSeleccionado as string,
         Municipio = string.IsNullOrWhiteSpace(Municipio) ? null : Municipio.Trim(),
         TarifaId = NoSeMiTarifa == true ? null : (TarifaSeleccionada as OpcionTarifa)?.Id,
-        Recibo = ReciboManual == true ? ReciboCapturado() : null,
+        Recibo = ReciboManual == true ? ReciboCapturado() : ReciboPorMonto == true ? ReciboPorMontoCapturado() : null,
         Objetivo = _objetivoGuardado,
         PresupuestoMax = _presupuestoGuardado,
         NotificacionesActivas = _notificaciones,
@@ -328,6 +400,22 @@ public sealed partial class OnboardingViewModel : ObservableObject
             double.IsNaN(LecturaMedidorRecibo) || LecturaMedidorRecibo < 0 ? null : (decimal)LecturaMedidorRecibo);
     }
 
+    /// <summary>
+    /// El recibo por monto ya confirmado: aproximado, con los kWh y el monto de la tarifa y el total escrito; null si
+    /// falta la fecha o no hay confirmación.
+    /// </summary>
+    private ReciboCapturado? ReciboPorMontoCapturado()
+    {
+        if (FechaCorte is not DateTimeOffset fecha || _estimacion is not { Error: null } estimacion || DateOnly.FromDateTime(fecha.Date) > DateOnly.FromDateTime(DateTime.Today))
+        {
+            return null;
+        }
+
+        return new ReciboCapturado(
+            DateOnly.FromDateTime(fecha.Date), estimacion.Meses, estimacion.Kwh, estimacion.Monto,
+            Estimado: true, MontoRecibo: (decimal)TotalPagado);
+    }
+
     private void ConstruirResumen()
     {
         Resumen.Clear();
@@ -352,9 +440,12 @@ public sealed partial class OnboardingViewModel : ObservableObject
                 : textos["Resumen_TarifaPorConfirmar"]));
 
         var recibo = ReciboManual == true ? ReciboCapturado() : null;
+        var porMonto = ReciboPorMonto == true ? ReciboPorMontoCapturado() : null;
         Resumen.Add(new FilaResumen(
             textos["Resumen_Recibo"],
-            recibo is not null
+            porMonto is not null
+                ? textos.Formato("Resumen_ReciboPorMonto", porMonto.MontoRecibo ?? 0m, porMonto.Kwh)
+                : recibo is not null
                 ? textos.Formato(
                     recibo.MesesDelPeriodo == 1 ? "Resumen_ReciboMensual" : "Resumen_ReciboBimestral",
                     recibo.Kwh,

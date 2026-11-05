@@ -36,7 +36,10 @@ public static class VentanaPeriodo
     public static DateOnly CorteDelMes(int diaCorte, DateOnly mes)
         => new(mes.Year, mes.Month, Math.Min(diaCorte, DateTime.DaysInMonth(mes.Year, mes.Month)));
 
-    private static DateOnly CorteEnOAntesDe(int diaCorte, DateOnly fecha)
+    /// <summary>
+    /// El último corte en o antes de <paramref name="fecha"/>.
+    /// </summary>
+    public static DateOnly CorteEnOAntesDe(int diaCorte, DateOnly fecha)
     {
         var corte = CorteDelMes(diaCorte, fecha);
         return corte <= fecha ? corte : CorteDelMes(diaCorte, fecha.AddMonths(-1));

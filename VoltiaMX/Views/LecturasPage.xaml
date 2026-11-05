@@ -62,6 +62,12 @@
                             Command="{x:Bind ViewModel.EscanearReciboCommand}"
                             Style="{StaticResource GhostButtonStyle}" />
                     </Grid>
+                    <!-- D9: sin lecturas, un recibo anterior por lo que se pagó -->
+                    <Button
+                        x:Uid="Lecturas_AgregarPorMonto"
+                        Command="{x:Bind ViewModel.AgregarPorMontoCommand}"
+                        Style="{StaticResource TextLinkButtonSmStyle}"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLugar), Mode=OneWay}" />
 
                     <!-- Lugar de demo: se puede capturar, pero se borra al quitar los datos de ejemplo -->
                     <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />

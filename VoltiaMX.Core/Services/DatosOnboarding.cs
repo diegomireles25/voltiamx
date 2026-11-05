@@ -4,10 +4,18 @@ namespace VoltiaMX.Core.Services;
 
 /// <summary>
 /// Recibo capturado a mano en el onboarding. <paramref name="LecturaMedidor"/> es la "lectura actual"
-/// del recibo: si viene, sirve de base real para el siguiente periodo.
+/// del recibo: si viene, sirve de base real para el siguiente periodo. Un recibo por su monto (D9) llega con
+/// <paramref name="Estimado"/> = true, <paramref name="Kwh"/> y <paramref name="Monto"/> calculados con la tarifa y
+/// <paramref name="MontoRecibo"/> = el total que escribió la persona.
 /// </summary>
 public sealed record ReciboCapturado(
-    DateOnly FechaCorte, int MesesDelPeriodo, decimal Kwh, decimal Monto, decimal? LecturaMedidor = null);
+    DateOnly FechaCorte,
+    int MesesDelPeriodo,
+    decimal Kwh,
+    decimal Monto,
+    decimal? LecturaMedidor = null,
+    bool Estimado = false,
+    decimal? MontoRecibo = null);
 
 /// <summary>
 /// Respuestas del onboarding. Todos los pasos se pueden omitir, así que todo es opcional.

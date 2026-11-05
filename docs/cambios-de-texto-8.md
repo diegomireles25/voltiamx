@@ -88,6 +88,37 @@ nadie usa. Dos claves solo cambiaron de nombre porque ahora las pone el ViewMode
 |---|---|---|
 | `Aviso_Corte` | Tu recibo cierra en {0} días. | (borrada) |
 
+## Recibo por monto
+
+| Clave | Antes | Después |
+|---|---|---|
+| `Lecturas_AgregarPorMonto.Content` | (nueva) | Agregar un recibo anterior por su monto |
+| `ReciboMonto_Cancelar.Content` | (nueva) | Cancelar |
+| `ReciboMonto_Cargos.Description` | (nueva) | 16 % es un valor de ejemplo. Revisa los cargos de tu recibo. |
+| `ReciboMonto_Cargos.Header` | (nueva) | Impuestos y otros cargos (%) |
+| `ReciboMonto_Confirmacion` | (nueva) | Con ese monto, tu consumo habría sido de unos {0:N0} kWh (aproximado). |
+| `ReciboMonto_ConfirmacionTitulo.Text` | (nueva) | ASÍ QUEDARÍA |
+| `ReciboMonto_Error_CargosFueraDeRango` | (nueva) | Los impuestos y cargos van de 0 % a 40 %. |
+| `ReciboMonto_Error_FechaFutura` | (nueva) | La fecha de corte no puede ser después de hoy. |
+| `ReciboMonto_Error_LugarNoExiste` | (nueva) | No encontramos tu lugar. Termina de configurarlo primero. |
+| `ReciboMonto_Error_MontoNoAlcanza` | (nueva) | Con ese monto no sale consumo: no alcanza ni para el cargo fijo de tu tarifa. |
+| `ReciboMonto_Error_TotalFueraDeRango` | (nueva) | Escribe un total mayor a $0 y de hasta $1,000,000. |
+| `ReciboMonto_Error_Traslape` | (nueva) | Ya tienes un recibo en esas fechas. Elige otra fecha de corte. |
+| `ReciboMonto_Explicacion.Text` | (nueva) | Si no tienes las lecturas de tu medidor, escribe cuánto pagaste. Calculamos más o menos cuánto consumiste. |
+| `ReciboMonto_Fecha.Header` | (nueva) | Día de corte del recibo |
+| `ReciboMonto_Fechas` | (nueva) | Del {0:d 'de' MMMM} al {1:d 'de' MMMM 'de' yyyy} |
+| `ReciboMonto_Guardar.Content` | (nueva) | Guardar recibo |
+| `ReciboMonto_Honesto.Text` | (nueva) | Tu recibo incluye impuestos y cargos que VoltiaMX no calcula; si tienes las lecturas de tu medidor, úsalas. |
+| `ReciboMonto_Incompleto.Text` | (nueva) | Escribe el total y el día de corte para continuar. |
+| `ReciboMonto_SinConfirmacion.Text` | (nueva) | Escribe el total de tu recibo para ver cuánto consumiste. |
+| `ReciboMonto_SinLugar.Text` | (nueva) | Primero termina de configurar tu lugar para agregar recibos. |
+| `ReciboMonto_Titulo.Text` | (nueva) | Un recibo anterior por su monto |
+| `ReciboMonto_Total.Header` | (nueva) | Total a pagar del recibo |
+| `ReciboMonto_Volver.Content` | (nueva) | Volver a Lecturas |
+| `Recibo_PorMonto_Descripcion.Text` | (nueva) | Escribe el total de tu último recibo y calculamos tu consumo. |
+| `Recibo_PorMonto_Titulo.Text` | (nueva) | SOLO SÉ CUÁNTO PAGUÉ |
+| `Resumen_ReciboPorMonto` | (nueva) | Pagaste ${0:N0}: unos {1:N0} kWh (aproximado) |
+
 ## Reportes (PDF y Excel)
 
 | Clave | Antes | Después |
