@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Etiqueta "PRECIOS DE EJEMPLO" con su línea y el enlace a Tarifas (Inicio, Aparatos, Metas y Cómo se calcula tu recibo) -->
+<UserControl
+    x:Class="VoltiaMX.Views.AvisoPreciosDeEjemplo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid ColumnSpacing="{StaticResource Spacing16}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ContentPresenter x:Uid="PreciosEjemplo_Etiqueta" VerticalAlignment="Center" Style="{StaticResource YellowTagStyle}" />
+        <TextBlock
+            x:Uid="PreciosEjemplo_Aviso"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Foreground="{StaticResource SlateBrush}"
+            Style="{StaticResource BodySmTextStyle}"
+            TextWrapping="Wrap" />
+        <Button
+            x:Uid="PreciosEjemplo_IrATarifas"
+            Grid.Column="2"
+            VerticalAlignment="Center"
+            Command="{x:Bind Comando, Mode=OneWay}"
+            Style="{StaticResource TextLinkButtonSmStyle}" />
+    </Grid>
+</UserControl>

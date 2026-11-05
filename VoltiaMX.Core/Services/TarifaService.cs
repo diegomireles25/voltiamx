@@ -78,6 +78,8 @@ public sealed class TarifaService(IDbContextFactory<VoltiaDbContext> fabrica, IT
         entidad.CargoFijoMensual = tarifa.CargoFijoMensual;
         entidad.LimiteDacKwhMensual = tarifa.LimiteDacKwhMensual;
         entidad.Vigencia = tarifa.Vigencia!.Value;
+        // Lo que se guarda en el editor son los precios de la persona (D3): deja de ser de ejemplo.
+        entidad.EsDeEjemplo = false;
         entidad.Rangos = [.. tarifa.RangosConDesde()];
 
         await db.SaveChangesAsync(cancellationToken);

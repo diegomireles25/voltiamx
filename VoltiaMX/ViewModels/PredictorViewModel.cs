@@ -23,6 +23,14 @@ public sealed partial class PredictorViewModel(
     ITextos textos) : ObservableObject
 {
     [ObservableProperty] public partial bool EsDemo { get; set; }
+
+    /// <summary>
+    /// La tarifa del lugar trae precios de ejemplo: se muestra el aviso con el enlace a Tarifas (D3).
+    /// </summary>
+    [ObservableProperty] public partial bool PreciosDeEjemplo { get; set; }
+
+    [RelayCommand]
+    private void IrATarifas() => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje(SeccionesConfiguracion.Tarifas));
     [ObservableProperty] public partial bool TieneProyeccion { get; set; }
     [ObservableProperty] public partial string MontoTexto { get; set; } = string.Empty;
     [ObservableProperty] public partial string KwhTexto { get; set; } = string.Empty;
@@ -49,6 +57,7 @@ public sealed partial class PredictorViewModel(
 
         var resumen = await resumenes.ObtenerAsync(DateOnly.FromDateTime(DateTime.Today));
         EsDemo = resumen?.EsDemo == true;
+        PreciosDeEjemplo = resumen?.PreciosDeEjemplo == true;
         AplicarProyeccion(resumen);
         AplicarDac(resumen);
     }

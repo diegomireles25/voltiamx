@@ -86,6 +86,7 @@ public sealed class ResumenDashboardService(
             NombreTarifa = tarifa.Nombre,
             TarifaPorConfirmar = lugar.TarifaPorConfirmar,
             EsDemo = lugar.EsDemo,
+            PreciosDeEjemplo = tarifa.EsDeEjemplo,
             InicioPeriodo = inicio,
             FinPeriodo = fin,
             MesesDelPeriodo = meses,

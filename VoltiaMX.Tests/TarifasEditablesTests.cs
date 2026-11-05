@@ -136,6 +136,31 @@ public sealed class TarifasEditablesTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task Guardar_DesdeElEditor_QuitaLaMarcaDePreciosDeEjemplo()
+    {
+        var id = await IdAsync("1C");
+        Assert.True((await TarifaAsync(id)).EsDeEjemplo);
+        var editable = await _servicio.ObtenerParaEditarAsync(id);
+
+        await _servicio.GuardarAsync(editable!);
+        var nueva = await _servicio.GuardarAsync(Nueva());
+
+        Assert.False((await TarifaAsync(id)).EsDeEjemplo);
+        Assert.False((await TarifaAsync(nueva.Id!.Value)).EsDeEjemplo);
+    }
+
+    [Fact]
+    public async Task Duplicar_TarifaDeEjemplo_LaCopiaNoEsDeEjemplo()
+    {
+        var id = await IdAsync("1C");
+
+        var copia = await _servicio.DuplicarAsync(id);
+
+        Assert.True((await TarifaAsync(id)).EsDeEjemplo);
+        Assert.False((await TarifaAsync(copia!.Value)).EsDeEjemplo);
+    }
+
+    [Fact]
     public async Task Eliminar_SinUso_LaBorraConSusRangos()
     {
         var id = await IdAsync("1F");

@@ -42,6 +42,11 @@
                 Padding="{StaticResource DashboardPadding}"
                 Spacing="{StaticResource Spacing72}">
 
+                <!-- Precios de ejemplo (D3): aviso con el enlace a Tarifas -->
+                <local:AvisoPreciosDeEjemplo
+                    Comando="{x:Bind ViewModel.ConfirmarTarifaCommand}"
+                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PreciosDeEjemplo), Mode=OneWay}" />
+
                 <!-- HERO: pago estimado y comparación con el recibo anterior -->
                 <Grid ColumnSpacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarHogar), Mode=OneWay}">
                     <Grid.ColumnDefinitions>
@@ -116,6 +121,11 @@
                                     Style="{StaticResource CaptionTextStyle}" />
                                 <local:TerminoAyuda VerticalAlignment="Center" Clave="AntesDeImpuestos" />
                             </StackPanel>
+                            <TextBlock
+                                x:Uid="Dashboard_ConPreciosDeEjemplo"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource CaptionTextStyle}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PreciosDeEjemplo), Mode=OneWay}" />
                         </StackPanel>
 
                         <!-- Sin datos -->

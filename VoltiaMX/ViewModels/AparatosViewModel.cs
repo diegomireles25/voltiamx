@@ -62,6 +62,14 @@ public sealed partial class AparatosViewModel(
     public partial bool TieneLugar { get; set; }
 
     [ObservableProperty] public partial bool EsDemo { get; set; }
+
+    /// <summary>
+    /// La tarifa del lugar trae precios de ejemplo: se muestra el aviso con el enlace a Tarifas (D3).
+    /// </summary>
+    [ObservableProperty] public partial bool PreciosDeEjemplo { get; set; }
+
+    [RelayCommand]
+    private void IrATarifas() => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje(SeccionesConfiguracion.Tarifas));
     [ObservableProperty] public partial bool TieneAparatos { get; set; }
     [ObservableProperty] public partial bool MostrarVacio { get; set; }
     [ObservableProperty] public partial string Aviso { get; set; } = string.Empty;
@@ -117,6 +125,7 @@ public sealed partial class AparatosViewModel(
         _lugarId = lugar?.Id;
         TieneLugar = lugar is not null;
         EsDemo = lugar?.EsDemo == true;
+        PreciosDeEjemplo = lugar?.PreciosDeEjemplo == true;
         await RecargarListaAsync();
     }
 

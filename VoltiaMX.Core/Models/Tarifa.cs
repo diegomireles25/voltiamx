@@ -28,5 +28,10 @@ public class Tarifa
     /// </summary>
     public DateOnly Vigencia { get; set; }
 
+    /// <summary>
+    /// Precios sembrados por VoltiaMX, no los del recibo de la persona. Al guardarla en el editor deja de serlo.
+    /// </summary>
+    public bool EsDeEjemplo { get; set; }
+
     public List<TarifaRango> Rangos { get; set; } = [];
 }

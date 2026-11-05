@@ -32,9 +32,10 @@ public sealed record LecturaListada(
     DateOnly Fecha, decimal ValorKwh, decimal? ConsumoDesdeAnterior, bool EsEstimada, bool EsCorteDePeriodo);
 
 /// <summary>
-/// Lugar donde se capturan las lecturas: el mismo que muestra el Dashboard.
+/// Lugar donde se capturan las lecturas: el mismo que muestra el Dashboard. <paramref name="PreciosDeEjemplo"/>
+/// indica que su tarifa todavía trae los precios sembrados (Tarifa.EsDeEjemplo).
 /// </summary>
-public sealed record LugarDeLecturas(int Id, string Nombre, bool EsDemo);
+public sealed record LugarDeLecturas(int Id, string Nombre, bool EsDemo, bool PreciosDeEjemplo);
 
 /// <summary>
 /// Qué pasó (o pasaría, en la previsualización) al registrar una lectura.

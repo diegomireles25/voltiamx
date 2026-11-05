@@ -64,6 +64,11 @@ public sealed partial class DashboardViewModel(
     [ObservableProperty] public partial bool TieneDatos { get; set; }
     [ObservableProperty] public partial bool EsDemo { get; set; }
 
+    /// <summary>
+    /// La tarifa del lugar trae precios de ejemplo (D3): aviso arriba y "con precios de ejemplo" junto a la cifra.
+    /// </summary>
+    [ObservableProperty] public partial bool PreciosDeEjemplo { get; set; }
+
     // Hero
     [ObservableProperty] public partial bool MostrarTarifa { get; set; }
     [ObservableProperty] public partial string EtiquetaTarifa { get; set; } = string.Empty;
@@ -250,6 +255,7 @@ public sealed partial class DashboardViewModel(
         MostrarTarifa = resumen is not null;
         TieneDatos = resumen?.TieneDatos == true;
         EsDemo = resumen?.EsDemo == true;
+        PreciosDeEjemplo = resumen?.PreciosDeEjemplo == true;
         MostrarVacio = MostrarHogar && !TieneDatos;
         Historial.Clear();
         Avisos.Clear();

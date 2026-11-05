@@ -37,6 +37,14 @@ public sealed partial class MetasViewModel(
     public partial bool TieneLugar { get; set; }
 
     [ObservableProperty] public partial bool EsDemo { get; set; }
+
+    /// <summary>
+    /// La tarifa del lugar trae precios de ejemplo: se muestra el aviso con el enlace a Tarifas (D3).
+    /// </summary>
+    [ObservableProperty] public partial bool PreciosDeEjemplo { get; set; }
+
+    [RelayCommand]
+    private void IrATarifas() => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje(SeccionesConfiguracion.Tarifas));
     [ObservableProperty] public partial bool TieneMeta { get; set; }
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(MostrarFormulario))]
@@ -87,6 +95,7 @@ public sealed partial class MetasViewModel(
         _lugarId = lugar?.Id;
         TieneLugar = lugar is not null;
         EsDemo = lugar?.EsDemo == true;
+        PreciosDeEjemplo = lugar?.PreciosDeEjemplo == true;
         await RecargarAsync();
     }
 

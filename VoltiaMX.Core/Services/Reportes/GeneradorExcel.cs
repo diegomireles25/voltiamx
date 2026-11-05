@@ -43,6 +43,14 @@ public static class GeneradorExcel
             fila++;
         }
 
+        if (datos.PreciosDeEjemplo)
+        {
+            Texto(hoja.Cell(fila, 1), texto("Reporte_PreciosDeEjemplo"));
+            hoja.Cell(fila, 1).Style.Font.Bold = true;
+            fila++;
+        }
+
+        var filaEncabezado = fila;
         Encabezado(hoja, fila, texto("Reporte_Dato"), texto("Reporte_Valor"));
         var r = datos.Resumen;
 
@@ -90,7 +98,7 @@ public static class GeneradorExcel
         Agregar("Reporte_Limite", r?.LimiteDacKwhMensual, FormatoReporte.FormatoKwhExcel);
         Agregar("Reporte_MetaPorcentaje", datos.Meta is { } meta ? meta.PorcentajeObjetivo / 100m : null, "0%");
         Agregar("Reporte_Estado", datos.Meta is { } m ? texto($"EstadoMeta_{m.Estado}") : null);
-        Fijar(hoja, fila: datos.EsDemo ? 2 : 1);
+        Fijar(hoja, fila: filaEncabezado);
     }
 
     private static void Lecturas(IXLWorksheet hoja, ReporteDatos datos, Func<string, string> texto)

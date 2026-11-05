@@ -46,6 +46,26 @@ public sealed class ResumenDashboardServiceTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task ObtenerAsync_PreciosDeEjemplo_SigueLaMarcaDeLaTarifaDelLugar()
+    {
+        await _perfiles.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa], NombreLugar = "Mi casa" });
+        Assert.True((await _servicio.ObtenerAsync(Hoy))!.PreciosDeEjemplo);
+
+        // Con los precios del recibo ya escritos en el editor, deja de ser de ejemplo.
+        var tarifas = new TarifaService(_fabrica);
+        int lugarId;
+        await using (var db = _fabrica.CreateDbContext())
+        {
+            lugarId = await db.Lugares.Select(l => l.Id).SingleAsync();
+        }
+
+        var copia = await tarifas.DuplicarAsync((await TarifaAsync("1C")).Id);
+        await tarifas.AsignarALugarAsync(lugarId, copia!.Value);
+
+        Assert.False((await _servicio.ObtenerAsync(Hoy))!.PreciosDeEjemplo);
+    }
+
+    [Fact]
     public async Task ObtenerAsync_SinLugares_DevuelveNull()
     {
         Assert.Null(await _servicio.ObtenerAsync(Hoy));

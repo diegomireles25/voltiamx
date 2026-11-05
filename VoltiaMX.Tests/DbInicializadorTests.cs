@@ -39,6 +39,7 @@ public sealed class DbInicializadorTests : IDisposable
         Assert.All(tarifas.Where(t => t.Nombre.StartsWith('1')), t => Assert.Equal(3, t.Rangos.Count));
         Assert.Single(tarifas.Single(t => t.Nombre == "DAC").Rangos);
         Assert.Single(tarifas.Single(t => t.Nombre == "PDBT").Rangos);
+        Assert.All(tarifas, t => Assert.True(t.EsDeEjemplo));
     }
 
     [Fact]

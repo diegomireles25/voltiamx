@@ -461,7 +461,7 @@ public sealed class LecturaServiceTests : IAsyncLifetime
         await CrearLugarConDatosAsync("Demo", esDemo: true, conLectura: true);
         var real = await CrearLugarConDatosAsync("Mi casa", esDemo: false, conLectura: true);
 
-        Assert.Equal(new LugarDeLecturas(real, "Mi casa", EsDemo: false), await _servicio.ObtenerLugarPrincipalAsync());
+        Assert.Equal(new LugarDeLecturas(real, "Mi casa", EsDemo: false, PreciosDeEjemplo: true), await _servicio.ObtenerLugarPrincipalAsync());
     }
 
     [Fact]
@@ -470,7 +470,7 @@ public sealed class LecturaServiceTests : IAsyncLifetime
         await CrearLugarConDatosAsync("Mi casa", esDemo: false, conLectura: false);
         var demo = await CrearLugarConDatosAsync("Demo", esDemo: true, conLectura: true);
 
-        Assert.Equal(new LugarDeLecturas(demo, "Demo", EsDemo: true), await _servicio.ObtenerLugarPrincipalAsync());
+        Assert.Equal(new LugarDeLecturas(demo, "Demo", EsDemo: true, PreciosDeEjemplo: true), await _servicio.ObtenerLugarPrincipalAsync());
     }
 
     [Fact]

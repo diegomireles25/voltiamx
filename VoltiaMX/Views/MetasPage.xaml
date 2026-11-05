@@ -55,6 +55,7 @@
                         Style="{StaticResource BodySmTextStyle}"
                         TextWrapping="Wrap" />
                     <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
+                    <local:AvisoPreciosDeEjemplo Comando="{x:Bind ViewModel.IrATarifasCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PreciosDeEjemplo), Mode=OneWay}" />
                 </StackPanel>
 
                 <!-- Crear la meta o cambiar el porcentaje; Enter guarda (ver MetasPage.xaml.cs) -->

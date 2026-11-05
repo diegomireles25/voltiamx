@@ -109,11 +109,12 @@ public sealed class LecturaService(IDbContextFactory<VoltiaDbContext> fabrica, I
             .AsNoTracking()
             .Include(l => l.Periodos)
             .Include(l => l.Lecturas)
+            .Include(l => l.Tarifa)
             .AsSplitQuery()
             .OrderBy(l => l.Id)
             .ToListAsync(cancellationToken);
 
-        return LugarPrincipal.Elegir(lugares) is { } lugar ? new LugarDeLecturas(lugar.Id, lugar.Nombre, lugar.EsDemo) : null;
+        return LugarPrincipal.Elegir(lugares) is { } lugar ? new LugarDeLecturas(lugar.Id, lugar.Nombre, lugar.EsDemo, lugar.Tarifa?.EsDeEjemplo == true) : null;
     }
 
     private static Task<Lugar?> CargarLugarAsync(IQueryable<Lugar> lugares, int lugarId, CancellationToken cancellationToken)

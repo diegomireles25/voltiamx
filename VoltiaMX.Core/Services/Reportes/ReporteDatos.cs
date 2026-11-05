@@ -54,4 +54,9 @@ public sealed record ReporteDatos
     public ProgresoMeta? Meta { get; init; }
 
     public bool EsDemo => Lugar?.EsDemo == true;
+
+    /// <summary>
+    /// La tarifa del lugar todavía trae los precios de ejemplo: los montos no son los del recibo.
+    /// </summary>
+    public bool PreciosDeEjemplo => Resumen?.PreciosDeEjemplo == true;
 }

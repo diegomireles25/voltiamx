@@ -31,6 +31,7 @@ public sealed class DbInicializador(VoltiaDbContext db)
         {
             Nombre = "1",
             Tipo = TipoTarifa.Domestica,
+            EsDeEjemplo = true,
             LimiteDacKwhMensual = 250m, // EJEMPLO: verificar con tarifas vigentes de CFE
             Vigencia = new DateOnly(2026, 1, 1), // EJEMPLO: verificar con tarifas vigentes de CFE
             Rangos =
@@ -44,6 +45,7 @@ public sealed class DbInicializador(VoltiaDbContext db)
         {
             Nombre = "1C",
             Tipo = TipoTarifa.Domestica,
+            EsDeEjemplo = true,
             LimiteDacKwhMensual = 850m, // EJEMPLO: verificar con tarifas vigentes de CFE
             Vigencia = new DateOnly(2026, 1, 1), // EJEMPLO: verificar con tarifas vigentes de CFE
             Rangos =
@@ -57,6 +59,7 @@ public sealed class DbInicializador(VoltiaDbContext db)
         {
             Nombre = "1F",
             Tipo = TipoTarifa.Domestica,
+            EsDeEjemplo = true,
             LimiteDacKwhMensual = 2500m, // EJEMPLO: verificar con tarifas vigentes de CFE
             Vigencia = new DateOnly(2026, 1, 1), // EJEMPLO: verificar con tarifas vigentes de CFE
             Rangos =
@@ -70,6 +73,7 @@ public sealed class DbInicializador(VoltiaDbContext db)
         {
             Nombre = "DAC",
             Tipo = TipoTarifa.Dac,
+            EsDeEjemplo = true,
             CargoFijoMensual = 100m, // EJEMPLO: verificar con tarifas vigentes de CFE
             Vigencia = new DateOnly(2026, 1, 1), // EJEMPLO: verificar con tarifas vigentes de CFE
             Rangos =
@@ -81,6 +85,7 @@ public sealed class DbInicializador(VoltiaDbContext db)
         {
             Nombre = "PDBT",
             Tipo = TipoTarifa.Comercial,
+            EsDeEjemplo = true,
             CargoFijoMensual = 60m, // EJEMPLO: verificar con tarifas vigentes de CFE
             Vigencia = new DateOnly(2026, 1, 1), // EJEMPLO: verificar con tarifas vigentes de CFE
             Rangos =

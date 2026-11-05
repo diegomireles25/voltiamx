@@ -3458,4 +3458,19 @@
   <data name="Inquilinos_MedidorPropio.Text" xml:space="preserve">
     <value>Cada inquilino necesita su medidor propio.</value>
   </data>
+  <data name="PreciosEjemplo_Etiqueta.Content" xml:space="preserve">
+    <value>PRECIOS DE EJEMPLO</value>
+  </data>
+  <data name="PreciosEjemplo_Aviso.Text" xml:space="preserve">
+    <value>Estos precios son de ejemplo. Escribe los de tu recibo en Tarifas para ver cifras reales.</value>
+  </data>
+  <data name="PreciosEjemplo_IrATarifas.Content" xml:space="preserve">
+    <value>Ir a Tarifas</value>
+  </data>
+  <data name="Dashboard_ConPreciosDeEjemplo.Text" xml:space="preserve">
+    <value>CON PRECIOS DE EJEMPLO</value>
+  </data>
+  <data name="Reporte_PreciosDeEjemplo" xml:space="preserve">
+    <value>Estos precios son de ejemplo. Escribe los de tu recibo en Tarifas para ver cifras reales.</value>
+  </data>
 </root>

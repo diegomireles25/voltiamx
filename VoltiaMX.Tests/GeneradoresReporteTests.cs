@@ -15,7 +15,7 @@ public sealed class GeneradoresReporteTests(ITestOutputHelper salida)
     private static ReporteDatos Vacio() => new() { GeneradoEl = new DateTime(2026, 10, 19, 9, 30, 0) };
 
     // Datos inventados y con números redondos para revisar el Excel.
-    private static ReporteDatos Completo(string nombreAparato = "Refrigerador", bool demo = false) => new()
+    private static ReporteDatos Completo(string nombreAparato = "Refrigerador", bool demo = false, bool preciosDeEjemplo = false) => new()
     {
         GeneradoEl = new DateTime(2026, 10, 19, 9, 30, 0),
         Lugar = new LugarDelReporte(1, "Mi casa", TipoLugar.Casa, demo),
@@ -32,6 +32,7 @@ public sealed class GeneradoresReporteTests(ITestOutputHelper salida)
             TipoLugar = TipoLugar.Casa,
             NombreTarifa = "1C",
             EsDemo = demo,
+            PreciosDeEjemplo = preciosDeEjemplo,
             InicioPeriodo = new DateOnly(2026, 9, 27),
             FinPeriodo = new DateOnly(2026, 11, 26),
             MesesDelPeriodo = 2,
@@ -136,6 +137,30 @@ public sealed class GeneradoresReporteTests(ITestOutputHelper salida)
 
         using var real = Abrir(GeneradorExcel.Generar(Completo(), Texto));
         Assert.Equal("Dato", real.Worksheet("Resumen").Cell(1, 1).GetString());
+    }
+
+    [Fact]
+    public void Excel_PreciosDeEjemplo_LoDiceEnUnaLineaAntesDelEncabezado()
+    {
+        using (var ejemplo = Abrir(GeneradorExcel.Generar(Completo(demo: true, preciosDeEjemplo: true), Texto)))
+        {
+            var hoja = ejemplo.Worksheet("Resumen");
+            Assert.Equal("DATOS DE EJEMPLO", hoja.Cell(1, 1).GetString());
+            Assert.Equal(Texto("Reporte_PreciosDeEjemplo"), hoja.Cell(2, 1).GetString());
+            Assert.Equal("Dato", hoja.Cell(3, 1).GetString());
+            Assert.Equal(3, hoja.SheetView.SplitRow);
+        }
+
+        using var real = Abrir(GeneradorExcel.Generar(Completo(), Texto));
+        Assert.DoesNotContain(
+            real.Worksheet("Resumen").CellsUsed(),
+            c => c.GetString() == Texto("Reporte_PreciosDeEjemplo"));
+    }
+
+    [Fact]
+    public void Pdf_ConPreciosDeEjemplo_EsUnPdf()
+    {
+        EsPdf(GeneradorPdf.Generar(Completo(preciosDeEjemplo: true), Texto));
     }
 
     [Fact]

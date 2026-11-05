@@ -25,6 +25,11 @@ public sealed record ResumenDashboard
 
     public bool EsDemo { get; init; }
 
+    /// <summary>
+    /// La tarifa del lugar todavía trae los precios de ejemplo (Tarifa.EsDeEjemplo).
+    /// </summary>
+    public bool PreciosDeEjemplo { get; init; }
+
     public DateOnly InicioPeriodo { get; init; }
 
     public DateOnly FinPeriodo { get; init; }

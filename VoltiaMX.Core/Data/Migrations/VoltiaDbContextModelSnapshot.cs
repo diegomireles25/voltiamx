@@ -453,6 +453,9 @@ namespace VoltiaMX.Core.Data.Migrations
                         .HasPrecision(18, 4)
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("EsDeEjemplo")
+                        .HasColumnType("INTEGER");
+
                     b.Property<decimal?>("LimiteDacKwhMensual")
                         .HasPrecision(18, 4)
                         .HasColumnType("TEXT");

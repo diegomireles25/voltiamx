@@ -27,6 +27,7 @@
                     AutomationProperties.HeadingLevel="Level1"
                     Style="{StaticResource HeadingLgTextStyle}" />
                 <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
+                <local:AvisoPreciosDeEjemplo Comando="{x:Bind ViewModel.IrATarifasCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PreciosDeEjemplo), Mode=OneWay}" />
             </StackPanel>
 
             <!-- Sin base para proyectar -->
