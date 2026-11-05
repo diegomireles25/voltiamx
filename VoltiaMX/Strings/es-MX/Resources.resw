@@ -477,7 +477,7 @@
     <value>Cargar datos de demo para conocer la app</value>
   </data>
   <data name="Recibo_CargarDemoAyuda.Text" xml:space="preserve">
-    <value>Son datos de ejemplo de una casa con tarifa 1C. Puedes quitarlos cuando quieras en Configuración.</value>
+    <value>Son datos de ejemplo de una casa con tarifa 1C. Puedes quitarlos cuando quieras en Más.</value>
   </data>
 
   <!-- Onboarding: objetivo -->
@@ -540,7 +540,7 @@
     <value>TODO LISTO</value>
   </data>
   <data name="Listo_Texto.Text" xml:space="preserve">
-    <value>Esto es lo que entendimos. Puedes cambiarlo cuando quieras desde Configuración.</value>
+    <value>Esto es lo que entendimos. Puedes cambiarlo cuando quieras desde Más.</value>
   </data>
   <data name="Listo_Terminar.Content" xml:space="preserve">
     <value>Ir a mi tablero</value>
@@ -611,10 +611,7 @@
     <value>Nueva lectura</value>
   </data>
   <data name="Nav_Dashboard" xml:space="preserve">
-    <value>Dashboard</value>
-  </data>
-  <data name="Nav_Configuracion" xml:space="preserve">
-    <value>Configuración</value>
+    <value>Inicio</value>
   </data>
   <data name="Modulo_Lecturas" xml:space="preserve">
     <value>Lecturas</value>
@@ -725,7 +722,7 @@
     <value>AGREGA TU PRIMERA LECTURA</value>
   </data>
   <data name="Dashboard_VacioTexto.Text" xml:space="preserve">
-    <value>La captura de lecturas llega en la siguiente fase. Mientras, carga los datos de demo o registra tu último recibo al repetir el onboarding en Configuración.</value>
+    <value>La captura de lecturas llega en la siguiente fase. Mientras, carga los datos de demo o registra tu último recibo al repetir el onboarding en Más.</value>
   </data>
   <data name="Dashboard_CapturarLectura.Content" xml:space="preserve">
     <value>Capturar lectura</value>
@@ -859,14 +856,8 @@
   </data>
 
   <!-- Configuración -->
-  <data name="Config_Titulo.Text" xml:space="preserve">
-    <value>CONFIGURACIÓN</value>
-  </data>
   <data name="Config_ModoTitulo.Text" xml:space="preserve">
     <value>Modo avanzado</value>
-  </data>
-  <data name="Config_ModoTexto.Text" xml:space="preserve">
-    <value>Muestra además Aparatos, Solar e Inquilinos aunque no los hayas elegido.</value>
   </data>
   <data name="Config_ModoSwitch.OnContent" xml:space="preserve">
     <value>Activado</value>
@@ -877,17 +868,8 @@
   <data name="Config_OnboardingTitulo.Text" xml:space="preserve">
     <value>Repetir el onboarding</value>
   </data>
-  <data name="Config_OnboardingTexto.Text" xml:space="preserve">
-    <value>Vuelve a contestar las preguntas iniciales. Tus datos se conservan.</value>
-  </data>
   <data name="Config_OnboardingBoton.Content" xml:space="preserve">
     <value>Repetir</value>
-  </data>
-  <data name="Config_DemoTitulo.Text" xml:space="preserve">
-    <value>Datos de demo</value>
-  </data>
-  <data name="Config_DemoTexto.Text" xml:space="preserve">
-    <value>Una casa de ejemplo con tarifa 1C para conocer la app. Quitarlos no toca tus datos.</value>
   </data>
   <data name="Config_DemoCargar.Content" xml:space="preserve">
     <value>Cargar datos de demo</value>
@@ -919,7 +901,7 @@
     <value>Estás viendo datos de ejemplo. Quítalos para capturar tus lecturas reales.</value>
   </data>
   <data name="DatosEjemplo_IrAConfiguracion.Content" xml:space="preserve">
-    <value>Ir a Configuración</value>
+    <value>Ir a Más</value>
   </data>
   <data name="Lecturas_Fecha.Header" xml:space="preserve">
     <value>Fecha de la lectura</value>
@@ -1468,9 +1450,6 @@
   </data>
   <data name="Config_TarifasTitulo.Text" xml:space="preserve">
     <value>Tarifas</value>
-  </data>
-  <data name="Config_TarifasTexto.Text" xml:space="preserve">
-    <value>Revisa, edita o crea tarifas y elige la de tu lugar.</value>
   </data>
   <data name="Config_TarifasBoton.Content" xml:space="preserve">
     <value>Ver tarifas</value>
@@ -2193,7 +2172,7 @@
     <value>La tarifa {0} no está entre tus tarifas. Puedes agregarla en Tarifas; no se cambia nada sola.</value>
   </data>
   <data name="Escanear_NoSeGuardaDemo" xml:space="preserve">
-    <value>Con los datos de ejemplo no se guardan lecturas escaneadas: quítalos en Configuración para usar tus datos.</value>
+    <value>Con los datos de ejemplo no se guardan lecturas escaneadas: quítalos en Más para usar tus datos.</value>
   </data>
   <data name="Escanear_Error_FaltaFecha" xml:space="preserve">
     <value>Falta la fecha de la lectura.</value>
@@ -2227,9 +2206,6 @@
   </data>
   <data name="Config_NotificacionesTitulo.Text" xml:space="preserve">
     <value>Notificaciones</value>
-  </data>
-  <data name="Config_NotificacionesTexto.Text" xml:space="preserve">
-    <value>Te avisamos cuando se acerca tu corte, si subes de riesgo DAC, si tu meta está en riesgo o si vas a pasar tu tope. Los avisos se muestran mientras VoltiaMX está abierta.</value>
   </data>
   <data name="Config_NotificacionesNoDisponibles.Text" xml:space="preserve">
     <value>Las notificaciones de Windows no están disponibles en esta instalación. Los avisos siguen apareciendo en el Dashboard.</value>
@@ -2513,9 +2489,6 @@
   <data name="Config_ReportesTitulo.Text" xml:space="preserve">
     <value>Reportes y exportación</value>
   </data>
-  <data name="Config_ReportesTexto.Text" xml:space="preserve">
-    <value>Tu reporte del periodo en PDF y todos tus datos en Excel.</value>
-  </data>
   <data name="Config_ReportesBoton.Content" xml:space="preserve">
     <value>Abrir reportes</value>
   </data>
@@ -2580,13 +2553,10 @@
     <value>No se pudo guardar el archivo. Prueba en otra carpeta.</value>
   </data>
   <data name="Reportes_VolverConfiguracion.Content" xml:space="preserve">
-    <value>Volver a Configuración</value>
+    <value>Volver a Más</value>
   </data>
   <data name="Config_RespaldoTitulo.Text" xml:space="preserve">
     <value>Respaldo y restauración</value>
-  </data>
-  <data name="Config_RespaldoTexto.Text" xml:space="preserve">
-    <value>Guarda todos tus datos en un archivo y recupéralos cuando lo necesites.</value>
   </data>
   <data name="Config_RespaldoBoton.Content" xml:space="preserve">
     <value>Abrir respaldo</value>
@@ -3373,5 +3343,86 @@
   </data>
   <data name="Dashboard_LoQueMasGasta" xml:space="preserve">
     <value>Lo que más gasta: {0}</value>
+  </data>
+  <data name="Nav_Mas" xml:space="preserve">
+    <value>Más</value>
+  </data>
+  <data name="Mas_Titulo.Text" xml:space="preserve">
+    <value>MÁS</value>
+  </data>
+  <data name="Mas_Abrir" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="Mas_Modulo_Predictor_Titulo" xml:space="preserve">
+    <value>Cómo se calcula tu recibo</value>
+  </data>
+  <data name="Mas_Modulo_Predictor_Texto" xml:space="preserve">
+    <value>Mira tu recibo por rangos y si te acercas a tarifa alta.</value>
+  </data>
+  <data name="Mas_Modulo_Metas_Titulo" xml:space="preserve">
+    <value>Metas</value>
+  </data>
+  <data name="Mas_Modulo_Metas_Texto" xml:space="preserve">
+    <value>Ponte una meta para gastar menos que el recibo anterior.</value>
+  </data>
+  <data name="Mas_Modulo_Solar_Titulo" xml:space="preserve">
+    <value>Simulador solar</value>
+  </data>
+  <data name="Mas_Modulo_Solar_Texto" xml:space="preserve">
+    <value>Calcula cuántos paneles necesitas y cuánto podrías ahorrar.</value>
+  </data>
+  <data name="Mas_Modulo_Inquilinos_Titulo" xml:space="preserve">
+    <value>Inquilinos</value>
+  </data>
+  <data name="Mas_Modulo_Inquilinos_Texto" xml:space="preserve">
+    <value>Reparte el recibo entre tus inquilinos según sus medidores.</value>
+  </data>
+  <data name="Mas_Modulo_Aparatos_Titulo" xml:space="preserve">
+    <value>Aparatos</value>
+  </data>
+  <data name="Mas_Modulo_Aparatos_Texto" xml:space="preserve">
+    <value>Mira cuánto gasta cada aparato de tu casa.</value>
+  </data>
+  <data name="Mas_Modulo_Lecturas_Titulo" xml:space="preserve">
+    <value>Lecturas</value>
+  </data>
+  <data name="Mas_Modulo_Lecturas_Texto" xml:space="preserve">
+    <value>Anota lo que marca tu medidor y mira tu historial.</value>
+  </data>
+  <data name="Mas_EscanearTitulo.Text" xml:space="preserve">
+    <value>Escanear recibo</value>
+  </data>
+  <data name="Mas_EscanearTexto.Text" xml:space="preserve">
+    <value>Toma una foto de tu recibo y guarda la lectura.</value>
+  </data>
+  <data name="Mas_EscanearBoton.Content" xml:space="preserve">
+    <value>Escanear</value>
+  </data>
+  <data name="Mas_TarifasTexto.Text" xml:space="preserve">
+    <value>Revisa los precios de tu tarifa y cámbiala si hace falta.</value>
+  </data>
+  <data name="Mas_ReportesTexto.Text" xml:space="preserve">
+    <value>Descarga tu reporte en PDF y tus datos en Excel.</value>
+  </data>
+  <data name="Mas_RespaldoTexto.Text" xml:space="preserve">
+    <value>Guarda tus datos en un archivo y recupéralos después.</value>
+  </data>
+  <data name="Mas_NotificacionesTexto.Text" xml:space="preserve">
+    <value>Recibe avisos de tu fecha de corte y de tus metas.</value>
+  </data>
+  <data name="Mas_DemoTitulo.Text" xml:space="preserve">
+    <value>Datos de demostración</value>
+  </data>
+  <data name="Mas_DemoTexto.Text" xml:space="preserve">
+    <value>Prueba la app con una casa de ejemplo.</value>
+  </data>
+  <data name="Mas_ModoTexto.Text" xml:space="preserve">
+    <value>Agrega aparatos, paneles solares e inquilinos a esta página.</value>
+  </data>
+  <data name="Mas_OnboardingTexto.Text" xml:space="preserve">
+    <value>Vuelve a contestar las preguntas del inicio.</value>
+  </data>
+  <data name="Dashboard_VerCalculo.Content" xml:space="preserve">
+    <value>Ver cómo se calcula tu recibo</value>
   </data>
 </root>

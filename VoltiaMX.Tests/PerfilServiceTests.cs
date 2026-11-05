@@ -90,6 +90,38 @@ public sealed class PerfilServiceTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task PerfilViejoConPresupuesto_SigueElMenuNuevoSinRepetirElOnboarding()
+    {
+        // Perfil guardado antes de la Fase 7a: filas de módulos con Presupuesto activo y objetivo de presupuesto.
+        await using (var db = _fabrica.CreateDbContext())
+        {
+            db.Perfiles.Add(new PerfilUsuario
+            {
+                OnboardingCompletado = true,
+                NotificacionesActivas = true,
+                Usos = [new PerfilUso { Uso = UsoApp.Casa }],
+                Objetivo = new Objetivo { Tipo = TipoObjetivo.NoPasarmeDePresupuesto, PresupuestoMax = 1_500m },
+                Modulos =
+                [
+                    new PerfilModulo { Modulo = ModuloApp.Lecturas, Activo = true },
+                    new PerfilModulo { Modulo = ModuloApp.Predictor, Activo = true },
+                    new PerfilModulo { Modulo = ModuloApp.Presupuesto, Activo = true },
+                    new PerfilModulo { Modulo = ModuloApp.Aparatos, Activo = true },
+                ],
+            });
+            await db.SaveChangesAsync();
+        }
+
+        var activos = await _servicio.ObtenerModulosActivosAsync();
+        var menu = ModulosPrincipales.Calcular(activos, [UsoApp.Casa]);
+
+        Assert.DoesNotContain(ModuloApp.Presupuesto, activos);
+        Assert.Equal([ModuloApp.Lecturas, ModuloApp.Aparatos], menu.Principales);
+        Assert.Equal([ModuloApp.Predictor, ModuloApp.Metas], menu.Secundarios);
+        Assert.True((await _servicio.ObtenerPerfilAsync())!.NotificacionesActivas);
+    }
+
+    [Fact]
     public async Task ObtenerModulosActivosAsync_PerfilDeRentas_SinMetas()
     {
         await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Rentas] });

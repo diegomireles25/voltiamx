@@ -20,5 +20,15 @@ namespace VoltiaMX.Views
         }
 
         public ShellViewModel ViewModel { get; }
+
+        // Tocar la pestaña ya seleccionada no cambia la selección: el ViewModel decide si vuelve a abrir su página
+        // (por ejemplo "Más" mientras se ve una sección como Tarifas).
+        private void AlInvocarElemento(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+            if (args.InvokedItemContainer?.DataContext is ElementoNavegacion elemento)
+            {
+                ViewModel.AlTocarElemento(elemento);
+            }
+        }
     }
 }

@@ -17,13 +17,13 @@ public sealed class NavegacionShell : INavegacionShell
             case DestinoShell.Dashboard:
                 IrA(typeof(DashboardPage));
                 break;
-            case DestinoShell.Configuracion:
+            case DestinoShell.Mas:
                 IrA(seccion switch
                 {
                     SeccionesConfiguracion.Tarifas => typeof(TarifasPage),
                     SeccionesConfiguracion.Reportes => typeof(ReportesPage),
                     SeccionesConfiguracion.Respaldo => typeof(RespaldoPage),
-                    _ => typeof(ConfiguracionPage),
+                    _ => typeof(MasPage),
                 });
                 break;
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Lecturas:

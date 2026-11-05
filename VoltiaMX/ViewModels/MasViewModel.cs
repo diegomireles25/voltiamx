@@ -1,20 +1,39 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using VoltiaMX.Core.Models;
 using VoltiaMX.Core.Services;
 using VoltiaMX.Services;
 
 namespace VoltiaMX.ViewModels;
 
 /// <summary>
-/// Configuración: modo simple/avanzado, notificaciones, repetir el onboarding y datos de demo.
+/// Una fila de Más que abre un módulo sin pestaña.
 /// </summary>
-public sealed partial class ConfiguracionViewModel(
+public sealed record FilaMas(string Titulo, string Descripcion, string TextoBoton, IRelayCommand Abrir);
+
+/// <summary>
+/// Más: los módulos que no son principales y los ajustes (modo avanzado, notificaciones, demo, tarifas,
+/// reportes, respaldo y repetir el onboarding).
+/// </summary>
+public sealed partial class MasViewModel(
     IPerfilService perfiles,
     IDatosDemoService datosDemo,
     INavegacionShell navegacion,
-    ProgramadorAvisos avisos) : ObservableObject
+    ProgramadorAvisos avisos,
+    ITextos textos) : ObservableObject
 {
+    /// <summary>
+    /// Módulos sin pestaña. Reportes tiene su propia fila de ajustes, así que no se repite aquí.
+    /// </summary>
+    public ObservableCollection<FilaMas> Modulos { get; } = [];
+
+    /// <summary>
+    /// "Escanear recibo" guarda una lectura: solo con el módulo Lecturas activo.
+    /// </summary>
+    [ObservableProperty] public partial bool LecturasActiva { get; set; }
+
     [ObservableProperty] public partial bool NotificacionesActivas { get; set; }
 
     /// <summary>
@@ -66,8 +85,26 @@ public sealed partial class ConfiguracionViewModel(
         ModoAvanzado = perfil?.ModoAvanzado == true;
         NotificacionesActivas = perfil?.NotificacionesActivas == true;
         HayDemo = await datosDemo.HayDemoAsync();
+
+        var activos = await perfiles.ObtenerModulosActivosAsync();
+        var menu = ModulosPrincipales.Calcular(activos, perfil?.Usos.Select(u => u.Uso).ToList() ?? []);
+        Modulos.Clear();
+        foreach (var modulo in menu.Secundarios.Where(m => m != ModuloApp.Reportes))
+        {
+            Modulos.Add(new FilaMas(
+                textos[$"Mas_Modulo_{modulo}_Titulo"],
+                textos[$"Mas_Modulo_{modulo}_Texto"],
+                textos["Mas_Abrir"],
+                new RelayCommand(() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(modulo)))));
+        }
+
+        LecturasActiva = activos.Contains(ModuloApp.Lecturas);
         _cargando = false;
     }
+
+    [RelayCommand]
+    private void AbrirEscanear()
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.Escanear));
 
     partial void OnModoAvanzadoChanged(bool value)
     {

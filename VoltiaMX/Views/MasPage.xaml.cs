@@ -4,15 +4,15 @@ using VoltiaMX.ViewModels;
 
 namespace VoltiaMX.Views
 {
-    public sealed partial class ConfiguracionPage : Page
+    public sealed partial class MasPage : Page
     {
-        public ConfiguracionPage()
+        public MasPage()
         {
-            ViewModel = App.Servicios.GetRequiredService<ConfiguracionViewModel>();
+            ViewModel = App.Servicios.GetRequiredService<MasViewModel>();
             this.InitializeComponent();
         }
 
-        public ConfiguracionViewModel ViewModel { get; }
+        public MasViewModel ViewModel { get; }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {

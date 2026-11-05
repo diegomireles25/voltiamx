@@ -162,6 +162,13 @@
                                     TextWrapping="Wrap"
                                     Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.LoQueMasGasta), Mode=OneWay}" />
                             </StackPanel>
+                            <!-- El Predictor ya no es pestaña: se abre desde aquí si el módulo está activo -->
+                            <Button
+                                x:Uid="Dashboard_VerCalculo"
+                                Grid.Row="1"
+                                Command="{x:Bind ViewModel.IrAPredictorCommand}"
+                                Style="{StaticResource PrimaryOnDarkButtonStyle}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PredictorHabilitado), Mode=OneWay}" />
                         </Grid>
                     </ContentPresenter>
                 </Grid>
