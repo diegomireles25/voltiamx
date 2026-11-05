@@ -13,6 +13,11 @@ internal static class TextosDeRecursos
     public static string Texto(string clave)
         => Textos.Value.TryGetValue(clave, out var valor) ? valor : throw new KeyNotFoundException($"Falta la clave '{clave}' en Resources.resw");
 
+    /// <summary>
+    /// Todas las claves y valores del resw real (para revisar el lenguaje de todos los textos).
+    /// </summary>
+    public static IReadOnlyDictionary<string, string> Todos() => Textos.Value;
+
     private static Dictionary<string, string> Cargar()
     {
         var carpeta = new DirectoryInfo(AppContext.BaseDirectory);

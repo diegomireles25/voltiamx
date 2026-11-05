@@ -99,7 +99,7 @@
     <value>HEADING SM · 28/36.4 · -30</value>
   </data>
   <data name="Galeria_MuestraHeadingSm.Text" xml:space="preserve">
-    <value>PRESUPUESTO DEL BIMESTRE</value>
+    <value>TU RECIBO DEL BIMESTRE</value>
   </data>
   <data name="Galeria_EtiquetaSubheading.Text" xml:space="preserve">
     <value>SUBHEADING · 18/24</value>
@@ -149,7 +149,7 @@
     <value>INVERTEDCARDSTYLE · RADIO 32</value>
   </data>
   <data name="Galeria_TarjetaInvertidaTitulo.Text" xml:space="preserve">
-    <value>PRESUPUESTO INVERSO</value>
+    <value>COMPARADO CON TU RECIBO ANTERIOR</value>
   </data>
   <data name="Galeria_TarjetaInvertidaTexto.Text" xml:space="preserve">
     <value>Con $900 te alcanzan 412 kWh este bimestre: 6.8 kWh por día.</value>
@@ -300,7 +300,7 @@
     <value>Lecturas</value>
   </data>
   <data name="Galeria_NavPresupuesto.Content" xml:space="preserve">
-    <value>Presupuesto</value>
+    <value>Metas</value>
   </data>
 
   <!-- Formatos -->
@@ -322,7 +322,7 @@
     <value>Siguiente</value>
   </data>
   <data name="Onboarding_ErrorGuardar" xml:space="preserve">
-    <value>No pudimos guardar tus respuestas. Intenta de nuevo.</value>
+    <value>No pudimos guardar tus respuestas. Inténtalo de nuevo.</value>
   </data>
 
   <!-- Onboarding: bienvenida -->
@@ -344,13 +344,13 @@
     <value>¿PARA QUÉ VAS A USAR VOLTIAMX?</value>
   </data>
   <data name="Uso_Ayuda.Text" xml:space="preserve">
-    <value>Elige todos los que apliquen. Con esto decidimos qué secciones ves.</value>
+    <value>Elige todos los que apliquen. Así sabemos qué mostrarte.</value>
   </data>
   <data name="Uso_Casa_Titulo.Text" xml:space="preserve">
     <value>MI CASA</value>
   </data>
   <data name="Uso_Casa_Descripcion.Text" xml:space="preserve">
-    <value>Saber cuánto vas a pagar y no pasar a tarifa DAC.</value>
+    <value>Saber cuánto vas a pagar y no llegar a la tarifa alta (DAC).</value>
   </data>
   <data name="Uso_Negocio_Titulo.Text" xml:space="preserve">
     <value>MI NEGOCIO</value>
@@ -362,7 +362,7 @@
     <value>PROPIEDADES EN RENTA</value>
   </data>
   <data name="Uso_Rentas_Descripcion.Text" xml:space="preserve">
-    <value>Llevar el consumo de cada propiedad y repartirlo entre inquilinos.</value>
+    <value>Llevar el consumo de cada propiedad y repartirlo entre tus inquilinos.</value>
   </data>
   <data name="Uso_Solar_Titulo.Text" xml:space="preserve">
     <value>COTIZAR PANELES SOLARES</value>
@@ -373,10 +373,10 @@
 
   <!-- Onboarding: ubicación -->
   <data name="Ubicacion_Titulo.Text" xml:space="preserve">
-    <value>¿DÓNDE ESTÁ TU LUGAR?</value>
+    <value>¿DÓNDE ESTÁ TU CASA O NEGOCIO?</value>
   </data>
   <data name="Ubicacion_Ayuda.Text" xml:space="preserve">
-    <value>Tu estado y tu tarifa nos dicen cómo te cobra CFE.</value>
+    <value>Tu estado y tu tarifa definen cómo te cobra CFE.</value>
   </data>
   <data name="Ubicacion_Estado.Header" xml:space="preserve">
     <value>Estado</value>
@@ -391,7 +391,7 @@
     <value>Ej. Hermosillo</value>
   </data>
   <data name="Ubicacion_NombreLugar.Header" xml:space="preserve">
-    <value>¿Cómo le llamas a este lugar?</value>
+    <value>¿Cómo le llamas a tu casa o negocio?</value>
   </data>
   <data name="Ubicacion_NombreLugar.PlaceholderText" xml:space="preserve">
     <value>Mi casa</value>
@@ -414,7 +414,7 @@
     <value>TU ÚLTIMO RECIBO</value>
   </data>
   <data name="Recibo_Ayuda.Text" xml:space="preserve">
-    <value>Con un recibo empezamos tu historial. Puedes agregarlo después.</value>
+    <value>Con un recibo empieza tu historial. Puedes agregarlo después.</value>
   </data>
   <data name="Recibo_Escanear_Titulo.Text" xml:space="preserve">
     <value>ESCANEAR RECIBO</value>
@@ -423,10 +423,10 @@
     <value>PRÓXIMAMENTE</value>
   </data>
   <data name="Recibo_Manual_Titulo.Text" xml:space="preserve">
-    <value>CAPTURAR A MANO</value>
+    <value>ESCRIBIR A MANO</value>
   </data>
   <data name="Recibo_Manual_Descripcion.Text" xml:space="preserve">
-    <value>Fecha de corte, kWh y total a pagar de tu último recibo.</value>
+    <value>Escribe el día de corte, los kWh y el total de tu último recibo.</value>
   </data>
   <data name="Recibo_Saltar_Titulo.Text" xml:space="preserve">
     <value>SALTAR POR AHORA</value>
@@ -435,7 +435,7 @@
     <value>Lo agregas cuando lo tengas a la mano.</value>
   </data>
   <data name="Recibo_FechaCorte.Header" xml:space="preserve">
-    <value>Fecha de corte</value>
+    <value>Día de corte</value>
   </data>
   <data name="Recibo_FechaCorte.PlaceholderText" xml:space="preserve">
     <value>Elige la fecha</value>
@@ -450,7 +450,7 @@
     <value>Cada mes (mensual)</value>
   </data>
   <data name="Recibo_Kwh.Header" xml:space="preserve">
-    <value>Consumo del periodo (kWh)</value>
+    <value>Consumo del recibo (kWh)</value>
   </data>
   <data name="Recibo_Kwh.PlaceholderText" xml:space="preserve">
     <value>Ej. 718</value>
@@ -462,16 +462,16 @@
     <value>Ej. 1020</value>
   </data>
   <data name="Recibo_LecturaMedidor.Header" xml:space="preserve">
-    <value>Lectura actual del medidor (kWh, opcional)</value>
+    <value>Lo que marca tu medidor (kWh, opcional)</value>
   </data>
   <data name="Recibo_LecturaMedidor.PlaceholderText" xml:space="preserve">
     <value>Ej. 48210</value>
   </data>
   <data name="Recibo_LecturaMedidor.Description" xml:space="preserve">
-    <value>La encuentras en tu recibo como lectura actual.</value>
+    <value>En tu recibo aparece como "lectura actual".</value>
   </data>
   <data name="Recibo_Incompleto.Text" xml:space="preserve">
-    <value>Completa la fecha, los kWh y el total, o elige Saltar por ahora.</value>
+    <value>Completa el día de corte, los kWh y el total, o elige Saltar por ahora.</value>
   </data>
   <data name="Recibo_CargarDemo.Content" xml:space="preserve">
     <value>Cargar datos de demo para conocer la app</value>
@@ -481,66 +481,15 @@
   </data>
 
   <!-- Onboarding: objetivo -->
-  <data name="Objetivo_Titulo.Text" xml:space="preserve">
-    <value>¿QUÉ QUIERES LOGRAR?</value>
-  </data>
-  <data name="Objetivo_Ayuda.Text" xml:space="preserve">
-    <value>Elige el que más te importe ahora.</value>
-  </data>
-  <data name="Objetivo_EntenderRecibo_Titulo.Text" xml:space="preserve">
-    <value>ENTENDER MI RECIBO</value>
-  </data>
-  <data name="Objetivo_EntenderRecibo_Descripcion.Text" xml:space="preserve">
-    <value>Saber por qué pagas lo que pagas.</value>
-  </data>
-  <data name="Objetivo_PagarMenos_Titulo.Text" xml:space="preserve">
-    <value>PAGAR MENOS</value>
-  </data>
-  <data name="Objetivo_PagarMenos_Descripcion.Text" xml:space="preserve">
-    <value>Encontrar qué gasta más y bajar tu consumo.</value>
-  </data>
-  <data name="Objetivo_NoPasarmeDePresupuesto_Descripcion.Text" xml:space="preserve">
-    <value>Fijar un monto máximo y saber cuánto puedes gastar al día.</value>
-  </data>
-  <data name="Objetivo_RepartirInquilinos_Titulo.Text" xml:space="preserve">
-    <value>REPARTIR ENTRE INQUILINOS</value>
-  </data>
-  <data name="Objetivo_RepartirInquilinos_Descripcion.Text" xml:space="preserve">
-    <value>Dividir el recibo de forma justa entre quienes viven ahí.</value>
-  </data>
 
   <!-- Onboarding: presupuesto -->
-  <data name="Presupuesto_Titulo.Text" xml:space="preserve">
-    <value>¿CUÁNTO QUIERES PAGAR COMO MÁXIMO?</value>
-  </data>
-  <data name="Presupuesto_Ayuda.Text" xml:space="preserve">
-    <value>Es opcional. Con este monto calculamos cuántos kWh puedes gastar al día.</value>
-  </data>
-  <data name="Presupuesto_Monto.Header" xml:space="preserve">
-    <value>Monto máximo por recibo (MXN)</value>
-  </data>
-  <data name="Presupuesto_Monto.PlaceholderText" xml:space="preserve">
-    <value>Ej. 800</value>
-  </data>
-  <data name="Presupuesto_Avisos.Header" xml:space="preserve">
-    <value>Avisarme si voy a pasarme</value>
-  </data>
-  <data name="Presupuesto_Avisos.OnContent" xml:space="preserve">
-    <value>Sí</value>
-  </data>
-  <data name="Presupuesto_Avisos.OffContent" xml:space="preserve">
-    <value>No</value>
-  </data>
-  <data name="Presupuesto_AvisosNota.Text" xml:space="preserve">
-    <value>Los avisos se muestran como notificaciones de Windows mientras VoltiaMX está abierta.</value>
-  </data>
 
   <!-- Onboarding: listo y resumen -->
   <data name="Listo_Titulo.Text" xml:space="preserve">
     <value>TODO LISTO</value>
   </data>
   <data name="Listo_Texto.Text" xml:space="preserve">
-    <value>Esto es lo que entendimos. Puedes cambiarlo cuando quieras desde Más.</value>
+    <value>Esto es lo que entendimos. Puedes cambiarlo cuando quieras en Más.</value>
   </data>
   <data name="Listo_Terminar.Content" xml:space="preserve">
     <value>Ir a mi tablero</value>
@@ -555,7 +504,7 @@
     <value>Mi casa (no elegiste ninguno)</value>
   </data>
   <data name="Resumen_Lugar" xml:space="preserve">
-    <value>LUGAR</value>
+    <value>TU CASA O NEGOCIO</value>
   </data>
   <data name="Resumen_LugarSinNombre" xml:space="preserve">
     <value>Nombre automático</value>
@@ -584,12 +533,6 @@
   <data name="Resumen_ReciboDespues" xml:space="preserve">
     <value>Lo agregas después</value>
   </data>
-  <data name="Resumen_Objetivo" xml:space="preserve">
-    <value>OBJETIVO</value>
-  </data>
-  <data name="Resumen_ObjetivoSinElegir" xml:space="preserve">
-    <value>Sin elegir</value>
-  </data>
   <data name="Resumen_Avisos" xml:space="preserve">
     <value>AVISOS</value>
   </data>
@@ -617,7 +560,7 @@
     <value>Lecturas</value>
   </data>
   <data name="Modulo_Predictor" xml:space="preserve">
-    <value>Predictor</value>
+    <value>Cómo se calcula tu recibo</value>
   </data>
   <data name="Modulo_Aparatos" xml:space="preserve">
     <value>Aparatos</value>
@@ -629,7 +572,7 @@
     <value>Inquilinos</value>
   </data>
   <data name="Modulo_Metas" xml:space="preserve">
-    <value>Metas</value>
+    <value>Tu meta de ahorro</value>
   </data>
   <data name="Modulo_Reportes" xml:space="preserve">
     <value>Reportes</value>
@@ -638,7 +581,7 @@
     <value>PRÓXIMAMENTE</value>
   </data>
   <data name="ModuloPendiente_Texto.Text" xml:space="preserve">
-    <value>Este módulo llega en una próxima fase de VoltiaMX.</value>
+    <value>Esta sección llegará en una próxima versión de VoltiaMX.</value>
   </data>
 
   <!-- Formatos del Dashboard -->
@@ -696,22 +639,16 @@
     <value>—</value>
   </data>
   <data name="Dashboard_MetaSinLecturas" xml:space="preserve">
-    <value>Captura dos lecturas de este periodo para estimar tu pago.</value>
-  </data>
-  <data name="Dashboard_MetaTePasas" xml:space="preserve">
-    <value>Tu meta es ${0:N0}. A este ritmo te pasas por ${1:N0}.</value>
-  </data>
-  <data name="Dashboard_MetaTeSobra" xml:space="preserve">
-    <value>Tu meta es ${0:N0}. A este ritmo te sobran ${1:N0}.</value>
+    <value>Anota dos veces lo que marca tu medidor en este recibo para calcular tu pago.</value>
   </data>
   <data name="Dashboard_Progreso.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Consumo del periodo hasta hoy</value>
+    <value>Consumo de este recibo hasta hoy</value>
   </data>
   <data name="Dashboard_KwhHastaHoy" xml:space="preserve">
     <value>{0:N0} KWH HASTA HOY</value>
   </data>
   <data name="Dashboard_KwhAlCierre" xml:space="preserve">
-    <value>~{0:N0} AL CIERRE</value>
+    <value>~{0:N0} A ESTE RITMO</value>
   </data>
   <data name="Dashboard_SinIva.Text" xml:space="preserve">
     <value>ANTES DE IMPUESTOS</value>
@@ -722,25 +659,16 @@
     <value>AGREGA TU PRIMERA LECTURA</value>
   </data>
   <data name="Dashboard_VacioTexto.Text" xml:space="preserve">
-    <value>La captura de lecturas llega en la siguiente fase. Mientras, carga los datos de demo o registra tu último recibo al repetir el onboarding en Más.</value>
+    <value>Anota lo que marca tu medidor o carga los datos de demo para ver cómo funciona.</value>
   </data>
   <data name="Dashboard_CapturarLectura.Content" xml:space="preserve">
-    <value>Capturar lectura</value>
+    <value>Anotar lectura</value>
   </data>
   <data name="Dashboard_CargarDemo.Content" xml:space="preserve">
     <value>Cargar datos de demo</value>
   </data>
 
   <!-- Dashboard: presupuesto inverso -->
-  <data name="Dashboard_KwhAlDia" xml:space="preserve">
-    <value>{0:N1} KWH AL DÍA</value>
-  </data>
-  <data name="Dashboard_Inverso" xml:space="preserve">
-    <value>Es lo que puedes gastar de aquí al cierre para quedarte en ${0:N0}.</value>
-  </data>
-  <data name="Dashboard_InversoConRitmo" xml:space="preserve">
-    <value>Es lo que puedes gastar de aquí al cierre para quedarte en ${0:N0}. Hoy gastas {1:N1}.</value>
-  </data>
 
   <!-- Dashboard: historial -->
   <data name="Dashboard_HistorialBimestre" xml:space="preserve">
@@ -750,7 +678,7 @@
     <value>CONSUMO POR MES</value>
   </data>
   <data name="Dashboard_HistorialGasto" xml:space="preserve">
-    <value>GASTO POR PERIODO</value>
+    <value>GASTO POR RECIBO</value>
   </data>
   <data name="Dashboard_EtiquetaBimestre" xml:space="preserve">
     <value>B{0}</value>
@@ -767,40 +695,40 @@
 
   <!-- Dashboard: estado -->
   <data name="Dashboard_RiesgoDac.Text" xml:space="preserve">
-    <value>RIESGO DAC</value>
+    <value>TARIFA ALTA (DAC)</value>
   </data>
   <data name="Dac_Bajo" xml:space="preserve">
-    <value>BAJO</value>
+    <value>TRANQUILO</value>
   </data>
   <data name="Dac_Medio" xml:space="preserve">
-    <value>MEDIO</value>
+    <value>CERCA</value>
   </data>
   <data name="Dac_Alto" xml:space="preserve">
-    <value>ALTO</value>
+    <value>MUY CERCA</value>
   </data>
   <data name="Dashboard_DacLimite" xml:space="preserve">
     <value>de {0:N0} kWh al mes</value>
   </data>
   <data name="Dashboard_DacExplicacion.Text" xml:space="preserve">
-    <value>Promedio de tus últimos 12 meses contra el límite de tu tarifa.</value>
+    <value>Tu promedio de los últimos 12 meses contra el límite de tu tarifa.</value>
   </data>
   <data name="Dashboard_Avisos.Text" xml:space="preserve">
     <value>AVISOS</value>
   </data>
   <data name="Aviso_Corte" xml:space="preserve">
-    <value>Tu periodo cierra en {0} días.</value>
+    <value>Tu recibo cierra en {0} días.</value>
   </data>
   <data name="Aviso_PeriodoTerminado" xml:space="preserve">
-    <value>Tu periodo ya terminó: captura la lectura de tu recibo.</value>
+    <value>Tu recibo ya cerró. Anota lo que marca tu medidor.</value>
   </data>
   <data name="Dashboard_Meta.Text" xml:space="preserve">
     <value>META</value>
   </data>
   <data name="Meta_ArribaDelAnterior" xml:space="preserve">
-    <value>{0}: vas {1:N0}% arriba del periodo pasado.</value>
+    <value>{0}: vas {1:N0}% arriba de tu recibo anterior.</value>
   </data>
   <data name="Meta_AbajoDelAnterior" xml:space="preserve">
-    <value>{0}: vas {1:N0}% abajo del periodo pasado.</value>
+    <value>{0}: vas {1:N0}% abajo de tu recibo anterior.</value>
   </data>
   <data name="MetaObjetivo_EntenderRecibo" xml:space="preserve">
     <value>Entender tu recibo</value>
@@ -817,7 +745,7 @@
     <value>TUS PROPIEDADES</value>
   </data>
   <data name="Dashboard_PropiedadesVacio.Text" xml:space="preserve">
-    <value>Agrega tu primera propiedad para ver su consumo y repartirlo entre inquilinos.</value>
+    <value>Agrega tu primera propiedad para ver su consumo y repartirlo entre tus inquilinos.</value>
   </data>
   <data name="Dashboard_Proximamente.Content" xml:space="preserve">
     <value>Próximamente</value>
@@ -841,15 +769,15 @@
     <value>QUÉ GASTA MÁS</value>
   </data>
   <data name="Dashboard_AparatosVacio.Text" xml:space="preserve">
-    <value>Agrega tus aparatos para ver cuáles gastan más</value>
+    <value>Agrega tus aparatos para ver cuáles gastan más.</value>
   </data>
 
   <!-- Dashboard: cierre -->
   <data name="Dashboard_CierreTitulo.Text" xml:space="preserve">
-    <value>CAPTURA LA LECTURA DE HOY</value>
+    <value>ANOTA LO QUE MARCA TU MEDIDOR HOY</value>
   </data>
   <data name="Dashboard_CierreCapturar.Content" xml:space="preserve">
-    <value>Capturar lectura</value>
+    <value>Anotar lectura</value>
   </data>
   <data name="Dashboard_DatosEjemplo.Text" xml:space="preserve">
     <value>DATOS DE EJEMPLO</value>
@@ -866,10 +794,10 @@
     <value>Desactivado</value>
   </data>
   <data name="Config_OnboardingTitulo.Text" xml:space="preserve">
-    <value>Repetir el onboarding</value>
+    <value>Volver a contestar las preguntas iniciales</value>
   </data>
   <data name="Config_OnboardingBoton.Content" xml:space="preserve">
-    <value>Repetir</value>
+    <value>Volver a contestar</value>
   </data>
   <data name="Config_DemoCargar.Content" xml:space="preserve">
     <value>Cargar datos de demo</value>
@@ -898,19 +826,19 @@
     <value>DATOS DE EJEMPLO</value>
   </data>
   <data name="DatosEjemplo_Aviso.Text" xml:space="preserve">
-    <value>Estás viendo datos de ejemplo. Quítalos para capturar tus lecturas reales.</value>
+    <value>Estás viendo datos de ejemplo. Quítalos para anotar tus lecturas reales.</value>
   </data>
   <data name="DatosEjemplo_IrAConfiguracion.Content" xml:space="preserve">
     <value>Ir a Más</value>
   </data>
   <data name="Lecturas_Fecha.Header" xml:space="preserve">
-    <value>Fecha de la lectura</value>
+    <value>Fecha</value>
   </data>
   <data name="Lecturas_Valor.Header" xml:space="preserve">
-    <value>Lectura del medidor (kWh)</value>
+    <value>Lo que marca tu medidor (kWh)</value>
   </data>
   <data name="Lecturas_Valor.Description" xml:space="preserve">
-    <value>El número que marca tu medidor de luz.</value>
+    <value>El número que ves en tu medidor de luz.</value>
   </data>
   <data name="Lecturas_Monto.Header" xml:space="preserve">
     <value>Total de tu recibo (opcional)</value>
@@ -919,7 +847,7 @@
     <value>Solo si esta lectura es la de tu recibo.</value>
   </data>
   <data name="Lecturas_Previsualizar.Content" xml:space="preserve">
-    <value>Previsualizar</value>
+    <value>Ver qué pasará</value>
   </data>
   <data name="Lecturas_Guardar.Content" xml:space="preserve">
     <value>Guardar lectura</value>
@@ -928,7 +856,7 @@
     <value>VISTA PREVIA</value>
   </data>
   <data name="Lecturas_VistaPreviaVacia.Text" xml:space="preserve">
-    <value>Escribe la lectura del medidor para ver qué pasará al guardarla.</value>
+    <value>Escribe lo que marca tu medidor para ver qué pasará al guardarlo.</value>
   </data>
   <data name="Lecturas_Ultimas.Text" xml:space="preserve">
     <value>ÚLTIMAS LECTURAS</value>
@@ -937,25 +865,25 @@
     <value>Agrega tu primera lectura</value>
   </data>
   <data name="Lecturas_VacioTexto.Text" xml:space="preserve">
-    <value>Es el número que marca tu medidor de luz; con dos lecturas calculamos cuánto consumes.</value>
+    <value>Es el número que marca tu medidor. Con dos lecturas calculamos cuánto consumes.</value>
   </data>
   <data name="Lecturas_EliminarUltima.Content" xml:space="preserve">
     <value>Eliminar la última lectura</value>
   </data>
   <data name="Lecturas_SinLugar.Text" xml:space="preserve">
-    <value>Completa el onboarding para capturar lecturas.</value>
+    <value>Contesta las preguntas iniciales para poder anotar lecturas.</value>
   </data>
   <data name="Lecturas_PuntoDePartida" xml:space="preserve">
     <value>PUNTO DE PARTIDA</value>
   </data>
   <data name="Lectura_Rechazo_LugarNoExiste" xml:space="preserve">
-    <value>No encontramos el lugar de esta lectura.</value>
+    <value>No encontramos la casa o negocio de esta lectura.</value>
   </data>
   <data name="Lectura_Rechazo_ValorNegativo" xml:space="preserve">
-    <value>La lectura no puede ser negativa.</value>
+    <value>Escribe un número de cero o más.</value>
   </data>
   <data name="Lectura_Rechazo_FechaFutura" xml:space="preserve">
-    <value>La fecha no puede ser posterior a hoy.</value>
+    <value>Elige una fecha de hoy o anterior.</value>
   </data>
   <data name="Lectura_Rechazo_MenorQueAnterior" xml:space="preserve">
     <value>Es menor que tu lectura anterior. El medidor solo avanza: revisa el número.</value>
@@ -964,7 +892,7 @@
     <value>Es mayor que una lectura de una fecha posterior. Revisa el número o la fecha.</value>
   </data>
   <data name="Lectura_Rechazo_PeriodoCerrado" xml:space="preserve">
-    <value>Esa fecha es de un periodo que ya se cerró.</value>
+    <value>Esa fecha es de un recibo anterior que ya se cerró. Elige una fecha más reciente.</value>
   </data>
   <data name="Previa_NoSeGuarda" xml:space="preserve">
     <value>No se puede guardar</value>
@@ -973,37 +901,37 @@
     <value>Reemplaza la lectura de ese mismo día</value>
   </data>
   <data name="Previa_Cierre" xml:space="preserve">
-    <value>Cierra el periodo del {0:d MMM} al {1:d MMM yyyy}</value>
+    <value>Cierra el recibo del {0:d MMM} al {1:d MMM yyyy}</value>
   </data>
   <data name="Previa_CierreDetalle" xml:space="preserve">
-    <value>{0:N0} kWh · ${1:N0} estimados con tu tarifa, sin IVA ni DAP</value>
+    <value>{0:N0} kWh · ${1:N0} aproximados con tu tarifa, antes de impuestos</value>
   </data>
   <data name="Previa_PuntoDePartidaTitulo" xml:space="preserve">
     <value>Punto de partida</value>
   </data>
   <data name="Previa_PuntoDePartida" xml:space="preserve">
-    <value>Esta lectura solo fija el punto de partida: con la siguiente verás tu consumo.</value>
+    <value>Esta lectura es tu punto de partida. Con la siguiente verás tu consumo.</value>
   </data>
   <data name="Previa_SinBaseTitulo" xml:space="preserve">
-    <value>El periodo no se puede cerrar todavía</value>
+    <value>El recibo no se puede cerrar todavía</value>
   </data>
   <data name="Previa_SinBase" xml:space="preserve">
-    <value>Ya pasó la fecha de corte, pero falta una lectura anterior al corte para calcular su consumo.</value>
+    <value>Ya pasó el día de corte. Falta una lectura de antes del corte para calcular el consumo.</value>
   </data>
   <data name="Previa_SeSuma" xml:space="preserve">
-    <value>Se suma al periodo actual</value>
+    <value>Se suma al recibo actual</value>
   </data>
   <data name="Previa_Consumo" xml:space="preserve">
     <value>{0:N0} kWh desde la lectura del {1:d MMM yyyy}.</value>
   </data>
   <data name="Etiqueta_Estimado" xml:space="preserve">
-    <value>ESTIMADO</value>
+    <value>APROXIMADO</value>
   </data>
   <data name="Etiqueta_Estimada" xml:space="preserve">
-    <value>ESTIMADA</value>
+    <value>APROXIMADA</value>
   </data>
   <data name="Etiqueta_Corte" xml:space="preserve">
-    <value>CORTE</value>
+    <value>DÍA DE CORTE</value>
   </data>
   <data name="Etiqueta_Revisa" xml:space="preserve">
     <value>REVISA</value>
@@ -1012,10 +940,10 @@
     <value>Lectura guardada.</value>
   </data>
   <data name="Lectura_GuardadaUnCierre" xml:space="preserve">
-    <value>Lectura guardada. Se cerró un periodo.</value>
+    <value>Lectura guardada. Se cerró un recibo.</value>
   </data>
   <data name="Lectura_GuardadaCierres" xml:space="preserve">
-    <value>Lectura guardada. Se cerraron {0} periodos.</value>
+    <value>Lectura guardada. Se cerraron {0} recibos.</value>
   </data>
   <data name="Lectura_Eliminada" xml:space="preserve">
     <value>Se eliminó la última lectura.</value>
@@ -1036,7 +964,7 @@
     <value>NO SE PUEDE ELIMINAR</value>
   </data>
   <data name="Eliminar_NoPermitidoTexto" xml:space="preserve">
-    <value>La última lectura es el corte de un periodo cerrado: el consumo de ese periodo depende de ella.</value>
+    <value>Esta lectura es el día de corte de un recibo anterior. Su consumo depende de ella.</value>
   </data>
   <data name="Dialogo_Entendido" xml:space="preserve">
     <value>Entendido</value>
@@ -1053,25 +981,25 @@
     <value>Pesos</value>
   </data>
   <data name="Historial_Vacio.Text" xml:space="preserve">
-    <value>Con dos periodos cerrados verás tu historial. Un periodo se cierra al capturar la lectura de su fecha de corte o una posterior.</value>
+    <value>Con dos recibos anteriores verás tu historial. Un recibo se cierra al anotar la lectura de su día de corte.</value>
   </data>
   <data name="Historial_Grafica.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Gráfica de consumo por periodo. Los valores están en la tabla que sigue.</value>
+    <value>Gráfica de consumo por recibo. Los valores están en la tabla que sigue.</value>
   </data>
   <data name="Historial_VersionTexto.Text" xml:space="preserve">
     <value>VERSIÓN EN TEXTO DE LA GRÁFICA</value>
   </data>
   <data name="Historial_Acumulado.Text" xml:space="preserve">
-    <value>CONSUMO ACUMULADO DEL PERIODO ACTUAL</value>
+    <value>CONSUMO DE ESTE RECIBO HASTA HOY</value>
   </data>
   <data name="Historial_GraficaAcumulado.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Gráfica del consumo acumulado del periodo actual</value>
+    <value>Gráfica del consumo de este recibo hasta hoy</value>
   </data>
   <data name="Historial_EtiquetaActual" xml:space="preserve">
     <value>EN CURSO</value>
   </data>
   <data name="Historial_EtiquetaEstimado" xml:space="preserve">
-    <value>{0} EST.</value>
+    <value>{0} APROX.</value>
   </data>
   <data name="Historial_FechaCorte" xml:space="preserve">
     <value>{0:d MMM}</value>
@@ -1089,7 +1017,7 @@
     <value>${0:N0} (recibo ${1:N0})</value>
   </data>
   <data name="Historial_AcumuladoSinPresupuesto" xml:space="preserve">
-    <value>Llevas {0:N0} kWh en {1:N0} días de este periodo.</value>
+    <value>Llevas {0:N0} kWh en {1:N0} días de este recibo.</value>
   </data>
   <data name="Etiqueta_EnCurso" xml:space="preserve">
     <value>EN CURSO</value>
@@ -1102,79 +1030,25 @@
   </data>
 
   <!-- Presupuesto (pantalla del módulo) -->
-  <data name="Tope_VacioTitulo.Text" xml:space="preserve">
-    <value>Define cuánto quieres pagar</value>
-  </data>
-  <data name="Tope_VacioTexto.Text" xml:space="preserve">
-    <value>Escribe el tope de tu recibo y te decimos cuántos kWh al día puedes gastar para no pasarte.</value>
-  </data>
-  <data name="Tope_MontoBimestral" xml:space="preserve">
-    <value>Tope por recibo bimestral (MXN, sin IVA ni DAP)</value>
-  </data>
-  <data name="Tope_MontoMensual" xml:space="preserve">
-    <value>Tope por recibo mensual (MXN, sin IVA ni DAP)</value>
-  </data>
-  <data name="Tope_Monto.PlaceholderText" xml:space="preserve">
-    <value>Ej. 800</value>
-  </data>
-  <data name="Tope_FueraDeRango" xml:space="preserve">
-    <value>El tope debe ser mayor que 0 y de hasta $1,000,000.</value>
-  </data>
-  <data name="Tope_KwhRestantes" xml:space="preserve">
-    <value>{0:N0} kWh caben todavía en tu tope</value>
-  </data>
-  <data name="Tope_Ritmo" xml:space="preserve">
-    <value>Hoy gastas {0:N1} kWh al día; tu tope permite {1:N1} en promedio.</value>
-  </data>
-  <data name="Tope_KwhMaximos.Text" xml:space="preserve">
-    <value>kWh que caben en tu tope este periodo</value>
-  </data>
-  <data name="Tope_ProyeccionTitulo.Text" xml:space="preserve">
-    <value>Proyección al cierre contra tu tope</value>
-  </data>
-  <data name="Tope_ProyeccionArriba" xml:space="preserve">
-    <value>A este ritmo pagarías ${0:N0}: ${2:N0} más que tu tope de ${1:N0}.</value>
-  </data>
-  <data name="Tope_ProyeccionAbajo" xml:space="preserve">
-    <value>A este ritmo pagarías ${0:N0}: ${2:N0} menos que tu tope de ${1:N0}.</value>
-  </data>
-  <data name="Tope_SinProyeccion" xml:space="preserve">
-    <value>Con dos lecturas en este periodo verás la proyección.</value>
-  </data>
-  <data name="Tope_NoCubreCargoFijo.Text" xml:space="preserve">
-    <value>Tu tope no alcanza ni para el cargo fijo de tu tarifa: súbelo para calcular cuánto puedes gastar.</value>
-  </data>
-  <data name="Tope_EtiquetaRevisa.Content" xml:space="preserve">
-    <value>REVISA</value>
-  </data>
-  <data name="Tope_Progreso.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Consumo del periodo contra lo que cabe en tu tope</value>
-  </data>
-  <data name="Tope_ProgresoTexto" xml:space="preserve">
-    <value>{0:N0} DE {1:N0} KWH QUE CABEN EN TU TOPE</value>
-  </data>
-  <data name="Tope_SinIvaNiDap.Text" xml:space="preserve">
-    <value>Montos sin IVA ni DAP.</value>
-  </data>
 
   <!-- Predictor y alerta DAC -->
   <data name="Predictor_Titulo.Text" xml:space="preserve">
-    <value>PREDICTOR</value>
+    <value>CÓMO SE CALCULA TU RECIBO</value>
   </data>
   <data name="Predictor_VacioTitulo.Text" xml:space="preserve">
-    <value>Todavía no hay base para proyectar</value>
+    <value>Todavía no podemos calcular tu recibo</value>
   </data>
   <data name="Predictor_VacioTexto.Text" xml:space="preserve">
-    <value>Con dos lecturas en este periodo calculamos cuánto vas a pagar y te explicamos tu recibo.</value>
+    <value>Anota dos lecturas en este recibo. Así calculamos cuánto vas a pagar y te lo explicamos.</value>
   </data>
   <data name="Predictor_IrALecturas.Content" xml:space="preserve">
     <value>Ir a Lecturas</value>
   </data>
   <data name="Predictor_PagoTitulo.Text" xml:space="preserve">
-    <value>PAGO PROYECTADO AL CIERRE</value>
+    <value>A ESTE RITMO VAS A PAGAR</value>
   </data>
   <data name="Predictor_KwhProyectados" xml:space="preserve">
-    <value>~{0:N0} KWH AL CIERRE</value>
+    <value>~{0:N0} KWH A ESTE RITMO</value>
   </data>
   <data name="Predictor_ReciboTitulo.Text" xml:space="preserve">
     <value>TU RECIBO, EXPLICADO</value>
@@ -1195,43 +1069,43 @@
     <value>Montos antes de impuestos. Se redondean a centavos; el total es la suma de las filas.</value>
   </data>
   <data name="Predictor_DacTitulo.Text" xml:space="preserve">
-    <value>RIESGO DAC</value>
+    <value>TARIFA ALTA (DAC)</value>
   </data>
   <data name="Predictor_DacPromedio" xml:space="preserve">
     <value>{0:N0} de {1:N0} kWh al mes en promedio ({2} meses)</value>
   </data>
   <data name="Predictor_DacMargen" xml:space="preserve">
-    <value>Te quedan {0:N0} kWh al mes de margen antes del límite de tu tarifa.</value>
+    <value>Te quedan {0:N0} kWh al mes antes del límite de tu tarifa.</value>
   </data>
   <data name="Predictor_DacExcede" xml:space="preserve">
     <value>Tu promedio ya pasa el límite de tu tarifa por {0:N0} kWh al mes.</value>
   </data>
   <data name="Predictor_DacNoAplica.Text" xml:space="preserve">
-    <value>Tu tarifa no tiene un límite DAC registrado, así que este riesgo no aplica.</value>
+    <value>Tu tarifa no tiene límite de tarifa alta, así que esto no aplica.</value>
   </data>
   <data name="Predictor_DacSinDatos.Text" xml:space="preserve">
-    <value>Con periodos cerrados calculamos tu promedio mensual contra el límite de tu tarifa.</value>
+    <value>Con tus recibos anteriores calculamos tu promedio mensual contra el límite de tu tarifa.</value>
   </data>
   <data name="Predictor_DacNota.Text" xml:space="preserve">
-    <value>Los niveles Bajo, Medio y Alto (80% y 95% del límite) son una guía de la app, no criterios oficiales de CFE.</value>
+    <value>Tranquilo, Cerca y Muy cerca son una guía de la app, no niveles oficiales de CFE. Cerca empieza en 80 % del límite y Muy cerca en 95 %.</value>
   </data>
   <data name="Predictor_DacExplicacionTitulo.Text" xml:space="preserve">
     <value>¿Qué significa estar cerca del límite?</value>
   </data>
   <data name="Predictor_DacExplicacion.Text" xml:space="preserve">
-    <value>Tu tarifa tiene un límite de consumo promedio mensual. Comparamos el promedio de tus últimos 12 meses contra ese límite: mientras más cerca estés, más conviene bajar tu consumo para no rebasarlo. El límite es un dato de tu tarifa en la app; confírmalo con tu recibo.</value>
+    <value>Tu tarifa tiene un límite de consumo promedio al mes. Comparamos tu promedio de 12 meses contra ese límite. Mientras más cerca estés, más te conviene bajar tu consumo. Confirma el límite con tu recibo.</value>
   </data>
   <data name="Aviso_DacMedio" xml:space="preserve">
-    <value>Tu consumo promedio se acerca al límite DAC de tu tarifa.</value>
+    <value>Tu consumo promedio se acerca al límite de la tarifa alta (DAC).</value>
   </data>
   <data name="Aviso_DacAlto" xml:space="preserve">
-    <value>Atención: tu consumo promedio está muy cerca del límite DAC de tu tarifa o ya lo pasó.</value>
+    <value>Atención: tu consumo promedio está muy cerca del límite de la tarifa alta (DAC), o ya lo pasó.</value>
   </data>
   <data name="Aviso_VerDetalle" xml:space="preserve">
     <value>Ver detalle</value>
   </data>
   <data name="Dashboard_DacVerDetalle.Content" xml:space="preserve">
-    <value>Ver detalle del riesgo</value>
+    <value>Ver el detalle</value>
   </data>
 
   <!-- Tarifas -->
@@ -1239,10 +1113,10 @@
     <value>TARIFAS</value>
   </data>
   <data name="Tarifas_SinIvaNiDap.Text" xml:space="preserve">
-    <value>Precios por kWh y cargos sin IVA ni DAP. Las tarifas de ejemplo no son oficiales: verifícalas con tu recibo de CFE.</value>
+    <value>Precios por kWh y cargos antes de impuestos. Las tarifas de ejemplo no son oficiales: compáralas con tu recibo.</value>
   </data>
   <data name="Tarifas_DeTuLugar.Text" xml:space="preserve">
-    <value>TARIFA DE TU LUGAR</value>
+    <value>TARIFA DE TU CASA O NEGOCIO</value>
   </data>
   <data name="Tarifas_Actual" xml:space="preserve">
     <value>{0} usa la tarifa {1}.</value>
@@ -1257,7 +1131,7 @@
     <value>Usar esta tarifa</value>
   </data>
   <data name="Tarifas_Asignada" xml:space="preserve">
-    <value>Tu lugar ahora usa la tarifa {0}.</value>
+    <value>Tu casa o negocio ahora usa la tarifa {0}.</value>
   </data>
   <data name="Tarifas_Tuyas.Text" xml:space="preserve">
     <value>TUS TARIFAS</value>
@@ -1266,7 +1140,7 @@
     <value>Nueva tarifa</value>
   </data>
   <data name="Tarifas_Detalle" xml:space="preserve">
-    <value>{0} · RANGOS: {1}</value>
+    <value>{0} · TRAMOS DE PRECIO: {1}</value>
   </data>
   <data name="TipoTarifa_Domestica" xml:space="preserve">
     <value>DOMÉSTICA</value>
@@ -1275,7 +1149,7 @@
     <value>COMERCIAL</value>
   </data>
   <data name="TipoTarifa_Dac" xml:space="preserve">
-    <value>DAC</value>
+    <value>TARIFA ALTA (DAC)</value>
   </data>
   <data name="Tarifas_EnUso.Content" xml:space="preserve">
     <value>EN USO</value>
@@ -1296,16 +1170,16 @@
     <value>¿ELIMINAR LA TARIFA?</value>
   </data>
   <data name="Tarifas_EliminarTexto" xml:space="preserve">
-    <value>Se borrará la tarifa {0} con sus rangos. No se puede deshacer.</value>
+    <value>Se borrará la tarifa {0} con sus tramos de precio. No se puede deshacer.</value>
   </data>
   <data name="Tarifas_NoSePuedeEliminar" xml:space="preserve">
     <value>NO SE PUEDE ELIMINAR</value>
   </data>
   <data name="Tarifas_NoEliminar_EnUso" xml:space="preserve">
-    <value>La usan estos lugares: {0}. Cámbiales la tarifa primero.</value>
+    <value>La usan: {0}. Cámbiales la tarifa primero.</value>
   </data>
   <data name="Tarifas_NoEliminar_EsLaUltima" xml:space="preserve">
-    <value>Es la única tarifa que queda; la app necesita al menos una.</value>
+    <value>Es la única tarifa que queda. La app necesita al menos una.</value>
   </data>
   <data name="Tarifas_NoEliminar_NoExiste" xml:space="preserve">
     <value>Esa tarifa ya no existe.</value>
@@ -1329,31 +1203,31 @@
     <value>Vigente desde</value>
   </data>
   <data name="TarifaEditor_CargoFijo.Header" xml:space="preserve">
-    <value>Cargo fijo mensual (MXN, sin IVA ni DAP)</value>
+    <value>Cargo fijo al mes (MXN, antes de impuestos)</value>
   </data>
   <data name="TarifaEditor_LimiteDac.Header" xml:space="preserve">
-    <value>Límite DAC (kWh al mes, opcional)</value>
+    <value>Límite de la tarifa alta (kWh al mes, opcional)</value>
   </data>
   <data name="TarifaEditor_AsiSeVeria.Text" xml:space="preserve">
     <value>ASÍ SE VERÍA</value>
   </data>
   <data name="TarifaEditor_AsiSeVeriaTexto.Text" xml:space="preserve">
-    <value>Energía de un recibo bimestral con estos precios, sin IVA ni DAP.</value>
+    <value>La energía de un recibo bimestral con estos precios, antes de impuestos.</value>
   </data>
   <data name="TarifaEditor_SinVistaPrevia.Text" xml:space="preserve">
-    <value>Corrige los errores para ver la vista previa.</value>
+    <value>Corrige lo que está marcado para ver cómo se vería.</value>
   </data>
   <data name="TarifaEditor_VistaKwh" xml:space="preserve">
     <value>{0:N0} kWh bimestrales</value>
   </data>
   <data name="TarifaEditor_Rangos.Text" xml:space="preserve">
-    <value>RANGOS</value>
+    <value>TRAMOS DE PRECIO</value>
   </data>
   <data name="TarifaEditor_AgregarRango.Content" xml:space="preserve">
-    <value>Agregar rango</value>
+    <value>Agregar tramo</value>
   </data>
   <data name="TarifaEditor_RangoNombre.Header" xml:space="preserve">
-    <value>Nombre del rango</value>
+    <value>Nombre del tramo</value>
   </data>
   <data name="TarifaEditor_RangoHasta.Header" xml:space="preserve">
     <value>Hasta (kWh/mes)</value>
@@ -1377,7 +1251,7 @@
     <value>Básico</value>
   </data>
   <data name="TarifaEditor_RangoNuevo" xml:space="preserve">
-    <value>Rango {0}</value>
+    <value>Tramo {0}</value>
   </data>
   <data name="TarifaEditor_EtiquetaRevisa.Content" xml:space="preserve">
     <value>REVISA</value>
@@ -1395,10 +1269,10 @@
     <value>ESTA TARIFA ESTÁ EN USO</value>
   </data>
   <data name="TarifaEditor_EnUsoTexto" xml:space="preserve">
-    <value>Los periodos ya cerrados conservan su monto. La proyección y los periodos nuevos usarán estos precios.</value>
+    <value>Tus recibos anteriores conservan su monto. El recibo actual y los nuevos usarán estos precios.</value>
   </data>
   <data name="Tarifa_ErrorEnRango" xml:space="preserve">
-    <value>Rango {0}: {1}</value>
+    <value>Tramo {0}: {1}</value>
   </data>
   <data name="Tarifa_Error_NombreObligatorio" xml:space="preserve">
     <value>Escribe un nombre para la tarifa.</value>
@@ -1410,40 +1284,40 @@
     <value>Ya hay otra tarifa con ese nombre.</value>
   </data>
   <data name="Tarifa_Error_SinRangos" xml:space="preserve">
-    <value>Agrega al menos un rango.</value>
+    <value>Agrega al menos un tramo de precio.</value>
   </data>
   <data name="Tarifa_Error_NombreDeRangoObligatorio" xml:space="preserve">
-    <value>escribe el nombre del rango.</value>
+    <value>escribe el nombre del tramo.</value>
   </data>
   <data name="Tarifa_Error_PrimerRangoNoEmpiezaEnCero" xml:space="preserve">
-    <value>el primer rango debe empezar en 0 kWh.</value>
+    <value>el primer tramo debe empezar en 0 kWh.</value>
   </data>
   <data name="Tarifa_Error_HuecoEntreRangos" xml:space="preserve">
-    <value>debe empezar donde termina el rango anterior.</value>
+    <value>debe empezar donde termina el tramo anterior.</value>
   </data>
   <data name="Tarifa_Error_HastaNoMayorQueDesde" xml:space="preserve">
-    <value>el tope debe ser mayor que el inicio del rango.</value>
+    <value>el final debe ser mayor que el inicio del tramo.</value>
   </data>
   <data name="Tarifa_Error_RangoDespuesDeUnoSinLimite" xml:space="preserve">
-    <value>solo el último rango puede quedar sin límite; ponle tope al anterior.</value>
+    <value>solo el último tramo puede quedar sin límite. Ponle final al anterior.</value>
   </data>
   <data name="Tarifa_Error_UltimoRangoConLimite" xml:space="preserve">
-    <value>el último rango debe quedar sin límite.</value>
+    <value>deja sin límite el último tramo.</value>
   </data>
   <data name="Tarifa_Error_PrecioNoPositivo" xml:space="preserve">
-    <value>el precio por kWh debe ser mayor que 0.</value>
+    <value>escribe un precio por kWh mayor que cero.</value>
   </data>
   <data name="Tarifa_Error_PrecioConMasDeCuatroDecimales" xml:space="preserve">
-    <value>el precio puede tener hasta 4 decimales.</value>
+    <value>usa hasta 4 decimales en el precio.</value>
   </data>
   <data name="Tarifa_Error_CargoFijoNegativo" xml:space="preserve">
-    <value>El cargo fijo no puede ser negativo.</value>
+    <value>Escribe un cargo fijo de cero o más.</value>
   </data>
   <data name="Tarifa_Error_LimiteDacSoloDomestica" xml:space="preserve">
-    <value>Solo las tarifas domésticas tienen límite DAC.</value>
+    <value>Solo las tarifas domésticas tienen límite de tarifa alta.</value>
   </data>
   <data name="Tarifa_Error_LimiteDacNoPositivo" xml:space="preserve">
-    <value>El límite DAC debe ser mayor que 0.</value>
+    <value>Escribe un límite de tarifa alta mayor que cero.</value>
   </data>
   <data name="Tarifa_Error_VigenciaObligatoria" xml:space="preserve">
     <value>Elige desde cuándo aplica la tarifa.</value>
@@ -1461,13 +1335,13 @@
     <value>VALIDAR CON TU RECIBO</value>
   </data>
   <data name="Validar_Ayuda.Text" xml:space="preserve">
-    <value>Compara la tarifa con un recibo real. El importe de energía es la suma de los renglones Básico, Intermedio y Excedente, antes del IVA; no incluye IVA ni DAP.</value>
+    <value>Compara la tarifa con un recibo real. El importe de energía es la suma de Básico, Intermedio y Excedente, antes de impuestos.</value>
   </data>
   <data name="Validar_Tarifa.Header" xml:space="preserve">
     <value>Tarifa</value>
   </data>
   <data name="Validar_Periodo.Text" xml:space="preserve">
-    <value>Periodo del recibo</value>
+    <value>¿Cada cuándo te llega el recibo?</value>
   </data>
   <data name="Validar_Bimestral.Content" xml:space="preserve">
     <value>Bimestral</value>
@@ -1479,7 +1353,7 @@
     <value>kWh del recibo</value>
   </data>
   <data name="Validar_Importe.Header" xml:space="preserve">
-    <value>Importe de energía del recibo (sin IVA ni DAP)</value>
+    <value>Importe de energía del recibo (antes de impuestos)</value>
   </data>
   <data name="Validar_Comparar.Content" xml:space="preserve">
     <value>Comparar</value>
@@ -1506,31 +1380,31 @@
     <value>Diferencia: {0:+$#,##0.00;-$#,##0.00;$0.00} entre lo calculado y tu recibo.</value>
   </data>
   <data name="Validar_Sugerencia.Text" xml:space="preserve">
-    <value>No coincide: revisa en el editor los precios por kWh y los límites de cada rango, y que el periodo sea el de tu recibo.</value>
+    <value>No coincide. Revisa los precios y los límites de cada tramo, y que el recibo sea bimestral o mensual.</value>
   </data>
   <data name="Recalcular_Explicacion.Text" xml:space="preserve">
-    <value>Vuelve a calcular el monto de tus periodos con la tarifa de tu lugar. Los periodos con monto de recibo no se tocan.</value>
+    <value>Vuelve a calcular el monto de tus recibos anteriores con la tarifa actual. Los que tienen monto del recibo no cambian.</value>
   </data>
   <data name="Recalcular_Boton.Content" xml:space="preserve">
-    <value>Recalcular mis periodos con la tarifa de mi lugar</value>
+    <value>Recalcular mis recibos con mi tarifa</value>
   </data>
   <data name="Recalcular_Titulo" xml:space="preserve">
-    <value>Recalcular periodos</value>
+    <value>Recalcular recibos</value>
   </data>
   <data name="Recalcular_Texto" xml:space="preserve">
-    <value>Se recalcularán {0} periodos con la tarifa {2}. {1} periodos tienen monto de recibo y se saltarán.</value>
+    <value>Se recalcularán {0} recibos con la tarifa {2}. {1} recibos tienen monto del recibo y no cambian.</value>
   </data>
   <data name="Recalcular_Confirmar" xml:space="preserve">
     <value>Recalcular</value>
   </data>
   <data name="Recalcular_Hecho" xml:space="preserve">
-    <value>Listo: {0} periodos recalculados ({1} cambiaron); {2} saltados por tener monto de recibo.</value>
+    <value>Listo: {0} recibos recalculados ({1} cambiaron). {2} no cambiaron por tener monto del recibo.</value>
   </data>
   <data name="Aparatos_Titulo.Text" xml:space="preserve">
     <value>APARATOS</value>
   </data>
   <data name="Aparatos_Subtitulo.Text" xml:space="preserve">
-    <value>Estima cuánto consume cada aparato al mes con su potencia y su uso.</value>
+    <value>Calcula cuánto consume cada aparato al mes con su potencia y su uso.</value>
   </data>
   <data name="Aparatos_Plantilla.Header" xml:space="preserve">
     <value>Agregar desde una plantilla</value>
@@ -1542,7 +1416,7 @@
     <value>Agregar aparato</value>
   </data>
   <data name="Aparatos_NotaReferencia.Text" xml:space="preserve">
-    <value>Valores típicos de referencia: usa los de la etiqueta de tu aparato.</value>
+    <value>Son valores típicos. Usa los de la etiqueta de tu aparato.</value>
   </data>
   <data name="Aparatos_TituloNuevo" xml:space="preserve">
     <value>NUEVO APARATO</value>
@@ -1569,7 +1443,7 @@
     <value>Días a la semana</value>
   </data>
   <data name="Aparatos_Ciclo.Header" xml:space="preserve">
-    <value>Ciclo de trabajo (0.05 a 1)</value>
+    <value>Qué parte del tiempo consume (0.05 a 1)</value>
   </data>
   <data name="Aparatos_AsiSeVeria.Text" xml:space="preserve">
     <value>ASÍ SE VERÍA</value>
@@ -1578,7 +1452,7 @@
     <value>{0:N1} KWH AL MES</value>
   </data>
   <data name="Aparatos_AsiSeVeriaTexto.Text" xml:space="preserve">
-    <value>Consumo estimado con estos datos. Es una estimación, no lo que mide tu medidor.</value>
+    <value>Consumo aproximado con estos datos. No es lo que mide tu medidor.</value>
   </data>
   <data name="Aparatos_SinVistaPrevia.Text" xml:space="preserve">
     <value>Completa los datos para ver cuánto consumiría al mes.</value>
@@ -1596,7 +1470,7 @@
     <value>Agrega tu primer aparato</value>
   </data>
   <data name="Aparatos_VacioTexto.Text" xml:space="preserve">
-    <value>Elige una plantilla o captura uno a mano para estimar cuánto consume al mes.</value>
+    <value>Elige una plantilla o agrégalo a mano para calcular cuánto consume al mes.</value>
   </data>
   <data name="Aparatos_Detalle" xml:space="preserve">
     <value>{0} × {1:N0} W · {2:0.##} h/día · {3} días/sem</value>
@@ -1632,19 +1506,19 @@
     <value>Elige una categoría.</value>
   </data>
   <data name="Aparato_Error_CantidadFueraDeRango" xml:space="preserve">
-    <value>La cantidad va de 1 a 99.</value>
+    <value>Escribe una cantidad de 1 a 99.</value>
   </data>
   <data name="Aparato_Error_WattsFueraDeRango" xml:space="preserve">
-    <value>La potencia debe ser mayor que 0 y de hasta 20,000 W.</value>
+    <value>Escribe una potencia mayor que cero y de hasta 20,000 W.</value>
   </data>
   <data name="Aparato_Error_HorasFueraDeRango" xml:space="preserve">
-    <value>Las horas al día deben ser más de 0 y hasta 24.</value>
+    <value>Escribe más de 0 y hasta 24 horas al día.</value>
   </data>
   <data name="Aparato_Error_DiasFueraDeRango" xml:space="preserve">
-    <value>Los días a la semana van de 1 a 7.</value>
+    <value>Escribe de 1 a 7 días a la semana.</value>
   </data>
   <data name="Aparato_Error_CicloFueraDeRango" xml:space="preserve">
-    <value>El ciclo de trabajo va de 0.05 a 1.</value>
+    <value>Escribe qué parte del tiempo consume: de 0.05 a 1.</value>
   </data>
   <data name="CategoriaAparato_Climatizacion" xml:space="preserve">
     <value>Climatización</value>
@@ -1698,7 +1572,7 @@
     <value>Bomba de agua</value>
   </data>
   <data name="Aparatos_AyudaCampos.Text" xml:space="preserve">
-    <value>La potencia viene en la etiqueta o en el manual del aparato. El ciclo de trabajo es la fracción del tiempo encendido en que consume esa potencia: 1 si no se apaga solo.</value>
+    <value>La potencia viene en la etiqueta o el manual. Qué parte del tiempo consume: 1 si nunca se apaga solo.</value>
   </data>
   <data name="Dashboard_AgregarAparatos.Content" xml:space="preserve">
     <value>Agregar aparatos</value>
@@ -1707,25 +1581,25 @@
     <value>Ver todos</value>
   </data>
   <data name="Ranking_Titulo.Text" xml:space="preserve">
-    <value>RANKING</value>
+    <value>LO QUE MÁS GASTA</value>
   </data>
   <data name="Ranking_Medido" xml:space="preserve">
     <value>Porcentaje de lo que mide tu medidor: {0:N0} kWh al mes.</value>
   </data>
   <data name="Ranking_SinConsumo" xml:space="preserve">
-    <value>Todavía no hay consumo medido: con dos lecturas o un periodo cerrado verás porcentajes. Mientras, ves los kWh al mes estimados de cada aparato.</value>
+    <value>Aún no medimos tu consumo. Con dos lecturas o un recibo anterior verás porcentajes. Mientras, ves los kWh al mes aproximados.</value>
   </data>
   <data name="Ranking_SinConsumoCorto" xml:space="preserve">
-    <value>Sin consumo medido todavía: son kWh al mes estimados.</value>
+    <value>Aún no medimos tu consumo: son kWh al mes aproximados.</value>
   </data>
   <data name="Ranking_SinIdentificar.Text" xml:space="preserve">
     <value>SIN IDENTIFICAR</value>
   </data>
   <data name="Ranking_SumaExcedeTexto.Text" xml:space="preserve">
-    <value>Tus aparatos suman más de lo que mide tu medidor: revisa potencias y horas.</value>
+    <value>Tus aparatos suman más de lo que mide tu medidor. Revisa potencias y horas.</value>
   </data>
   <data name="Ranking_SumaExcede" xml:space="preserve">
-    <value>Tus aparatos suman más de lo que mide tu medidor: revisa potencias y horas.</value>
+    <value>Tus aparatos suman más de lo que mide tu medidor. Revisa potencias y horas.</value>
   </data>
   <data name="Dashboard_Simular" xml:space="preserve">
     <value>Simular cuánto ahorrarías</value>
@@ -1743,16 +1617,16 @@
     <value>SIMULADOR</value>
   </data>
   <data name="Simulador_NotaDatos.Text" xml:space="preserve">
-    <value>El resultado vale lo que valen la potencia y las horas que capturaste en Aparatos. No se guarda nada.</value>
+    <value>El resultado depende de la potencia y las horas que escribiste en Aparatos. No se guarda nada.</value>
   </data>
   <data name="Simulador_NotaIva.Text" xml:space="preserve">
-    <value>Los pesos salen de los rangos de tu tarifa con tu consumo medido, sin IVA ni DAP.</value>
+    <value>Los pesos salen de los tramos de precio de tu tarifa con tu consumo medido, antes de impuestos.</value>
   </data>
   <data name="Simulador_VacioTitulo.Text" xml:space="preserve">
     <value>Agrega un aparato para simular</value>
   </data>
   <data name="Simulador_VacioTexto.Text" xml:space="preserve">
-    <value>El simulador trabaja sobre los aparatos que capturaste, con su potencia y sus horas.</value>
+    <value>El simulador usa los aparatos que agregaste, con su potencia y sus horas.</value>
   </data>
   <data name="Simulador_IrAAparatos.Content" xml:space="preserve">
     <value>Ir a Aparatos</value>
@@ -1782,34 +1656,34 @@
     <value>Potencia del equipo nuevo (W)</value>
   </data>
   <data name="Simulador_Ciclo.Header" xml:space="preserve">
-    <value>Ciclo de trabajo (opcional)</value>
+    <value>Qué parte del tiempo consume (opcional)</value>
   </data>
   <data name="Simulador_Precio.Header" xml:space="preserve">
     <value>Precio del equipo (opcional)</value>
   </data>
   <data name="Simulador_AyudaEficiente.Text" xml:space="preserve">
-    <value>Usa la potencia de la etiqueta del equipo nuevo. Sin ciclo de trabajo se usa el del aparato actual; sin precio no se calcula la recuperación.</value>
+    <value>Usa la potencia de la etiqueta del equipo nuevo. Sin precio no calculamos cuándo lo recuperas.</value>
   </data>
   <data name="Simulador_Error_HorasFueraDeRango" xml:space="preserve">
-    <value>Las horas al día deben ser más de 0 y hasta 24.</value>
+    <value>Escribe más de 0 y hasta 24 horas al día.</value>
   </data>
   <data name="Simulador_Error_DiasFueraDeRango" xml:space="preserve">
-    <value>Los días a la semana van de 1 a 7.</value>
+    <value>Escribe de 1 a 7 días a la semana.</value>
   </data>
   <data name="Simulador_Error_WattsFueraDeRango" xml:space="preserve">
-    <value>La potencia debe ser mayor que 0 y de hasta 20,000 W.</value>
+    <value>Escribe una potencia mayor que cero y de hasta 20,000 W.</value>
   </data>
   <data name="Simulador_Error_CicloFueraDeRango" xml:space="preserve">
-    <value>El ciclo de trabajo va de 0.05 a 1.</value>
+    <value>Escribe qué parte del tiempo consume: de 0.05 a 1.</value>
   </data>
   <data name="Simulador_Error_PrecioNegativo" xml:space="preserve">
-    <value>El precio del equipo no puede ser negativo.</value>
+    <value>Escribe un precio de cero o más.</value>
   </data>
   <data name="Simulador_LeyendaAhorroMes" xml:space="preserve">
-    <value>AHORRO AL MES · SIN IVA NI DAP</value>
+    <value>AHORRO AL MES · ANTES DE IMPUESTOS</value>
   </data>
   <data name="Simulador_LeyendaPagariasMas" xml:space="preserve">
-    <value>PAGARÍAS DE MÁS AL MES · SIN IVA NI DAP</value>
+    <value>PAGARÍAS DE MÁS AL MES · ANTES DE IMPUESTOS</value>
   </data>
   <data name="Simulador_CifraKwh" xml:space="preserve">
     <value>{0:N1} KWH</value>
@@ -1851,13 +1725,13 @@
     <value>No hay precio del equipo</value>
   </data>
   <data name="Simulador_NoSeRecupera" xml:space="preserve">
-    <value>No se recupera: no hay ahorro en pesos</value>
+    <value>No se recupera: no hay ahorro en pesos.</value>
   </data>
   <data name="Simulador_NotaRecuperacion.Text" xml:space="preserve">
-    <value>La recuperación no supone cambios en los precios de CFE ni la vida útil del equipo.</value>
+    <value>No suponemos cambios en los precios de CFE ni en la vida útil del equipo.</value>
   </data>
   <data name="Simulador_DacTitulo.Text" xml:space="preserve">
-    <value>RIESGO DAC · ESTIMACIÓN</value>
+    <value>TARIFA ALTA (DAC) · APROXIMADO</value>
   </data>
   <data name="Simulador_DacAntes.Text" xml:space="preserve">
     <value>Hoy</value>
@@ -1869,10 +1743,10 @@
     <value>{0:N0} kWh/mes promedio</value>
   </data>
   <data name="EstadoSimulacion_SinConsumoMedido" xml:space="preserve">
-    <value>Sin consumo medido no hay pesos: con dos lecturas o un periodo cerrado se calculan con tu tarifa. Mientras, ves los kWh.</value>
+    <value>Sin consumo medido no hay pesos. Con dos lecturas o un recibo anterior los calculamos con tu tarifa.</value>
   </data>
   <data name="EstadoSimulacion_AhorroExcedeConsumo" xml:space="preserve">
-    <value>El ahorro de este aparato es mayor que lo que mide tu medidor: se limitó a tu consumo. Revisa su potencia y horas en Aparatos.</value>
+    <value>El ahorro de este aparato es mayor que lo que mide tu medidor. Lo limitamos a tu consumo: revisa su potencia y horas.</value>
   </data>
   <data name="EstadoSimulacion_ConsumiriasMas" xml:space="preserve">
     <value>Con este cambio el aparato consumiría más, no menos.</value>
@@ -1884,16 +1758,16 @@
     <value>De más en tu recibo bimestral</value>
   </data>
   <data name="Metas_Titulo.Text" xml:space="preserve">
-    <value>METAS</value>
+    <value>TU META DE AHORRO</value>
   </data>
   <data name="Metas_Explicacion.Text" xml:space="preserve">
-    <value>Reducir tu consumo contra el periodo anterior. Todo en kWh, con tus lecturas.</value>
+    <value>Gasta menos que en tu recibo anterior. Todo en kWh, con tus lecturas.</value>
   </data>
   <data name="Metas_VacioTitulo.Text" xml:space="preserve">
     <value>Crea tu meta</value>
   </data>
   <data name="Metas_VacioTexto.Text" xml:space="preserve">
-    <value>Elige cuánto quieres bajar tu consumo contra el periodo anterior. La meta se repite cada periodo.</value>
+    <value>Elige cuánto quieres bajar tu consumo contra tu recibo anterior. La meta se repite en cada recibo.</value>
   </data>
   <data name="Metas_Porcentaje.Header" xml:space="preserve">
     <value>Porcentaje a reducir (1 a 50)</value>
@@ -1908,7 +1782,7 @@
     <value>Cancelar</value>
   </data>
   <data name="Metas_MetaActual" xml:space="preserve">
-    <value>Tu meta: consumir {0}% menos que el periodo anterior.</value>
+    <value>Tu meta: consumir {0}% menos que en tu recibo anterior.</value>
   </data>
   <data name="EstadoMeta_Cumpliendo" xml:space="preserve">
     <value>VAS CUMPLIENDO</value>
@@ -1920,7 +1794,7 @@
     <value>SUPERADA</value>
   </data>
   <data name="EstadoMeta_SinBase" xml:space="preserve">
-    <value>SIN PERIODO ANTERIOR</value>
+    <value>SIN RECIBO ANTERIOR</value>
   </data>
   <data name="EstadoMeta_SinConsumoMedido" xml:space="preserve">
     <value>SIN LECTURAS</value>
@@ -1929,16 +1803,16 @@
     <value>INACTIVA</value>
   </data>
   <data name="Metas_SinBaseTitulo" xml:space="preserve">
-    <value>Todavía no hay periodo anterior</value>
+    <value>Todavía no hay recibo anterior</value>
   </data>
   <data name="Metas_SinBaseTexto" xml:space="preserve">
-    <value>La meta se compara con tu último periodo cerrado. Un periodo se cierra al capturar la lectura de su fecha de corte.</value>
+    <value>La meta se compara con tu recibo anterior. Un recibo se cierra al anotar la lectura de su día de corte.</value>
   </data>
   <data name="Metas_SinConsumoMedidoTitulo" xml:space="preserve">
-    <value>Falta la lectura de este periodo</value>
+    <value>Falta una lectura de este recibo</value>
   </data>
   <data name="Metas_SinConsumoMedidoTexto" xml:space="preserve">
-    <value>Para saber cuánto llevas, captura la lectura del corte y otra de hoy.</value>
+    <value>Para saber cuánto llevas, anota lo que marca tu medidor el día de corte y hoy.</value>
   </data>
   <data name="Metas_IrALecturas.Content" xml:space="preserve">
     <value>Ir a Lecturas</value>
@@ -1950,43 +1824,43 @@
     <value>Es lo que puedes gastar al día de aquí al corte para lograr tu meta.</value>
   </data>
   <data name="Metas_LeyendaSuperada" xml:space="preserve">
-    <value>Ya pasaste el objetivo de este periodo; la meta vuelve a medirse en el siguiente.</value>
+    <value>Ya pasaste el objetivo de este recibo. La meta vuelve a medirse en el siguiente.</value>
   </data>
   <data name="Metas_Progreso.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Consumido hasta hoy contra el objetivo del periodo</value>
+    <value>Consumo hasta hoy contra el objetivo de este recibo</value>
   </data>
   <data name="Metas_ProgresoTexto" xml:space="preserve">
     <value>{0:N0} DE {1:N0} KWH DEL OBJETIVO</value>
   </data>
   <data name="Metas_FilaBase" xml:space="preserve">
-    <value>Periodo anterior (base)</value>
+    <value>Recibo anterior (base)</value>
   </data>
   <data name="Metas_FilaObjetivo" xml:space="preserve">
-    <value>Objetivo de este periodo</value>
+    <value>Objetivo de este recibo</value>
   </data>
   <data name="Metas_FilaConsumido" xml:space="preserve">
     <value>Consumido hasta hoy</value>
   </data>
   <data name="Metas_FilaProyectado" xml:space="preserve">
-    <value>Proyección al cierre</value>
+    <value>A este ritmo al cierre</value>
   </data>
   <data name="Metas_FilaPesos" xml:space="preserve">
-    <value>El objetivo en tu recibo, sin IVA ni DAP</value>
+    <value>El objetivo en tu recibo, antes de impuestos</value>
   </data>
   <data name="Metas_FilaRacha" xml:space="preserve">
     <value>Racha</value>
   </data>
   <data name="Metas_Racha0" xml:space="preserve">
-    <value>Sin periodos cumplidos seguidos</value>
+    <value>Sin recibos cumplidos seguidos</value>
   </data>
   <data name="Metas_Racha1" xml:space="preserve">
-    <value>1 periodo cumplido</value>
+    <value>1 recibo cumplido</value>
   </data>
   <data name="Metas_Racha" xml:space="preserve">
-    <value>{0} periodos cumplidos seguidos</value>
+    <value>{0} recibos cumplidos seguidos</value>
   </data>
   <data name="Metas_BaseEstimada" xml:space="preserve">
-    <value>Tu periodo anterior es estimado (su lectura de corte se calculó), así que el objetivo también lo es.</value>
+    <value>Tu recibo anterior es aproximado (su día de corte se calculó). El objetivo también lo es.</value>
   </data>
   <data name="Metas_Reduccion" xml:space="preserve">
     <value>{0:0.0'% menos';0.0'% más';'Igual'}</value>
@@ -2001,7 +1875,7 @@
     <value>HISTORIAL</value>
   </data>
   <data name="Metas_HistorialVacio.Text" xml:space="preserve">
-    <value>Todavía no cierra ningún periodo desde que creaste la meta.</value>
+    <value>Todavía no se cierra ningún recibo desde que creaste la meta.</value>
   </data>
   <data name="Metas_CambiarPorcentaje.Content" xml:space="preserve">
     <value>Cambiar porcentaje</value>
@@ -2013,13 +1887,13 @@
     <value>Desactivar meta</value>
   </data>
   <data name="Metas_DesactivarTexto" xml:space="preserve">
-    <value>La meta deja de medirse. Puedes crearla de nuevo cuando quieras; empezará a contar desde ese día.</value>
+    <value>La meta deja de medirse. Puedes crearla de nuevo cuando quieras.</value>
   </data>
   <data name="Metas_DesactivarConfirmar" xml:space="preserve">
     <value>Desactivar</value>
   </data>
   <data name="Metas_Creada" xml:space="preserve">
-    <value>Meta creada: {0}% menos que el periodo anterior.</value>
+    <value>Meta creada: {0}% menos que tu recibo anterior.</value>
   </data>
   <data name="Metas_Cambiada" xml:space="preserve">
     <value>Meta cambiada a {0}%.</value>
@@ -2028,7 +1902,7 @@
     <value>Meta desactivada.</value>
   </data>
   <data name="Meta_Error_PorcentajeFueraDeRango" xml:space="preserve">
-    <value>El porcentaje va de 1 a 50.</value>
+    <value>Escribe un porcentaje de 1 a 50.</value>
   </data>
   <data name="Dashboard_MetaCumpliendo" xml:space="preserve">
     <value>Vas cumpliendo tu meta del {0}%: puedes gastar {1:N1} kWh al día.</value>
@@ -2037,16 +1911,16 @@
     <value>Tu meta del {0}% está en riesgo: para lograrla, gasta máximo {1:N1} kWh al día.</value>
   </data>
   <data name="Dashboard_MetaSuperada" xml:space="preserve">
-    <value>Ya pasaste el objetivo de tu meta del {0}% en este periodo.</value>
+    <value>Ya pasaste el objetivo de tu meta del {0}% en este recibo.</value>
   </data>
   <data name="Dashboard_MetaSinBase" xml:space="preserve">
-    <value>Tu meta empieza a medirse cuando cierre tu primer periodo.</value>
+    <value>Tu meta empieza a medirse cuando cierre tu primer recibo.</value>
   </data>
   <data name="Dashboard_MetaSinConsumoMedido" xml:space="preserve">
-    <value>Captura una lectura para ver cómo va tu meta.</value>
+    <value>Anota una lectura para ver cómo va tu meta.</value>
   </data>
   <data name="Dashboard_MetaSinMeta" xml:space="preserve">
-    <value>Reduce tu consumo contra el periodo anterior.</value>
+    <value>Gasta menos que en tu recibo anterior.</value>
   </data>
   <data name="Dashboard_VerMeta" xml:space="preserve">
     <value>Ver meta</value>
@@ -2070,7 +1944,7 @@
     <value>ESCANEAR RECIBO</value>
   </data>
   <data name="Escanear_Privacidad.Text" xml:space="preserve">
-    <value>El texto se reconoce en este equipo, sin internet. No se guarda la imagen, el PDF ni el texto: solo los datos que confirmes, y se descartan al salir de esta pantalla.</value>
+    <value>El texto se reconoce en este equipo, sin internet. Solo se guardan los datos que confirmes.</value>
   </data>
   <data name="Escanear_Elegir.Content" xml:space="preserve">
     <value>Elegir recibo</value>
@@ -2082,28 +1956,28 @@
     <value>Reconocimiento de texto: {0}</value>
   </data>
   <data name="Escanear_SinTexto" xml:space="preserve">
-    <value>No se reconoció texto en el archivo. Prueba con una imagen más nítida o captura la lectura a mano.</value>
+    <value>No reconocimos texto en el archivo. Prueba con una imagen más nítida o anota la lectura a mano.</value>
   </data>
   <data name="Escanear_SinIdiomaTitulo.Text" xml:space="preserve">
     <value>Falta el reconocimiento de texto de Windows</value>
   </data>
   <data name="Escanear_SinIdiomaTexto.Text" xml:space="preserve">
-    <value>Para leer recibos, instala un idioma con reconocimiento de texto: abre Configuración de Windows, Hora e idioma, Idioma y región; agrega Español (México) y, en sus opciones, instala el reconocimiento óptico de caracteres. Mientras, puedes capturar la lectura a mano.</value>
+    <value>Para leer recibos, abre Configuración de Windows, Hora e idioma. Agrega Español (México) con su reconocimiento de texto. Mientras, anota la lectura a mano.</value>
   </data>
   <data name="Escanear_CapturaManual.Content" xml:space="preserve">
-    <value>Capturar la lectura a mano</value>
+    <value>Anotar la lectura a mano</value>
   </data>
   <data name="ErrorOcr_FormatoNoSoportado" xml:space="preserve">
     <value>Ese archivo no es una imagen (.png, .jpg) ni un PDF. Elige la foto o el PDF de tu recibo.</value>
   </data>
   <data name="ErrorOcr_ArchivoIlegible" xml:space="preserve">
-    <value>No se pudo abrir el archivo: puede estar vacío o dañado. Prueba con otra foto o con el PDF de tu recibo.</value>
+    <value>No pudimos abrir el archivo. Prueba con otra foto o con el PDF de tu recibo.</value>
   </data>
   <data name="Escanear_DatosTitulo.Text" xml:space="preserve">
     <value>DATOS DEL RECIBO</value>
   </data>
   <data name="Escanear_DatosAyuda.Text" xml:space="preserve">
-    <value>Revisa y corrige lo que haga falta antes de guardar. LEÍDO: estaba junto a su etiqueta. REVISAR: se dedujo o estaba en la línea siguiente. NO ENCONTRADO: escríbelo tú.</value>
+    <value>Revisa y corrige antes de guardar. LEÍDO: lo encontramos. REVISAR: compruébalo. NO ENCONTRADO: escríbelo tú.</value>
   </data>
   <data name="Confianza_Alta" xml:space="preserve">
     <value>LEÍDO</value>
@@ -2118,16 +1992,16 @@
     <value>Tarifa</value>
   </data>
   <data name="CampoRecibo_FechaLectura" xml:space="preserve">
-    <value>Fecha de la lectura actual (fin del periodo)</value>
+    <value>Fecha de la lectura actual (fin del recibo)</value>
   </data>
   <data name="CampoRecibo_PeriodoInicio" xml:space="preserve">
-    <value>Inicio del periodo</value>
+    <value>Inicio del recibo</value>
   </data>
   <data name="CampoRecibo_PeriodoFin" xml:space="preserve">
-    <value>Fin del periodo</value>
+    <value>Fin del recibo</value>
   </data>
   <data name="CampoRecibo_FechaCorte" xml:space="preserve">
-    <value>Fecha de corte</value>
+    <value>Día de corte</value>
   </data>
   <data name="CampoRecibo_LecturaAnterior" xml:space="preserve">
     <value>Lectura anterior (kWh)</value>
@@ -2139,10 +2013,10 @@
     <value>Consumo (kWh)</value>
   </data>
   <data name="CampoRecibo_Dias" xml:space="preserve">
-    <value>Días del periodo</value>
+    <value>Días del recibo</value>
   </data>
   <data name="CampoRecibo_ImporteEnergia" xml:space="preserve">
-    <value>Importe de energía, sin IVA ni DAP</value>
+    <value>Importe de energía, antes de impuestos</value>
   </data>
   <data name="CampoRecibo_Total" xml:space="preserve">
     <value>Total a pagar</value>
@@ -2169,19 +2043,19 @@
     <value>Los renglones suman ${0:N2}, pero el importe de energía dice ${1:N2}.</value>
   </data>
   <data name="AvisoRecibo_TarifaNoRegistrada" xml:space="preserve">
-    <value>La tarifa {0} no está entre tus tarifas. Puedes agregarla en Tarifas; no se cambia nada sola.</value>
+    <value>La tarifa {0} no está entre tus tarifas. Puedes agregarla en Tarifas.</value>
   </data>
   <data name="Escanear_NoSeGuardaDemo" xml:space="preserve">
-    <value>Con los datos de ejemplo no se guardan lecturas escaneadas: quítalos en Más para usar tus datos.</value>
+    <value>Con los datos de ejemplo no se guardan lecturas escaneadas. Quítalos en Más para usar tus datos.</value>
   </data>
   <data name="Escanear_Error_FaltaFecha" xml:space="preserve">
-    <value>Falta la fecha de la lectura.</value>
+    <value>Escribe la fecha de la lectura.</value>
   </data>
   <data name="Escanear_Error_FaltaLecturaActual" xml:space="preserve">
-    <value>Falta la lectura actual.</value>
+    <value>Escribe la lectura actual.</value>
   </data>
   <data name="Escanear_Error_LecturaNegativa" xml:space="preserve">
-    <value>La lectura no puede ser negativa.</value>
+    <value>Escribe un número de cero o más.</value>
   </data>
   <data name="Escanear_Guardar.Content" xml:space="preserve">
     <value>Guardar lectura</value>
@@ -2196,7 +2070,7 @@
     <value>COMPARAR CON MI TARIFA</value>
   </data>
   <data name="Escanear_CompararTexto.Text" xml:space="preserve">
-    <value>Opcional: calcula la energía de este consumo con la tarifa de tu lugar y la compara con lo que dice el recibo. Sin IVA ni DAP. No cambia tu tarifa ni tus precios.</value>
+    <value>Opcional: calcula la energía con tu tarifa y la compara con tu recibo, antes de impuestos. No cambia tu tarifa.</value>
   </data>
   <data name="Escanear_Comparar.Content" xml:space="preserve">
     <value>Comparar con mi tarifa</value>
@@ -2208,7 +2082,7 @@
     <value>Notificaciones</value>
   </data>
   <data name="Config_NotificacionesNoDisponibles.Text" xml:space="preserve">
-    <value>Las notificaciones de Windows no están disponibles en esta instalación. Los avisos siguen apareciendo en el Dashboard.</value>
+    <value>Las notificaciones de Windows no están disponibles aquí. Tus avisos siguen apareciendo en Inicio.</value>
   </data>
   <data name="Config_NotificacionesPrueba.Content" xml:space="preserve">
     <value>Enviar notificación de prueba</value>
@@ -2220,34 +2094,34 @@
     <value>Desactivadas</value>
   </data>
   <data name="Aviso_Lectura_Titulo" xml:space="preserve">
-    <value>Se acerca tu fecha de corte</value>
+    <value>Se acerca tu día de corte</value>
   </data>
   <data name="Aviso_Lectura_Cuerpo" xml:space="preserve">
-    <value>Tu periodo cierra en {0} días ({1:d MMM}): captura tu lectura.</value>
+    <value>Tu recibo cierra en {0} días ({1:d MMM}). Anota lo que marca tu medidor.</value>
   </data>
   <data name="Aviso_Lectura_CuerpoHoy" xml:space="preserve">
-    <value>Tu periodo cierra hoy: captura tu lectura.</value>
+    <value>Tu recibo cierra hoy. Anota lo que marca tu medidor.</value>
   </data>
   <data name="Aviso_Lectura_CuerpoTerminado" xml:space="preserve">
-    <value>Tu periodo cerró el {0:d MMM}: captura la lectura para cerrarlo.</value>
+    <value>Tu recibo cerró el {0:d MMM}. Anota lo que marca tu medidor para cerrarlo.</value>
   </data>
   <data name="Aviso_Dac_Titulo" xml:space="preserve">
-    <value>Riesgo de tarifa DAC</value>
+    <value>Tarifa alta (DAC)</value>
   </data>
   <data name="Aviso_Dac_Cuerpo_Medio" xml:space="preserve">
-    <value>Tu consumo promedio se acerca al límite DAC de tu tarifa. Revisa el detalle en el Predictor.</value>
+    <value>Tu consumo promedio se acerca al límite de la tarifa alta. Mira el detalle en Cómo se calcula tu recibo.</value>
   </data>
   <data name="Aviso_Dac_Cuerpo_Alto" xml:space="preserve">
-    <value>Tu consumo promedio está muy cerca del límite DAC de tu tarifa o ya lo pasó. Revisa el detalle en el Predictor.</value>
+    <value>Tu consumo promedio está muy cerca del límite de la tarifa alta, o ya lo pasó. Mira el detalle en la app.</value>
   </data>
   <data name="Aviso_Meta_Titulo" xml:space="preserve">
     <value>Tu meta de ahorro</value>
   </data>
   <data name="Aviso_Meta_Cuerpo_EnRiesgo" xml:space="preserve">
-    <value>A este ritmo no llegas a tu meta del periodo que cierra el {0:d MMM}.</value>
+    <value>A este ritmo no llegas a tu meta del recibo que cierra el {0:d MMM}.</value>
   </data>
   <data name="Aviso_Meta_Cuerpo_Superada" xml:space="preserve">
-    <value>Ya pasaste el objetivo de tu meta del periodo que cierra el {0:d MMM}.</value>
+    <value>Ya pasaste el objetivo de tu meta del recibo que cierra el {0:d MMM}.</value>
   </data>
   <data name="Aviso_Presupuesto_Titulo" xml:space="preserve">
     <value>Tu tope de pago</value>
@@ -2265,7 +2139,7 @@
     <value>REPORTE DE CONSUMO</value>
   </data>
   <data name="Reporte_Lugar" xml:space="preserve">
-    <value>Lugar</value>
+    <value>Casa o negocio</value>
   </data>
   <data name="Reporte_Tarifa" xml:space="preserve">
     <value>Tarifa</value>
@@ -2280,7 +2154,7 @@
     <value>DATOS DE EJEMPLO</value>
   </data>
   <data name="Reporte_SinDatos" xml:space="preserve">
-    <value>Sin datos suficientes.</value>
+    <value>Todavía no hay datos suficientes.</value>
   </data>
   <data name="Reporte_Pagina" xml:space="preserve">
     <value>Página</value>
@@ -2289,25 +2163,25 @@
     <value>de</value>
   </data>
   <data name="Reporte_SeccionPeriodo" xml:space="preserve">
-    <value>PERIODO ACTUAL</value>
+    <value>RECIBO ACTUAL</value>
   </data>
   <data name="Reporte_Periodo" xml:space="preserve">
-    <value>Periodo</value>
+    <value>Fechas del recibo</value>
   </data>
   <data name="Reporte_KwhHastaHoy" xml:space="preserve">
     <value>Consumo hasta hoy (kWh)</value>
   </data>
   <data name="Reporte_KwhProyectados" xml:space="preserve">
-    <value>Proyección al cierre (kWh)</value>
+    <value>A este ritmo al cierre (kWh)</value>
   </data>
   <data name="Reporte_PagoProyectado" xml:space="preserve">
-    <value>Pago proyectado al cierre</value>
+    <value>A este ritmo vas a pagar</value>
   </data>
   <data name="Reporte_Desglose" xml:space="preserve">
-    <value>Desglose del pago proyectado</value>
+    <value>Desglose del pago a este ritmo</value>
   </data>
   <data name="Reporte_Rango" xml:space="preserve">
-    <value>Rango</value>
+    <value>Tramo de precio</value>
   </data>
   <data name="Reporte_Kwh" xml:space="preserve">
     <value>kWh</value>
@@ -2324,14 +2198,8 @@
   <data name="Reporte_Total" xml:space="preserve">
     <value>Total</value>
   </data>
-  <data name="Reporte_Tope" xml:space="preserve">
-    <value>Tu tope de pago</value>
-  </data>
-  <data name="Reporte_DiferenciaTope" xml:space="preserve">
-    <value>Diferencia contra el tope (proyección menos tope)</value>
-  </data>
   <data name="Reporte_SeccionHistorial" xml:space="preserve">
-    <value>HISTORIAL DE PERIODOS</value>
+    <value>TUS RECIBOS ANTERIORES</value>
   </data>
   <data name="Reporte_Inicio" xml:space="preserve">
     <value>Inicio</value>
@@ -2343,19 +2211,19 @@
     <value>Monto</value>
   </data>
   <data name="Reporte_Estimado" xml:space="preserve">
-    <value>EST.</value>
+    <value>APROX.</value>
   </data>
   <data name="Reporte_Actual" xml:space="preserve">
-    <value>PROYECCIÓN</value>
+    <value>A ESTE RITMO</value>
   </data>
   <data name="Reporte_NotaEstimado" xml:space="preserve">
-    <value>EST.: periodo estimado (su lectura de corte se calculó).</value>
+    <value>APROX.: recibo aproximado (su día de corte se calculó).</value>
   </data>
   <data name="Reporte_SeccionDac" xml:space="preserve">
-    <value>RIESGO DAC</value>
+    <value>TARIFA ALTA (DAC)</value>
   </data>
   <data name="Reporte_Nivel" xml:space="preserve">
-    <value>Nivel</value>
+    <value>Qué tan cerca estás</value>
   </data>
   <data name="Reporte_Promedio" xml:space="preserve">
     <value>Promedio mensual (kWh)</value>
@@ -2364,31 +2232,31 @@
     <value>Límite de tu tarifa (kWh al mes)</value>
   </data>
   <data name="Reporte_Margen" xml:space="preserve">
-    <value>Margen antes del límite (kWh al mes)</value>
+    <value>Te quedan antes del límite (kWh al mes)</value>
   </data>
   <data name="Reporte_NotaDac" xml:space="preserve">
-    <value>Los niveles Bajo, Medio y Alto (80% y 95% del límite) son una guía de la app, no criterios oficiales de CFE.</value>
+    <value>Tranquilo, Cerca y Muy cerca son una guía de la app, no niveles oficiales de CFE. Cerca empieza en 80 % del límite y Muy cerca en 95 %.</value>
   </data>
   <data name="Reporte_SeccionMeta" xml:space="preserve">
-    <value>META</value>
+    <value>TU META DE AHORRO</value>
   </data>
   <data name="Reporte_MetaPorcentaje" xml:space="preserve">
-    <value>Reducir el consumo contra el periodo anterior</value>
+    <value>Gastar menos que en tu recibo anterior</value>
   </data>
   <data name="Reporte_Estado" xml:space="preserve">
     <value>Estado</value>
   </data>
   <data name="Reporte_Objetivo" xml:space="preserve">
-    <value>Objetivo del periodo (kWh)</value>
+    <value>Objetivo de este recibo (kWh)</value>
   </data>
   <data name="Reporte_Consumido" xml:space="preserve">
     <value>Consumido hasta hoy (kWh)</value>
   </data>
   <data name="Reporte_Racha" xml:space="preserve">
-    <value>Periodos cumplidos seguidos</value>
+    <value>Recibos cumplidos seguidos</value>
   </data>
   <data name="Reporte_SeccionAparatos" xml:space="preserve">
-    <value>QUÉ GASTA MÁS</value>
+    <value>LO QUE MÁS GASTA</value>
   </data>
   <data name="Reporte_Aparato" xml:space="preserve">
     <value>Aparato</value>
@@ -2397,13 +2265,13 @@
     <value>kWh al mes</value>
   </data>
   <data name="Reporte_Porcentaje" xml:space="preserve">
-    <value>% del medido</value>
+    <value>% de lo medido</value>
   </data>
   <data name="Reporte_SinIdentificar" xml:space="preserve">
     <value>Sin identificar</value>
   </data>
   <data name="Reporte_NotaAparatos" xml:space="preserve">
-    <value>Estimación con la potencia y las horas que capturaste.</value>
+    <value>Aproximado con la potencia y las horas que escribiste.</value>
   </data>
   <data name="Reporte_HojaResumen" xml:space="preserve">
     <value>Resumen</value>
@@ -2412,7 +2280,7 @@
     <value>Lecturas</value>
   </data>
   <data name="Reporte_HojaPeriodos" xml:space="preserve">
-    <value>Periodos</value>
+    <value>Recibos</value>
   </data>
   <data name="Reporte_HojaTarifa" xml:space="preserve">
     <value>Tarifa</value>
@@ -2430,13 +2298,13 @@
     <value>Fecha</value>
   </data>
   <data name="Reporte_LecturaAcumulada" xml:space="preserve">
-    <value>Lectura del medidor (kWh)</value>
+    <value>Lo que marca tu medidor (kWh)</value>
   </data>
   <data name="Reporte_ConsumoDesdeAnterior" xml:space="preserve">
     <value>Consumo desde la anterior (kWh)</value>
   </data>
   <data name="Reporte_Estimada" xml:space="preserve">
-    <value>Estimada</value>
+    <value>Aproximada</value>
   </data>
   <data name="Reporte_MontoCalculado" xml:space="preserve">
     <value>Monto calculado</value>
@@ -2445,7 +2313,7 @@
     <value>Monto del recibo</value>
   </data>
   <data name="Reporte_EstimadoColumna" xml:space="preserve">
-    <value>Estimado</value>
+    <value>Aproximado</value>
   </data>
   <data name="Reporte_Desde" xml:space="preserve">
     <value>Desde (kWh al mes)</value>
@@ -2454,10 +2322,10 @@
     <value>Hasta (kWh al mes)</value>
   </data>
   <data name="Reporte_CargoFijoMensual" xml:space="preserve">
-    <value>Cargo fijo mensual</value>
+    <value>Cargo fijo al mes</value>
   </data>
   <data name="Reporte_LimiteDac" xml:space="preserve">
-    <value>Límite DAC (kWh al mes)</value>
+    <value>Límite de la tarifa alta (kWh al mes)</value>
   </data>
   <data name="Reporte_Nombre" xml:space="preserve">
     <value>Nombre</value>
@@ -2478,7 +2346,7 @@
     <value>Días a la semana</value>
   </data>
   <data name="Reporte_Ciclo" xml:space="preserve">
-    <value>Ciclo de trabajo</value>
+    <value>Qué parte del tiempo consume</value>
   </data>
   <data name="Reporte_Si" xml:space="preserve">
     <value>Sí</value>
@@ -2499,13 +2367,13 @@
     <value>Los archivos se generan en este equipo, sin internet.</value>
   </data>
   <data name="Reportes_Privacidad.Text" xml:space="preserve">
-    <value>El archivo contiene tus consumos. VoltiaMX no lo envía a ningún lado; guárdalo donde quieras.</value>
+    <value>El archivo tiene tus consumos. VoltiaMX no lo envía a ningún lado. Guárdalo donde quieras.</value>
   </data>
   <data name="Reportes_PdfTitulo.Text" xml:space="preserve">
-    <value>REPORTE DEL PERIODO (PDF)</value>
+    <value>REPORTE DEL RECIBO (PDF)</value>
   </data>
   <data name="Reportes_PdfTexto.Text" xml:space="preserve">
-    <value>Periodo actual con su desglose, historial de periodos, riesgo DAC, meta y aparatos. Montos sin IVA ni DAP.</value>
+    <value>Tu recibo actual con su desglose, tus recibos anteriores, la tarifa alta, tu meta y tus aparatos.</value>
   </data>
   <data name="Reportes_ExportarPdf.Content" xml:space="preserve">
     <value>Exportar PDF</value>
@@ -2514,7 +2382,7 @@
     <value>MIS DATOS (EXCEL)</value>
   </data>
   <data name="Reportes_ExcelTexto.Text" xml:space="preserve">
-    <value>Tus lecturas, periodos, tarifa y aparatos en hojas de cálculo, para revisarlos o hacer tus propias cuentas.</value>
+    <value>Tus lecturas, recibos, tarifa y aparatos en hojas de cálculo, para revisarlos o hacer tus cuentas.</value>
   </data>
   <data name="Reportes_ExportarExcel.Content" xml:space="preserve">
     <value>Exportar Excel</value>
@@ -2535,7 +2403,7 @@
     <value>Libro de Excel</value>
   </data>
   <data name="Reportes_Error_NoSeGenero" xml:space="preserve">
-    <value>No se pudo generar el archivo. Inténtalo de nuevo.</value>
+    <value>No pudimos crear el archivo. Inténtalo de nuevo.</value>
   </data>
   <data name="Reportes_Error_SinPermiso" xml:space="preserve">
     <value>No hay permiso para guardar en esa carpeta. Elige otra, por ejemplo Documentos.</value>
@@ -2547,10 +2415,10 @@
     <value>No hay espacio suficiente en el disco para guardar el archivo.</value>
   </data>
   <data name="Reportes_Error_DestinoNoExiste" xml:space="preserve">
-    <value>La carpeta de destino no existe. Elige otra.</value>
+    <value>Esa carpeta no existe. Elige otra.</value>
   </data>
   <data name="Reportes_Error_Desconocido" xml:space="preserve">
-    <value>No se pudo guardar el archivo. Prueba en otra carpeta.</value>
+    <value>No pudimos guardar el archivo. Prueba en otra carpeta.</value>
   </data>
   <data name="Reportes_VolverConfiguracion.Content" xml:space="preserve">
     <value>Volver a Más</value>
@@ -2565,16 +2433,16 @@
     <value>RESPALDO</value>
   </data>
   <data name="Respaldo_Privacidad.Text" xml:space="preserve">
-    <value>El respaldo contiene todos tus datos de consumo y no está cifrado. VoltiaMX no lo envía a ningún lado; guárdalo en un lugar seguro.</value>
+    <value>El respaldo tiene todos tus datos de consumo y no está cifrado. Guárdalo en un lugar seguro.</value>
   </data>
   <data name="Respaldo_ExcelNoRestaura.Text" xml:space="preserve">
-    <value>El Excel de Reportes sirve para revisar tus datos; solo un respaldo sirve para restaurarlos.</value>
+    <value>El Excel de Reportes sirve para revisar tus datos. Solo un respaldo sirve para recuperarlos.</value>
   </data>
   <data name="Respaldo_CrearTitulo.Text" xml:space="preserve">
     <value>CREAR RESPALDO</value>
   </data>
   <data name="Respaldo_CrearTexto.Text" xml:space="preserve">
-    <value>Un archivo .voltiabak con todos tus lugares, lecturas, periodos, tarifas, aparatos, metas y ajustes.</value>
+    <value>Un archivo .voltiabak con tus casas o negocios, lecturas, recibos, tarifas, aparatos, metas y ajustes.</value>
   </data>
   <data name="Respaldo_Crear.Content" xml:space="preserve">
     <value>Crear respaldo</value>
@@ -2583,7 +2451,7 @@
     <value>RESTAURAR DESDE UN ARCHIVO</value>
   </data>
   <data name="Respaldo_RestaurarTexto.Text" xml:space="preserve">
-    <value>Primero se revisa el archivo y se muestra qué contiene. Nada cambia hasta que confirmes.</value>
+    <value>Primero revisamos el archivo y te mostramos qué tiene. Nada cambia hasta que confirmes.</value>
   </data>
   <data name="Respaldo_Elegir.Content" xml:space="preserve">
     <value>Elegir respaldo</value>
@@ -2610,7 +2478,7 @@
     <value>COPIAS AUTOMÁTICAS</value>
   </data>
   <data name="Respaldo_CopiasTexto.Text" xml:space="preserve">
-    <value>VoltiaMX guarda una copia antes de actualizar su base de datos y antes de restaurar un respaldo. Se conservan las 5 más recientes.</value>
+    <value>VoltiaMX guarda una copia antes de actualizarse y antes de restaurar. Se conservan las 5 más recientes.</value>
   </data>
   <data name="Respaldo_SinCopias.Text" xml:space="preserve">
     <value>Aún no hay copias automáticas.</value>
@@ -2619,7 +2487,7 @@
     <value>Abrir carpeta</value>
   </data>
   <data name="Respaldo_TipoAntesDeMigrar" xml:space="preserve">
-    <value>ANTES DE MIGRAR</value>
+    <value>ANTES DE ACTUALIZAR</value>
   </data>
   <data name="Respaldo_TipoAntesDeRestaurar" xml:space="preserve">
     <value>ANTES DE RESTAURAR</value>
@@ -2637,13 +2505,13 @@
     <value>Versión de la app</value>
   </data>
   <data name="Respaldo_DatoLugares" xml:space="preserve">
-    <value>Lugares</value>
+    <value>Casas o negocios</value>
   </data>
   <data name="Respaldo_DatoLecturas" xml:space="preserve">
     <value>Lecturas</value>
   </data>
   <data name="Respaldo_DatoPeriodos" xml:space="preserve">
-    <value>Periodos</value>
+    <value>Recibos</value>
   </data>
   <data name="Respaldo_DatoTarifas" xml:space="preserve">
     <value>Tarifas</value>
@@ -2655,7 +2523,7 @@
     <value>¿RESTAURAR ESTE RESPALDO?</value>
   </data>
   <data name="Respaldo_ConfirmarTexto" xml:space="preserve">
-    <value>Esto reemplazará TODOS los datos actuales por los del respaldo. Antes se guardará una copia de tus datos actuales en {0}</value>
+    <value>Esto reemplazará TODOS tus datos actuales por los del respaldo. Antes guardaremos una copia en {0}</value>
   </data>
   <data name="Respaldo_ConfirmarBoton" xml:space="preserve">
     <value>Restaurar</value>
@@ -2676,22 +2544,22 @@
     <value>Cerrar VoltiaMX</value>
   </data>
   <data name="Respaldo_Revertido" xml:space="preserve">
-    <value>Se recuperaron tus datos anteriores: no cambió nada.</value>
+    <value>Recuperamos tus datos anteriores: no cambió nada.</value>
   </data>
   <data name="Respaldo_TipoArchivo" xml:space="preserve">
     <value>Respaldo de VoltiaMX</value>
   </data>
   <data name="Respaldo_Rechazo_NoSePudoLeer" xml:space="preserve">
-    <value>No se pudo abrir el archivo. Revisa que exista y que no esté abierto en otro programa.</value>
+    <value>No pudimos abrir el archivo. Revisa que exista y que no esté abierto en otro programa.</value>
   </data>
   <data name="Respaldo_Rechazo_NoEsZip" xml:space="preserve">
     <value>Este archivo no es un respaldo de VoltiaMX.</value>
   </data>
   <data name="Respaldo_Rechazo_FaltaManifiesto" xml:space="preserve">
-    <value>Al archivo le falta la información del respaldo: no es un respaldo de VoltiaMX o está incompleto.</value>
+    <value>Al archivo le falta la información del respaldo. No es de VoltiaMX o está incompleto.</value>
   </data>
   <data name="Respaldo_Rechazo_FaltaBase" xml:space="preserve">
-    <value>Al respaldo le faltan tus datos: está incompleto.</value>
+    <value>Al respaldo le faltan tus datos. Está incompleto.</value>
   </data>
   <data name="Respaldo_Rechazo_ManifiestoIlegible" xml:space="preserve">
     <value>La información del respaldo está dañada.</value>
@@ -2700,7 +2568,7 @@
     <value>Este respaldo usa un formato que esta versión de VoltiaMX no reconoce.</value>
   </data>
   <data name="Respaldo_Rechazo_HashNoCoincide" xml:space="preserve">
-    <value>El respaldo fue modificado o está dañado: sus datos no coinciden con su firma.</value>
+    <value>El respaldo fue modificado o está dañado. Elige otro archivo.</value>
   </data>
   <data name="Respaldo_Rechazo_BaseDanada" xml:space="preserve">
     <value>Los datos del respaldo están dañados.</value>
@@ -2715,7 +2583,7 @@
     <value>No hay permiso para guardar en esa carpeta. Elige otra, por ejemplo Documentos.</value>
   </data>
   <data name="Respaldo_Error_EnUso" xml:space="preserve">
-    <value>El archivo o los datos están en uso por otro programa. Ciérralo e inténtalo de nuevo.</value>
+    <value>El archivo está abierto en otro programa. Ciérralo e inténtalo de nuevo.</value>
   </data>
   <data name="Respaldo_Error_DiscoLleno" xml:space="preserve">
     <value>No hay espacio suficiente en el disco.</value>
@@ -2724,16 +2592,16 @@
     <value>La carpeta de destino no existe. Elige otra.</value>
   </data>
   <data name="Respaldo_Error_IntegridadFallo" xml:space="preserve">
-    <value>La copia no pasó la revisión de integridad. Inténtalo de nuevo.</value>
+    <value>La copia salió dañada. Inténtalo de nuevo.</value>
   </data>
   <data name="Respaldo_Error_CopiaPreviaFallo" xml:space="preserve">
-    <value>No se pudo guardar la copia de tus datos actuales, así que no se restauró nada. Revisa el espacio en disco.</value>
+    <value>No pudimos guardar la copia de tus datos actuales, así que no cambió nada. Revisa el espacio en disco.</value>
   </data>
   <data name="Respaldo_Error_MigracionFallo" xml:space="preserve">
-    <value>No se pudo preparar el respaldo restaurado.</value>
+    <value>No pudimos preparar el respaldo. Tus datos anteriores se conservan.</value>
   </data>
   <data name="Respaldo_Error_Desconocido" xml:space="preserve">
-    <value>No se pudo completar. Inténtalo de nuevo.</value>
+    <value>No pudimos terminar. Inténtalo de nuevo.</value>
   </data>
   <data name="RepartoPdf_Titulo" xml:space="preserve">
     <value>RECIBO DE LUZ</value>
@@ -2742,31 +2610,31 @@
     <value>REPARTO DEL RECIBO DE LUZ</value>
   </data>
   <data name="RepartoPdf_Lugar" xml:space="preserve">
-    <value>Lugar</value>
+    <value>Casa o negocio</value>
   </data>
   <data name="RepartoPdf_Periodo" xml:space="preserve">
-    <value>Periodo</value>
+    <value>Fechas del recibo</value>
   </data>
   <data name="RepartoPdf_Inquilino" xml:space="preserve">
     <value>Inquilino o unidad</value>
   </data>
   <data name="RepartoPdf_LecturaAnterior" xml:space="preserve">
-    <value>Lectura anterior del submedidor</value>
+    <value>Lectura anterior de su medidor propio</value>
   </data>
   <data name="RepartoPdf_LecturaActual" xml:space="preserve">
-    <value>Lectura actual del submedidor</value>
+    <value>Lectura actual de su medidor propio</value>
   </data>
   <data name="RepartoPdf_Kwh" xml:space="preserve">
-    <value>Consumo del periodo</value>
+    <value>Consumo del recibo</value>
   </data>
   <data name="RepartoPdf_FormaCalculo" xml:space="preserve">
     <value>FORMA DE CÁLCULO</value>
   </data>
   <data name="RepartoPdf_Modo_SoloMedido" xml:space="preserve">
-    <value>Cada inquilino paga lo que mide su submedidor. Lo que no miden los submedidores (áreas comunes, pérdidas) lo absorbe el propietario.</value>
+    <value>Cada inquilino paga lo que mide su medidor propio. Lo que no se mide (áreas comunes, pérdidas) lo paga el propietario.</value>
   </data>
   <data name="RepartoPdf_Modo_ProporcionalAlMedido" xml:space="preserve">
-    <value>El total se reparte completo entre los inquilinos, en proporción a lo que mide cada submedidor.</value>
+    <value>El total se reparte completo entre los inquilinos, según lo que mide cada medidor propio.</value>
   </data>
   <data name="RepartoPdf_Total" xml:space="preserve">
     <value>Total a repartir</value>
@@ -2775,22 +2643,22 @@
     <value>monto del recibo de CFE</value>
   </data>
   <data name="RepartoPdf_Origen_MontoCalculado" xml:space="preserve">
-    <value>calculado por VoltiaMX, sin IVA ni DAP</value>
+    <value>calculado por VoltiaMX, antes de impuestos</value>
   </data>
   <data name="RepartoPdf_Origen_Capturado" xml:space="preserve">
-    <value>capturado por el propietario</value>
+    <value>escrito por el propietario</value>
   </data>
   <data name="RepartoPdf_KwhPrincipal" xml:space="preserve">
     <value>Consumo del medidor principal</value>
   </data>
   <data name="RepartoPdf_KwhRepartidos" xml:space="preserve">
-    <value>kWh repartidos (suma de submedidores)</value>
+    <value>kWh repartidos (suma de los medidores propios)</value>
   </data>
   <data name="RepartoPdf_PrecioPromedio" xml:space="preserve">
     <value>Precio promedio por kWh</value>
   </data>
   <data name="RepartoPdf_SinRangos" xml:space="preserve">
-    <value>No se aplican los rangos de la tarifa por inquilino: el costo total del recibo se reparte entre todos.</value>
+    <value>Los tramos de precio de la tarifa no se aplican por inquilino. El costo total del recibo se reparte entre todos.</value>
   </data>
   <data name="RepartoPdf_Cuota" xml:space="preserve">
     <value>CUOTA A PAGAR</value>
@@ -2814,7 +2682,7 @@
     <value>Total que se cobra a los inquilinos</value>
   </data>
   <data name="RepartoPdf_Absorbe" xml:space="preserve">
-    <value>Absorbe el propietario</value>
+    <value>Lo paga el propietario</value>
   </data>
   <data name="RepartoPdf_Avisos" xml:space="preserve">
     <value>AVISOS</value>
@@ -2823,19 +2691,19 @@
     <value>Sin avisos.</value>
   </data>
   <data name="Reparto_Aviso_SinConsumoSubmedido" xml:space="preserve">
-    <value>Los submedidores no marcan consumo en este periodo: captura las lecturas para calcular el reparto.</value>
+    <value>Los medidores propios no marcan consumo en este recibo. Anota sus lecturas para calcular el reparto.</value>
   </data>
   <data name="Reparto_Aviso_SubmedidoresExcedenPrincipal" xml:space="preserve">
-    <value>Los submedidores suman más de lo que marcó el medidor principal. Revisa las lecturas; el total se reparte completo entre los inquilinos.</value>
+    <value>Los medidores propios suman más que el medidor principal. Revisa las lecturas. El total se reparte completo.</value>
   </data>
   <data name="Reparto_Aviso_LecturaMenorQueAnterior" xml:space="preserve">
     <value>Una lectura actual es menor que la anterior. Revísala: el medidor no retrocede.</value>
   </data>
   <data name="Reparto_Aviso_LecturaNegativa" xml:space="preserve">
-    <value>Las lecturas no pueden ser negativas.</value>
+    <value>Escribe lecturas de cero o más.</value>
   </data>
   <data name="Reparto_Aviso_TotalInvalido" xml:space="preserve">
-    <value>El total a repartir debe ser mayor que $0 y menor que $10,000,000.</value>
+    <value>Escribe un total mayor que $0 y menor que $10,000,000.</value>
   </data>
   <data name="Inquilinos_Titulo.Text" xml:space="preserve">
     <value>INQUILINOS</value>
@@ -2844,7 +2712,7 @@
     <value>Nuevo reparto</value>
   </data>
   <data name="Inquilinos_Privacidad.Text" xml:space="preserve">
-    <value>Son datos de terceros: viajan en los respaldos y en los PDF. Guarda solo lo necesario; basta con la unidad, por ejemplo "Depto 2".</value>
+    <value>Son datos de otras personas: viajan en los respaldos y en los PDF. Basta con la unidad, por ejemplo "Depto 2".</value>
   </data>
   <data name="Inquilinos_Nombre.Header" xml:space="preserve">
     <value>Nombre o unidad</value>
@@ -2868,7 +2736,7 @@
     <value>El nombre puede tener hasta 40 caracteres.</value>
   </data>
   <data name="Inquilino_Error_NombreRepetido" xml:space="preserve">
-    <value>Ya hay un inquilino con ese nombre en este lugar.</value>
+    <value>Ya hay un inquilino con ese nombre aquí. Escribe otro.</value>
   </data>
   <data name="Inquilino_Error_MaximoAlcanzado" xml:space="preserve">
     <value>Puedes tener hasta 30 inquilinos activos. Da de baja a alguno para agregar otro.</value>
@@ -2877,7 +2745,7 @@
     <value>{0} quedó guardado.</value>
   </data>
   <data name="Inquilinos_DadoDeBaja" xml:space="preserve">
-    <value>{0} quedó dado de baja; sigue en el historial de repartos.</value>
+    <value>{0} quedó dado de baja. Sigue en el historial de repartos.</value>
   </data>
   <data name="Inquilinos_Reactivado" xml:space="preserve">
     <value>{0} está activo otra vez.</value>
@@ -2898,7 +2766,7 @@
     <value>Se eliminará {0}. Esta acción no se puede deshacer.</value>
   </data>
   <data name="Inquilinos_NoSeEliminaConRepartos" xml:space="preserve">
-    <value>Ese inquilino ya figura en un reparto: dalo de baja para conservar el historial.</value>
+    <value>Ese inquilino ya está en un reparto. Dalo de baja para conservar el historial.</value>
   </data>
   <data name="Inquilinos_ListaTitulo.Text" xml:space="preserve">
     <value>TUS INQUILINOS</value>
@@ -2919,13 +2787,13 @@
     <value>Agrega tu primer inquilino</value>
   </data>
   <data name="Inquilinos_VacioTexto.Text" xml:space="preserve">
-    <value>Escribe el nombre o la unidad (por ejemplo, Depto 1) y presiona Agregar. Después podrás repartir el recibo según lo que marque cada submedidor.</value>
+    <value>Escribe el nombre o la unidad (por ejemplo, Depto 1) y presiona Agregar. Luego podrás repartir el recibo.</value>
   </data>
   <data name="Inquilinos_HistorialTitulo.Text" xml:space="preserve">
     <value>HISTORIAL DE REPARTOS</value>
   </data>
   <data name="Inquilinos_HistorialTexto.Text" xml:space="preserve">
-    <value>Cada reparto guardado es una copia fija: no cambia aunque después cambien las tarifas o se recalculen los periodos.</value>
+    <value>Cada reparto guardado no cambia, aunque después cambien las tarifas o tus recibos.</value>
   </data>
   <data name="Inquilinos_RepartoTotal" xml:space="preserve">
     <value>{0:$#,##0.00}</value>
@@ -2964,16 +2832,16 @@
     <value>Volver a inquilinos</value>
   </data>
   <data name="Reparto_CopiaFija.Text" xml:space="preserve">
-    <value>Este reparto es una copia fija: no cambia aunque después cambien las tarifas o se recalculen los periodos. Para corregirlo, haz un reparto nuevo del mismo periodo.</value>
+    <value>Este reparto guardado no cambia, aunque cambien las tarifas o tus recibos. Para corregirlo, haz uno nuevo del mismo recibo.</value>
   </data>
   <data name="Reparto_SinPeriodosTitulo.Text" xml:space="preserve">
-    <value>Aún no hay periodos cerrados</value>
+    <value>Aún no hay recibos anteriores</value>
   </data>
   <data name="Reparto_SinPeriodosTexto.Text" xml:space="preserve">
-    <value>El reparto se hace sobre un periodo cerrado. Captura la lectura del día de corte para cerrar el primero.</value>
+    <value>El reparto se hace sobre un recibo anterior. Anota la lectura del día de corte para cerrar el primero.</value>
   </data>
   <data name="Reparto_Periodo.Header" xml:space="preserve">
-    <value>Periodo</value>
+    <value>Recibo</value>
   </data>
   <data name="Reparto_OpcionPeriodo" xml:space="preserve">
     <value>{0} – {1} · {2:#,##0.##} kWh</value>
@@ -2982,7 +2850,7 @@
     <value>{0} – {1} · {2:#,##0.##} kWh · YA TIENE REPARTO</value>
   </data>
   <data name="Reparto_Principal" xml:space="preserve">
-    <value>El medidor principal marcó {0:#,##0.##} kWh en este periodo.</value>
+    <value>El medidor principal marcó {0:#,##0.##} kWh en este recibo.</value>
   </data>
   <data name="Reparto_Total.Header" xml:space="preserve">
     <value>Total a repartir</value>
@@ -2991,13 +2859,13 @@
     <value>DEL RECIBO</value>
   </data>
   <data name="Reparto_Origen_MontoCalculado" xml:space="preserve">
-    <value>CALCULADO POR VOLTIAMX, SIN IVA NI DAP</value>
+    <value>CALCULADO POR VOLTIAMX, ANTES DE IMPUESTOS</value>
   </data>
   <data name="Reparto_Origen_Capturado" xml:space="preserve">
-    <value>CAPTURADO</value>
+    <value>ESCRITO POR TI</value>
   </data>
   <data name="Reparto_Recomendacion.Text" xml:space="preserve">
-    <value>Si vas a repartir lo que realmente pagaste, captura el total a pagar de tu recibo de CFE (con IVA).</value>
+    <value>Si vas a repartir lo que pagaste, escribe el total a pagar de tu recibo de CFE.</value>
   </data>
   <data name="Reparto_ModoTitulo.Text" xml:space="preserve">
     <value>MODO DE REPARTO</value>
@@ -3006,16 +2874,16 @@
     <value>Solo lo medido</value>
   </data>
   <data name="Reparto_ModoSoloMedidoTexto.Text" xml:space="preserve">
-    <value>Cada inquilino paga lo que marca su submedidor; lo que no miden (áreas comunes, pérdidas) lo absorbes tú.</value>
+    <value>Cada inquilino paga lo que marca su medidor propio. Lo que no se mide (áreas comunes, pérdidas) lo pagas tú.</value>
   </data>
   <data name="Reparto_ModoProporcional.Content" xml:space="preserve">
     <value>Proporcional a lo medido</value>
   </data>
   <data name="Reparto_ModoProporcionalTexto.Text" xml:space="preserve">
-    <value>Se reparte el total completo entre los inquilinos, en proporción a lo que marca cada submedidor.</value>
+    <value>Se reparte el total completo entre los inquilinos, según lo que marca cada medidor propio.</value>
   </data>
   <data name="Reparto_LecturasTitulo.Text" xml:space="preserve">
-    <value>LECTURAS DE LOS SUBMEDIDORES</value>
+    <value>LECTURAS DE LOS MEDIDORES PROPIOS</value>
   </data>
   <data name="Reparto_SinInquilinos.Text" xml:space="preserve">
     <value>No hay inquilinos activos. Agrégalos en Inquilinos.</value>
@@ -3030,7 +2898,7 @@
     <value>{0:#,##0.##} kWh</value>
   </data>
   <data name="Reparto_FaltanLecturas" xml:space="preserve">
-    <value>Captura la lectura anterior y la actual de cada submedidor para calcular el reparto.</value>
+    <value>Escribe la lectura anterior y la actual de cada medidor propio para calcular el reparto.</value>
   </data>
   <data name="Reparto_SeCobra.Text" xml:space="preserve">
     <value>SE COBRA A LOS INQUILINOS</value>
@@ -3042,13 +2910,13 @@
     <value>{0:$#,##0.00##} por kWh</value>
   </data>
   <data name="Reparto_Absorbe.Text" xml:space="preserve">
-    <value>Absorbe el propietario</value>
+    <value>Lo pagas tú (propietario)</value>
   </data>
   <data name="Reparto_PrecioPromedio.Text" xml:space="preserve">
     <value>Precio promedio por kWh</value>
   </data>
   <data name="Reparto_SinRangos.Text" xml:space="preserve">
-    <value>No se aplican los rangos de la tarifa por inquilino: el costo total del recibo se reparte entre todos, así nadie gasta el rango básico completo.</value>
+    <value>Los tramos de precio no se aplican por inquilino. El costo total se reparte entre todos, así nadie gasta solo el tramo Básico.</value>
   </data>
   <data name="Reparto_ReciboPdf.Content" xml:space="preserve">
     <value>Recibo PDF</value>
@@ -3069,7 +2937,7 @@
     <value>¿REEMPLAZAR EL REPARTO?</value>
   </data>
   <data name="Reparto_ReemplazarTexto" xml:space="preserve">
-    <value>El periodo {0} – {1} ya tiene un reparto guardado. Si continúas, se reemplaza por este.</value>
+    <value>El recibo del {0} al {1} ya tiene un reparto guardado. Si continúas, se reemplaza por este.</value>
   </data>
   <data name="Reparto_Reemplazar" xml:space="preserve">
     <value>Reemplazar</value>
@@ -3078,7 +2946,7 @@
     <value>Reparto guardado. Ya puedes exportar los recibos.</value>
   </data>
   <data name="Reparto_NoSeGuardo" xml:space="preserve">
-    <value>No se pudo guardar el reparto. Revisa los datos e inténtalo de nuevo.</value>
+    <value>No pudimos guardar el reparto. Revisa los datos e inténtalo de nuevo.</value>
   </data>
   <data name="Reparto_ExportadosTodos" xml:space="preserve">
     <value>{0} archivos guardados en {1}</value>
@@ -3099,7 +2967,7 @@
     <value>Sin tarifa no se calcula el ahorro en pesos.</value>
   </data>
   <data name="Solar_SinPesos_SinConsumoMedido" xml:space="preserve">
-    <value>Sin consumo medido no se calcula el ahorro en pesos: captura tus lecturas para verlo.</value>
+    <value>Sin consumo medido no se calcula el ahorro en pesos. Anota tus lecturas para verlo.</value>
   </data>
   <data name="Solar_SinPesos_Normal" xml:space="preserve">
     <value>Sin ahorro en pesos.</value>
@@ -3114,7 +2982,7 @@
     <value>ESTIMACIÓN SOLAR</value>
   </data>
   <data name="SolarPdf_Lugar" xml:space="preserve">
-    <value>Lugar</value>
+    <value>Casa o negocio</value>
   </data>
   <data name="SolarPdf_Fecha" xml:space="preserve">
     <value>Fecha</value>
@@ -3132,7 +3000,7 @@
     <value>SUPUESTOS USADOS</value>
   </data>
   <data name="SolarPdf_ParametrosNota" xml:space="preserve">
-    <value>Supuestos editables. Los valores por defecto son de ejemplo: cámbialos por los de tu ciudad y tu instalador.</value>
+    <value>Puedes cambiar estos supuestos. Los valores iniciales son de ejemplo: usa los de tu ciudad y tu instalador.</value>
   </data>
   <data name="SolarPdf_Consumo" xml:space="preserve">
     <value>Consumo mensual a cubrir</value>
@@ -3144,7 +3012,7 @@
     <value>Horas de sol pico por día</value>
   </data>
   <data name="SolarPdf_Eficiencia" xml:space="preserve">
-    <value>Eficiencia global del sistema</value>
+    <value>Rendimiento del sistema</value>
   </data>
   <data name="SolarPdf_WattsPanel" xml:space="preserve">
     <value>Potencia de cada panel</value>
@@ -3165,25 +3033,25 @@
     <value>Potencia instalada</value>
   </data>
   <data name="SolarPdf_Generacion" xml:space="preserve">
-    <value>Generación estimada al mes</value>
+    <value>Generación aproximada al mes</value>
   </data>
   <data name="SolarPdf_Aprovechados" xml:space="preserve">
-    <value>kWh aprovechados al mes</value>
+    <value>Lo que cubre de tu consumo al mes</value>
   </data>
   <data name="SolarPdf_Excedente" xml:space="preserve">
-    <value>Excedente al mes (no se valora en pesos)</value>
+    <value>Lo que sobra al mes (no se cuenta en pesos)</value>
   </data>
   <data name="SolarPdf_AhorroMes" xml:space="preserve">
-    <value>Ahorro estimado al mes</value>
+    <value>Ahorro aproximado al mes</value>
   </data>
   <data name="SolarPdf_AhorroAnio" xml:space="preserve">
-    <value>Ahorro estimado al año</value>
+    <value>Ahorro aproximado al año</value>
   </data>
   <data name="SolarPdf_Ahorro" xml:space="preserve">
     <value>Ahorro en pesos</value>
   </data>
   <data name="SolarPdf_Inversion" xml:space="preserve">
-    <value>Inversión estimada</value>
+    <value>Inversión aproximada</value>
   </data>
   <data name="SolarPdf_Recuperacion" xml:space="preserve">
     <value>Recuperación de la inversión</value>
@@ -3192,19 +3060,19 @@
     <value>Sin ahorro en pesos para calcularla</value>
   </data>
   <data name="SolarPdf_DacTitulo" xml:space="preserve">
-    <value>EFECTO EN DAC (ESTIMACIÓN)</value>
+    <value>TARIFA ALTA (DAC), APROXIMADO</value>
   </data>
   <data name="SolarPdf_DacAntes" xml:space="preserve">
-    <value>Riesgo DAC hoy</value>
+    <value>Tarifa alta hoy</value>
   </data>
   <data name="SolarPdf_DacDespues" xml:space="preserve">
-    <value>Riesgo DAC con los paneles</value>
+    <value>Tarifa alta con los paneles</value>
   </data>
   <data name="SolarPdf_SinSupuestos" xml:space="preserve">
     <value>No se suponen aumentos de tarifa, degradación de los paneles, vida útil, inflación, subsidios ni financiamiento.</value>
   </data>
   <data name="SolarPdf_SinIvaNiDap" xml:space="preserve">
-    <value>Montos sin IVA ni DAP, calculados con la tarifa del lugar.</value>
+    <value>Montos antes de impuestos, con la tarifa de tu casa o negocio.</value>
   </data>
   <data name="Solar_Titulo.Text" xml:space="preserve">
     <value>SIMULADOR SOLAR</value>
@@ -3216,7 +3084,7 @@
     <value>Valores de ejemplo: cámbialos por los de tu ciudad y tu instalador.</value>
   </data>
   <data name="Solar_SinConsumoMedido.Text" xml:space="preserve">
-    <value>Aún no hay lecturas para medir tu consumo: escribe tu consumo mensual en kWh (está en tu recibo). Sin consumo medido se calculan los kWh, pero no el ahorro en pesos.</value>
+    <value>Aún no podemos medir tu consumo. Escribe tu consumo al mes en kWh: está en tu recibo.</value>
   </data>
   <data name="Solar_Consumo.Header" xml:space="preserve">
     <value>Consumo mensual a cubrir (kWh)</value>
@@ -3228,7 +3096,7 @@
     <value>Horas de sol pico por día (1 a 9)</value>
   </data>
   <data name="Solar_Eficiencia.Header" xml:space="preserve">
-    <value>Eficiencia global del sistema (0.50 a 0.95)</value>
+    <value>Rendimiento del sistema (0.50 a 0.95)</value>
   </data>
   <data name="Solar_WattsPanel.Header" xml:space="preserve">
     <value>Potencia de cada panel (W)</value>
@@ -3240,46 +3108,46 @@
     <value>Escribe tu consumo mensual en kWh.</value>
   </data>
   <data name="Solar_Error_ConsumoFueraDeRango" xml:space="preserve">
-    <value>El consumo mensual debe ser mayor que 0 y de hasta 100,000 kWh.</value>
+    <value>Escribe un consumo mayor que 0 y de hasta 100,000 kWh.</value>
   </data>
   <data name="Solar_Error_PorcentajeFueraDeRango" xml:space="preserve">
-    <value>El porcentaje a cubrir debe estar entre 10 y 100.</value>
+    <value>Escribe un porcentaje de 10 a 100.</value>
   </data>
   <data name="Solar_Error_HorasFueraDeRango" xml:space="preserve">
-    <value>Las horas de sol pico deben estar entre 1 y 9.</value>
+    <value>Escribe de 1 a 9 horas de sol pico.</value>
   </data>
   <data name="Solar_Error_EficienciaFueraDeRango" xml:space="preserve">
-    <value>La eficiencia debe estar entre 0.50 y 0.95.</value>
+    <value>Escribe un rendimiento de 0.50 a 0.95.</value>
   </data>
   <data name="Solar_Error_WattsFueraDeRango" xml:space="preserve">
-    <value>La potencia del panel debe estar entre 100 y 800 W.</value>
+    <value>Escribe una potencia de panel de 100 a 800 W.</value>
   </data>
   <data name="Solar_Error_CostoFueraDeRango" xml:space="preserve">
-    <value>El costo por kWp debe estar entre $0 y $1,000,000.</value>
+    <value>Escribe un costo por kWp de $0 a $1,000,000.</value>
   </data>
   <data name="Solar_PanelesTitulo.Text" xml:space="preserve">
-    <value>PANELES · ESTIMACIÓN</value>
+    <value>PANELES · APROXIMADO</value>
   </data>
   <data name="Solar_FilaKwp" xml:space="preserve">
     <value>Potencia instalada</value>
   </data>
   <data name="Solar_FilaGeneracion" xml:space="preserve">
-    <value>Generación estimada al mes</value>
+    <value>Generación aproximada al mes</value>
   </data>
   <data name="Solar_FilaAprovechados" xml:space="preserve">
-    <value>kWh aprovechados al mes</value>
+    <value>Lo que cubre de tu consumo al mes</value>
   </data>
   <data name="Solar_FilaExcedente" xml:space="preserve">
-    <value>Excedente al mes</value>
+    <value>Lo que sobra al mes</value>
   </data>
   <data name="Solar_FilaAhorroMes" xml:space="preserve">
-    <value>Ahorro estimado al mes</value>
+    <value>Ahorro aproximado al mes</value>
   </data>
   <data name="Solar_FilaAhorroAnio" xml:space="preserve">
-    <value>Ahorro estimado al año</value>
+    <value>Ahorro aproximado al año</value>
   </data>
   <data name="Solar_FilaInversion" xml:space="preserve">
-    <value>Inversión estimada</value>
+    <value>Inversión aproximada</value>
   </data>
   <data name="Solar_FilaRecuperacion" xml:space="preserve">
     <value>Recuperación de la inversión</value>
@@ -3294,7 +3162,7 @@
     <value>{0:$#,##0.00}</value>
   </data>
   <data name="Solar_NotaExcedente.Text" xml:space="preserve">
-    <value>El excedente es lo que se generaría por encima de tu consumo: no se valora en pesos. Ahorro con tu tarifa, sin IVA ni DAP.</value>
+    <value>Lo que sobra es lo que se generaría de más: no se cuenta en pesos. El ahorro es antes de impuestos.</value>
   </data>
   <data name="Solar_DacConPaneles.Text" xml:space="preserve">
     <value>Con paneles</value>
@@ -3357,10 +3225,10 @@
     <value>Cómo se calcula tu recibo</value>
   </data>
   <data name="Mas_Modulo_Predictor_Texto" xml:space="preserve">
-    <value>Mira tu recibo por rangos y si te acercas a tarifa alta.</value>
+    <value>Mira tu recibo por tramos de precio y si te acercas a la tarifa alta.</value>
   </data>
   <data name="Mas_Modulo_Metas_Titulo" xml:space="preserve">
-    <value>Metas</value>
+    <value>Tu meta de ahorro</value>
   </data>
   <data name="Mas_Modulo_Metas_Texto" xml:space="preserve">
     <value>Ponte una meta para gastar menos que el recibo anterior.</value>
@@ -3375,7 +3243,7 @@
     <value>Inquilinos</value>
   </data>
   <data name="Mas_Modulo_Inquilinos_Texto" xml:space="preserve">
-    <value>Reparte el recibo entre tus inquilinos según sus medidores.</value>
+    <value>Reparte el recibo entre tus inquilinos según su medidor propio.</value>
   </data>
   <data name="Mas_Modulo_Aparatos_Titulo" xml:space="preserve">
     <value>Aparatos</value>
@@ -3408,7 +3276,7 @@
     <value>Guarda tus datos en un archivo y recupéralos después.</value>
   </data>
   <data name="Mas_NotificacionesTexto.Text" xml:space="preserve">
-    <value>Recibe avisos de tu fecha de corte y de tus metas.</value>
+    <value>Recibe avisos de tu día de corte y de tus metas.</value>
   </data>
   <data name="Mas_DemoTitulo.Text" xml:space="preserve">
     <value>Datos de demostración</value>

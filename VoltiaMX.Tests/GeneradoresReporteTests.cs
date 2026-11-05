@@ -71,10 +71,11 @@ public sealed class GeneradoresReporteTests(ITestOutputHelper salida)
     {
         using var libro = Abrir(GeneradorExcel.Generar(Completo(), Texto));
 
-        Assert.Equal(["Resumen", "Lecturas", "Periodos", "Tarifa", "Aparatos"], libro.Worksheets.Select(h => h.Name));
-        Assert.Equal("Fecha", libro.Worksheet("Lecturas").Cell(1, 1).GetString());
-        Assert.Equal("Monto del recibo", libro.Worksheet("Periodos").Cell(1, 5).GetString());
-        Assert.Equal("Ciclo de trabajo", libro.Worksheet("Aparatos").Cell(1, 7).GetString());
+        // Fase 7b: los nombres de hojas y encabezados salen del resw (la hoja "Periodos" pasó a "Recibos").
+        Assert.Equal(["Resumen", "Lecturas", "Recibos", "Tarifa", "Aparatos"], libro.Worksheets.Select(h => h.Name));
+        Assert.Equal(Texto("Reporte_Fecha"), libro.Worksheet("Lecturas").Cell(1, 1).GetString());
+        Assert.Equal(Texto("Reporte_MontoRecibo"), libro.Worksheet(Texto("Reporte_HojaPeriodos")).Cell(1, 5).GetString());
+        Assert.Equal("Qué parte del tiempo consume", libro.Worksheet("Aparatos").Cell(1, 7).GetString());
     }
 
     [Fact]
@@ -82,7 +83,7 @@ public sealed class GeneradoresReporteTests(ITestOutputHelper salida)
     {
         using var libro = Abrir(GeneradorExcel.Generar(Completo(), Texto));
         var lecturas = libro.Worksheet("Lecturas");
-        var periodos = libro.Worksheet("Periodos");
+        var periodos = libro.Worksheet(Texto("Reporte_HojaPeriodos"));
 
         Assert.Equal(XLDataType.DateTime, lecturas.Cell(2, 1).DataType);
         Assert.Equal(new DateTime(2026, 7, 26), lecturas.Cell(2, 1).GetDateTime());
@@ -102,7 +103,7 @@ public sealed class GeneradoresReporteTests(ITestOutputHelper salida)
     {
         using var libro = Abrir(GeneradorExcel.Generar(Completo(), Texto));
 
-        Assert.Equal("$#,##0.00", libro.Worksheet("Periodos").Cell(2, 4).Style.NumberFormat.Format);
+        Assert.Equal("$#,##0.00", libro.Worksheet(Texto("Reporte_HojaPeriodos")).Cell(2, 4).Style.NumberFormat.Format);
         // El precio por kWh muestra de 2 a 4 decimales ($1.25, $0.982); el valor siempre va completo.
         Assert.Equal("$#,##0.00##", libro.Worksheet("Tarifa").Cell(2, 4).Style.NumberFormat.Format);
         Assert.Equal(1.25d, libro.Worksheet("Tarifa").Cell(3, 4).GetDouble());
@@ -143,7 +144,7 @@ public sealed class GeneradoresReporteTests(ITestOutputHelper salida)
         using var libro = Abrir(GeneradorExcel.Generar(Completo(), Texto));
         var resumen = libro.Worksheet("Resumen");
 
-        var fila = resumen.RowsUsed().First(r => r.Cell(1).GetString() == "Pago proyectado al cierre");
+        var fila = resumen.RowsUsed().First(r => r.Cell(1).GetString() == Texto("Reporte_PagoProyectado"));
         Assert.Equal(1_572.2d, fila.Cell(2).GetDouble());
         Assert.Equal("$#,##0.00", fila.Cell(2).Style.NumberFormat.Format);
     }

@@ -61,12 +61,13 @@ public sealed class GeneradorPdfSolarTests
         Assert.Contains(Texto("Solar_AvisoEstimacion"), todo);
         Assert.Contains("No es una cotización.", todo);
         Assert.Contains(Texto("Solar_AvisoNoIncluye"), todo);
-        Assert.Contains("Potencia instalada: 4.95 kWp", todo);
-        Assert.Contains("Generación estimada al mes: 602.25 kWh", todo);
-        Assert.Contains("Excedente al mes (no se valora en pesos): 2.25 kWh", todo);
+        // Fase 7b: las etiquetas salen del resw; lo que se comprueba son las cifras.
+        Assert.Contains($"{Texto("SolarPdf_Kwp")}: 4.95 kWp", todo);
+        Assert.Contains($"{Texto("SolarPdf_Generacion")}: 602.25 kWh", todo);
+        Assert.Contains($"{Texto("SolarPdf_Excedente")}: 2.25 kWh", todo);
         // 75 + 130 + 460 × 3 = $1,585 al mes; inversión 4.95 × 20,000 = $99,000; 99,000 / 1,585 = 62.5 meses.
-        Assert.Contains("Ahorro estimado al mes: $1,585.00", todo);
-        Assert.Contains("Inversión estimada: $99,000.00", todo);
+        Assert.Contains($"{Texto("SolarPdf_AhorroMes")}: $1,585.00", todo);
+        Assert.Contains($"{Texto("SolarPdf_Inversion")}: $99,000.00", todo);
         Assert.Contains("Recuperación de la inversión: 62.5 meses (5.2 años)", todo);
     }
 
@@ -74,7 +75,7 @@ public sealed class GeneradorPdfSolarTests
     public void SinCosto_LoDice()
     {
         var todo = Todo(Datos());
-        Assert.Contains("Inversión estimada: No se indicó costo del sistema", todo);
+        Assert.Contains($"{Texto("SolarPdf_Inversion")}: {Texto("SolarPdf_SinCosto")}", todo);
         Assert.Contains("Costo por kWp instalado: No se indicó costo del sistema", todo);
     }
 

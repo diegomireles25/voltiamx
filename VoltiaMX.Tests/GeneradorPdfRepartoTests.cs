@@ -78,9 +78,10 @@ public sealed class GeneradorPdfRepartoTests
         var (datos, calculo) = GeneradorPdfReparto.LineasRecibo(Reparto(), 2, Texto);
         var todo = string.Join("\n", datos.Concat(calculo).Select(l => $"{l.Etiqueta}: {l.Valor}"));
 
-        Assert.Contains("Inquilino o unidad: Depto 3", todo);
-        Assert.Contains("Lugar: Edificio Centro", todo);
-        Assert.Contains("Periodo: 2 sep 2026 – 1 nov 2026", todo);
+        // Fase 7b: las etiquetas salen del resw; lo que se comprueba son los datos que llevan.
+        Assert.Contains($"{Texto("RepartoPdf_Inquilino")}: Depto 3", todo);
+        Assert.Contains($"{Texto("RepartoPdf_Lugar")}: Edificio Centro", todo);
+        Assert.Contains($"{Texto("RepartoPdf_Periodo")}: 2 sep 2026 – 1 nov 2026", todo);
         Assert.Contains("500.00", todo);
         Assert.Contains("650.00", todo);
         Assert.Contains("150.00 kWh", todo);
