@@ -197,13 +197,9 @@
                 </Grid>
 
                 <!-- PARA AHORRAR (D5, D6): acciones calculadas con tus aparatos y tu tarifa; sin sugerencias no aparece -->
-                <Grid ColumnSpacing="{StaticResource Spacing48}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneSugerencias), Mode=OneWay}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="2*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock x:Uid="Dashboard_ParaAhorrar" Style="{StaticResource DisplayTextStyle}" />
-                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}">
+                <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneSugerencias), Mode=OneWay}">
+                    <TextBlock x:Uid="Dashboard_ParaAhorrar" Style="{StaticResource SectionTitleTextStyle}" />
+                    <StackPanel Spacing="{StaticResource Spacing16}">
                         <Border Style="{StaticResource HairlineListStyle}">
                             <StackPanel>
                                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Sugerencias}">
@@ -226,7 +222,7 @@
                             Style="{StaticResource BodySmTextStyle}"
                             TextWrapping="Wrap" />
                     </StackPanel>
-                </Grid>
+                </StackPanel>
 
                 <!-- HISTORIAL + ESTADO -->
                 <Grid ColumnSpacing="{StaticResource Spacing48}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDatos), Mode=OneWay}">
@@ -383,13 +379,9 @@
                 </Grid>
 
                 <!-- RENTAS: resumen por propiedad -->
-                <Grid ColumnSpacing="{StaticResource Spacing48}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarRentas), Mode=OneWay}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="2*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock x:Uid="Dashboard_PropiedadesTitulo" Style="{StaticResource DisplayTextStyle}" />
-                    <Border Grid.Column="1" Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TienePropiedades), Mode=OneWay}">
+                <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarRentas), Mode=OneWay}">
+                    <TextBlock x:Uid="Dashboard_PropiedadesTitulo" Style="{StaticResource SectionTitleTextStyle}" />
+                    <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TienePropiedades), Mode=OneWay}">
                         <ItemsRepeater ItemsSource="{x:Bind ViewModel.Propiedades}">
                             <ItemsRepeater.ItemTemplate>
                                 <DataTemplate x:DataType="vm:FilaDetalle">
@@ -403,39 +395,25 @@
                             </ItemsRepeater.ItemTemplate>
                         </ItemsRepeater>
                     </Border>
-                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TienePropiedades), Mode=OneWay}">
+                    <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TienePropiedades), Mode=OneWay}">
                         <TextBlock x:Uid="Dashboard_PropiedadesVacio" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodyTextStyle}" />
                         <Button x:Uid="Dashboard_Proximamente" IsEnabled="{x:Bind ViewModel.AccionesPendientesHabilitadas}" Style="{StaticResource GhostButtonStyle}" />
                     </StackPanel>
-                </Grid>
+                </StackPanel>
 
                 <!-- SOLAR: cotizaciones recientes -->
-                <Grid ColumnSpacing="{StaticResource Spacing48}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarSolar), Mode=OneWay}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="2*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock x:Uid="Dashboard_CotizacionesTitulo" Style="{StaticResource DisplayTextStyle}" />
-                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}">
+                <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarSolar), Mode=OneWay}">
+                    <TextBlock x:Uid="Dashboard_CotizacionesTitulo" Style="{StaticResource SectionTitleTextStyle}" />
+                    <StackPanel Spacing="{StaticResource Spacing16}">
                         <TextBlock x:Uid="Dashboard_CotizacionesVacio" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodyTextStyle}" />
                         <Button x:Uid="Dashboard_AbrirSimuladorSolar" Command="{x:Bind ViewModel.IrASolarCommand}" Style="{StaticResource GhostButtonStyle}" />
                     </StackPanel>
-                </Grid>
+                </StackPanel>
 
                 <!-- APARATOS: solo con el módulo activo -->
-                <Grid ColumnSpacing="{StaticResource Spacing48}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarAparatos), Mode=OneWay}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="2*" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Spacing="{StaticResource Spacing16}">
-                        <TextBlock x:Uid="Dashboard_AparatosTitulo" Style="{StaticResource DisplayTextStyle}" />
-                        <Button
-                            Command="{x:Bind ViewModel.IrASimuladorCommand}"
-                            Content="{x:Bind ViewModel.TextoSimular, Mode=OneWay}"
-                            Style="{StaticResource TextLinkButtonStyle}" />
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneAparatos), Mode=OneWay}">
+                <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarAparatos), Mode=OneWay}">
+                    <TextBlock x:Uid="Dashboard_AparatosTitulo" Style="{StaticResource SectionTitleTextStyle}" />
+                    <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneAparatos), Mode=OneWay}">
                         <Border Style="{StaticResource HairlineListStyle}">
                             <ItemsRepeater ItemsSource="{x:Bind ViewModel.Aparatos}">
                                 <ItemsRepeater.ItemTemplate>
@@ -467,11 +445,15 @@
                             Command="{x:Bind ViewModel.IrAAparatosCommand}"
                             Style="{StaticResource TextLinkButtonStyle}" />
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneAparatos), Mode=OneWay}">
+                    <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneAparatos), Mode=OneWay}">
                         <TextBlock x:Uid="Dashboard_AparatosVacio" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodyTextStyle}" />
                         <Button x:Uid="Dashboard_AgregarAparatos" Command="{x:Bind ViewModel.IrAAparatosCommand}" Style="{StaticResource GhostButtonStyle}" />
                     </StackPanel>
-                </Grid>
+                    <Button
+                        Command="{x:Bind ViewModel.IrASimuladorCommand}"
+                        Content="{x:Bind ViewModel.TextoSimular, Mode=OneWay}"
+                        Style="{StaticResource TextLinkButtonStyle}" />
+                </StackPanel>
             </StackPanel>
 
             <!-- CIERRE: bloque top-arc negro a todo lo ancho (sin datos, el estado vacío ya invita a capturar) -->
@@ -481,24 +463,17 @@
                 Style="{StaticResource TopArcInvertedCardStyle}"
                 Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDatos), Mode=OneWay}">
                 <StackPanel MaxWidth="{StaticResource ContentMaxWidth}" Spacing="{StaticResource Spacing48}">
-                    <Grid ColumnSpacing="{StaticResource Spacing32}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock x:Uid="Dashboard_CierreTitulo" Style="{StaticResource DisplayTextStyle}" />
-                        <StackPanel
-                            Grid.Column="1"
-                            VerticalAlignment="Bottom"
-                            Orientation="Horizontal"
-                            Spacing="{StaticResource Spacing16}">
+                    <!-- Fase 8b: el título en su propia fila, en una sola línea; los botones debajo -->
+                    <StackPanel Spacing="{StaticResource Spacing24}">
+                        <TextBlock x:Uid="Dashboard_CierreTitulo" Style="{StaticResource SectionTitleTextStyle}" />
+                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
                             <Button x:Uid="Dashboard_CierreCapturar" Command="{x:Bind ViewModel.IrALecturasCommand}" Style="{StaticResource PrimaryOnDarkButtonStyle}" />
                             <Button
                                 Command="{x:Bind ViewModel.EscanearReciboCommand}"
                                 Content="{x:Bind ViewModel.TextoEscanear, Mode=OneWay}"
                                 Style="{StaticResource GhostOnDarkButtonStyle}" />
                         </StackPanel>
-                    </Grid>
+                    </StackPanel>
                     <TextBlock
                         x:Uid="Dashboard_DatosEjemplo"
                         Foreground="{StaticResource SmokeBrush}"

@@ -64,6 +64,11 @@
         <Setter Property="LineHeight" Value="43.2" />
     </Style>
 
+    <!-- Título de sección de Inicio: 48 px en una sola línea, a todo el ancho de su sección (Fase 8b) -->
+    <Style x:Key="SectionTitleTextStyle" TargetType="TextBlock" BasedOn="{StaticResource HeadingLgTextStyle}">
+        <Setter Property="TextWrapping" Value="NoWrap" />
+    </Style>
+
     <!-- Marca "VOLTIAMX" de la cabecera; mockup-dashboard.html la usa a 32 (gana el HTML sobre el mínimo de 48) -->
     <Style x:Key="BrandTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DisplayXLTextStyle}">
         <Setter Property="FontSize" Value="32" />
