@@ -1,7 +1,8 @@
 namespace VoltiaMX.ViewModels.Onboarding;
 
 /// <summary>
-/// Pasos del onboarding en orden. Los cinco del medio son las preguntas numeradas.
+/// Pasos del onboarding en orden. Los tres del medio son las preguntas numeradas (desde la Fase 7a ya no
+/// hay pasos de objetivo ni de presupuesto).
 /// </summary>
 public enum PasoOnboarding
 {
@@ -9,8 +10,6 @@ public enum PasoOnboarding
     Uso,
     Ubicacion,
     Recibo,
-    Objetivo,
-    Presupuesto,
     Listo
 }
 

@@ -53,13 +53,16 @@ public sealed record ResumenDashboard
 
     public decimal? PromedioDiarioKwh { get; init; }
 
+    // SIN USO EN LA INTERFAZ desde Fase 7a
     public decimal? PresupuestoMax { get; init; }
 
     /// <summary>
     /// Monto proyectado menos el presupuesto: positivo si te pasas.
     /// </summary>
+    // SIN USO EN LA INTERFAZ desde Fase 7a
     public decimal? DiferenciaContraPresupuesto { get; init; }
 
+    // SIN USO EN LA INTERFAZ desde Fase 7a
     public decimal? KwhPorDiaRestante { get; init; }
 
     /// <summary>
@@ -75,16 +78,19 @@ public sealed record ResumenDashboard
     /// <summary>
     /// kWh por día que permite el tope en promedio en todo el periodo.
     /// </summary>
+    // SIN USO EN LA INTERFAZ desde Fase 7a
     public decimal? KwhPorDiaPermitido { get; init; }
 
     /// <summary>
     /// False si el tope ni siquiera alcanza para el cargo fijo de la tarifa.
     /// </summary>
+    // SIN USO EN LA INTERFAZ desde Fase 7a
     public bool PresupuestoCubreCargoFijo { get; init; } = true;
 
     /// <summary>
     /// Promedio diario contra el ritmo que cuadra con el presupuesto: 0.12 = 12% arriba.
     /// </summary>
+    // SIN USO EN LA INTERFAZ desde Fase 7a
     public decimal? VariacionRitmoPresupuesto { get; init; }
 
     public EvaluacionDac? Dac { get; init; }

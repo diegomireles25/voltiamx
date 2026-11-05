@@ -85,11 +85,8 @@ public static class EvaluadorAvisos
             candidatos.Add(new AvisoPendiente(TipoAviso.Meta, $"Meta:{meta.Estado}:{finTexto}", fin, EstadoMeta: meta.Estado));
         }
 
-        // Presupuesto: la proyección rebasa el tope.
-        if (resumen.PresupuestoMax is not null && resumen.DiferenciaContraPresupuesto > 0m)
-        {
-            candidatos.Add(new AvisoPendiente(TipoAviso.Presupuesto, $"Presupuesto:{finTexto}", fin));
-        }
+        // Desde la Fase 7a ya no se avisa del presupuesto: TipoAviso.Presupuesto se conserva solo para las filas
+        // viejas de AvisosEnviados.
 
         return new ResultadoAvisos(candidatos.Where(a => !clavesEnviadas.Contains(a.Clave)).ToList(), restablecer);
     }

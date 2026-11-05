@@ -13,5 +13,6 @@ public class Objetivo
 
     public TipoObjetivo Tipo { get; set; }
 
+    // SIN USO EN LA INTERFAZ desde Fase 7a
     public decimal? PresupuestoMax { get; set; }
 }

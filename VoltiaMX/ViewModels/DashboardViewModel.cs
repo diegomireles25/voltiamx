@@ -77,10 +77,11 @@ public sealed partial class DashboardViewModel(
     [ObservableProperty] public partial string KwhHastaHoyTexto { get; set; } = string.Empty;
     [ObservableProperty] public partial string KwhCierreTexto { get; set; } = string.Empty;
 
-    // Presupuesto inverso
-    [ObservableProperty] public partial bool TienePresupuesto { get; set; }
-    [ObservableProperty] public partial string KwhPorDiaTexto { get; set; } = string.Empty;
-    [ObservableProperty] public partial string TextoInverso { get; set; } = string.Empty;
+    // Comparado con tu recibo anterior
+    [ObservableProperty] public partial bool TieneComparacion { get; set; }
+    [ObservableProperty] public partial string CifraComparacion { get; set; } = string.Empty;
+    [ObservableProperty] public partial string TextoComparacion { get; set; } = string.Empty;
+    [ObservableProperty] public partial string LoQueMasGasta { get; set; } = string.Empty;
 
     // Historial
     [ObservableProperty] public partial string TituloHistorial { get; set; } = string.Empty;
@@ -158,15 +159,6 @@ public sealed partial class DashboardViewModel(
 
     public string TextoEscanear => textos[LecturasHabilitadas ? "Dashboard_CierreEscanear" : "Dashboard_CierreEscanearProximamente"];
 
-    /// <summary>
-    /// "Ajustar presupuesto" abre Presupuesto solo si ese módulo está activo en el perfil.
-    /// </summary>
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(IrAPresupuestoCommand))]
-    public partial bool PresupuestoHabilitado { get; set; }
-
-    [RelayCommand(CanExecute = nameof(PresupuestoHabilitado))]
-    private void IrAPresupuesto() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Presupuesto));
 
     /// <summary>
     /// "Ver detalle" del riesgo DAC abre el Predictor si ese módulo está activo.
@@ -215,14 +207,16 @@ public sealed partial class DashboardViewModel(
             SolarHabilitado = modulos.Contains(ModuloApp.Solar);
             MostrarAparatos = modulos.Contains(ModuloApp.Aparatos);
             LecturasHabilitadas = modulos.Contains(ModuloApp.Lecturas);
-            PresupuestoHabilitado = modulos.Contains(ModuloApp.Presupuesto);
             PredictorHabilitado = modulos.Contains(ModuloApp.Predictor);
 
             // Negocio sin casa: el historial muestra pesos ("gasto por periodo").
             var enPesos = usos.Contains(UsoApp.Negocio) && !usos.Contains(UsoApp.Casa);
             var resumen = await resumenes.ObtenerAsync(DateOnly.FromDateTime(DateTime.Today));
-            AplicarResumen(resumen, perfil?.Objetivo?.Tipo, enPesos);
+            // Un objetivo viejo de presupuesto se trata como "sin objetivo": el presupuesto salió de la app (Fase 7a).
+            var objetivo = perfil?.Objetivo?.Tipo is TipoObjetivo.NoPasarmeDePresupuesto ? null : perfil?.Objetivo?.Tipo;
+            AplicarResumen(resumen, objetivo, enPesos);
             await CargarAparatosAsync();
+            LoQueMasGasta = TieneAparatos ? textos.Formato("Dashboard_LoQueMasGasta", Aparatos[0].Titulo) : string.Empty;
             TextoEnlaceMeta = string.Empty;
             if (modulos.Contains(ModuloApp.Metas))
             {
@@ -262,7 +256,7 @@ public sealed partial class DashboardViewModel(
 
         if (resumen is null)
         {
-            TieneProyeccion = TienePresupuesto = TieneHistorial = MostrarDac = MostrarMeta = TieneAvisos = false;
+            TieneProyeccion = TieneComparacion = TieneHistorial = MostrarDac = MostrarMeta = TieneAvisos = false;
             return;
         }
 
@@ -277,7 +271,7 @@ public sealed partial class DashboardViewModel(
             resumen.DiasDelPeriodo).ToUpper(Cultura);
 
         AplicarProyeccion(resumen);
-        AplicarPresupuesto(resumen);
+        AplicarComparacion(resumen);
         AplicarHistorial(resumen, enPesos);
         AplicarEstado(resumen, objetivo);
     }
@@ -288,14 +282,8 @@ public sealed partial class DashboardViewModel(
         TieneProyeccion = resumen.MontoProyectado is not null;
         MontoPago = resumen.MontoProyectado is decimal monto ? textos.Formato("Formato_Monto", monto) : textos["Dashboard_SinCifra"];
 
-        TextoMeta = (resumen.MontoProyectado, resumen.PresupuestoMax, resumen.DiferenciaContraPresupuesto) switch
-        {
-            (null, _, _) => textos["Dashboard_MetaSinLecturas"],
-            (_, null, _) => textos["Dashboard_MetaSinPresupuesto"],
-            (_, decimal meta, decimal diferencia) when diferencia > 0 => textos.Formato("Dashboard_MetaTePasas", meta, diferencia),
-            (_, decimal meta, decimal diferencia) => textos.Formato("Dashboard_MetaTeSobra", meta, -diferencia),
-            _ => string.Empty,
-        };
+        // Desde la Fase 7a no se compara contra un presupuesto: solo se pide capturar si no hay proyección.
+        TextoMeta = resumen.MontoProyectado is null ? textos["Dashboard_MetaSinLecturas"] : string.Empty;
 
         if (resumen.KwhHastaHoy is decimal hastaHoy && resumen.KwhProyectados is decimal proyectados && proyectados > 0)
         {
@@ -305,18 +293,25 @@ public sealed partial class DashboardViewModel(
         }
     }
 
-    private void AplicarPresupuesto(ResumenDashboard resumen)
+    /// <summary>
+    /// "Comparado con tu recibo anterior": el cambio del consumo proyectado contra el último periodo cerrado,
+    /// tal como lo calcula el Resumen.
+    /// </summary>
+    private void AplicarComparacion(ResumenDashboard resumen)
     {
-        TienePresupuesto = resumen.KwhPorDiaRestante is not null;
-        if (resumen.KwhPorDiaRestante is not decimal porDia || resumen.PresupuestoMax is not decimal presupuesto)
+        TieneComparacion = resumen.VariacionVsPeriodoAnterior is not null;
+        if (resumen.VariacionVsPeriodoAnterior is not decimal variacion)
         {
+            CifraComparacion = TextoComparacion = string.Empty;
             return;
         }
 
-        KwhPorDiaTexto = textos.Formato("Dashboard_KwhAlDia", porDia);
-        TextoInverso = resumen.PromedioDiarioKwh is decimal promedio
-            ? textos.Formato("Dashboard_InversoConRitmo", presupuesto, promedio)
-            : textos.Formato("Dashboard_Inverso", presupuesto);
+        var porcentaje = Math.Round(Math.Abs(variacion) * 100m, 0, MidpointRounding.AwayFromZero);
+        (CifraComparacion, TextoComparacion) = porcentaje == 0m
+            ? (textos.Formato("Dashboard_ComparacionCifraIgual", 0), textos["Dashboard_ComparacionIgual"])
+            : variacion > 0m
+                ? (textos.Formato("Dashboard_ComparacionCifraArriba", porcentaje), textos.Formato("Dashboard_ComparacionArriba", porcentaje))
+                : (textos.Formato("Dashboard_ComparacionCifraAbajo", porcentaje), textos.Formato("Dashboard_ComparacionAbajo", porcentaje));
     }
 
     private void AplicarHistorial(ResumenDashboard resumen, bool enPesos)
@@ -368,11 +363,6 @@ public sealed partial class DashboardViewModel(
                 textos[riesgo.Nivel == NivelRiesgoDac.Alto ? "Aviso_DacAlto" : "Aviso_DacMedio"],
                 PredictorHabilitado ? IrAPredictorCommand : null,
                 PredictorHabilitado ? textos["Aviso_VerDetalle"] : null));
-        }
-
-        if (resumen.VariacionRitmoPresupuesto is decimal ritmo)
-        {
-            Avisos.Add(new AvisoDashboard(textos.Formato(ritmo > 0 ? "Aviso_ArribaDelRitmo" : "Aviso_AbajoDelRitmo", Math.Abs(ritmo) * 100)));
         }
 
         TieneAvisos = Avisos.Count > 0;

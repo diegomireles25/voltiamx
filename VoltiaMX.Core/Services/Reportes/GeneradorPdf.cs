@@ -170,14 +170,7 @@ public static class GeneradorPdf
                 Dato(columna, texto("Reporte_PagoProyectado"), FormatoReporte.Pesos(monto));
             }
 
-            if (r.PresupuestoMax is decimal tope)
-            {
-                Dato(columna, texto("Reporte_Tope"), FormatoReporte.Pesos(tope));
-                if (r.DiferenciaContraPresupuesto is decimal diferencia)
-                {
-                    Dato(columna, texto("Reporte_DiferenciaTope"), FormatoReporte.Pesos(diferencia));
-                }
-            }
+            // El presupuesto no se imprime desde la Fase 7a.
 
             if (r.DesgloseProyectado is not { } desglose)
             {

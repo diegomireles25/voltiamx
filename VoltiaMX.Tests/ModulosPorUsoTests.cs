@@ -6,12 +6,13 @@ namespace VoltiaMX.Tests;
 public class ModulosPorUsoTests
 {
     [Fact]
-    public void Calcular_Casa_LecturasPredictorPresupuestoAparatosYMetas()
+    public void Calcular_Casa_LecturasPredictorAparatosYMetas()
     {
+        // Desde la Fase 7a, Presupuesto ya no es un módulo de ningún perfil.
         var modulos = ModulosPorUso.Calcular([UsoApp.Casa], modoAvanzado: false);
 
         Assert.Equal(
-            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Presupuesto, ModuloApp.Aparatos, ModuloApp.Metas],
+            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Aparatos, ModuloApp.Metas],
             modulos.Order());
     }
 
@@ -57,7 +58,7 @@ public class ModulosPorUsoTests
         var modulos = ModulosPorUso.Calcular([UsoApp.Casa], modoAvanzado: true);
 
         Assert.Equal(
-            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Presupuesto, ModuloApp.Aparatos,
+            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Aparatos,
              ModuloApp.Solar, ModuloApp.Inquilinos, ModuloApp.Metas],
             modulos.Order());
     }

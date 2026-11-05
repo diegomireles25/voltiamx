@@ -59,8 +59,9 @@ public sealed class PerfilServiceTests : IAsyncLifetime
         Assert.Equal(TipoObjetivo.PagarMenos, perfil.Objetivo?.Tipo);
         Assert.Equal(800m, perfil.Objetivo?.PresupuestoMax);
         Assert.Equal(Enum.GetValues<ModuloApp>().Length, perfil.Modulos.Count);
+        // Desde la Fase 7a, Presupuesto ya no es módulo de Casa.
         Assert.Equal(
-            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Presupuesto, ModuloApp.Aparatos, ModuloApp.Metas],
+            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Aparatos, ModuloApp.Metas],
             await _servicio.ObtenerModulosActivosAsync());
     }
 

@@ -84,8 +84,7 @@ public static class GeneradorExcel
         Agregar("Reporte_KwhHastaHoy", r?.KwhHastaHoy, FormatoReporte.FormatoKwhExcel);
         Agregar("Reporte_KwhProyectados", r?.KwhProyectados, FormatoReporte.FormatoKwhExcel);
         Agregar("Reporte_PagoProyectado", r?.MontoProyectado, FormatoReporte.FormatoPesosExcel);
-        Agregar("Reporte_Tope", r?.PresupuestoMax, FormatoReporte.FormatoPesosExcel);
-        Agregar("Reporte_DiferenciaTope", r?.DiferenciaContraPresupuesto, FormatoReporte.FormatoPesosExcel);
+        // El presupuesto no se exporta desde la Fase 7a.
         Agregar("Reporte_Nivel", r?.Dac is { } dac ? texto($"Dac_{dac.Nivel}") : null);
         Agregar("Reporte_Promedio", r?.Dac?.PromedioMensualKwh, FormatoReporte.FormatoKwhExcel);
         Agregar("Reporte_Limite", r?.LimiteDacKwhMensual, FormatoReporte.FormatoKwhExcel);

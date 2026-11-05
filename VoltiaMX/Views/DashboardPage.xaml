@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-    Dashboard compuesto como docs/mockup-dashboard.html (gana el HTML). Solo dos tarjetas: el
-    presupuesto inverso (negra) y el historial (blanca); el estado y los aparatos van sobre el
+    Dashboard compuesto como docs/mockup-dashboard.html (gana el HTML). Solo dos tarjetas: la
+    comparación con el recibo anterior (negra) y el historial (blanca); el estado y los aparatos van sobre el
     lienzo en filas con línea negra de 1px. Una sola barra de progreso.
 -->
 <Page
@@ -41,7 +41,7 @@
                 Padding="{StaticResource DashboardPadding}"
                 Spacing="{StaticResource Spacing72}">
 
-                <!-- HERO: pago estimado y presupuesto inverso -->
+                <!-- HERO: pago estimado y comparación con el recibo anterior -->
                 <Grid ColumnSpacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarHogar), Mode=OneWay}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.1*" />
@@ -125,7 +125,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <!-- Presupuesto inverso -->
+                    <!-- Comparado con tu recibo anterior -->
                     <ContentPresenter
                         Grid.Column="1"
                         Style="{StaticResource InvertedCardLgStyle}"
@@ -136,31 +136,32 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <StackPanel Spacing="{StaticResource Spacing24}">
-                                <ContentPresenter x:Uid="Dashboard_InversoEtiqueta" Style="{StaticResource MintTagStyle}" />
-                                <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TienePresupuesto), Mode=OneWay}">
-                                    <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.KwhPorDiaTexto, Mode=OneWay}" />
+                                <ContentPresenter x:Uid="Dashboard_ComparacionEtiqueta" Style="{StaticResource MintTagStyle}" />
+                                <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneComparacion), Mode=OneWay}">
+                                    <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.CifraComparacion, Mode=OneWay}" />
                                     <TextBlock
                                         MaxWidth="{StaticResource InverseTextMaxWidth}"
                                         HorizontalAlignment="Left"
-                                        Foreground="{StaticResource AshBrush}"
                                         Style="{StaticResource BodyTextStyle}"
-                                        Text="{x:Bind ViewModel.TextoInverso, Mode=OneWay}" />
+                                        Text="{x:Bind ViewModel.TextoComparacion, Mode=OneWay}" />
                                 </StackPanel>
-                                <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TienePresupuesto), Mode=OneWay}">
-                                    <TextBlock x:Uid="Dashboard_SinPresupuestoTitulo" Style="{StaticResource DisplayTextStyle}" />
-                                    <TextBlock
-                                        x:Uid="Dashboard_SinPresupuestoTexto"
-                                        MaxWidth="{StaticResource InverseTextMaxWidth}"
-                                        HorizontalAlignment="Left"
-                                        Foreground="{StaticResource AshBrush}"
-                                        Style="{StaticResource BodyTextStyle}" />
-                                </StackPanel>
+                                <TextBlock
+                                    x:Uid="Dashboard_ComparacionSinAnterior"
+                                    MaxWidth="{StaticResource InverseTextMaxWidth}"
+                                    HorizontalAlignment="Left"
+                                    Foreground="{StaticResource AshBrush}"
+                                    Style="{StaticResource BodyTextStyle}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneComparacion), Mode=OneWay}" />
+                                <TextBlock
+                                    MaxWidth="{StaticResource InverseTextMaxWidth}"
+                                    HorizontalAlignment="Left"
+                                    Foreground="{StaticResource AshBrush}"
+                                    Style="{StaticResource BodyTextStyle}"
+                                    Text="{x:Bind ViewModel.LoQueMasGasta, Mode=OneWay}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.LoQueMasGasta), Mode=OneWay}" />
                             </StackPanel>
-                            <Button
-                                x:Uid="Dashboard_AjustarPresupuesto"
-                                Grid.Row="1"
-                                Command="{x:Bind ViewModel.IrAPresupuestoCommand}"
-                                Style="{StaticResource PrimaryOnDarkButtonStyle}" />
                         </Grid>
                     </ContentPresenter>
                 </Grid>

@@ -14,7 +14,7 @@ namespace VoltiaMX.ViewModels.Onboarding;
 /// </summary>
 public sealed partial class OnboardingViewModel : ObservableObject
 {
-    private const int PreguntasNumeradas = 5;
+    private const int PreguntasNumeradas = 3;
 
     private readonly IPerfilService perfiles;
     private readonly IDatosDemoService datosDemo;
@@ -41,8 +41,7 @@ public sealed partial class OnboardingViewModel : ObservableObject
         NoSeMiTarifa = false;
         ReciboManual = ReciboSaltar = ReciboMensual = CargarDemo = false;
         ReciboBimestral = true;
-        ObjetivoEntender = ObjetivoPagarMenos = ObjetivoPresupuesto = ObjetivoInquilinos = false;
-        KwhRecibo = MontoRecibo = LecturaMedidorRecibo = PresupuestoMax = double.NaN;
+        KwhRecibo = MontoRecibo = LecturaMedidorRecibo = double.NaN;
     }
 
     [ObservableProperty]
@@ -94,15 +93,15 @@ public sealed partial class OnboardingViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] public partial double LecturaMedidorRecibo { get; set; }
 
-    // Objetivo (selección única)
-    [ObservableProperty] public partial bool? ObjetivoEntender { get; set; }
-    [ObservableProperty] public partial bool? ObjetivoPagarMenos { get; set; }
-    [ObservableProperty] public partial bool? ObjetivoPresupuesto { get; set; }
-    [ObservableProperty] public partial bool? ObjetivoInquilinos { get; set; }
+    /// <summary>
+    /// Las notificaciones empiezan apagadas en un perfil nuevo y se encienden desde Más. Al repetir el
+    /// onboarding se conserva lo que el perfil ya tenía.
+    /// </summary>
+    private bool _notificaciones;
 
-    // Presupuesto
-    [ObservableProperty] public partial double PresupuestoMax { get; set; }
-    [ObservableProperty] public partial bool Notificaciones { get; set; }
+    // Al repetir el onboarding se devuelven tal cual (ya no se preguntan) para no borrar datos guardados.
+    private TipoObjetivo? _objetivoGuardado;
+    private decimal? _presupuestoGuardado;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(TerminarCommand))]
@@ -121,7 +120,7 @@ public sealed partial class OnboardingViewModel : ObservableObject
         : string.Empty;
 
     /// <summary>
-    /// Indicador "PASO n/5" y barra Atrás/Siguiente: solo en las cinco preguntas.
+    /// Indicador "PASO n/3" y barra Atrás/Siguiente: solo en las tres preguntas.
     /// </summary>
     public bool MostrarIndicador => PasoActual is > PasoOnboarding.Bienvenida and < PasoOnboarding.Listo;
 
@@ -256,13 +255,6 @@ public sealed partial class OnboardingViewModel : ObservableObject
                 ReciboManual = ReciboSaltar = false;
                 CargarDemo = false;
                 break;
-            case PasoOnboarding.Objetivo:
-                ObjetivoEntender = ObjetivoPagarMenos = ObjetivoPresupuesto = ObjetivoInquilinos = false;
-                break;
-            case PasoOnboarding.Presupuesto:
-                PresupuestoMax = double.NaN;
-                Notificaciones = false;
-                break;
         }
     }
 
@@ -277,13 +269,9 @@ public sealed partial class OnboardingViewModel : ObservableObject
             UsaRentas = usos.Contains(UsoApp.Rentas);
             UsaSolar = usos.Contains(UsoApp.Solar);
 
-            var objetivo = perfil.Objetivo?.Tipo;
-            ObjetivoEntender = objetivo == TipoObjetivo.EntenderRecibo;
-            ObjetivoPagarMenos = objetivo == TipoObjetivo.PagarMenos;
-            ObjetivoPresupuesto = objetivo == TipoObjetivo.NoPasarmeDePresupuesto;
-            ObjetivoInquilinos = objetivo == TipoObjetivo.RepartirInquilinos;
-            PresupuestoMax = perfil.Objetivo?.PresupuestoMax is decimal monto ? (double)monto : double.NaN;
-            Notificaciones = perfil.NotificacionesActivas;
+            _objetivoGuardado = perfil.Objetivo?.Tipo;
+            _presupuestoGuardado = perfil.Objetivo?.PresupuestoMax;
+            _notificaciones = perfil.NotificacionesActivas;
         }
 
         var lugar = await perfiles.ObtenerLugarPrincipalAsync();
@@ -305,9 +293,9 @@ public sealed partial class OnboardingViewModel : ObservableObject
         Municipio = string.IsNullOrWhiteSpace(Municipio) ? null : Municipio.Trim(),
         TarifaId = NoSeMiTarifa == true ? null : (TarifaSeleccionada as OpcionTarifa)?.Id,
         Recibo = ReciboManual == true ? ReciboCapturado() : null,
-        Objetivo = ObjetivoElegido(),
-        PresupuestoMax = double.IsNaN(PresupuestoMax) || PresupuestoMax <= 0 ? null : (decimal)PresupuestoMax,
-        NotificacionesActivas = Notificaciones,
+        Objetivo = _objetivoGuardado,
+        PresupuestoMax = _presupuestoGuardado,
+        NotificacionesActivas = _notificaciones,
     };
 
     private List<UsoApp> UsosElegidos()
@@ -319,13 +307,6 @@ public sealed partial class OnboardingViewModel : ObservableObject
         if (UsaSolar == true) usos.Add(UsoApp.Solar);
         return usos;
     }
-
-    private TipoObjetivo? ObjetivoElegido()
-        => ObjetivoEntender == true ? TipoObjetivo.EntenderRecibo
-            : ObjetivoPagarMenos == true ? TipoObjetivo.PagarMenos
-            : ObjetivoPresupuesto == true ? TipoObjetivo.NoPasarmeDePresupuesto
-            : ObjetivoInquilinos == true ? TipoObjetivo.RepartirInquilinos
-            : null;
 
     /// <summary>
     /// El recibo capturado a mano, o null si falta la fecha, los kWh o el monto.
@@ -382,19 +363,8 @@ public sealed partial class OnboardingViewModel : ObservableObject
                     ? textos["Resumen_ReciboDemo"]
                     : textos["Resumen_ReciboDespues"]));
 
-        var objetivo = ObjetivoElegido();
-        Resumen.Add(new FilaResumen(
-            textos["Resumen_Objetivo"],
-            objetivo is TipoObjetivo tipo ? textos[$"Objetivo_{tipo}_Titulo/Text"] : textos["Resumen_ObjetivoSinElegir"]));
-
-        Resumen.Add(new FilaResumen(
-            textos["Resumen_Presupuesto"],
-            double.IsNaN(PresupuestoMax) || PresupuestoMax <= 0
-                ? textos["Resumen_SinPresupuesto"]
-                : textos.Formato("Formato_Monto", PresupuestoMax)));
-
         Resumen.Add(new FilaResumen(
             textos["Resumen_Avisos"],
-            Notificaciones ? textos["Resumen_AvisosActivos"] : textos["Resumen_AvisosInactivos"]));
+            _notificaciones ? textos["Resumen_AvisosActivos"] : textos["Resumen_AvisosInactivos"]));
     }
 }

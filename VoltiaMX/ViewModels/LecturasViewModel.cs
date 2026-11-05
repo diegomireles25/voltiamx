@@ -490,15 +490,10 @@ public sealed partial class LecturasViewModel(
             .Select(p => new PuntoSerie(p.Fecha.DayNumber - corteAnterior.DayNumber, (double)p.Kwh))
             .ToList();
         var dias = historial.PeriodoActual.Dias;
-        IReadOnlyList<PuntoSerie> presupuesto = historial.KwhPresupuestoPeriodo is decimal tope
-            ? [new PuntoSerie(0, 0), new PuntoSerie(dias, (double)tope)]
-            : [];
-
-        Acumulado = new GraficaAcumulado(consumo, presupuesto, dias, textos["Grafica_FormatoDia"], textos["Grafica_FormatoKwh"], Cultura);
+        // Desde la Fase 7a la gráfica ya no dibuja la recta del presupuesto.
+        Acumulado = new GraficaAcumulado(consumo, [], dias, textos["Grafica_FormatoDia"], textos["Grafica_FormatoKwh"], Cultura);
         var ultimo = historial.AcumuladoActual[^1];
-        ResumenAcumulado = historial.KwhPresupuestoPeriodo is decimal maximo
-            ? textos.Formato("Historial_AcumuladoConPresupuesto", ultimo.Kwh, maximo)
-            : textos.Formato("Historial_AcumuladoSinPresupuesto", ultimo.Kwh, consumo[^1].Dia);
+        ResumenAcumulado = textos.Formato("Historial_AcumuladoSinPresupuesto", ultimo.Kwh, consumo[^1].Dia);
         TieneAcumulado = true;
     }
 

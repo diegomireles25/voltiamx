@@ -336,7 +336,7 @@
     <value>Empezar</value>
   </data>
   <data name="Bienvenida_Rasgos.Text" xml:space="preserve">
-    <value>SIN INTERNET · TU TARIFA DE CFE · PRESUPUESTO INVERSO</value>
+    <value>SIN INTERNET · TU TARIFA DE CFE · TU RECIBO ANTES DE QUE LLEGUE</value>
   </data>
 
   <!-- Onboarding: uso -->
@@ -499,9 +499,6 @@
   <data name="Objetivo_PagarMenos_Descripcion.Text" xml:space="preserve">
     <value>Encontrar qué gasta más y bajar tu consumo.</value>
   </data>
-  <data name="Objetivo_NoPasarmeDePresupuesto_Titulo.Text" xml:space="preserve">
-    <value>NO PASARME DE MI PRESUPUESTO</value>
-  </data>
   <data name="Objetivo_NoPasarmeDePresupuesto_Descripcion.Text" xml:space="preserve">
     <value>Fijar un monto máximo y saber cuánto puedes gastar al día.</value>
   </data>
@@ -593,12 +590,6 @@
   <data name="Resumen_ObjetivoSinElegir" xml:space="preserve">
     <value>Sin elegir</value>
   </data>
-  <data name="Resumen_Presupuesto" xml:space="preserve">
-    <value>PRESUPUESTO</value>
-  </data>
-  <data name="Resumen_SinPresupuesto" xml:space="preserve">
-    <value>Sin presupuesto</value>
-  </data>
   <data name="Resumen_Avisos" xml:space="preserve">
     <value>AVISOS</value>
   </data>
@@ -630,9 +621,6 @@
   </data>
   <data name="Modulo_Predictor" xml:space="preserve">
     <value>Predictor</value>
-  </data>
-  <data name="Modulo_Presupuesto" xml:space="preserve">
-    <value>Presupuesto</value>
   </data>
   <data name="Modulo_Aparatos" xml:space="preserve">
     <value>Aparatos</value>
@@ -713,9 +701,6 @@
   <data name="Dashboard_MetaSinLecturas" xml:space="preserve">
     <value>Captura dos lecturas de este periodo para estimar tu pago.</value>
   </data>
-  <data name="Dashboard_MetaSinPresupuesto" xml:space="preserve">
-    <value>Define un presupuesto para saber si vas bien; puedes fijarlo al repetir el onboarding en Configuración.</value>
-  </data>
   <data name="Dashboard_MetaTePasas" xml:space="preserve">
     <value>Tu meta es ${0:N0}. A este ritmo te pasas por ${1:N0}.</value>
   </data>
@@ -750,9 +735,6 @@
   </data>
 
   <!-- Dashboard: presupuesto inverso -->
-  <data name="Dashboard_InversoEtiqueta.Content" xml:space="preserve">
-    <value>PRESUPUESTO INVERSO</value>
-  </data>
   <data name="Dashboard_KwhAlDia" xml:space="preserve">
     <value>{0:N1} KWH AL DÍA</value>
   </data>
@@ -761,15 +743,6 @@
   </data>
   <data name="Dashboard_InversoConRitmo" xml:space="preserve">
     <value>Es lo que puedes gastar de aquí al cierre para quedarte en ${0:N0}. Hoy gastas {1:N1}.</value>
-  </data>
-  <data name="Dashboard_SinPresupuestoTitulo.Text" xml:space="preserve">
-    <value>SIN PRESUPUESTO</value>
-  </data>
-  <data name="Dashboard_SinPresupuestoTexto.Text" xml:space="preserve">
-    <value>Fija un monto máximo y te decimos cuántos kWh puedes gastar al día para no pasarte.</value>
-  </data>
-  <data name="Dashboard_AjustarPresupuesto.Content" xml:space="preserve">
-    <value>Ajustar presupuesto</value>
   </data>
 
   <!-- Dashboard: historial -->
@@ -823,12 +796,6 @@
   <data name="Aviso_PeriodoTerminado" xml:space="preserve">
     <value>Tu periodo ya terminó: captura la lectura de tu recibo.</value>
   </data>
-  <data name="Aviso_ArribaDelRitmo" xml:space="preserve">
-    <value>Vas {0:N0}% arriba del ritmo que cuadra con tu presupuesto.</value>
-  </data>
-  <data name="Aviso_AbajoDelRitmo" xml:space="preserve">
-    <value>Vas {0:N0}% abajo del ritmo que cuadra con tu presupuesto.</value>
-  </data>
   <data name="Dashboard_Meta.Text" xml:space="preserve">
     <value>META</value>
   </data>
@@ -843,9 +810,6 @@
   </data>
   <data name="MetaObjetivo_PagarMenos" xml:space="preserve">
     <value>Pagar menos</value>
-  </data>
-  <data name="MetaObjetivo_NoPasarmeDePresupuesto" xml:space="preserve">
-    <value>No pasarte de tu presupuesto</value>
   </data>
   <data name="MetaObjetivo_RepartirInquilinos" xml:space="preserve">
     <value>Repartir entre inquilinos</value>
@@ -1119,7 +1083,7 @@
     <value>CONSUMO ACUMULADO DEL PERIODO ACTUAL</value>
   </data>
   <data name="Historial_GraficaAcumulado.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Gráfica del consumo acumulado del periodo actual contra lo que cabe en tu presupuesto. El resumen está en el texto que sigue.</value>
+    <value>Gráfica del consumo acumulado del periodo actual</value>
   </data>
   <data name="Historial_EtiquetaActual" xml:space="preserve">
     <value>EN CURSO</value>
@@ -1142,9 +1106,6 @@
   <data name="Historial_MontoConRecibo" xml:space="preserve">
     <value>${0:N0} (recibo ${1:N0})</value>
   </data>
-  <data name="Historial_AcumuladoConPresupuesto" xml:space="preserve">
-    <value>Llevas {0:N0} kWh de los {1:N0} que caben en tu presupuesto este periodo.</value>
-  </data>
   <data name="Historial_AcumuladoSinPresupuesto" xml:space="preserve">
     <value>Llevas {0:N0} kWh en {1:N0} días de este periodo.</value>
   </data>
@@ -1159,9 +1120,6 @@
   </data>
 
   <!-- Presupuesto (pantalla del módulo) -->
-  <data name="Tope_Titulo.Text" xml:space="preserve">
-    <value>PRESUPUESTO</value>
-  </data>
   <data name="Tope_VacioTitulo.Text" xml:space="preserve">
     <value>Define cuánto quieres pagar</value>
   </data>
@@ -1177,35 +1135,14 @@
   <data name="Tope_Monto.PlaceholderText" xml:space="preserve">
     <value>Ej. 800</value>
   </data>
-  <data name="Tope_Guardar.Content" xml:space="preserve">
-    <value>Guardar presupuesto</value>
-  </data>
-  <data name="Tope_Quitar.Content" xml:space="preserve">
-    <value>Quitar presupuesto</value>
-  </data>
-  <data name="Tope_Guardado" xml:space="preserve">
-    <value>Presupuesto guardado.</value>
-  </data>
-  <data name="Tope_Quitado" xml:space="preserve">
-    <value>Se quitó el presupuesto.</value>
-  </data>
   <data name="Tope_FueraDeRango" xml:space="preserve">
     <value>El tope debe ser mayor que 0 y de hasta $1,000,000.</value>
-  </data>
-  <data name="Tope_Etiqueta.Content" xml:space="preserve">
-    <value>PRESUPUESTO INVERSO</value>
   </data>
   <data name="Tope_KwhRestantes" xml:space="preserve">
     <value>{0:N0} kWh caben todavía en tu tope</value>
   </data>
   <data name="Tope_Ritmo" xml:space="preserve">
     <value>Hoy gastas {0:N1} kWh al día; tu tope permite {1:N1} en promedio.</value>
-  </data>
-  <data name="Tope_RitmoArriba" xml:space="preserve">
-    <value>Vas {0:N0}% arriba del ritmo que cabe en tu presupuesto.</value>
-  </data>
-  <data name="Tope_RitmoAbajo" xml:space="preserve">
-    <value>Vas {0:N0}% abajo del ritmo que cabe en tu presupuesto.</value>
   </data>
   <data name="Tope_KwhMaximos.Text" xml:space="preserve">
     <value>kWh que caben en tu tope este periodo</value>
@@ -3409,5 +3346,32 @@
   </data>
   <data name="Solar_ExportarPdf.Content" xml:space="preserve">
     <value>Exportar PDF</value>
+  </data>
+  <data name="Dashboard_ComparacionEtiqueta.Content" xml:space="preserve">
+    <value>COMPARADO CON TU RECIBO ANTERIOR</value>
+  </data>
+  <data name="Dashboard_ComparacionCifraArriba" xml:space="preserve">
+    <value>+{0:0} %</value>
+  </data>
+  <data name="Dashboard_ComparacionCifraAbajo" xml:space="preserve">
+    <value>−{0:0} %</value>
+  </data>
+  <data name="Dashboard_ComparacionCifraIgual" xml:space="preserve">
+    <value>{0:0} %</value>
+  </data>
+  <data name="Dashboard_ComparacionArriba" xml:space="preserve">
+    <value>Vas {0:0} % arriba</value>
+  </data>
+  <data name="Dashboard_ComparacionAbajo" xml:space="preserve">
+    <value>Vas {0:0} % abajo</value>
+  </data>
+  <data name="Dashboard_ComparacionIgual" xml:space="preserve">
+    <value>Igual que el anterior</value>
+  </data>
+  <data name="Dashboard_ComparacionSinAnterior.Text" xml:space="preserve">
+    <value>Cuando tengas dos recibos registrados, aquí verás si vas mejor o peor.</value>
+  </data>
+  <data name="Dashboard_LoQueMasGasta" xml:space="preserve">
+    <value>Lo que más gasta: {0}</value>
   </data>
 </root>

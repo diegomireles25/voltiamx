@@ -126,7 +126,7 @@ public sealed class ProgramadorAvisos(IAvisoService avisos, INotificador notific
             TipoAviso.Lectura => ModuloApp.Lecturas,
             TipoAviso.Dac => ModuloApp.Predictor,
             TipoAviso.Meta => ModuloApp.Metas,
-            TipoAviso.Presupuesto => ModuloApp.Presupuesto,
+            // Notificaciones viejas de presupuesto (ya no se generan): abren Inicio.
             _ => null,
         };
 

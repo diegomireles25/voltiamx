@@ -36,6 +36,7 @@ public interface IPerfilService
     /// Tope por recibo (sin IVA ni DAP). Crea el objetivo "no pasarme de mi presupuesto" si no hay
     /// ninguno; si ya hay otro, solo cambia el monto. Null quita el tope. Acepta de 0 a 1,000,000 (sin 0).
     /// </summary>
+    // SIN USO EN LA INTERFAZ desde Fase 7a
     Task GuardarPresupuestoAsync(decimal? monto, CancellationToken cancellationToken = default);
 
     /// <summary>

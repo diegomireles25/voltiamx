@@ -2,6 +2,7 @@ using VoltiaMX.Core.Models;
 
 namespace VoltiaMX.Core.Services;
 
+// SIN USO EN LA INTERFAZ desde Fase 7a
 public interface IPresupuestoInversoService
 {
     /// <summary>

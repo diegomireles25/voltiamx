@@ -29,9 +29,6 @@ public sealed class NavegacionShell : INavegacionShell
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Lecturas:
                 IrA(seccion == SeccionesLecturas.Escanear ? typeof(EscanearReciboPage) : typeof(LecturasPage), seccion);
                 break;
-            case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Presupuesto:
-                IrA(typeof(PresupuestoPage));
-                break;
             case DestinoShell.Modulo when elemento.Modulo == ModuloApp.Predictor:
                 IrA(typeof(PredictorPage));
                 break;

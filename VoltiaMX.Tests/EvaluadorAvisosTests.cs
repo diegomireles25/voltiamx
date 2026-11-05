@@ -177,13 +177,11 @@ public class EvaluadorAvisosTests
     }
 
     [Fact]
-    public void Presupuesto_ProyeccionArribaDelTope_Avisa()
+    public void Presupuesto_ProyeccionArribaDelTope_YaNoAvisa()
     {
-        // Proyección 520.50 contra tope 500: diferencia 20.50 > 0.
-        var aviso = Assert.Single(Evaluar(Resumen(diferenciaContraTope: 20.50m)).Pendientes);
-
-        Assert.Equal(TipoAviso.Presupuesto, aviso.Tipo);
-        Assert.Equal("Presupuesto:2026-10-22", aviso.Clave);
+        // Proyección 520.50 contra tope 500. Desde la Fase 7a el presupuesto salió de la experiencia:
+        // aunque un perfil viejo tenga tope, no hay aviso.
+        Assert.Empty(Evaluar(Resumen(diferenciaContraTope: 20.50m)).Pendientes);
     }
 
     [Fact]
@@ -192,8 +190,9 @@ public class EvaluadorAvisosTests
         var resultado = Evaluar(
             Resumen(diasParaCorte: 2, nivelDac: NivelRiesgoDac.Medio, diferenciaContraTope: 10m), Meta(EstadoMeta.Superada));
 
+        // Con tope rebasado, pero sin aviso de presupuesto (Fase 7a).
         Assert.Equal(
-            [TipoAviso.Lectura, TipoAviso.Dac, TipoAviso.Meta, TipoAviso.Presupuesto],
+            [TipoAviso.Lectura, TipoAviso.Dac, TipoAviso.Meta],
             resultado.Pendientes.Select(a => a.Tipo));
     }
 

@@ -27,6 +27,7 @@ public sealed record HistorialLugar(
     IReadOnlyList<PeriodoDeHistorial> Periodos,
     Ventana PeriodoActual,
     IReadOnlyList<PuntoAcumulado> AcumuladoActual,
+    // SIN USO EN LA INTERFAZ desde Fase 7a
     decimal? KwhPresupuestoPeriodo)
 {
     public int PeriodosCerrados => Periodos.Count(p => !p.EsActual);
