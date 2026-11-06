@@ -80,6 +80,18 @@ public sealed class GeneradorPdfSolarTests
     }
 
     [Fact]
+    public void ContieneElEspacioSusSupuestosYElAvisoDelTecho()
+    {
+        // Fase 9e (D4): 9 paneles × 2.6 m² × 1.10 = 25.74 → 26.0 m².
+        var todo = Todo(Datos());
+
+        Assert.Contains($"{Texto("SolarPdf_Espacio")}: 26.0 m²", todo);
+        Assert.Contains($"{Texto("SolarPdf_SuperficiePanel")}: 2.6 m²", todo);
+        Assert.Contains($"{Texto("SolarPdf_EspacioPaso")}: 10 %", todo);
+        Assert.Contains(Texto("Solar_AvisoTecho"), todo);
+    }
+
+    [Fact]
     public void SinDatosDeContacto()
     {
         var todo = Todo(Datos(costo: 20_000m, referencia: "Proyecto techo"));

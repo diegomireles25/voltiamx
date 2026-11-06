@@ -134,11 +134,14 @@ public static class GeneradorPdfSolar
             new(texto("SolarPdf_Horas"), $"{Numero(p.HorasSol)} h"),
             new(texto("SolarPdf_Eficiencia"), p.Eficiencia.ToString("0.00", CultureInfo.InvariantCulture)),
             new(texto("SolarPdf_WattsPanel"), $"{Numero(p.WattsPanel)} W"),
+            new(texto("SolarPdf_SuperficiePanel"), $"{Numero(p.SuperficiePanelM2)} m²"),
+            new(texto("SolarPdf_EspacioPaso"), $"{Numero(p.EspacioPasoPorciento)} %"),
             new(texto("SolarPdf_Costo"), p.CostoPorKwp is > 0m and decimal costo ? FormatoReporte.Pesos(costo) : texto("SolarPdf_SinCosto")),
         ];
 
         var resultado = new List<LineaPdf>
         {
+            new(texto("SolarPdf_Espacio"), $"{r.EspacioM2.ToString("0.0", CultureInfo.InvariantCulture)} m²"),
             new(texto("SolarPdf_Kwp"), $"{FormatoReporte.Kwh(r.KwpInstalados)} kWp"),
             new(texto("SolarPdf_Generacion"), $"{FormatoReporte.Kwh(r.GeneracionMensualKwh)} kWh"),
             new(texto("SolarPdf_Aprovechados"), $"{FormatoReporte.Kwh(r.KwhAprovechadosMes)} kWh"),
@@ -176,6 +179,7 @@ public static class GeneradorPdfSolar
         [
             texto("Solar_AvisoEstimacion"),
             texto("Solar_AvisoNoIncluye"),
+            texto("Solar_AvisoTecho"),
             texto("SolarPdf_SinSupuestos"),
             texto("SolarPdf_SinIvaNiDap"),
         ];

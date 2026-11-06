@@ -4,6 +4,8 @@ namespace VoltiaMX.Core.Services;
 
 /// <summary>
 /// Supuestos de la estimación. Todos son editables; los valores por defecto son de ejemplo.
+/// <see cref="SuperficiePanelM2"/> y <see cref="EspacioPasoPorciento"/> (Fase 9e) solo sirven para el espacio que
+/// ocupan los paneles.
 /// </summary>
 public sealed record ParametrosSolar(
     decimal? ConsumoMensualKwh,
@@ -11,7 +13,9 @@ public sealed record ParametrosSolar(
     decimal HorasSol,
     decimal Eficiencia,
     decimal WattsPanel,
-    decimal? CostoPorKwp);
+    decimal? CostoPorKwp,
+    decimal SuperficiePanelM2 = ValoresSolarPorDefecto.SuperficiePanelM2,
+    decimal EspacioPasoPorciento = ValoresSolarPorDefecto.EspacioPasoPorciento);
 
 /// <summary>
 /// Valores con los que arranca el simulador cada vez. NO son datos de México ni de CFE: la persona los cambia
@@ -23,6 +27,8 @@ public static class ValoresSolarPorDefecto
     public const decimal HorasSol = 5m; // EJEMPLO: horas de sol pico por día
     public const decimal Eficiencia = 0.80m; // EJEMPLO: pérdidas por temperatura, inversor y cableado
     public const decimal WattsPanel = 550m; // EJEMPLO
+    public const decimal SuperficiePanelM2 = 2.6m; // EJEMPLO: superficie de un panel de unos 550 W
+    public const decimal EspacioPasoPorciento = 10m; // EJEMPLO: espacio para pasar entre filas
 }
 
 public enum CodigoErrorSolar
@@ -33,6 +39,8 @@ public enum CodigoErrorSolar
     HorasFueraDeRango,
     EficienciaFueraDeRango,
     WattsFueraDeRango,
+    SuperficieFueraDeRango,
+    PasoFueraDeRango,
     CostoFueraDeRango,
 }
 
@@ -48,6 +56,10 @@ public static class SimuladorSolarValidador
     public const decimal WattsMinimos = 100m;
     public const decimal WattsMaximos = 800m;
     public const decimal CostoMaximo = 1_000_000m;
+    public const decimal SuperficieMinima = 1m;
+    public const decimal SuperficieMaxima = 4m;
+    public const decimal PasoMinimo = 0m;
+    public const decimal PasoMaximo = 30m;
 
     /// <summary>
     /// Errores en el orden de los campos de la pantalla.
@@ -85,6 +97,16 @@ public static class SimuladorSolarValidador
             errores.Add(CodigoErrorSolar.WattsFueraDeRango);
         }
 
+        if (p.SuperficiePanelM2 is < SuperficieMinima or > SuperficieMaxima)
+        {
+            errores.Add(CodigoErrorSolar.SuperficieFueraDeRango);
+        }
+
+        if (p.EspacioPasoPorciento is < PasoMinimo or > PasoMaximo)
+        {
+            errores.Add(CodigoErrorSolar.PasoFueraDeRango);
+        }
+
         if (p.CostoPorKwp is < 0m or > CostoMaximo)
         {
             errores.Add(CodigoErrorSolar.CostoFueraDeRango);
@@ -96,6 +118,7 @@ public static class SimuladorSolarValidador
 
 /// <summary>
 /// Lo que el lugar aporta a la estimación: consumo medido, tarifa y el historial con el que se evalúa el DAC.
+/// <see cref="ConsumoAproximado"/> (Fase 9e, D2): el consumo sale de un recibo por monto, sin lecturas.
 /// </summary>
 public sealed record DatosLugarSolar(
     string NombreLugar,
@@ -103,7 +126,8 @@ public sealed record DatosLugarSolar(
     decimal? KwhMedidoPorMes,
     Tarifa? Tarifa,
     int MesesPorPeriodo,
-    IReadOnlyList<decimal> HistorialMensual)
+    IReadOnlyList<decimal> HistorialMensual,
+    bool ConsumoAproximado = false)
 {
     public static DatosLugarSolar SinLugar { get; } = new(string.Empty, false, null, null, 1, []);
 }
@@ -139,7 +163,8 @@ public sealed record ResultadoSolar(
     decimal? RecuperacionMeses,
     bool RecuperacionExcedeMaximo,
     EvaluacionDac? DacAntes,
-    EvaluacionDac? DacDespues);
+    EvaluacionDac? DacDespues,
+    decimal EspacioM2 = 0m);
 
 /// <summary>
 /// Estimación de un sistema solar: paneles, generación, ahorro con la tarifa real (sin IVA ni DAP),
@@ -223,6 +248,7 @@ public static class SimuladorSolar
             recuperacion,
             recuperacion > MesesMaximosRecuperacion,
             dacAntes,
-            dacDespues);
+            dacDespues,
+            EspacioSolar.Calcular(paneles, p.SuperficiePanelM2, p.EspacioPasoPorciento));
     }
 }

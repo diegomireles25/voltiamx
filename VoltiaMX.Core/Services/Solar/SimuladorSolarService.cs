@@ -49,7 +49,8 @@ public sealed class SimuladorSolarService(
             ConsumoMedido.KwhPorMes(lugar, hoy),
             lugar.Tarifa,
             meses,
-            HistorialMensualDac.Desde(lugar.Periodos, meses));
+            HistorialMensualDac.Desde(lugar.Periodos, meses),
+            ConsumoMedido.EsAproximado(lugar, hoy));
     }
 
     public ResultadoSolar Calcular(ParametrosSolar parametros, DatosLugarSolar datos)

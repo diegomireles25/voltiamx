@@ -3893,4 +3893,22 @@
   <data name="Dashboard_SegunTuRecibo" xml:space="preserve">
     <value>Según tu recibo del {0:d 'de' MMMM}.</value>
   </data>
+  <data name="Solar_Error_SuperficieFueraDeRango" xml:space="preserve">
+    <value>Escribe una superficie de panel de 1 a 4 metros cuadrados.</value>
+  </data>
+  <data name="Solar_Error_PasoFueraDeRango" xml:space="preserve">
+    <value>Escribe un espacio de paso de 0 a 30 %.</value>
+  </data>
+  <data name="Solar_AvisoTecho" xml:space="preserve">
+    <value>Es una estimación. No sabemos la forma de tu techo, su orientación ni sus sombras.</value>
+  </data>
+  <data name="SolarPdf_SuperficiePanel" xml:space="preserve">
+    <value>Superficie de cada panel</value>
+  </data>
+  <data name="SolarPdf_EspacioPaso" xml:space="preserve">
+    <value>Espacio de paso entre filas</value>
+  </data>
+  <data name="SolarPdf_Espacio" xml:space="preserve">
+    <value>Espacio que ocupan los paneles</value>
+  </data>
 </root>
