@@ -83,7 +83,7 @@ public sealed partial class ReciboPorMontoViewModel(
             return;
         }
 
-        var resultado = await recibos.PrevisualizarPorMontoAsync(lugarId, (decimal)Total, FechaElegida(), PorcentajeElegido(), Hoy, cancellationToken);
+        var resultado = await recibos.PrevisualizarPorMontoAsync(lugarId, (decimal)Total, FechaElegida(), PorcentajeElegido(), Hoy, cancellationToken: cancellationToken);
         Mostrar(resultado);
     }
 

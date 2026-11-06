@@ -216,12 +216,16 @@ public sealed class PerfilService(IDbContextFactory<VoltiaDbContext> fabrica) : 
             lugar.TarifaPorConfirmar = true;
         }
 
-        // Mensual si la tarifa es comercial o si el recibo es mensual; si no, bimestral.
-        var tipoTarifa = await db.Tarifas
-            .Where(t => t.Id == lugar.TarifaId)
-            .Select(t => t.Tipo)
-            .SingleAsync(cancellationToken);
-        lugar.MesesPorPeriodo = tipoTarifa == TipoTarifa.Comercial || datos.Recibo?.MesesDelPeriodo == 1 ? 1 : 2;
+        // Mensual si la tarifa es comercial o si el recibo es mensual; si no, bimestral. Con recibos guardados ya se
+        // contestó "¿Cada cuánto te llega el recibo?" (Fase 9c, D3): repetir el onboarding no la cambia.
+        if (lugar.Periodos.Count == 0)
+        {
+            var tipoTarifa = await db.Tarifas
+                .Where(t => t.Id == lugar.TarifaId)
+                .Select(t => t.Tipo)
+                .SingleAsync(cancellationToken);
+            lugar.MesesPorPeriodo = tipoTarifa == TipoTarifa.Comercial || datos.Recibo?.MesesDelPeriodo == 1 ? 1 : 2;
+        }
 
         if (datos.Recibo is { } recibo)
         {

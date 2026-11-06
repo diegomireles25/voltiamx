@@ -292,6 +292,25 @@ public sealed class PerfilServiceTests : IAsyncLifetime
         Assert.Equal(1, (await LugarPrincipalAsync()).MesesPorPeriodo);
     }
 
+    [Fact]
+    public async Task RepetirOnboarding_ConRecibosGuardados_NoCambiaLaPeriodicidad()
+    {
+        // Fase 9c (D3): la periodicidad la contestó la persona con su primer recibo; repetir el onboarding con
+        // una tarifa comercial no la cambia.
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa] });
+        await using (var db = _fabrica.CreateDbContext())
+        {
+            var lugar = await db.Lugares.SingleAsync(l => !l.EsDemo);
+            lugar.MesesPorPeriodo = 2;
+            db.Periodos.Add(new Periodo { LugarId = lugar.Id, Inicio = new DateOnly(2026, 7, 27), Fin = new DateOnly(2026, 9, 26), KwhTotales = 749m, Monto = 861.25m, Estimado = true });
+            await db.SaveChangesAsync();
+        }
+
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa], TarifaId = await IdDeTarifaAsync("PDBT") });
+
+        Assert.Equal(2, (await LugarPrincipalAsync()).MesesPorPeriodo);
+    }
+
     private async Task<List<Lectura>> LecturasAsync()
     {
         await using var db = _fabrica.CreateDbContext();

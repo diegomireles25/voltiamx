@@ -20,15 +20,24 @@ public interface IRecibosService
     /// Lo que se guardaría con <see cref="AgregarPorMontoAsync"/>, sin guardar nada (para la confirmación).
     /// </summary>
     Task<ResultadoReciboPorMonto> PrevisualizarPorMontoAsync(
-        int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, CancellationToken cancellationToken = default);
+        int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, int? mesesPorPeriodo = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Agrega un recibo anterior por su total: un periodo aproximado (Estimado) con los kWh que caben en el monto,
     /// Monto = Total(kWh) y MontoRecibo = el total escrito. Sin fecha, el último corte. No acepta fechas futuras ni
-    /// recibos que se crucen con otro.
+    /// recibos que se crucen con otro. <paramref name="mesesPorPeriodo"/> (1 o 2) es la respuesta a "¿Cada cuánto te
+    /// llega el recibo?" (Fase 9c, D3): solo cuenta si el lugar todavía no tiene recibos, y entonces se guarda en
+    /// <c>Lugar.MesesPorPeriodo</c>; con recibos guardados se ignora.
     /// </summary>
     Task<ResultadoReciboPorMonto> AgregarPorMontoAsync(
-        int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, CancellationToken cancellationToken = default);
+        int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, int? mesesPorPeriodo = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Si el lugar ya tiene algún recibo (periodo) guardado; con recibos ya no se pregunta la periodicidad.
+    /// </summary>
+    Task<bool> TieneRecibosAsync(int lugarId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Para el onboarding, cuando todavía no hay lugar: con la tarifa elegida (o la de por defecto si es null).

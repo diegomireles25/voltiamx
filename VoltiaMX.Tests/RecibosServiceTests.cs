@@ -172,4 +172,99 @@ public sealed class RecibosServiceTests : IAsyncLifetime
         Assert.Null(porDefecto.Error);
         Assert.NotEqual(con1C.Kwh, porDefecto.Kwh);
     }
+
+    // ---- Fase 9c (D3): "¿Cada cuánto te llega el recibo?" en el primer recibo ----
+    // 1C mensual: 0–150 a $1, 150–450 a $1.25 y 450+ a $3.50 (bimestral, los tramos al doble).
+    // $1,000 con 16 % → $862.07 sin impuestos.
+    // Cada mes: 150 + 300 × 1.25 = $525 hasta 450 kWh; quedan $337.07 → 96 kWh × 3.50 = $336 → 546 kWh y
+    //   $861.00 (547 ya cuesta $864.50).
+    // Cada 2 meses: 300 + 449 × 1.25 = $861.25 → 749 kWh (750 ya cuesta $862.50).
+
+    private async Task<int> MesesDelLugarAsync(int lugarId)
+    {
+        await using var db = _fabrica.CreateDbContext();
+        return await db.Lugares.Where(l => l.Id == lugarId).Select(l => l.MesesPorPeriodo).SingleAsync();
+    }
+
+    [Fact]
+    public async Task PrimerRecibo_CadaMes_EstimaConUnMesYGuardaLaPeriodicidad()
+    {
+        var lugarId = await LugarAsync(meses: 2);
+
+        var r = await _servicio.AgregarPorMontoAsync(lugarId, 1_000m, null, 16m, Hoy, mesesPorPeriodo: 1);
+
+        Assert.Null(r.Error);
+        Assert.Equal((546m, 861.00m), (r.Kwh, r.Monto));
+        // Un mes que termina en el corte del 26 de septiembre.
+        Assert.Equal((new DateOnly(2026, 8, 27), new DateOnly(2026, 9, 26)), (r.Inicio, r.Fin));
+        Assert.Equal(1, await MesesDelLugarAsync(lugarId));
+    }
+
+    [Fact]
+    public async Task PrimerRecibo_CadaDosMeses_EstimaConDosMesesYGuardaLaPeriodicidad()
+    {
+        var lugarId = await LugarAsync(meses: 1);
+
+        var r = await _servicio.AgregarPorMontoAsync(lugarId, 1_000m, null, 16m, Hoy, mesesPorPeriodo: 2);
+
+        Assert.Equal((749m, 861.25m), (r.Kwh, r.Monto));
+        Assert.Equal(new DateOnly(2026, 7, 27), r.Inicio);
+        Assert.Equal(2, await MesesDelLugarAsync(lugarId));
+    }
+
+    [Fact]
+    public async Task Previsualizar_ConPeriodicidad_NoLaGuarda()
+    {
+        var lugarId = await LugarAsync(meses: 2);
+
+        var r = await _servicio.PrevisualizarPorMontoAsync(lugarId, 1_000m, null, 16m, Hoy, mesesPorPeriodo: 1);
+
+        Assert.Equal(546m, r.Kwh);
+        Assert.Equal(2, await MesesDelLugarAsync(lugarId));
+        Assert.Empty(await PeriodosAsync(lugarId));
+    }
+
+    [Fact]
+    public async Task ConRecibosGuardados_LaPeriodicidadSeIgnora()
+    {
+        var lugarId = await LugarAsync(meses: 2);
+        await _servicio.AgregarPorMontoAsync(lugarId, 1_000m, null, 16m, Hoy, mesesPorPeriodo: 1);
+
+        // El segundo recibo ya no pregunta: aunque llegue "cada 2 meses", se queda en 1 mes.
+        var r = await _servicio.AgregarPorMontoAsync(lugarId, 1_000m, new DateOnly(2026, 8, 26), 16m, Hoy, mesesPorPeriodo: 2);
+
+        Assert.Null(r.Error);
+        Assert.Equal(new DateOnly(2026, 7, 27), r.Inicio);
+        Assert.Equal(546m, r.Kwh);
+        Assert.Equal(1, await MesesDelLugarAsync(lugarId));
+    }
+
+    [Theory]
+    [InlineData(1, 861.00)]
+    [InlineData(2, 861.25)]
+    public async Task SiSiguesIgual_SaleDelPrimerReciboConSuPeriodicidad(int meses, double esperado)
+    {
+        var lugarId = await LugarAsync(meses: 2);
+        await _servicio.AgregarPorMontoAsync(lugarId, 1_000m, null, 16m, Hoy, mesesPorPeriodo: meses);
+
+        var proyeccion = new ProyeccionService(_calculadora);
+        var resumen = await new ResumenDashboardService(_fabrica, proyeccion, new DacService(), new PresupuestoInversoService(_calculadora), _calculadora)
+            .ObtenerDeLugarAsync(lugarId, Hoy);
+
+        // "Si sigues igual que tu recibo anterior, pagarías unos $…": el recibo recalculado con la tarifa.
+        Assert.Equal(EstadoPantallaInicio.ReciboSinLecturas, resumen!.EstadoInicio);
+        Assert.Equal((decimal)esperado, resumen.MontoReciboAnterior);
+        Assert.Equal(meses, resumen.MesesDelPeriodo);
+    }
+
+    [Fact]
+    public async Task TieneRecibos_SoloDespuesDeGuardarUno()
+    {
+        var lugarId = await LugarAsync();
+        Assert.False(await _servicio.TieneRecibosAsync(lugarId));
+
+        await _servicio.AgregarPorMontoAsync(lugarId, 1_000m, null, 16m, Hoy);
+
+        Assert.True(await _servicio.TieneRecibosAsync(lugarId));
+    }
 }

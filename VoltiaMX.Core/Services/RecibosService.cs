@@ -17,12 +17,20 @@ public sealed class RecibosService(
     }
 
     public Task<ResultadoReciboPorMonto> PrevisualizarPorMontoAsync(
-        int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, CancellationToken cancellationToken = default)
-        => ProcesarAsync(lugarId, total, fechaCorte, porcentaje, hoy, guardar: false, cancellationToken);
+        int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, int? mesesPorPeriodo = null,
+        CancellationToken cancellationToken = default)
+        => ProcesarAsync(lugarId, total, fechaCorte, porcentaje, hoy, mesesPorPeriodo, guardar: false, cancellationToken);
 
     public Task<ResultadoReciboPorMonto> AgregarPorMontoAsync(
-        int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, CancellationToken cancellationToken = default)
-        => ProcesarAsync(lugarId, total, fechaCorte, porcentaje, hoy, guardar: true, cancellationToken);
+        int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, int? mesesPorPeriodo = null,
+        CancellationToken cancellationToken = default)
+        => ProcesarAsync(lugarId, total, fechaCorte, porcentaje, hoy, mesesPorPeriodo, guardar: true, cancellationToken);
+
+    public async Task<bool> TieneRecibosAsync(int lugarId, CancellationToken cancellationToken = default)
+    {
+        await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
+        return await db.Periodos.AnyAsync(p => p.LugarId == lugarId, cancellationToken);
+    }
 
     public async Task<EstimacionPorMonto> EstimarSinLugarAsync(
         int? tarifaId, int meses, decimal total, decimal porcentaje, CancellationToken cancellationToken = default)
@@ -44,7 +52,8 @@ public sealed class RecibosService(
     }
 
     private async Task<ResultadoReciboPorMonto> ProcesarAsync(
-        int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, bool guardar, CancellationToken cancellationToken)
+        int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, int? mesesPorPeriodo, bool guardar,
+        CancellationToken cancellationToken)
     {
         if (EstimadorPorMonto.Validar(total, porcentaje) is { } invalido)
         {
@@ -60,6 +69,12 @@ public sealed class RecibosService(
         if (lugar?.Tarifa is not { } tarifa)
         {
             return ResultadoReciboPorMonto.Rechazado(ErrorReciboPorMonto.LugarNoExiste);
+        }
+
+        // D3: en el primer recibo cuenta la respuesta a "¿Cada cuánto te llega el recibo?"; después, la del lugar.
+        if (lugar.Periodos.Count == 0 && mesesPorPeriodo is 1 or 2)
+        {
+            lugar.MesesPorPeriodo = mesesPorPeriodo.Value;
         }
 
         // El recibo cubre los meses del periodo que terminan en la fecha de corte (igual que en el onboarding).
