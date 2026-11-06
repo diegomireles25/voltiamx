@@ -15,7 +15,15 @@ public sealed class NavegacionShell : INavegacionShell
         switch (elemento.Destino)
         {
             case DestinoShell.Dashboard:
-                IrA(typeof(DashboardPage));
+                if (seccion == SeccionesInicio.Solar)
+                {
+                    IrA(typeof(SolarPage), seccion);
+                }
+                else
+                {
+                    IrA(typeof(DashboardPage));
+                }
+
                 break;
             case DestinoShell.Mas:
                 IrA(seccion switch

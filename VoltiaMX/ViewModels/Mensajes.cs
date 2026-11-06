@@ -32,7 +32,18 @@ public sealed record IrAConfiguracionMensaje(string? Seccion = null);
 /// <summary>
 /// Volver al Dashboard desde fuera del Shell (p. ej. al tocar una notificación de un módulo inactivo).
 /// </summary>
-public sealed record IrADashboardMensaje;
+public sealed record IrADashboardMensaje(string? Seccion = null);
+
+/// <summary>
+/// Secciones de Inicio a las que se puede navegar directo (Fase 9e): se abren con la pestaña Inicio marcada.
+/// </summary>
+public static class SeccionesInicio
+{
+    /// <summary>
+    /// "¿Y con paneles solares?": el simulador solar, sin modo avanzado; "Volver" regresa a Inicio.
+    /// </summary>
+    public const string Solar = "Solar";
+}
 
 /// <summary>
 /// Cambiaron datos que afectan los avisos (Dashboard cargado, lectura guardada, tarifa editada): se

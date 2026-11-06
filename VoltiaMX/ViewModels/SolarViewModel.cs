@@ -10,7 +10,8 @@ namespace VoltiaMX.ViewModels;
 /// <summary>
 /// Simulador solar del lugar principal: supuestos editables (con valores de ejemplo cada vez que se abre),
 /// cálculo 300 ms después de cada cambio con <see cref="SimuladorSolar"/> y PDF del último resultado.
-/// Nada se guarda.
+/// Nada se guarda. Desde la Fase 9e se abre también desde Inicio ("¿Y con paneles solares?"): primero la respuesta
+/// (paneles, espacio, producción y ahorro) y los supuestos plegados en "Ajustar supuestos".
 /// </summary>
 public sealed partial class SolarViewModel(
     ISimuladorSolarService solar,
@@ -29,6 +30,61 @@ public sealed partial class SolarViewModel(
 
     [ObservableProperty] public partial bool EsDemo { get; set; }
     [ObservableProperty] public partial bool SinConsumoMedido { get; set; }
+
+    // ---- Fase 9e ----
+
+    /// <summary>
+    /// Se abrió desde Inicio: "Volver" regresa ahí.
+    /// </summary>
+    [ObservableProperty] public partial bool DesdeInicio { get; set; }
+
+    [ObservableProperty] public partial bool PreciosDeEjemplo { get; set; }
+
+    /// <summary>
+    /// D2: se usa el consumo del lugar ("Estamos usando tu consumo del recibo; puedes cambiarlo.").
+    /// </summary>
+    [ObservableProperty] public partial bool UsaConsumoDelLugar { get; set; }
+
+    /// <summary>
+    /// D2: el consumo de partida sale de un recibo por monto (APROXIMADO).
+    /// </summary>
+    [ObservableProperty] public partial bool ConsumoAproximado { get; set; }
+
+    /// <summary>
+    /// "Ajustar supuestos": plegado si ya hay consumo; sin consumo hay que escribirlo, así que empieza abierto.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TextoAjustar))]
+    public partial bool MostrarSupuestos { get; set; }
+
+    public string TextoAjustar => textos[MostrarSupuestos ? "Solar_OcultarSupuestos" : "Solar_AjustarSupuestos"];
+
+    [RelayCommand]
+    private void AlternarSupuestos() => MostrarSupuestos = !MostrarSupuestos;
+
+    [RelayCommand]
+    private void Volver() => WeakReferenceMessenger.Default.Send(new IrADashboardMensaje());
+
+    [ObservableProperty] public partial double SuperficiePanel { get; set; } = (double)ValoresSolarPorDefecto.SuperficiePanelM2;
+    [ObservableProperty] public partial double EspacioPaso { get; set; } = (double)ValoresSolarPorDefecto.EspacioPasoPorciento;
+
+    partial void OnSuperficiePanelChanged(double value) => ProgramarCalculo();
+
+    partial void OnEspacioPasoChanged(double value) => ProgramarCalculo();
+
+    // Filas del resultado sobre el lienzo (E6).
+    [ObservableProperty] public partial string EspacioTexto { get; set; } = string.Empty;
+    [ObservableProperty] public partial string ProduccionTexto { get; set; } = string.Empty;
+    [ObservableProperty] public partial string CubreTexto { get; set; } = string.Empty;
+    [ObservableProperty] public partial string SobraTexto { get; set; } = string.Empty;
+    [ObservableProperty] public partial bool TieneAhorro { get; set; }
+    [ObservableProperty] public partial bool AhorroAproximado { get; set; }
+    [ObservableProperty] public partial string AhorroMesTexto { get; set; } = string.Empty;
+    [ObservableProperty] public partial string AhorroAnioTexto { get; set; } = string.Empty;
+    [ObservableProperty] public partial bool TieneInversion { get; set; }
+    [ObservableProperty] public partial string InversionTexto { get; set; } = string.Empty;
+    [ObservableProperty] public partial string RecuperacionTexto { get; set; } = string.Empty;
+    [ObservableProperty] public partial string PotenciaInstaladaTexto { get; set; } = string.Empty;
 
     // ---- Supuestos (NaN = vacío) ----
 
@@ -71,13 +127,21 @@ public sealed partial class SolarViewModel(
     [NotifyCanExecuteChangedFor(nameof(ExportarPdfCommand))]
     public partial bool Exportando { get; set; }
 
-    public async Task CargarAsync()
+    /// <summary>
+    /// <paramref name="seccion"/> es <see cref="SeccionesInicio.Solar"/> si se abrió desde Inicio.
+    /// </summary>
+    public async Task CargarAsync(string? seccion = null)
     {
+        DesdeInicio = seccion == SeccionesInicio.Solar;
         var hoy = DateOnly.FromDateTime(DateTime.Today);
         var lugar = await lecturas.ObtenerLugarPrincipalAsync();
         _datos = await solar.ObtenerDatosAsync(lugar?.Id, hoy);
         EsDemo = _datos.EsDemo;
+        PreciosDeEjemplo = _datos.Tarifa?.EsDeEjemplo == true;
         SinConsumoMedido = _datos.KwhMedidoPorMes is not > 0m;
+        UsaConsumoDelLugar = !SinConsumoMedido;
+        ConsumoAproximado = UsaConsumoDelLugar && _datos.ConsumoAproximado;
+        MostrarSupuestos = SinConsumoMedido;
         Consumo = _datos.KwhMedidoPorMes is > 0m and decimal medido ? (double)Math.Round(medido, 2) : double.NaN;
         _cargando = false;
         Calcular();
@@ -86,6 +150,13 @@ public sealed partial class SolarViewModel(
     partial void OnConsumoChanged(double value)
     {
         _consumoTocado |= !_cargando;
+
+        // Si la persona cambia el consumo, ya no es el del recibo.
+        if (!_cargando && _datos.KwhMedidoPorMes is decimal medido && Math.Abs(value - (double)Math.Round(medido, 2)) > 0.001)
+        {
+            UsaConsumoDelLugar = ConsumoAproximado = false;
+        }
+
         ProgramarCalculo();
     }
 
@@ -140,7 +211,8 @@ public sealed partial class SolarViewModel(
     }
 
     private ParametrosSolar Parametros() => new(
-        Opcional(Consumo), Numero(Porcentaje), Numero(Horas), Numero(Eficiencia), Numero(WattsPanel), Opcional(Costo));
+        Opcional(Consumo), Numero(Porcentaje), Numero(Horas), Numero(Eficiencia), Numero(WattsPanel), Opcional(Costo),
+        Numero(SuperficiePanel), Numero(EspacioPaso));
 
     private void Calcular()
     {
@@ -169,6 +241,22 @@ public sealed partial class SolarViewModel(
     private void Mostrar(ResultadoSolar r)
     {
         PanelesTexto = r.Paneles.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+        // Fase 9e (E6): las filas sobre el lienzo, el espacio primero.
+        EspacioTexto = textos.Formato("Solar_EspacioValor", r.EspacioM2);
+        ProduccionTexto = textos.Formato("Solar_Kwh", r.GeneracionMensualKwh);
+        CubreTexto = textos.Formato("Solar_Kwh", r.KwhAprovechadosMes);
+        SobraTexto = textos.Formato("Solar_Kwh", r.ExcedenteKwhMes);
+        TieneAhorro = r.AhorroMes is not null && r.AhorroAnio is not null;
+        AhorroAproximado = TieneAhorro && ConsumoAproximado;
+        AhorroMesTexto = r.AhorroMes is decimal ahorroMes ? textos.Formato("Solar_Pesos", ahorroMes) : string.Empty;
+        AhorroAnioTexto = r.AhorroAnio is decimal ahorroAnio ? textos.Formato("Solar_Pesos", ahorroAnio) : string.Empty;
+        // D5: sin costo no hay inversión ni recuperación en pantalla.
+        TieneInversion = r.Inversion is not null;
+        InversionTexto = r.Inversion is decimal inversionTotal ? textos.Formato("Solar_Pesos", inversionTotal) : string.Empty;
+        RecuperacionTexto = TieneInversion ? GeneradorPdfSolar.Recuperacion(r, Texto) : string.Empty;
+        PotenciaInstaladaTexto = textos.Formato("Solar_PotenciaInstalada", r.KwpInstalados);
+
         FilasResultado.Clear();
         FilasResultado.Add(new(textos["Solar_FilaKwp"], textos.Formato("Solar_Kwp", r.KwpInstalados)));
         FilasResultado.Add(new(textos["Solar_FilaGeneracion"], textos.Formato("Solar_Kwh", r.GeneracionMensualKwh)));
@@ -248,6 +336,9 @@ public sealed partial class SolarViewModel(
 
     [RelayCommand]
     private void IrAConfiguracion() => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje());
+
+    [RelayCommand]
+    private void IrATarifas() => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje(SeccionesConfiguracion.Tarifas));
 
 #if DEBUG
     /// <summary>

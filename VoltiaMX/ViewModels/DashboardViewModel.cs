@@ -205,6 +205,12 @@ public sealed partial class DashboardViewModel(
     /// <summary>
     /// "Elegir mis aparatos" (Fase 9d, D5): la lista de aparatos típicos; al guardar vuelve a Inicio.
     /// </summary>
+    /// <summary>
+    /// "¿Y con paneles solares?" (Fase 9e, D1): el simulador solar como sección de Inicio, sin modo avanzado.
+    /// </summary>
+    [RelayCommand]
+    private void IrAPanelesSolares() => WeakReferenceMessenger.Default.Send(new IrADashboardMensaje(SeccionesInicio.Solar));
+
     [RelayCommand]
     private void ElegirAparatos()
         => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Aparatos, SeccionesAparatos.ElegirDesdeInicio));

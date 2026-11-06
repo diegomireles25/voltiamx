@@ -3911,4 +3911,76 @@
   <data name="SolarPdf_Espacio" xml:space="preserve">
     <value>Espacio que ocupan los paneles</value>
   </data>
+  <data name="Dashboard_PanelesSolares.Content" xml:space="preserve">
+    <value>¿Y con paneles solares?</value>
+  </data>
+  <data name="Dashboard_PanelesSolaresTexto.Text" xml:space="preserve">
+    <value>Calcula cuántos necesitas y cuánto espacio ocupan.</value>
+  </data>
+  <data name="Solar_Volver.Content" xml:space="preserve">
+    <value>Volver</value>
+  </data>
+  <data name="Solar_ConsumoDelRecibo.Text" xml:space="preserve">
+    <value>Estamos usando tu consumo del recibo; puedes cambiarlo.</value>
+  </data>
+  <data name="Solar_Aproximado.Content" xml:space="preserve">
+    <value>APROXIMADO</value>
+  </data>
+  <data name="Solar_NecesitariasTitulo.Text" xml:space="preserve">
+    <value>NECESITARÍAS UNOS</value>
+  </data>
+  <data name="Solar_PanelesPalabra.Text" xml:space="preserve">
+    <value>PANELES</value>
+  </data>
+  <data name="Solar_FilaEspacio.Text" xml:space="preserve">
+    <value>Espacio que ocupan</value>
+  </data>
+  <data name="Solar_EspacioValor" xml:space="preserve">
+    <value>unos {0:#,##0.#} metros cuadrados</value>
+  </data>
+  <data name="Solar_FilaProduccion.Text" xml:space="preserve">
+    <value>Lo que producirían al mes</value>
+  </data>
+  <data name="Solar_FilaCubre.Text" xml:space="preserve">
+    <value>Lo que cubre de tu consumo al mes</value>
+  </data>
+  <data name="Solar_FilaSobra.Text" xml:space="preserve">
+    <value>Lo que sobra al mes</value>
+  </data>
+  <data name="Solar_FilaAhorraMes.Text" xml:space="preserve">
+    <value>Lo que ahorrarías al mes</value>
+  </data>
+  <data name="Solar_FilaAhorraAnio.Text" xml:space="preserve">
+    <value>Lo que ahorrarías al año</value>
+  </data>
+  <data name="Solar_FilaInversionTexto.Text" xml:space="preserve">
+    <value>Inversión aproximada</value>
+  </data>
+  <data name="Solar_FilaRecuperacionTexto.Text" xml:space="preserve">
+    <value>Recuperación de la inversión</value>
+  </data>
+  <data name="Solar_AvisoTechoTexto.Text" xml:space="preserve">
+    <value>Es una estimación. No sabemos la forma de tu techo, su orientación ni sus sombras.</value>
+  </data>
+  <data name="Solar_AjustarSupuestos" xml:space="preserve">
+    <value>Ajustar supuestos</value>
+  </data>
+  <data name="Solar_OcultarSupuestos" xml:space="preserve">
+    <value>Ocultar supuestos</value>
+  </data>
+  <data name="Solar_SuperficiePanel.Header" xml:space="preserve">
+    <value>Superficie de cada panel (1 a 4 m²)</value>
+  </data>
+  <data name="Solar_EspacioPaso.Header" xml:space="preserve">
+    <value>Espacio de paso entre filas (0 a 30 %)</value>
+  </data>
+  <data name="Solar_PotenciaInstalada" xml:space="preserve">
+    <value>Potencia instalada: {0:#,##0.00} kWp</value>
+  </data>
+  <data name="Ayuda_Termino_Espacio" xml:space="preserve">
+    <value>Espacio que ocupan</value>
+  </data>
+  <data name="Ayuda_Espacio" xml:space="preserve">
+    <value>Es el espacio que ocuparían los paneles, no el área de techo libre que necesitas. La superficie de cada panel y el espacio de paso son de ejemplo: cámbialos en «Ajustar supuestos».</value>
+  </data>
 </root>

@@ -285,6 +285,16 @@
                         TextWrapping="Wrap" />
                 </StackPanel>
 
+                <!-- Fase 9e (D1): paneles solares, opcional; solo con una cifra (con recibo o con lecturas) -->
+                <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarCifra), Mode=OneWay}">
+                    <Button x:Uid="Dashboard_PanelesSolares" Command="{x:Bind ViewModel.IrAPanelesSolaresCommand}" Style="{StaticResource GhostButtonStyle}" />
+                    <TextBlock
+                        x:Uid="Dashboard_PanelesSolaresTexto"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodySmTextStyle}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
                 <!-- "Cómo se calcula tu recibo" (D4): un enlace pequeño al final, con cualquier cifra -->
                 <Button
                     x:Uid="Dashboard_ComoSeCalcula"

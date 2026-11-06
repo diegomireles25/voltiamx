@@ -20,7 +20,7 @@ namespace VoltiaMX.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            await ViewModel.CargarAsync();
+            await ViewModel.CargarAsync(e.Parameter as string);
         }
 
 #if DEBUG

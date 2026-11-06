@@ -81,7 +81,7 @@ public sealed partial class ShellViewModel(IPerfilService perfiles, ITextos text
         WeakReferenceMessenger.Default.Register<ShellViewModel, IrAConfiguracionMensaje>(
             this, static (receptor, mensaje) => receptor.IrA(e => e.Destino == DestinoShell.Mas, mensaje.Seccion));
         WeakReferenceMessenger.Default.Register<ShellViewModel, IrADashboardMensaje>(
-            this, static (receptor, _) => receptor.IrA(e => e.Destino == DestinoShell.Dashboard, null));
+            this, static (receptor, mensaje) => receptor.IrA(e => e.Destino == DestinoShell.Dashboard, mensaje.Seccion));
 
         await CargarElementosAsync(DestinoShell.Dashboard);
         WeakReferenceMessenger.Default.Send(new ShellListoMensaje());
