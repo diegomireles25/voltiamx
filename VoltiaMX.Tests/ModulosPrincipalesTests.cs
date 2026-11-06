@@ -3,117 +3,80 @@ using VoltiaMX.Core.Services;
 
 namespace VoltiaMX.Tests;
 
+/// <summary>
+/// Fase 9a (D1): el menú es siempre Inicio, Mis recibos (Lecturas), Aparatos y Configuración. Aquí se prueban
+/// las dos pestañas de módulos y el orden de los que no tienen pestaña; Inicio y Configuración los pone el Shell.
+/// </summary>
 public sealed class ModulosPrincipalesTests
 {
     private static MenuModulos Menu(bool avanzado, params UsoApp[] usos)
-        => ModulosPrincipales.Calcular(ModulosPorUso.Calcular(usos, avanzado), usos);
+        => ModulosPrincipales.Calcular(ModulosPorUso.Calcular(usos, avanzado));
 
-    [Fact]
-    public void Casa_LecturasYAparatos_ElRestoEnMas()
+    [Theory]
+    [InlineData(false, UsoApp.Casa)]
+    [InlineData(false, UsoApp.Negocio)]
+    [InlineData(false, UsoApp.Rentas)]
+    [InlineData(false, UsoApp.Solar)]
+    [InlineData(true, UsoApp.Casa)]
+    [InlineData(true, UsoApp.Negocio)]
+    [InlineData(true, UsoApp.Rentas)]
+    [InlineData(true, UsoApp.Solar)]
+    public void CualquierPerfil_LasPestanasSonMisRecibosYAparatos_EnEseOrden(bool avanzado, UsoApp uso)
     {
-        // Casa: Lecturas, Predictor, Aparatos y Metas.
-        var menu = Menu(false, UsoApp.Casa);
+        Assert.Equal([ModuloApp.Lecturas, ModuloApp.Aparatos], Menu(avanzado, uso).Principales);
+    }
 
-        Assert.Equal([ModuloApp.Lecturas, ModuloApp.Aparatos], menu.Principales);
-        Assert.Equal([ModuloApp.Predictor, ModuloApp.Metas], menu.Secundarios);
+    [Theory]
+    [InlineData(UsoApp.Casa)]
+    [InlineData(UsoApp.Rentas)]
+    [InlineData(UsoApp.Solar)]
+    public void SinModoAvanzado_SinPestana_SoloComoSeCalculaTuRecibo(UsoApp uso)
+    {
+        Assert.Equal([ModuloApp.Predictor], Menu(false, uso).Secundarios);
     }
 
     [Fact]
-    public void Negocio_LecturasYAparatos()
+    public void ModoAvanzado_Negocio_LosDemasEnOrdenFijo()
     {
-        var menu = Menu(false, UsoApp.Negocio);
-
-        Assert.Equal([ModuloApp.Lecturas, ModuloApp.Aparatos], menu.Principales);
-        Assert.Equal([ModuloApp.Predictor, ModuloApp.Metas, ModuloApp.Reportes], menu.Secundarios);
+        Assert.Equal(
+            [ModuloApp.Predictor, ModuloApp.Metas, ModuloApp.Reportes, ModuloApp.Solar, ModuloApp.Inquilinos],
+            Menu(true, UsoApp.Negocio).Secundarios);
     }
 
     [Fact]
-    public void Rentas_LecturasEInquilinos()
+    public void ModoAvanzado_Rentas_SinMetas()
     {
-        var menu = Menu(false, UsoApp.Rentas);
-
-        Assert.Equal([ModuloApp.Lecturas, ModuloApp.Inquilinos], menu.Principales);
-        Assert.Equal([ModuloApp.Reportes], menu.Secundarios);
+        Assert.Equal(
+            [ModuloApp.Predictor, ModuloApp.Reportes, ModuloApp.Solar, ModuloApp.Inquilinos],
+            Menu(true, UsoApp.Rentas).Secundarios);
     }
 
     [Fact]
-    public void Solar_SoloSolar()
+    public void ModuloNoActivo_NuncaAparece()
     {
-        var menu = Menu(false, UsoApp.Solar);
-
-        Assert.Equal([ModuloApp.Solar], menu.Principales);
-        Assert.Equal([ModuloApp.Reportes], menu.Secundarios);
-    }
-
-    [Fact]
-    public void CasaYRentas_PorPrioridadLecturasYAparatos_InquilinosEnMas()
-    {
-        var menu = Menu(false, UsoApp.Casa, UsoApp.Rentas);
-
-        Assert.Equal([ModuloApp.Lecturas, ModuloApp.Aparatos], menu.Principales);
-        Assert.Contains(ModuloApp.Inquilinos, menu.Secundarios);
-    }
-
-    [Fact]
-    public void ModoAvanzado_LosQueAgregaVanAMas()
-    {
-        // Casa avanzado: además Solar e Inquilinos, que no son principales de Casa.
-        var menu = Menu(true, UsoApp.Casa);
-
-        Assert.Equal([ModuloApp.Lecturas, ModuloApp.Aparatos], menu.Principales);
-        Assert.Equal([ModuloApp.Predictor, ModuloApp.Metas, ModuloApp.Solar, ModuloApp.Inquilinos], menu.Secundarios);
-    }
-
-    [Fact]
-    public void SolarConModoAvanzado_SolarPrincipal_AparatosEInquilinosEnMas()
-    {
-        var menu = Menu(true, UsoApp.Solar);
-
-        Assert.Equal([ModuloApp.Solar], menu.Principales);
-        Assert.Equal([ModuloApp.Reportes, ModuloApp.Inquilinos, ModuloApp.Aparatos], menu.Secundarios);
-    }
-
-    [Fact]
-    public void SinUsos_SeTomaComoCasa()
-    {
-        var menu = ModulosPrincipales.Calcular(ModulosPorUso.Calcular([], false), []);
-
-        Assert.Equal([ModuloApp.Lecturas, ModuloApp.Aparatos], menu.Principales);
-    }
-
-    [Fact]
-    public void UnModuloNoActivo_NuncaAparece()
-    {
-        // Casa con solo Lecturas activa: Aparatos no está activo y no aparece en ningún lado.
-        var menu = ModulosPrincipales.Calcular([ModuloApp.Lecturas], [UsoApp.Casa]);
+        // Lista armada a mano (sin Aparatos): no se inventa la pestaña.
+        var menu = ModulosPrincipales.Calcular([ModuloApp.Lecturas, ModuloApp.Predictor]);
 
         Assert.Equal([ModuloApp.Lecturas], menu.Principales);
-        Assert.Empty(menu.Secundarios);
+        Assert.Equal([ModuloApp.Predictor], menu.Secundarios);
     }
 
     [Fact]
-    public void Presupuesto_AunqueVengaActivo_NoAparece()
+    public void ListaViejaConPresupuesto_NoLoMuestra()
     {
-        // Una lista vieja que todavía trajera Presupuesto.
-        var menu = ModulosPrincipales.Calcular([ModuloApp.Lecturas, ModuloApp.Presupuesto, ModuloApp.Aparatos], [UsoApp.Casa]);
+        var menu = ModulosPrincipales.Calcular([ModuloApp.Lecturas, ModuloApp.Presupuesto, ModuloApp.Aparatos, ModuloApp.Predictor]);
 
-        Assert.DoesNotContain(ModuloApp.Presupuesto, menu.Principales.Concat(menu.Secundarios));
+        Assert.DoesNotContain(ModuloApp.Presupuesto, menu.Principales);
+        Assert.DoesNotContain(ModuloApp.Presupuesto, menu.Secundarios);
     }
 
     [Fact]
-    public void NuncaMasDeDosPrincipales_YSinRepetidos()
+    public void SinRepetidos_YNuncaMasDeDosPestanas()
     {
-        foreach (var avanzado in new[] { false, true })
-        {
-            foreach (var usos in new[] { new[] { UsoApp.Casa, UsoApp.Negocio, UsoApp.Rentas, UsoApp.Solar }, [UsoApp.Rentas, UsoApp.Solar] })
-            {
-                var activos = ModulosPorUso.Calcular(usos, avanzado);
-                var menu = ModulosPrincipales.Calcular(activos, usos);
+        var menu = Menu(true, UsoApp.Casa, UsoApp.Negocio, UsoApp.Rentas, UsoApp.Solar);
 
-                Assert.True(menu.Principales.Count <= ModulosPrincipales.MaximoPrincipales);
-                Assert.Empty(menu.Principales.Intersect(menu.Secundarios));
-                Assert.Equal(activos.Where(m => m != ModuloApp.Presupuesto).Order(), menu.Principales.Concat(menu.Secundarios).Order());
-            }
-        }
+        Assert.Equal(ModulosPrincipales.MaximoPrincipales, menu.Principales.Count);
+        Assert.Empty(menu.Principales.Intersect(menu.Secundarios));
+        Assert.Equal(menu.Secundarios.Distinct().Count(), menu.Secundarios.Count);
     }
 }

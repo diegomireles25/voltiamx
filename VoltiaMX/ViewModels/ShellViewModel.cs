@@ -136,8 +136,7 @@ public sealed partial class ShellViewModel(IPerfilService perfiles, ITextos text
     private async Task CargarElementosAsync(DestinoShell seleccionar)
     {
         var modulos = await perfiles.ObtenerModulosActivosAsync();
-        var usos = (await perfiles.ObtenerPerfilAsync())?.Usos.Select(u => u.Uso).ToList() ?? [];
-        var menu = ModulosPrincipales.Calcular(modulos, usos);
+        var menu = ModulosPrincipales.Calcular(modulos);
 
         // Inicio, hasta dos módulos principales y Más.
         List<ElementoNavegacion> elementos = [new(DestinoShell.Dashboard, textos["Nav_Dashboard"])];

@@ -59,21 +59,23 @@ public sealed class PerfilServiceTests : IAsyncLifetime
         Assert.Equal(TipoObjetivo.PagarMenos, perfil.Objetivo?.Tipo);
         Assert.Equal(800m, perfil.Objetivo?.PresupuestoMax);
         Assert.Equal(Enum.GetValues<ModuloApp>().Length, perfil.Modulos.Count);
-        // Desde la Fase 7a, Presupuesto ya no es módulo de Casa.
+        // Fase 9a: sin modo avanzado, Mis recibos, Aparatos y "Cómo se calcula tu recibo" (Metas es avanzado).
         Assert.Equal(
-            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Aparatos, ModuloApp.Metas],
+            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Aparatos],
             await _servicio.ObtenerModulosActivosAsync());
     }
 
     [Fact]
-    public async Task ObtenerModulosActivosAsync_PerfilViejoSinLaFilaDeMetas_IncluyeMetasPorSusUsos()
+    public async Task ObtenerModulosActivosAsync_PerfilViejoSinLaFilaDeMetas_ConModoAvanzadoIncluyeMetasPorSusUsos()
     {
-        // Un perfil guardado antes de que existiera Metas: sus filas no la tienen.
+        // Un perfil guardado antes de que existiera Metas: sus filas no la tienen. Desde la Fase 9a, Metas
+        // llega con el modo avanzado.
         await using (var db = _fabrica.CreateDbContext())
         {
             db.Perfiles.Add(new PerfilUsuario
             {
                 OnboardingCompletado = true,
+                ModoAvanzado = true,
                 Usos = [new PerfilUso { Uso = UsoApp.Casa }],
                 Modulos =
                 [
@@ -113,12 +115,50 @@ public sealed class PerfilServiceTests : IAsyncLifetime
         }
 
         var activos = await _servicio.ObtenerModulosActivosAsync();
-        var menu = ModulosPrincipales.Calcular(activos, [UsoApp.Casa]);
+        var menu = ModulosPrincipales.Calcular(activos);
 
+        // Fase 9a: sin modo avanzado ya no está Metas entre los módulos sin pestaña.
         Assert.DoesNotContain(ModuloApp.Presupuesto, activos);
         Assert.Equal([ModuloApp.Lecturas, ModuloApp.Aparatos], menu.Principales);
-        Assert.Equal([ModuloApp.Predictor, ModuloApp.Metas], menu.Secundarios);
+        Assert.Equal([ModuloApp.Predictor], menu.Secundarios);
         Assert.True((await _servicio.ObtenerPerfilAsync())!.NotificacionesActivas);
+    }
+
+    [Theory]
+    [InlineData(UsoApp.Rentas)]
+    [InlineData(UsoApp.Negocio)]
+    [InlineData(UsoApp.Solar)]
+    public async Task ObtenerModulosActivosAsync_PerfilViejoDeNegocioRentasOSolar_SinModoAvanzadoSoloLoDeHogar(UsoApp uso)
+    {
+        // Perfil de una fase anterior: sus filas PerfilModulo traen Inquilinos, Reportes y Solar activos. Se
+        // ignoran: sin modo avanzado ve lo mismo que una casa, y con el modo avanzado recupera sus módulos.
+        await using (var db = _fabrica.CreateDbContext())
+        {
+            db.Perfiles.Add(new PerfilUsuario
+            {
+                OnboardingCompletado = true,
+                Usos = [new PerfilUso { Uso = uso }],
+                Modulos =
+                [
+                    new PerfilModulo { Modulo = ModuloApp.Lecturas, Activo = true },
+                    new PerfilModulo { Modulo = ModuloApp.Inquilinos, Activo = true },
+                    new PerfilModulo { Modulo = ModuloApp.Reportes, Activo = true },
+                    new PerfilModulo { Modulo = ModuloApp.Solar, Activo = true },
+                ],
+            });
+            await db.SaveChangesAsync();
+        }
+
+        Assert.Equal(
+            [ModuloApp.Lecturas, ModuloApp.Predictor, ModuloApp.Aparatos],
+            await _servicio.ObtenerModulosActivosAsync());
+
+        await _servicio.CambiarModoAvanzadoAsync(true);
+
+        var avanzados = await _servicio.ObtenerModulosActivosAsync();
+        Assert.Contains(ModuloApp.Inquilinos, avanzados);
+        Assert.Contains(ModuloApp.Solar, avanzados);
+        Assert.Contains(ModuloApp.Reportes, avanzados);
     }
 
     [Fact]

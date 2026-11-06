@@ -87,7 +87,7 @@ public sealed partial class MasViewModel(
         HayDemo = await datosDemo.HayDemoAsync();
 
         var activos = await perfiles.ObtenerModulosActivosAsync();
-        var menu = ModulosPrincipales.Calcular(activos, perfil?.Usos.Select(u => u.Uso).ToList() ?? []);
+        var menu = ModulosPrincipales.Calcular(activos);
         Modulos.Clear();
         foreach (var modulo in menu.Secundarios.Where(m => m != ModuloApp.Reportes))
         {
