@@ -99,6 +99,15 @@
                                 Style="{StaticResource LeadTextStyle}"
                                 Text="{x:Bind ViewModel.TextoMeta, Mode=OneWay}"
                                 Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.TextoMeta), Mode=OneWay}" />
+                            <!-- Fase 9d (D6): de qué recibo sale la cifra, para que no parezca congelada -->
+                            <TextBlock
+                                MaxWidth="{StaticResource HeroTextMaxWidth}"
+                                HorizontalAlignment="Left"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource BodyTextStyle}"
+                                Text="{x:Bind ViewModel.TextoOrigenCifra, Mode=OneWay}"
+                                TextWrapping="Wrap"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.TextoOrigenCifra), Mode=OneWay}" />
                             <!-- Con recibo y sin lecturas: cómo afinar la cifra -->
                             <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsSiSiguesIgual), Mode=OneWay}">
                                 <TextBlock
@@ -113,7 +122,7 @@
                                 Width="{StaticResource HeroTextMaxWidth}"
                                 HorizontalAlignment="Left"
                                 Spacing="{StaticResource Spacing8}"
-                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneProyeccion), Mode=OneWay}">
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarBarra), Mode=OneWay}">
                                 <ProgressBar
                                     x:Uid="Dashboard_Progreso"
                                     Style="{StaticResource ProgressStyle}"
@@ -123,6 +132,16 @@
                                     <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.TextoDiaDelPeriodo, Mode=OneWay}" />
                                     <TextBlock HorizontalAlignment="Right" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.TextoFaltanDias, Mode=OneWay}" />
                                 </Grid>
+                            </StackPanel>
+                            <!-- Fase 9d (D5): el recibo actual ya terminó y falta la lectura del corte: sustituye "DÍA n DE n" -->
+                            <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.ReciboPorLlegar), Mode=OneWay}">
+                                <TextBlock
+                                    x:Uid="Dashboard_ReciboPorLlegar"
+                                    MaxWidth="{StaticResource HeroTextMaxWidth}"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource BodyTextStyle}"
+                                    TextWrapping="Wrap" />
+                                <Button x:Uid="Dashboard_AgregarMiRecibo" Command="{x:Bind ViewModel.AgregarMiReciboCommand}" Style="{StaticResource PrimaryButtonStyle}" />
                             </StackPanel>
                             <!-- "antes de impuestos" siempre junto a la cifra, con su explicación -->
                             <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
@@ -203,7 +222,15 @@
 
                 <!-- QUÉ GASTA MÁS (D4): 3 o 4 aparatos con su costo al mes; sin aparatos, lleva a Aparatos -->
                 <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarAparatos), Mode=OneWay}">
-                    <TextBlock x:Uid="Dashboard_AparatosTitulo" Style="{StaticResource SectionTitleTextStyle}" />
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                        <TextBlock x:Uid="Dashboard_AparatosTitulo" VerticalAlignment="Center" Style="{StaticResource SectionTitleTextStyle}" />
+                        <!-- Fase 9d (D4): con un recibo por monto, los costos son aproximados -->
+                        <ContentPresenter
+                            x:Uid="Aparatos_Aproximado"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MintTagStyle}"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.AparatosAproximados), Mode=OneWay}" />
+                    </StackPanel>
                     <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneAparatos), Mode=OneWay}">
                         <Border Style="{StaticResource HairlineListStyle}">
                             <ItemsRepeater ItemsSource="{x:Bind ViewModel.Aparatos}">
@@ -238,7 +265,8 @@
                     </StackPanel>
                     <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneAparatos), Mode=OneWay}">
                         <TextBlock x:Uid="Dashboard_AparatosVacio" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodyTextStyle}" />
-                        <Button x:Uid="Dashboard_AgregarAparatos" Command="{x:Bind ViewModel.IrAAparatosCommand}" Style="{StaticResource GhostButtonStyle}" />
+                        <!-- Fase 9d (D5): directo a la lista de aparatos típicos -->
+                        <Button x:Uid="Dashboard_ElegirMisAparatos" Command="{x:Bind ViewModel.ElegirAparatosCommand}" Style="{StaticResource PrimaryButtonStyle}" />
                     </StackPanel>
                 </StackPanel>
 

@@ -3881,4 +3881,16 @@
   <data name="Ayuda_ValoresTipicos" xml:space="preserve">
     <value>Cada aparato usa una potencia y un uso típicos. El tuyo puede gastar más o menos. Si conoces su potencia, ajústala en Aparatos.</value>
   </data>
+  <data name="Dashboard_ElegirMisAparatos.Content" xml:space="preserve">
+    <value>Elegir mis aparatos</value>
+  </data>
+  <data name="Dashboard_ReciboPorLlegar.Text" xml:space="preserve">
+    <value>Tu recibo ya debió llegar. Agrégalo para actualizar tu cifra.</value>
+  </data>
+  <data name="Dashboard_AgregarMiRecibo.Content" xml:space="preserve">
+    <value>Agregar mi recibo</value>
+  </data>
+  <data name="Dashboard_SegunTuRecibo" xml:space="preserve">
+    <value>Según tu recibo del {0:d 'de' MMMM}.</value>
+  </data>
 </root>

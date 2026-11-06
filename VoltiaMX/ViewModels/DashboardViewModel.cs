@@ -118,7 +118,9 @@ public sealed partial class DashboardViewModel(
     [ObservableProperty] public partial string TituloPago { get; set; } = string.Empty;
     [ObservableProperty] public partial string MontoPago { get; set; } = string.Empty;
     [ObservableProperty] public partial string TextoMeta { get; set; } = string.Empty;
-    [ObservableProperty] public partial bool TieneProyeccion { get; set; }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(MostrarBarra))]
+    public partial bool TieneProyeccion { get; set; }
     [ObservableProperty] public partial double ProgresoPeriodo { get; set; }
 
     // Bajo la barra (D7): "DÍA n DE m" y "FALTAN d DÍAS PARA TU CORTE" (sin texto si ya pasó el corte).
@@ -177,6 +179,42 @@ public sealed partial class DashboardViewModel(
     /// Con pesos se aclara que los costos de los aparatos no suman el recibo (D4).
     /// </summary>
     [ObservableProperty] public partial bool AparatosConPesos { get; set; }
+
+    /// <summary>
+    /// Fase 9d (D4): los costos de QUÉ GASTA MÁS salen de un recibo por monto: llevan la etiqueta APROXIMADO.
+    /// </summary>
+    [ObservableProperty] public partial bool AparatosAproximados { get; set; }
+
+    /// <summary>
+    /// Fase 9d (D5): con lecturas y el recibo actual ya terminado, Inicio pide agregar el recibo en lugar de la barra.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(MostrarBarra))]
+    public partial bool ReciboPorLlegar { get; set; }
+
+    /// <summary>
+    /// La barra y "DÍA n DE m": con lecturas, mientras el recibo actual no termine.
+    /// </summary>
+    public bool MostrarBarra => TieneProyeccion && !ReciboPorLlegar;
+
+    /// <summary>
+    /// Fase 9d (D6): "Según tu recibo del …" bajo la cifra de "Si sigues igual…".
+    /// </summary>
+    [ObservableProperty] public partial string TextoOrigenCifra { get; set; } = string.Empty;
+
+    /// <summary>
+    /// "Elegir mis aparatos" (Fase 9d, D5): la lista de aparatos típicos; al guardar vuelve a Inicio.
+    /// </summary>
+    [RelayCommand]
+    private void ElegirAparatos()
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Aparatos, SeccionesAparatos.ElegirDesdeInicio));
+
+    /// <summary>
+    /// "Agregar mi recibo" (Fase 9d, D5): el formulario común para agregar un recibo; al guardar vuelve a Inicio.
+    /// </summary>
+    [RelayCommand]
+    private void AgregarMiRecibo()
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.AgregarDesdeInicio()));
 
     public ObservableCollection<FilaDetalle> Aparatos { get; } = [];
 
@@ -330,6 +368,10 @@ public sealed partial class DashboardViewModel(
         MostrarCifra = TieneDatos && estado is EstadoPantallaInicio.ConLecturas or EstadoPantallaInicio.ReciboSinLecturas;
         MostrarComparacion = TieneDatos && estado == EstadoPantallaInicio.ConLecturas;
         ReciboAproximado = EsSiSiguesIgual && resumen?.UltimoReciboEstimado == true;
+        ReciboPorLlegar = MostrarHogar && resumen?.ReciboPorLlegar == true;
+        TextoOrigenCifra = EsSiSiguesIgual && resumen?.FechaCorteUltimoRecibo is DateOnly corteRecibo
+            ? textos.Formato("Dashboard_SegunTuRecibo", corteRecibo)
+            : string.Empty;
         TextoFechaFutura = EsFechaFutura && resumen?.FechaCorteUltimoRecibo is DateOnly corte
             ? textos.Formato("Dashboard_FechaFutura", corte)
             : string.Empty;
@@ -503,7 +545,7 @@ public sealed partial class DashboardViewModel(
     {
         Aparatos.Clear();
         Sugerencias.Clear();
-        TieneSugerencias = AparatosConPesos = false;
+        TieneSugerencias = AparatosConPesos = AparatosAproximados = false;
         PrimeraSugerencia = string.Empty;
         TextoCombinado = string.Empty;
         AvisoAparatos = string.Empty;
@@ -525,12 +567,13 @@ public sealed partial class DashboardViewModel(
 
         TieneAparatos = Aparatos.Count > 0;
         AparatosConPesos = TieneAparatos && costos.Costos.ConPesos;
+        AparatosAproximados = AparatosConPesos && costos.ConsumoAproximado;
         PuedeSimular = TieneAparatos;
         TextoSimular = textos[PuedeSimular ? "Dashboard_Simular" : "Dashboard_SimularProximamente"];
         AvisoAparatos = costos.Ranking.Estado switch
         {
             EstadoRanking.SumaExcedeMedido => textos["Ranking_SumaExcede"],
-            EstadoRanking.SinConsumoMedido => textos["Ranking_SinConsumoCorto"],
+            EstadoRanking.SinConsumoMedido => textos["Aparatos_SinReciboCostos"],
             _ => string.Empty,
         };
 
