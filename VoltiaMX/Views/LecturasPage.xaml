@@ -56,19 +56,26 @@
                                 x:Uid="Lecturas_Titulo"
                                 AutomationProperties.HeadingLevel="Level1"
                                 Style="{StaticResource HeadingLgTextStyle}" />
+                            <!-- Fase 9c (D2): el escáner completo guarda una lectura con sus kWh; solo con el modo avanzado -->
                             <Button
                                 x:Uid="Lecturas_Escanear"
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
                                 Command="{x:Bind ViewModel.EscanearReciboCommand}"
-                                Style="{StaticResource GhostButtonStyle}" />
+                                Style="{StaticResource GhostButtonStyle}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarEscanearCompleto), Mode=OneWay}" />
                         </Grid>
-                        <!-- D9: sin lecturas, un recibo anterior por lo que se pagó -->
-                        <Button
-                            x:Uid="Lecturas_AgregarPorMonto"
-                            Command="{x:Bind ViewModel.AgregarPorMontoCommand}"
-                            Style="{StaticResource TextLinkButtonSmStyle}"
-                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLugar), Mode=OneWay}" />
+                        <!-- Fase 9c (D1): un recibo por lo que se pagó, con el formulario común; la lectura es opcional -->
+                        <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLugar), Mode=OneWay}">
+                            <Button
+                                x:Uid="Lecturas_AgregarRecibo"
+                                Command="{x:Bind ViewModel.AgregarReciboCommand}"
+                                Style="{StaticResource PrimaryButtonStyle}" />
+                            <Button
+                                x:Uid="Lecturas_AnotarMedidor"
+                                Command="{x:Bind ViewModel.AnotarLecturaCommand}"
+                                Style="{StaticResource TextLinkButtonSmStyle}" />
+                        </StackPanel>
 
                         <!-- Lugar de demo: se puede capturar, pero se borra al quitar los datos de ejemplo -->
                         <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />

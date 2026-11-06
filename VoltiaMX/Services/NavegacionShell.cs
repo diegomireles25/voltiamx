@@ -32,6 +32,7 @@ public sealed class NavegacionShell : INavegacionShell
                 {
                     SeccionesLecturas.Escanear => typeof(EscanearReciboPage),
                     SeccionesLecturas.PorMonto => typeof(ReciboPorMontoPage),
+                    _ when SeccionesLecturas.EsAgregarRecibo(seccion) => typeof(AgregarReciboPage),
                     _ => typeof(LecturasPage),
                 }, seccion);
                 break;

@@ -15,9 +15,10 @@ public enum PasoOnboarding
 }
 
 /// <summary>
-/// Tarifa elegible en el paso Tu tarifa.
+/// Tarifa elegible en el paso Tu tarifa. <paramref name="Tipo"/> sirve para preseleccionar "Cada mes" con una tarifa
+/// comercial (Fase 9c, D3).
 /// </summary>
-public sealed record OpcionTarifa(int Id, string Nombre)
+public sealed record OpcionTarifa(int Id, string Nombre, VoltiaMX.Core.Models.TipoTarifa? Tipo = null)
 {
     public override string ToString() => Nombre;
 }

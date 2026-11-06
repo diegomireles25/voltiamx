@@ -82,9 +82,20 @@ public sealed partial class DashboardViewModel(
     [ObservableProperty] public partial bool ReciboAproximado { get; set; }
     [ObservableProperty] public partial string TextoFechaFutura { get; set; } = string.Empty;
 
+    /// <summary>
+    /// "Escribir cuánto pagué" (Fase 9c, D1): el formulario común para agregar un recibo; al guardar vuelve a Inicio.
+    /// </summary>
     [RelayCommand]
     private void IrAReciboPorMonto()
-        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.PorMonto));
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.AgregarDesdeInicio()));
+
+    /// <summary>
+    /// "Escanear mi recibo" (Fase 9c, D1): el mismo formulario con "Escanear mi recibo" ya elegido. Guarda un recibo
+    /// por lo que se pagó, no una lectura.
+    /// </summary>
+    [RelayCommand]
+    private void EscanearMiRecibo()
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.AgregarDesdeInicio(escanear: true)));
 
     [RelayCommand]
     private void IrAConfiguracion() => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje());

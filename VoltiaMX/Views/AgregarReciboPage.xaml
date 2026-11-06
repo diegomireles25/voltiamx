@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Agrega un recibo (Fase 9c, D1): el formulario común (el mismo del onboarding) con Guardar y Cancelar. Se abre
+    desde Inicio y desde Mis recibos, y al terminar vuelve a la pantalla de donde se abrió.
+-->
+<Page
+    x:Class="VoltiaMX.Views.AgregarReciboPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:local="using:VoltiaMX.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <!-- Contenido centrado con ancho máximo (Styles/Controls.xaml, PageContentHostStyle) -->
+        <helpers:PanelCentrado Style="{StaticResource PageContentHostStyle}">
+            <StackPanel
+                Padding="{StaticResource PagePadding}"
+                Spacing="{StaticResource Spacing40}">
+
+                <StackPanel Spacing="{StaticResource Spacing16}">
+                    <Button
+                        x:Uid="AgregarRecibo_Volver"
+                        Command="{x:Bind ViewModel.CancelarCommand}"
+                        Style="{StaticResource TextLinkButtonSmStyle}" />
+                    <TextBlock
+                        x:Uid="AgregarRecibo_Titulo"
+                        AutomationProperties.HeadingLevel="Level1"
+                        Style="{StaticResource HeadingLgTextStyle}" />
+                    <TextBlock
+                        x:Uid="OnboardingRecibo_Ayuda"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodyTextStyle}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <TextBlock
+                    x:Uid="AgregarRecibo_SinLugar"
+                    Style="{StaticResource BodyTextStyle}"
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneLugar), Mode=OneWay}" />
+
+                <StackPanel Spacing="{StaticResource Spacing32}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLugar), Mode=OneWay}">
+                    <local:FormularioRecibo ViewModel="{x:Bind ViewModel.Recibo}" />
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                        <Button x:Uid="AgregarRecibo_Guardar" Command="{x:Bind ViewModel.GuardarCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+                        <Button x:Uid="AgregarRecibo_Cancelar" Command="{x:Bind ViewModel.CancelarCommand}" Style="{StaticResource GhostButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </helpers:PanelCentrado>
+    </ScrollViewer>
+</Page>

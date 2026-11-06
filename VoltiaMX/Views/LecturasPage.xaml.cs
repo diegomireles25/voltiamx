@@ -12,6 +12,16 @@ namespace VoltiaMX.Views
         {
             ViewModel = App.Servicios.GetRequiredService<LecturasViewModel>();
             this.InitializeComponent();
+
+            // "Anotar lo que marca mi medidor": se trae el formulario a la vista.
+            ViewModel.PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName == nameof(LecturasViewModel.MostrarMedidor) && ViewModel.MostrarMedidor && IsLoaded)
+                {
+                    UpdateLayout();
+                    Formulario.StartBringIntoView(new BringIntoViewOptions { VerticalAlignmentRatio = 0, AnimationDesired = false });
+                }
+            };
         }
 
         public LecturasViewModel ViewModel { get; }

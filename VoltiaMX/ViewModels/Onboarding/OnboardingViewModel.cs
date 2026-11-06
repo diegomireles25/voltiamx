@@ -10,7 +10,8 @@ namespace VoltiaMX.ViewModels.Onboarding;
 
 /// <summary>
 /// Primer uso (Fase 9b): Bienvenida, Tu recibo (1/2), Tu tarifa (2/2) y Listo. El recibo se escribe por su total
-/// (o se prellena escaneándolo) y se guarda como recibo aproximado con <see cref="IRecibosService"/>. Al terminar
+/// (o se prellena escaneándolo) con el formulario común <see cref="AgregarReciboViewModel"/> (Fase 9c), el mismo de
+/// Inicio y Mis recibos, y se guarda como recibo aproximado con <see cref="IRecibosService"/>. Al terminar
 /// el perfil queda como Casa. Las pantallas viejas de uso y ubicación ya no están en el flujo; sus propiedades se
 /// conservan porque sus páginas siguen en el proyecto, y al repetir el onboarding se devuelven tal cual.
 /// </summary>
@@ -26,9 +27,6 @@ public sealed partial class OnboardingViewModel : ObservableObject
     private readonly IPerfilService perfiles;
     private readonly IDatosDemoService datosDemo;
     private readonly ITarifaService tarifas;
-    private readonly IRecibosService recibos;
-    private readonly IReciboOcr ocr;
-    private readonly ISelectorArchivos selector;
     private readonly ITextos textos;
     private readonly INavegacionOnboarding navegacion;
 
@@ -36,30 +34,39 @@ public sealed partial class OnboardingViewModel : ObservableObject
         IPerfilService perfiles,
         IDatosDemoService datosDemo,
         ITarifaService tarifas,
-        IRecibosService recibos,
-        IReciboOcr ocr,
-        ISelectorArchivos selector,
+        AgregarReciboViewModel recibo,
         ITextos textos,
         INavegacionOnboarding navegacion)
     {
         this.perfiles = perfiles;
         this.datosDemo = datosDemo;
         this.tarifas = tarifas;
-        this.recibos = recibos;
-        this.ocr = ocr;
-        this.selector = selector;
         this.textos = textos;
         this.navegacion = navegacion;
+        Recibo = recibo;
 
-        // Las casillas y tarjetas empiezan sin marcar (null se vería como estado indeterminado), salvo
-        // "Escribir cuánto pagué", que va preseleccionada.
+        // Las casillas empiezan sin marcar (null se vería como estado indeterminado).
         UsaCasa = UsaNegocio = UsaRentas = UsaSolar = false;
         Municipio = NombreLugar = string.Empty;
         NoSeMiTarifa = false;
-        ReciboPorMonto = true;
-        ReciboEscanear = false;
-        TotalPagado = double.NaN;
+
+        // La tarifa que se lee del recibo se preselecciona en Tu tarifa.
+        Recibo.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName == nameof(AgregarReciboViewModel.TarifaLeida)
+                && Recibo.TarifaLeida is { } nombre
+                && Tarifas.FirstOrDefault(t => string.Equals(t.Nombre, nombre, StringComparison.OrdinalIgnoreCase)) is { } tarifa)
+            {
+                TarifaSeleccionada = tarifa;
+                NoSeMiTarifa = false;
+            }
+        };
     }
+
+    /// <summary>
+    /// Tu recibo: el formulario común (dos caminos, total, fecha de corte y, en el primer recibo, la periodicidad).
+    /// </summary>
+    public AgregarReciboViewModel Recibo { get; }
 
     private static DateOnly Hoy => DateOnly.FromDateTime(DateTime.Today);
 
@@ -81,37 +88,11 @@ public sealed partial class OnboardingViewModel : ObservableObject
     [ObservableProperty] public partial object? TarifaSeleccionada { get; set; }
     [ObservableProperty] public partial bool? NoSeMiTarifa { get; set; }
 
-    // Tu recibo: "Escribir cuánto pagué" o "Escanear mi recibo"; los dos llenan el total y la fecha de corte.
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(MostrarEscanear))]
-    public partial bool? ReciboPorMonto { get; set; }
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(MostrarEscanear))]
-    public partial bool? ReciboEscanear { get; set; }
-
-    public bool MostrarEscanear => ReciboEscanear == true;
-
-    [ObservableProperty] public partial double TotalPagado { get; set; }
-    [ObservableProperty] public partial DateTimeOffset? FechaCorte { get; set; }
-
-    /// <summary>
-    /// La fecha de corte no puede ser posterior a hoy (Fase 9b, D5).
-    /// </summary>
-    public DateTimeOffset FechaMaxima { get; } = new(DateTime.Today);
-
-    [ObservableProperty] public partial string ErrorRecibo { get; set; } = string.Empty;
-    [ObservableProperty] public partial string AvisoEscaneo { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(ElegirReciboCommand))]
-    public partial bool Leyendo { get; set; }
-
     // "Todavía no tengo mi recibo": se sigue sin recibo.
     private bool _sinRecibo;
 
-    // El escáner leyó una fecha de corte posterior a hoy y el calendario quedó vacío: se sigue explicando eso.
-    private bool _fechaFuturaLeida;
+    // El lugar que ya existe al repetir el onboarding (null en el primer uso).
+    private int? _lugarId;
 
     /// <summary>
     /// Las notificaciones empiezan apagadas en un perfil nuevo y se encienden desde Configuración. Al repetir
@@ -154,7 +135,7 @@ public sealed partial class OnboardingViewModel : ObservableObject
         Tarifas.Clear();
         foreach (var tarifa in await tarifas.ObtenerTarifasAsync())
         {
-            Tarifas.Add(new OpcionTarifa(tarifa.Id, tarifa.Nombre));
+            Tarifas.Add(new OpcionTarifa(tarifa.Id, tarifa.Nombre, tarifa.Tipo));
         }
 
         await PrecargarRespuestasAsync();
@@ -170,9 +151,9 @@ public sealed partial class OnboardingViewModel : ObservableObject
         switch (PasoActual)
         {
             case PasoOnboarding.Recibo:
-                // Lo escrito se queda en la pantalla si hay un error.
-                ErrorRecibo = await ValidarReciboAsync() ?? string.Empty;
-                if (ErrorRecibo.Length > 0)
+                // Lo escrito se queda en la pantalla si hay un error. Al repetir el onboarding ya hay un lugar: el
+                // recibo no se puede cruzar con uno guardado.
+                if (await Recibo.ValidarAsync(_lugarId) is not null)
                 {
                     return;
                 }
@@ -224,7 +205,7 @@ public sealed partial class OnboardingViewModel : ObservableObject
     private void SinRecibo()
     {
         _sinRecibo = true;
-        ErrorRecibo = string.Empty;
+        Recibo.ErrorRecibo = string.Empty;
         IrA(PasoOnboarding.Tarifa);
     }
 
@@ -263,13 +244,12 @@ public sealed partial class OnboardingViewModel : ObservableObject
         try
         {
             await perfiles.GuardarOnboardingAsync(ConstruirDatos());
-            if (ReciboElegido() is { } recibo && await perfiles.ObtenerLugarPrincipalAsync() is { } lugar)
+            if (ReciboElegido() is not null && await perfiles.ObtenerLugarPrincipalAsync() is { } lugar)
             {
-                // Impuestos y cargos por defecto (EstimadorPorMonto.CargosPorDefecto); no se piden aquí.
-                var resultado = await recibos.AgregarPorMontoAsync(lugar.Id, recibo.Total, recibo.Fecha, EstimadorPorMonto.CargosPorDefecto, Hoy);
-                if (resultado.Error is { } error)
+                // Impuestos y cargos por defecto y la periodicidad elegida (si es el primer recibo).
+                if (await Recibo.GuardarAsync(lugar.Id) is { } error)
                 {
-                    Error = textos[$"ReciboMonto_Error_{error}"];
+                    Error = error;
                     return;
                 }
             }
@@ -286,137 +266,9 @@ public sealed partial class OnboardingViewModel : ObservableObject
         }
     }
 
-    // ---- Escanear: solo prellena el total, la fecha de corte y la tarifa ----
+    // ---- Tu recibo: lo valida y lo guarda el formulario común (AgregarReciboViewModel) ----
 
-    private bool PuedeElegir() => !Leyendo;
-
-    [RelayCommand(CanExecute = nameof(PuedeElegir))]
-    private async Task ElegirReciboAsync()
-    {
-        if (await selector.ElegirReciboAsync() is { } ruta)
-        {
-            await LeerAsync(ruta);
-        }
-    }
-
-#if DEBUG
-    // Solo para pruebas automatizadas: lee una ruta sin pasar por el selector de archivos.
-    [ObservableProperty] public partial string RutaPrueba { get; set; } = string.Empty;
-
-    [RelayCommand]
-    private Task LeerRutaAsync() => LeerAsync(RutaPrueba.Trim().Trim('"'));
-#endif
-
-    private async Task LeerAsync(string ruta)
-    {
-        Leyendo = true;
-        ErrorRecibo = AvisoEscaneo = string.Empty;
-        try
-        {
-            var resultado = await ocr.LeerAsync(ruta);
-            if (resultado.Error is ErrorOcr error)
-            {
-                ErrorRecibo = error == ErrorOcr.SinIdioma ? textos["Escanear_SinIdiomaTexto/Text"] : textos[$"ErrorOcr_{error}"];
-                return;
-            }
-
-            // Las líneas reconocidas solo viven aquí: no se guardan ni se registran.
-            var leido = ReciboParser.Analizar(resultado.Lineas);
-            var fechaFutura = false;
-            if (leido.FechaCorte.Valor is DateOnly fecha)
-            {
-                // El calendario no acepta fechas posteriores a hoy y la cambiaría sin avisar: se deja vacía y se
-                // explica (D5).
-                fechaFutura = ValidadorFechaCorte.Validar(fecha, Hoy) is not null;
-                FechaCorte = fechaFutura ? null : new DateTimeOffset(fecha.ToDateTime(TimeOnly.MinValue));
-                _fechaFuturaLeida = fechaFutura;
-            }
-
-            if (leido.Tarifa.Valor is { } nombre
-                && Tarifas.FirstOrDefault(t => string.Equals(t.Nombre, nombre, StringComparison.OrdinalIgnoreCase)) is { } tarifa)
-            {
-                TarifaSeleccionada = tarifa;
-                NoSeMiTarifa = false;
-            }
-
-            if (leido.Total.Valor is decimal total)
-            {
-                TotalPagado = (double)total;
-                AvisoEscaneo = textos["OnboardingRecibo_Revisa"];
-            }
-            else
-            {
-                ErrorRecibo = textos["OnboardingRecibo_SinTotal"];
-            }
-
-            if (fechaFutura)
-            {
-                ErrorRecibo = textos[$"ReciboMonto_Error_{ErrorReciboPorMonto.FechaFutura}"];
-            }
-        }
-        finally
-        {
-            Leyendo = false;
-        }
-    }
-
-    // ---- Validación del recibo (Core: EstimadorPorMonto.ValidarRecibo y el traslape de RecibosService) ----
-
-    private (decimal Total, DateOnly Fecha)? ReciboElegido()
-        => _sinRecibo || double.IsNaN(TotalPagado) || FechaCorte is not DateTimeOffset fecha
-            ? null
-            : ((decimal)TotalPagado, DateOnly.FromDateTime(fecha.Date));
-
-    private async Task<string?> ValidarReciboAsync()
-    {
-        if (ReciboElegido() is not { } recibo)
-        {
-            return FechaCorte is null && _fechaFuturaLeida
-                ? textos[$"ReciboMonto_Error_{ErrorReciboPorMonto.FechaFutura}"]
-                : textos["OnboardingRecibo_Incompleto"];
-        }
-
-        if (EstimadorPorMonto.ValidarRecibo(recibo.Total, recibo.Fecha, Hoy) is { } error)
-        {
-            return textos[$"ReciboMonto_Error_{error}"];
-        }
-
-        // Al repetir el onboarding ya hay un lugar: el recibo no se puede cruzar con uno guardado.
-        if (await perfiles.ObtenerLugarPrincipalAsync() is { } lugar)
-        {
-            var previa = await recibos.PrevisualizarPorMontoAsync(lugar.Id, recibo.Total, recibo.Fecha, EstimadorPorMonto.CargosPorDefecto, Hoy);
-            if (previa.Error is { } errorPrevia)
-            {
-                return textos[$"ReciboMonto_Error_{errorPrevia}"];
-            }
-        }
-
-        return null;
-    }
-
-    partial void OnFechaCorteChanged(DateTimeOffset? value)
-    {
-        if (value is not null)
-        {
-            _fechaFuturaLeida = false;
-        }
-    }
-
-    partial void OnReciboPorMontoChanged(bool? value)
-    {
-        if (value == true)
-        {
-            ReciboEscanear = false;
-        }
-    }
-
-    partial void OnReciboEscanearChanged(bool? value)
-    {
-        if (value == true)
-        {
-            ReciboPorMonto = false;
-        }
-    }
+    private (decimal Total, DateOnly Fecha)? ReciboElegido() => _sinRecibo ? null : Recibo.Elegido();
 
     partial void OnNoSeMiTarifaChanged(bool? value)
     {
@@ -432,6 +284,9 @@ public sealed partial class OnboardingViewModel : ObservableObject
         {
             NoSeMiTarifa = false;
         }
+
+        // D3: una tarifa comercial preselecciona "Cada mes" si la persona no eligió otra cosa.
+        Recibo.UsarTipoDeTarifa((value as OpcionTarifa)?.Tipo);
     }
 
     private void IrA(PasoOnboarding paso)
@@ -456,6 +311,8 @@ public sealed partial class OnboardingViewModel : ObservableObject
         }
 
         var lugar = await perfiles.ObtenerLugarPrincipalAsync();
+        _lugarId = lugar?.Id;
+        await Recibo.IniciarAsync(_lugarId, lugar?.Tarifa?.Tipo);
         if (lugar is not null)
         {
             NombreLugar = lugar.Nombre;

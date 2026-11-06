@@ -1899,7 +1899,7 @@
     <value>Escanear recibo · Próximamente</value>
   </data>
   <data name="Lecturas_Escanear.Content" xml:space="preserve">
-    <value>Escanear recibo</value>
+    <value>Escanear recibo completo</value>
   </data>
   <data name="Escanear_VolverLecturas.Content" xml:space="preserve">
     <value>Volver a Mis recibos</value>
@@ -3654,7 +3654,7 @@
     <value>Revisa que coincidan con tu recibo.</value>
   </data>
   <data name="OnboardingRecibo_SinTotal" xml:space="preserve">
-    <value>No pudimos leer el total de tu recibo. Escríbelo abajo.</value>
+    <value>No pudimos leer el total de tu recibo. Escríbelo en Total a pagar.</value>
   </data>
   <data name="OnboardingRecibo_Incompleto" xml:space="preserve">
     <value>Escribe el total y la fecha de corte de tu recibo.</value>
@@ -3751,5 +3751,35 @@
   </data>
   <data name="Mas_BorradoTexto" xml:space="preserve">
     <value>Tus datos se borraron. Cierra VoltiaMX y vuelve a abrirla para empezar de nuevo.</value>
+  </data>
+  <data name="FormularioRecibo_Periodicidad.Text" xml:space="preserve">
+    <value>¿Cada cuánto te llega el recibo?</value>
+  </data>
+  <data name="FormularioRecibo_CadaDosMeses.Content" xml:space="preserve">
+    <value>Cada 2 meses</value>
+  </data>
+  <data name="FormularioRecibo_CadaMes.Content" xml:space="preserve">
+    <value>Cada mes</value>
+  </data>
+  <data name="AgregarRecibo_Volver.Content" xml:space="preserve">
+    <value>Volver</value>
+  </data>
+  <data name="AgregarRecibo_Titulo.Text" xml:space="preserve">
+    <value>AGREGA UN RECIBO</value>
+  </data>
+  <data name="AgregarRecibo_SinLugar.Text" xml:space="preserve">
+    <value>Contesta las preguntas iniciales para poder agregar tu recibo.</value>
+  </data>
+  <data name="AgregarRecibo_Guardar.Content" xml:space="preserve">
+    <value>Guardar recibo</value>
+  </data>
+  <data name="AgregarRecibo_Cancelar.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Lecturas_AgregarRecibo.Content" xml:space="preserve">
+    <value>Agregar un recibo</value>
+  </data>
+  <data name="Lecturas_AnotarMedidor.Content" xml:space="preserve">
+    <value>Anotar lo que marca mi medidor (opcional)</value>
   </data>
 </root>

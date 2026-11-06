@@ -160,7 +160,7 @@
                                     Style="{StaticResource BodyTextStyle}"
                                     TextWrapping="Wrap" />
                                 <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
-                                    <Button x:Uid="Dashboard_EscanearMiRecibo" Command="{x:Bind ViewModel.EscanearReciboCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+                                    <Button x:Uid="Dashboard_EscanearMiRecibo" Command="{x:Bind ViewModel.EscanearMiReciboCommand}" Style="{StaticResource PrimaryButtonStyle}" />
                                     <Button x:Uid="Dashboard_EscribirCuantoPague" Command="{x:Bind ViewModel.IrAReciboPorMontoCommand}" Style="{StaticResource GhostButtonStyle}" />
                                 </StackPanel>
                                 <Button x:Uid="Dashboard_ProbarDemo" Command="{x:Bind ViewModel.CargarDemoCommand}" Style="{StaticResource TextLinkButtonSmStyle}" />

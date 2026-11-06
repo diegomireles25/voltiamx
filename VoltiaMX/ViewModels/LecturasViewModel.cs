@@ -82,6 +82,29 @@ public static class SeccionesLecturas
     /// </summary>
     public const string PorMonto = "PorMonto";
 
+    // Agregar un recibo con el formulario común (Fase 9c, D1): de dónde se abrió (para volver ahí) y si empieza en
+    // "Escanear mi recibo".
+    private const string PrefijoAgregar = "AgregarRecibo:";
+    private const string DesdeInicio = "Inicio";
+    private const string ConEscaner = ":Escanear";
+
+    /// <summary>
+    /// Agregar un recibo desde Inicio (al guardar se vuelve a Inicio); <paramref name="escanear"/> preselecciona
+    /// "Escanear mi recibo".
+    /// </summary>
+    public static string AgregarDesdeInicio(bool escanear = false) => PrefijoAgregar + DesdeInicio + (escanear ? ConEscaner : string.Empty);
+
+    /// <summary>
+    /// Agregar un recibo desde Mis recibos (al guardar se vuelve a Mis recibos, al historial).
+    /// </summary>
+    public const string AgregarDesdeMisRecibos = PrefijoAgregar + "MisRecibos";
+
+    public static bool EsAgregarRecibo(string? seccion) => seccion?.StartsWith(PrefijoAgregar, StringComparison.Ordinal) == true;
+
+    public static bool VuelveAInicio(string? seccion) => EsAgregarRecibo(seccion) && seccion![PrefijoAgregar.Length..].StartsWith(DesdeInicio, StringComparison.Ordinal);
+
+    public static bool EmpiezaEscaneando(string? seccion) => EsAgregarRecibo(seccion) && seccion!.EndsWith(ConEscaner, StringComparison.Ordinal);
+
     private const string PrefijoGuardada = "Guardada:";
 
     /// <summary>
@@ -103,6 +126,7 @@ public static class SeccionesLecturas
 public sealed partial class LecturasViewModel(
     ILecturaService lecturas,
     IHistorialService historiales,
+    IPerfilService perfiles,
     ITextos textos,
     IDialogos dialogos) : ObservableObject
 {
@@ -119,6 +143,16 @@ public sealed partial class LecturasViewModel(
     private CancellationTokenSource? _aviso;
 
     [ObservableProperty] public partial bool TieneLugar { get; set; }
+
+    /// <summary>
+    /// "Escanear recibo completo" (guarda una lectura con sus kWh): solo con el modo avanzado (Fase 9c, D2).
+    /// </summary>
+    [ObservableProperty] public partial bool MostrarEscanearCompleto { get; set; }
+
+    /// <summary>
+    /// "LO QUE MARCA TU MEDIDOR" abierto: con lecturas o después de "Anotar lo que marca mi medidor".
+    /// </summary>
+    [ObservableProperty] public partial bool MostrarMedidor { get; set; }
     [ObservableProperty] public partial bool EsDemo { get; set; }
     [ObservableProperty] public partial bool TieneLecturas { get; set; }
     [ObservableProperty] public partial bool TieneVistaPrevia { get; set; }
@@ -174,9 +208,11 @@ public sealed partial class LecturasViewModel(
         _lugarId = lugar?.Id;
         TieneLugar = lugar is not null;
         EsDemo = lugar?.EsDemo == true;
+        MostrarEscanearCompleto = (await perfiles.ObtenerPerfilAsync())?.ModoAvanzado == true;
         LimpiarFormulario();
         await CargarListaAsync();
         await CargarHistorialAsync();
+        MostrarMedidor = TieneLecturas;
     }
 
     private bool ValorValido() => _lugarId is not null && Fecha is not null && !double.IsNaN(ValorKwh) && ValorKwh >= 0;
@@ -520,6 +556,23 @@ public sealed partial class LecturasViewModel(
     [RelayCommand]
     private void AgregarPorMonto()
         => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.PorMonto));
+
+    /// <summary>
+    /// "Agregar un recibo" (Fase 9c, D1): el formulario común; al guardar vuelve aquí, al historial.
+    /// </summary>
+    [RelayCommand]
+    private void AgregarRecibo()
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.AgregarDesdeMisRecibos));
+
+    /// <summary>
+    /// "Anotar lo que marca mi medidor (opcional)": abre el formulario de lectura (la vista lo trae a la vista).
+    /// </summary>
+    [RelayCommand]
+    private void AnotarLectura()
+    {
+        MostrarMedidor = false;
+        MostrarMedidor = true;
+    }
 
     /// <summary>
     /// Aviso breve (la vista lo anuncia al lector de pantalla); se borra solo.
