@@ -36,6 +36,12 @@ public interface IAparatoService
     IReadOnlyList<PlantillaAparato> PlantillasDeReferencia();
 
     /// <summary>
+    /// Fase 9g (D3): los costos agrupados por aparato típico ("Aire acondicionado · 3"), con el costo del grupo
+    /// sobre su consumo total (<see cref="GruposDeAparatos"/>).
+    /// </summary>
+    IReadOnlyList<GrupoAparatos> Agrupar(CostosDelLugar costos);
+
+    /// <summary>
     /// "Elegir mis aparatos" (Fase 9d, D1): crea los aparatos típicos nuevos con los valores de su plantilla y, de
     /// los que ya existen, solo cambia las horas y la cantidad (la potencia ajustada en el editor completo se
     /// conserva). Elimina los de <paramref name="quitar"/> (los que la persona desmarcó). Con un error no guarda nada.

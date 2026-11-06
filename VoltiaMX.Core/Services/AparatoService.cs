@@ -124,6 +124,12 @@ public sealed class AparatoService(IDbContextFactory<VoltiaDbContext> fabrica, I
 
     public IReadOnlyList<PlantillaAparato> PlantillasDeReferencia() => Plantillas;
 
+    public IReadOnlyList<GrupoAparatos> Agrupar(CostosDelLugar costos)
+    {
+        ArgumentNullException.ThrowIfNull(costos);
+        return GruposDeAparatos.Agrupar(costos.Costos.Filas, calculadora, costos.Tarifa, costos.MesesPorPeriodo, costos.ConsumoMedidoMes);
+    }
+
     public async Task<ResultadoGuardarElegidos> GuardarElegidosAsync(
         int lugarId, IReadOnlyList<AparatoElegido> elegidos, IReadOnlyList<int> quitar, CancellationToken cancellationToken = default)
     {
@@ -132,20 +138,31 @@ public sealed class AparatoService(IDbContextFactory<VoltiaDbContext> fabrica, I
         await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
         var existentes = await db.Aparatos.Where(a => a.LugarId == lugarId).ToDictionaryAsync(a => a.Id, cancellationToken);
 
-        // Primero se valida todo: con un error no se guarda nada.
+        // Primero se valida todo: con un error no se guarda nada. Fase 9g: un elegido puede quedar como un aparato
+        // (mismas horas) o como una unidad por aparato; los registros que ya no quedan se quitan.
         var errores = new Dictionary<string, IReadOnlyList<CodigoErrorAparato>>();
         var cambios = new List<(Aparato? Existente, AparatoEditable Editable)>();
+        var sobran = new List<Aparato>();
         foreach (var elegido in elegidos)
         {
-            var existente = elegido.Id is int id ? existentes.GetValueOrDefault(id) : null;
-            var editable = AparatosTipicos.Editable(elegido, lugarId, existente);
-            var deEste = AparatoValidador.Validar(editable);
-            if (deEste.Count > 0)
+            // Los registros de la plantilla: el aparato, los demás y los de cada unidad (que ya existían).
+            var ids = (elegido.Id is int id ? new[] { id } : [])
+                .Concat(elegido.Otros ?? [])
+                .Concat(elegido.Unidades?.Where(u => u.Id is not null).Select(u => u.Id!.Value) ?? [])
+                .Distinct();
+            var registros = ids.Select(i => existentes.GetValueOrDefault(i)).OfType<Aparato>().ToList();
+            var (quedan, quitarDeEste) = AparatosTipicos.Plan(elegido, lugarId, registros);
+            foreach (var (_, editable) in quedan)
             {
-                errores[elegido.Plantilla.Clave] = deEste;
+                var deEste = AparatoValidador.Validar(editable);
+                if (deEste.Count > 0)
+                {
+                    errores[elegido.Plantilla.Clave] = deEste;
+                }
             }
 
-            cambios.Add((existente, editable));
+            cambios.AddRange(quedan);
+            sobran.AddRange(quitarDeEste);
         }
 
         if (errores.Count > 0)
@@ -165,8 +182,8 @@ public sealed class AparatoService(IDbContextFactory<VoltiaDbContext> fabrica, I
             entidad.CicloDeTrabajo = editable.CicloDeTrabajo;
         }
 
-        // Solo los que la persona desmarcó, y solo de este lugar.
-        foreach (var id in quitar.Distinct())
+        // Solo los que la persona desmarcó (y las unidades que ya no quedan), y solo de este lugar.
+        foreach (var id in quitar.Concat(sobran.Select(s => s.Id)).Distinct())
         {
             if (existentes.TryGetValue(id, out var aparato))
             {
