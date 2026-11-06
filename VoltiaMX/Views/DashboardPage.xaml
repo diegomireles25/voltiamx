@@ -452,7 +452,8 @@
                     <Button
                         Command="{x:Bind ViewModel.IrASimuladorCommand}"
                         Content="{x:Bind ViewModel.TextoSimular, Mode=OneWay}"
-                        Style="{StaticResource TextLinkButtonStyle}" />
+                        Style="{StaticResource TextLinkButtonStyle}"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarSimular), Mode=OneWay}" />
                 </StackPanel>
             </StackPanel>
 

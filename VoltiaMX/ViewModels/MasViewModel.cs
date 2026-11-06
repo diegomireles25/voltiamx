@@ -9,13 +9,14 @@ using VoltiaMX.Services;
 namespace VoltiaMX.ViewModels;
 
 /// <summary>
-/// Una fila de Más que abre un módulo sin pestaña.
+/// Una fila de "Herramientas avanzadas" de Configuración que abre su pantalla.
 /// </summary>
 public sealed record FilaMas(string Titulo, string Descripcion, string TextoBoton, IRelayCommand Abrir);
 
 /// <summary>
-/// Más: los módulos que no son principales y los ajustes (modo avanzado, notificaciones, demo, tarifas,
-/// reportes, respaldo y repetir el onboarding).
+/// Configuración (la página que antes se llamaba Más; la clase conserva el nombre). Fase 9a: tu tarifa, avisos,
+/// respaldo, ayuda, datos de demostración, volver a contestar y el modo avanzado; con el modo avanzado activo,
+/// el bloque de herramientas avanzadas (reportes, meta, simulador solar e inquilinos).
 /// </summary>
 public sealed partial class MasViewModel(
     IPerfilService perfiles,
@@ -25,14 +26,11 @@ public sealed partial class MasViewModel(
     ITextos textos) : ObservableObject
 {
     /// <summary>
-    /// Módulos sin pestaña. Reportes tiene su propia fila de ajustes, así que no se repite aquí.
+    /// Herramientas avanzadas: solo con el modo avanzado, en este orden y solo las de módulos activos.
     /// </summary>
-    public ObservableCollection<FilaMas> Modulos { get; } = [];
+    public ObservableCollection<FilaMas> Herramientas { get; } = [];
 
-    /// <summary>
-    /// "Escanear recibo" guarda una lectura: solo con el módulo Lecturas activo.
-    /// </summary>
-    [ObservableProperty] public partial bool LecturasActiva { get; set; }
+    private static readonly ModuloApp[] OrdenHerramientas = [ModuloApp.Reportes, ModuloApp.Metas, ModuloApp.Solar, ModuloApp.Inquilinos];
 
     [ObservableProperty] public partial bool NotificacionesActivas { get; set; }
 
@@ -86,25 +84,29 @@ public sealed partial class MasViewModel(
         NotificacionesActivas = perfil?.NotificacionesActivas == true;
         HayDemo = await datosDemo.HayDemoAsync();
 
-        var activos = await perfiles.ObtenerModulosActivosAsync();
-        var menu = ModulosPrincipales.Calcular(activos);
-        Modulos.Clear();
-        foreach (var modulo in menu.Secundarios.Where(m => m != ModuloApp.Reportes))
-        {
-            Modulos.Add(new FilaMas(
-                textos[$"Mas_Modulo_{modulo}_Titulo"],
-                textos[$"Mas_Modulo_{modulo}_Texto"],
-                textos["Mas_Abrir"],
-                new RelayCommand(() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(modulo)))));
-        }
-
-        LecturasActiva = activos.Contains(ModuloApp.Lecturas);
+        await CargarHerramientasAsync();
         _cargando = false;
     }
 
-    [RelayCommand]
-    private void AbrirEscanear()
-        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.Escanear));
+    // Reportes siempre está en el bloque avanzado (como antes en Más); Metas, Solar e Inquilinos si su módulo
+    // está activo.
+    private async Task CargarHerramientasAsync()
+    {
+        Herramientas.Clear();
+        if (!ModoAvanzado)
+        {
+            return;
+        }
+
+        var activos = await perfiles.ObtenerModulosActivosAsync();
+        foreach (var modulo in OrdenHerramientas.Where(m => m == ModuloApp.Reportes || activos.Contains(m)))
+        {
+            IRelayCommand abrir = modulo == ModuloApp.Reportes
+                ? AbrirReportesCommand
+                : new RelayCommand(() => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(modulo)));
+            Herramientas.Add(new FilaMas(textos[$"Mas_Modulo_{modulo}_Titulo"], textos[$"Mas_Modulo_{modulo}_Texto"], textos["Mas_Abrir"], abrir));
+        }
+    }
 
     partial void OnModoAvanzadoChanged(bool value)
     {
@@ -117,6 +119,7 @@ public sealed partial class MasViewModel(
     private async Task CambiarModoAsync(bool modoAvanzado)
     {
         await perfiles.CambiarModoAvanzadoAsync(modoAvanzado);
+        await CargarHerramientasAsync();
         WeakReferenceMessenger.Default.Send(new ModulosCambiadosMensaje());
     }
 

@@ -146,6 +146,11 @@ public sealed partial class DashboardViewModel(
 
     [ObservableProperty] public partial string TextoSimular { get; set; } = string.Empty;
 
+    /// <summary>
+    /// El simulador de ahorro es una herramienta del modo avanzado (Fase 9a, D4): sin él, el botón no se muestra.
+    /// </summary>
+    [ObservableProperty] public partial bool MostrarSimular { get; set; }
+
     [RelayCommand(CanExecute = nameof(PuedeSimular))]
     private void IrASimulador()
         => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Aparatos, SeccionesAparatos.Simulador));
@@ -222,6 +227,7 @@ public sealed partial class DashboardViewModel(
             MostrarSolar = usos.Contains(UsoApp.Solar);
             SolarHabilitado = modulos.Contains(ModuloApp.Solar);
             MostrarAparatos = modulos.Contains(ModuloApp.Aparatos);
+            MostrarSimular = perfil?.ModoAvanzado == true;
             LecturasHabilitadas = modulos.Contains(ModuloApp.Lecturas);
             PredictorHabilitado = modulos.Contains(ModuloApp.Predictor);
 

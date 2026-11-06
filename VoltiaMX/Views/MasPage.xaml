@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-    Más: los módulos que no tienen pestaña y los ajustes (antes Configuración), en filas con línea sobre el
-    lienzo. Cada fila tiene un título y una línea de descripción. Sin tarjetas.
+    Configuración (antes Más; la clase conserva el nombre): ajustes en filas con línea sobre el lienzo, cada una
+    con un título y una línea de descripción, y con el modo avanzado las herramientas avanzadas. Sin tarjetas.
 -->
 <Page
     x:Class="VoltiaMX.Views.MasPage"
@@ -25,56 +25,10 @@
                     AutomationProperties.HeadingLevel="Level1"
                     Style="{StaticResource DisplayTextStyle}" />
 
+                <!-- Fase 9a (D3): solo estas filas, en este orden -->
                 <Border Style="{StaticResource HairlineListStyle}">
                     <StackPanel>
-                        <!-- Módulos sin pestaña -->
-                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Modulos}">
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="vm:FilaMas">
-                                    <Border Style="{StaticResource HairlineRowStyle}">
-                                        <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Spacing="{StaticResource Spacing8}">
-                                                <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Titulo}" />
-                                                <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" Text="{x:Bind Descripcion}" />
-                                            </StackPanel>
-                                            <Button
-                                                Grid.Column="1"
-                                                VerticalAlignment="Center"
-                                                AutomationProperties.Name="{x:Bind Titulo}"
-                                                Command="{x:Bind Abrir}"
-                                                Content="{x:Bind TextoBoton}"
-                                                Style="{StaticResource TextLinkButtonStyle}" />
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
-                        </ItemsRepeater>
-
-                        <!-- Escanear recibo (con Lecturas activo) -->
-                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.LecturasActiva), Mode=OneWay}">
-                            <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Spacing="{StaticResource Spacing8}">
-                                    <TextBlock x:Uid="Mas_EscanearTitulo" Style="{StaticResource SubheadingTextStyle}" />
-                                    <TextBlock x:Uid="Mas_EscanearTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" />
-                                </StackPanel>
-                                <Button
-                                    x:Uid="Mas_EscanearBoton"
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Command="{x:Bind ViewModel.AbrirEscanearCommand}"
-                                    Style="{StaticResource TextLinkButtonStyle}" />
-                            </Grid>
-                        </Border>
-
-                        <!-- Tarifas -->
+                        <!-- Tu tarifa -->
                         <Border Style="{StaticResource HairlineRowStyle}">
                             <Grid ColumnSpacing="{StaticResource Spacing24}">
                                 <Grid.ColumnDefinitions>
@@ -94,67 +48,8 @@
                             </Grid>
                         </Border>
 
-                        <!-- Reportes y exportación (para todos los perfiles) -->
-                        <Border Style="{StaticResource HairlineRowStyle}">
-                            <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Spacing="{StaticResource Spacing8}">
-                                    <TextBlock x:Uid="Config_ReportesTitulo" Style="{StaticResource SubheadingTextStyle}" />
-                                    <TextBlock x:Uid="Mas_ReportesTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" />
-                                </StackPanel>
-                                <Button
-                                    x:Uid="Config_ReportesBoton"
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Command="{x:Bind ViewModel.AbrirReportesCommand}"
-                                    Style="{StaticResource TextLinkButtonStyle}" />
-                            </Grid>
-                        </Border>
 
-                        <!-- Respaldo y restauración -->
-                        <Border Style="{StaticResource HairlineRowStyle}">
-                            <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Spacing="{StaticResource Spacing8}">
-                                    <TextBlock x:Uid="Config_RespaldoTitulo" Style="{StaticResource SubheadingTextStyle}" />
-                                    <TextBlock x:Uid="Mas_RespaldoTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" />
-                                </StackPanel>
-                                <Button
-                                    x:Uid="Config_RespaldoBoton"
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Command="{x:Bind ViewModel.AbrirRespaldoCommand}"
-                                    Style="{StaticResource TextLinkButtonStyle}" />
-                            </Grid>
-                        </Border>
-
-                        <!-- Ayuda: qué significa cada palabra -->
-                        <Border Style="{StaticResource HairlineRowStyle}">
-                            <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Spacing="{StaticResource Spacing8}">
-                                    <TextBlock x:Uid="Mas_AyudaTitulo" Style="{StaticResource SubheadingTextStyle}" />
-                                    <TextBlock x:Uid="Mas_AyudaTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
-                                </StackPanel>
-                                <Button
-                                    x:Uid="Mas_AyudaBoton"
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Command="{x:Bind ViewModel.AbrirAyudaCommand}"
-                                    Style="{StaticResource TextLinkButtonStyle}" />
-                            </Grid>
-                        </Border>
-
-                        <!-- Notificaciones de Windows con los avisos -->
+                        <!-- Avisos (notificaciones de Windows) -->
                         <Border Style="{StaticResource HairlineRowStyle}">
                             <Grid ColumnSpacing="{StaticResource Spacing24}">
                                 <Grid.ColumnDefinitions>
@@ -184,6 +79,49 @@
                             </Grid>
                         </Border>
 
+
+                        <!-- Respaldo y restauración -->
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <TextBlock x:Uid="Config_RespaldoTitulo" Style="{StaticResource SubheadingTextStyle}" />
+                                    <TextBlock x:Uid="Mas_RespaldoTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" />
+                                </StackPanel>
+                                <Button
+                                    x:Uid="Config_RespaldoBoton"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Command="{x:Bind ViewModel.AbrirRespaldoCommand}"
+                                    Style="{StaticResource TextLinkButtonStyle}" />
+                            </Grid>
+                        </Border>
+
+
+                        <!-- Ayuda: qué significa cada palabra -->
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <TextBlock x:Uid="Mas_AyudaTitulo" Style="{StaticResource SubheadingTextStyle}" />
+                                    <TextBlock x:Uid="Mas_AyudaTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
+                                </StackPanel>
+                                <Button
+                                    x:Uid="Mas_AyudaBoton"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Command="{x:Bind ViewModel.AbrirAyudaCommand}"
+                                    Style="{StaticResource TextLinkButtonStyle}" />
+                            </Grid>
+                        </Border>
+
+
                         <!-- Datos de demostración -->
                         <Border Style="{StaticResource HairlineRowStyle}">
                             <Grid ColumnSpacing="{StaticResource Spacing24}">
@@ -205,27 +143,8 @@
                             </Grid>
                         </Border>
 
-                        <!-- Modo avanzado -->
-                        <Border Style="{StaticResource HairlineRowStyle}">
-                            <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Spacing="{StaticResource Spacing8}">
-                                    <TextBlock x:Name="TituloModo" x:Uid="Config_ModoTitulo" Style="{StaticResource SubheadingTextStyle}" />
-                                    <TextBlock x:Uid="Mas_ModoTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" />
-                                </StackPanel>
-                                <ToggleSwitch
-                                    x:Uid="Config_ModoSwitch"
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    AutomationProperties.Name="{x:Bind TituloModo.Text}"
-                                    IsOn="{x:Bind ViewModel.ModoAvanzado, Mode=TwoWay}" />
-                            </Grid>
-                        </Border>
 
-                        <!-- Repetir el onboarding -->
+                        <!-- Volver a contestar las preguntas iniciales (en la fase 9b llega el onboarding nuevo) -->
                         <Border Style="{StaticResource HairlineRowStyle}">
                             <Grid ColumnSpacing="{StaticResource Spacing24}">
                                 <Grid.ColumnDefinitions>
@@ -244,6 +163,7 @@
                                     Style="{StaticResource GhostButtonStyle}" />
                             </Grid>
                         </Border>
+
 
                         <!-- Solo en compilaciones Debug -->
                         <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDebug)}">
@@ -265,11 +185,71 @@
                             </Grid>
                         </Border>
 
-                        <!-- Versión: siempre al final, también en Release -->
+
+                        <!-- Modo avanzado: siempre la última fila antes de la versión -->
                         <Border Style="{StaticResource HairlineRowStyle}">
-                            <TextBlock x:Uid="Config_Version" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" />
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <TextBlock x:Name="TituloModo" x:Uid="Config_ModoTitulo" Style="{StaticResource SubheadingTextStyle}" />
+                                    <TextBlock x:Uid="Mas_ModoTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" />
+                                </StackPanel>
+                                <ToggleSwitch
+                                    x:Uid="Config_ModoSwitch"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    AutomationProperties.Name="{x:Bind TituloModo.Text}"
+                                    IsOn="{x:Bind ViewModel.ModoAvanzado, Mode=TwoWay}" />
+                            </Grid>
                         </Border>
+
                     </StackPanel>
+                </Border>
+
+                <!-- Con el modo avanzado: herramientas que no son del día a día de una casa -->
+                <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.ModoAvanzado), Mode=OneWay}">
+                    <TextBlock
+                        x:Uid="Mas_HerramientasTitulo"
+                        AutomationProperties.HeadingLevel="Level2"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource CaptionTextStyle}" />
+                    <Border Style="{StaticResource HairlineListStyle}">
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Herramientas}">
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="vm:FilaMas">
+                                    <Border Style="{StaticResource HairlineRowStyle}">
+                                        <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Spacing="{StaticResource Spacing8}">
+                                                <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Titulo}" />
+                                                <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" Text="{x:Bind Descripcion}" TextWrapping="Wrap" />
+                                            </StackPanel>
+                                            <Button
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                AutomationProperties.Name="{x:Bind Titulo}"
+                                                Command="{x:Bind Abrir}"
+                                                Content="{x:Bind TextoBoton}"
+                                                Style="{StaticResource TextLinkButtonStyle}" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </Border>
+                </StackPanel>
+
+                <Border Style="{StaticResource HairlineListStyle}">
+                    <!-- Versión: siempre al final, también en Release -->
+                    <Border Style="{StaticResource HairlineRowStyle}">
+                        <TextBlock x:Uid="Config_Version" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" />
+                    </Border>
                 </Border>
             </StackPanel>
         </helpers:PanelCentrado>

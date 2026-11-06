@@ -19,7 +19,7 @@ public enum DestinoShell
 }
 
 /// <summary>
-/// Destino del Shell. El menú lleva Inicio, hasta dos módulos principales y Más; los demás módulos son destinos
+/// Destino del Shell. El menú lleva Inicio, Mis recibos, Aparatos y Configuración (Más); los demás módulos son destinos
 /// que se abren desde Más (y desde enlaces) sin tener pestaña.
 /// </summary>
 public sealed record ElementoNavegacion(DestinoShell Destino, string Titulo, ModuloApp? Modulo = null);
@@ -138,13 +138,21 @@ public sealed partial class ShellViewModel(IPerfilService perfiles, ITextos text
         var modulos = await perfiles.ObtenerModulosActivosAsync();
         var menu = ModulosPrincipales.Calcular(modulos);
 
-        // Inicio, hasta dos módulos principales y Más.
+        // Inicio, Mis recibos, Aparatos y Configuración (Fase 9a).
         List<ElementoNavegacion> elementos = [new(DestinoShell.Dashboard, textos["Nav_Dashboard"])];
         elementos.AddRange(menu.Principales.Select(m => new ElementoNavegacion(DestinoShell.Modulo, textos[$"Modulo_{m}"], m)));
         elementos.Add(new ElementoNavegacion(DestinoShell.Mas, textos["Nav_Mas"]));
         _sinPestana = menu.Secundarios.Select(m => new ElementoNavegacion(DestinoShell.Modulo, textos[$"Modulo_{m}"], m)).ToList();
 
         NuevaLecturaHabilitada = modulos.Contains(ModuloApp.Lecturas);
+
+        // Desde la Fase 9a el menú es el mismo con o sin modo avanzado: si no cambió, no se vuelve a armar (al
+        // reemplazar la lista, la pastilla se quedaba sin pestaña marcada aunque la página fuera la misma).
+        if (Elementos.SequenceEqual(elementos))
+        {
+            return;
+        }
+
         Seleccionado = null;
         Elementos = elementos;
         Seleccionado = elementos.First(e => e.Destino == seleccionar);

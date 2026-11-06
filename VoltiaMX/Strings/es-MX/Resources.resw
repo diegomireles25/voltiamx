@@ -477,7 +477,7 @@
     <value>Cargar datos de demo para conocer la app</value>
   </data>
   <data name="Recibo_CargarDemoAyuda.Text" xml:space="preserve">
-    <value>Son datos de ejemplo de una casa con tarifa 1C. Puedes quitarlos cuando quieras en Más.</value>
+    <value>Son datos de ejemplo de una casa con tarifa 1C. Puedes quitarlos cuando quieras en Configuración.</value>
   </data>
 
   <!-- Onboarding: objetivo -->
@@ -489,7 +489,7 @@
     <value>TODO LISTO</value>
   </data>
   <data name="Listo_Texto.Text" xml:space="preserve">
-    <value>Esto es lo que entendimos. Puedes cambiarlo cuando quieras en Más.</value>
+    <value>Esto es lo que entendimos. Puedes cambiarlo cuando quieras en Configuración.</value>
   </data>
   <data name="Listo_Terminar.Content" xml:space="preserve">
     <value>Ir a mi tablero</value>
@@ -557,7 +557,7 @@
     <value>Inicio</value>
   </data>
   <data name="Modulo_Lecturas" xml:space="preserve">
-    <value>Lecturas</value>
+    <value>Mis recibos</value>
   </data>
   <data name="Modulo_Predictor" xml:space="preserve">
     <value>Cómo se calcula tu recibo</value>
@@ -799,7 +799,7 @@
 
   <!-- Lecturas -->
   <data name="Lecturas_Titulo.Text" xml:space="preserve">
-    <value>LECTURAS</value>
+    <value>MIS RECIBOS</value>
   </data>
   <data name="DatosEjemplo_Etiqueta.Content" xml:space="preserve">
     <value>DATOS DE EJEMPLO</value>
@@ -808,7 +808,7 @@
     <value>Estás viendo datos de ejemplo. Quítalos para anotar tus lecturas reales.</value>
   </data>
   <data name="DatosEjemplo_IrAConfiguracion.Content" xml:space="preserve">
-    <value>Ir a Más</value>
+    <value>Ir a Configuración</value>
   </data>
   <data name="Lecturas_Fecha.Header" xml:space="preserve">
     <value>Fecha</value>
@@ -1021,7 +1021,7 @@
     <value>Anota dos lecturas en este recibo. Así calculamos cuánto vas a pagar y te lo explicamos.</value>
   </data>
   <data name="Predictor_IrALecturas.Content" xml:space="preserve">
-    <value>Ir a Lecturas</value>
+    <value>Ir a Mis recibos</value>
   </data>
   <data name="Predictor_PagoTitulo.Text" xml:space="preserve">
     <value>A ESTE RITMO VAS A PAGAR</value>
@@ -1302,7 +1302,7 @@
     <value>Elige desde cuándo aplica la tarifa.</value>
   </data>
   <data name="Config_TarifasTitulo.Text" xml:space="preserve">
-    <value>Tarifas</value>
+    <value>Tu tarifa</value>
   </data>
   <data name="Config_TarifasBoton.Content" xml:space="preserve">
     <value>Ver tarifas</value>
@@ -1785,7 +1785,7 @@
     <value>Para saber cuánto llevas, anota lo que marca tu medidor el día de corte y hoy.</value>
   </data>
   <data name="Metas_IrALecturas.Content" xml:space="preserve">
-    <value>Ir a Lecturas</value>
+    <value>Ir a Mis recibos</value>
   </data>
   <data name="Metas_LeyendaSuperada" xml:space="preserve">
     <value>Ya pasaste el objetivo de este recibo. La meta vuelve a medirse en el siguiente.</value>
@@ -2010,7 +2010,7 @@
     <value>La tarifa {0} no está entre tus tarifas. Puedes agregarla en Tarifas.</value>
   </data>
   <data name="Escanear_NoSeGuardaDemo" xml:space="preserve">
-    <value>Con los datos de ejemplo no se guardan lecturas escaneadas. Quítalos en Más para usar tus datos.</value>
+    <value>Con los datos de ejemplo no se guardan lecturas escaneadas. Quítalos en Configuración para usar tus datos.</value>
   </data>
   <data name="Escanear_Error_FaltaFecha" xml:space="preserve">
     <value>Escribe la fecha de la lectura.</value>
@@ -2043,7 +2043,7 @@
     <value>Con tu tarifa {0}: ${1:N2} calculados contra ${2:N2} del recibo.</value>
   </data>
   <data name="Config_NotificacionesTitulo.Text" xml:space="preserve">
-    <value>Notificaciones</value>
+    <value>Avisos</value>
   </data>
   <data name="Config_NotificacionesNoDisponibles.Text" xml:space="preserve">
     <value>Las notificaciones de Windows no están disponibles aquí. Tus avisos siguen apareciendo en Inicio.</value>
@@ -2385,7 +2385,7 @@
     <value>No pudimos guardar el archivo. Prueba en otra carpeta.</value>
   </data>
   <data name="Reportes_VolverConfiguracion.Content" xml:space="preserve">
-    <value>Volver a Más</value>
+    <value>Volver a Configuración</value>
   </data>
   <data name="Config_RespaldoTitulo.Text" xml:space="preserve">
     <value>Respaldo y restauración</value>
@@ -3177,10 +3177,10 @@
     <value>Lo que más gasta: {0}</value>
   </data>
   <data name="Nav_Mas" xml:space="preserve">
-    <value>Más</value>
+    <value>Configuración</value>
   </data>
   <data name="Mas_Titulo.Text" xml:space="preserve">
-    <value>MÁS</value>
+    <value>CONFIGURACIÓN</value>
   </data>
   <data name="Mas_Abrir" xml:space="preserve">
     <value>Abrir</value>
@@ -3216,7 +3216,7 @@
     <value>Mira cuánto gasta cada aparato de tu casa.</value>
   </data>
   <data name="Mas_Modulo_Lecturas_Titulo" xml:space="preserve">
-    <value>Lecturas</value>
+    <value>Mis recibos</value>
   </data>
   <data name="Mas_Modulo_Lecturas_Texto" xml:space="preserve">
     <value>Anota lo que marca tu medidor y mira tu historial.</value>
@@ -3240,7 +3240,7 @@
     <value>Guarda tus datos en un archivo y recupéralos después.</value>
   </data>
   <data name="Mas_NotificacionesTexto.Text" xml:space="preserve">
-    <value>Recibe avisos de tu día de corte y de tus metas.</value>
+    <value>Recibe un aviso de Windows antes de tu día de corte.</value>
   </data>
   <data name="Mas_DemoTitulo.Text" xml:space="preserve">
     <value>Datos de demostración</value>
@@ -3249,10 +3249,10 @@
     <value>Prueba la app con una casa de ejemplo.</value>
   </data>
   <data name="Mas_ModoTexto.Text" xml:space="preserve">
-    <value>Agrega aparatos, paneles solares e inquilinos a esta página.</value>
+    <value>Muestra herramientas de metas, reportes, paneles solares e inquilinos.</value>
   </data>
   <data name="Mas_OnboardingTexto.Text" xml:space="preserve">
-    <value>Vuelve a contestar las preguntas del inicio.</value>
+    <value>Corrige tu recibo o cambia tus respuestas.</value>
   </data>
   <data name="Dashboard_VerCalculo.Content" xml:space="preserve">
     <value>Ver cómo se calcula tu recibo</value>
@@ -3411,10 +3411,10 @@
     <value>No sustituye a tu recibo de CFE. Para pagar, usa siempre tu recibo.</value>
   </data>
   <data name="Mas_AyudaTitulo.Text" xml:space="preserve">
-    <value>Ayuda: qué significa cada palabra</value>
+    <value>Ayuda</value>
   </data>
   <data name="Mas_AyudaTexto.Text" xml:space="preserve">
-    <value>Cómo se calcula tu recibo y qué quiere decir cada palabra de la app.</value>
+    <value>Qué quiere decir cada palabra y cómo se calcula tu recibo.</value>
   </data>
   <data name="Mas_AyudaBoton.Content" xml:space="preserve">
     <value>Abrir ayuda</value>
@@ -3519,7 +3519,7 @@
     <value>Agregar un recibo anterior por su monto</value>
   </data>
   <data name="ReciboMonto_Volver.Content" xml:space="preserve">
-    <value>Volver a Lecturas</value>
+    <value>Volver a Mis recibos</value>
   </data>
   <data name="ReciboMonto_Titulo.Text" xml:space="preserve">
     <value>UN RECIBO ANTERIOR POR SU MONTO</value>
@@ -3592,5 +3592,14 @@
   </data>
   <data name="Resumen_ReciboPorMonto" xml:space="preserve">
     <value>Pagaste ${0:N0}: unos {1:N0} kWh (aproximado)</value>
+  </data>
+  <data name="Mas_HerramientasTitulo.Text" xml:space="preserve">
+    <value>HERRAMIENTAS AVANZADAS</value>
+  </data>
+  <data name="Mas_Modulo_Reportes_Titulo" xml:space="preserve">
+    <value>Reportes y exportación</value>
+  </data>
+  <data name="Mas_Modulo_Reportes_Texto" xml:space="preserve">
+    <value>Descarga tu reporte en PDF y tus datos en Excel.</value>
   </data>
 </root>

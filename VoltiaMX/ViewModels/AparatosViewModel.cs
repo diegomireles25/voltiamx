@@ -35,7 +35,8 @@ public sealed record FilaAparato(
     string CostoTexto,
     IRelayCommand Editar,
     IAsyncRelayCommand Eliminar,
-    IRelayCommand Simular);
+    IRelayCommand Simular,
+    bool MostrarSimular);
 
 /// <summary>
 /// Aparatos del lugar principal: lista, alta desde plantilla o a mano y editor en la misma página.
@@ -44,6 +45,7 @@ public sealed record FilaAparato(
 public sealed partial class AparatosViewModel(
     IAparatoService aparatos,
     ILecturaService lecturas,
+    IPerfilService perfiles,
     IDialogos dialogos,
     ITarifaCalculator calculadora,
     ITextos textos) : ObservableObject
@@ -58,6 +60,9 @@ public sealed partial class AparatosViewModel(
     private CancellationTokenSource? _aviso;
     private IReadOnlyList<Aparato> _lista = [];
     private CostosDelLugar? _costos;
+
+    // El simulador de ahorro es una herramienta del modo avanzado (Fase 9a, D4).
+    private bool _modoAvanzado;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(AgregarAparatoCommand))]
@@ -129,6 +134,7 @@ public sealed partial class AparatosViewModel(
         TieneLugar = lugar is not null;
         EsDemo = lugar?.EsDemo == true;
         PreciosDeEjemplo = lugar?.PreciosDeEjemplo == true;
+        _modoAvanzado = (await perfiles.ObtenerPerfilAsync())?.ModoAvanzado == true;
         await RecargarListaAsync();
     }
 
@@ -150,7 +156,8 @@ public sealed partial class AparatosViewModel(
                 new RelayCommand(() => Editar(id)),
                 new AsyncRelayCommand(() => EliminarAsync(id, nombre)),
                 new RelayCommand(() => WeakReferenceMessenger.Default.Send(
-                    new IrAModuloMensaje(ModuloApp.Aparatos, SeccionesAparatos.SimuladorDe(id))))));
+                    new IrAModuloMensaje(ModuloApp.Aparatos, SeccionesAparatos.SimuladorDe(id)))),
+                _modoAvanzado));
         }
 
         TieneAparatos = Filas.Count > 0;
