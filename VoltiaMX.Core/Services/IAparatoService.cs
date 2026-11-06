@@ -34,4 +34,12 @@ public interface IAparatoService
     /// Valores típicos para empezar a capturar (de ejemplo, no de la etiqueta del aparato).
     /// </summary>
     IReadOnlyList<PlantillaAparato> PlantillasDeReferencia();
+
+    /// <summary>
+    /// "Elegir mis aparatos" (Fase 9d, D1): crea los aparatos típicos nuevos con los valores de su plantilla y, de
+    /// los que ya existen, solo cambia las horas y la cantidad (la potencia ajustada en el editor completo se
+    /// conserva). Elimina los de <paramref name="quitar"/> (los que la persona desmarcó). Con un error no guarda nada.
+    /// </summary>
+    Task<ResultadoGuardarElegidos> GuardarElegidosAsync(
+        int lugarId, IReadOnlyList<AparatoElegido> elegidos, IReadOnlyList<int> quitar, CancellationToken cancellationToken = default);
 }

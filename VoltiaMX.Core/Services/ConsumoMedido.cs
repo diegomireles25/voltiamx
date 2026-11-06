@@ -27,4 +27,21 @@ public static class ConsumoMedido
 
         return lugar.Periodos.MaxBy(p => p.Fin) is { } ultimo ? ultimo.KwhTotales / meses : null;
     }
+
+    /// <summary>
+    /// El consumo de <see cref="KwhPorMes"/> es aproximado: no hay lecturas que midan el recibo actual y sale del
+    /// último recibo, que se calculó con lo que se pagó (recibo por monto, <see cref="Periodo.Estimado"/>).
+    /// </summary>
+    public static bool EsAproximado(Lugar lugar, DateOnly hoy)
+    {
+        ArgumentNullException.ThrowIfNull(lugar);
+        var ventana = PeriodoActual.Ventana(lugar, hoy);
+        var (kwh, diasMedidos) = PeriodoActual.Consumo(PeriodoActual.LecturasMedidas(lugar.Lecturas, ventana, hoy), ventana);
+        if (kwh is not null && diasMedidos > 0)
+        {
+            return false;
+        }
+
+        return lugar.Periodos.MaxBy(p => p.Fin)?.Estimado == true;
+    }
 }

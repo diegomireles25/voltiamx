@@ -1524,10 +1524,10 @@
     <value>Lavadora</value>
   </data>
   <data name="Plantilla_IluminacionLed" xml:space="preserve">
-    <value>Iluminación LED</value>
+    <value>Foco o lámpara LED</value>
   </data>
   <data name="Plantilla_Televisor" xml:space="preserve">
-    <value>Televisor</value>
+    <value>Televisión</value>
   </data>
   <data name="Plantilla_Computadora" xml:space="preserve">
     <value>Computadora</value>
@@ -3799,5 +3799,23 @@
   </data>
   <data name="Lecturas_MedidorTitulo.Text" xml:space="preserve">
     <value>LO QUE MARCA TU MEDIDOR</value>
+  </data>
+  <data name="Plantilla_CalentadorDeAgua" xml:space="preserve">
+    <value>Calentador de agua eléctrico</value>
+  </data>
+  <data name="Plantilla_Modem" xml:space="preserve">
+    <value>Módem de internet</value>
+  </data>
+  <data name="Plantilla_Cafetera" xml:space="preserve">
+    <value>Cafetera</value>
+  </data>
+  <data name="Plantilla_Licuadora" xml:space="preserve">
+    <value>Licuadora</value>
+  </data>
+  <data name="Plantilla_Televisor_Anterior" xml:space="preserve">
+    <value>Televisor</value>
+  </data>
+  <data name="Plantilla_IluminacionLed_Anterior" xml:space="preserve">
+    <value>Iluminación LED</value>
   </data>
 </root>

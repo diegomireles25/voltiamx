@@ -142,11 +142,12 @@ public sealed class AparatoServiceTests : IAsyncLifetime
     }
 
     [Fact]
-    public void PlantillasDeReferencia_DiezValidasYSinClavesRepetidas()
+    public void PlantillasDeReferencia_CatorceValidasYSinClavesRepetidas()
     {
+        // Fase 9d (D3): 14 aparatos típicos de un hogar (antes 10).
         var plantillas = _servicio.PlantillasDeReferencia();
 
-        Assert.Equal(10, plantillas.Count);
+        Assert.Equal(14, plantillas.Count);
         Assert.Equal(plantillas.Count, plantillas.Select(p => p.Clave).Distinct().Count());
         foreach (var plantilla in plantillas)
         {

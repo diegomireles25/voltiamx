@@ -153,6 +153,61 @@ public sealed class ResumenDashboardServiceTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task ReciboPorLlegar_ConLecturasYElPeriodoTerminado()
+    {
+        // Fase 9d (D5): recibo que cerró el 19 de agosto; el actual va del 20 de agosto al 19 de octubre (hoy) y tiene
+        // dos lecturas, pero ninguna del día de corte: el recibo ya debió llegar.
+        await LugarConReciboAsync(new DateOnly(2026, 8, 19), lecturas:
+        [
+            new Lectura { Fecha = new DateOnly(2026, 8, 25), ValorKwh = 1_000m },
+            new Lectura { Fecha = new DateOnly(2026, 10, 10), ValorKwh = 1_500m },
+        ]);
+
+        var resumen = await _servicio.ObtenerAsync(Hoy);
+
+        Assert.Equal(EstadoPantallaInicio.ConLecturas, resumen!.EstadoInicio);
+        Assert.True(resumen.PeriodoTerminado);
+        Assert.True(resumen.ReciboPorLlegar);
+    }
+
+    [Fact]
+    public async Task ReciboPorLlegar_ConElPeriodoEnCurso_No()
+    {
+        await LugarConReciboAsync(new DateOnly(2026, 9, 26), lecturas:
+        [
+            new Lectura { Fecha = new DateOnly(2026, 10, 1), ValorKwh = 1_000m },
+            new Lectura { Fecha = new DateOnly(2026, 10, 15), ValorKwh = 1_140m },
+        ]);
+
+        Assert.False((await _servicio.ObtenerAsync(Hoy))!.ReciboPorLlegar);
+    }
+
+    [Fact]
+    public async Task SiSiguesIgual_LaFechaEsLaDelUltimoRecibo()
+    {
+        // Fase 9d (D6): "Según tu recibo del …" usa el corte del recibo más reciente, no el del primero.
+        var tarifa = await TarifaAsync("1C");
+        await AgregarLugarAsync(new Lugar
+        {
+            Nombre = "Mi casa",
+            TarifaId = tarifa.Id,
+            DiaCorte = 26,
+            MesesPorPeriodo = 2,
+            Periodos =
+            [
+                new Periodo { Inicio = new(2026, 5, 27), Fin = new(2026, 7, 26), KwhTotales = 500m, Monto = 1m, Estimado = true },
+                new Periodo { Inicio = new(2026, 7, 27), Fin = new(2026, 9, 26), KwhTotales = 600m, Monto = 1m, Estimado = true },
+            ],
+        });
+
+        var resumen = await _servicio.ObtenerAsync(Hoy);
+
+        Assert.Equal(EstadoPantallaInicio.ReciboSinLecturas, resumen!.EstadoInicio);
+        Assert.Equal(new DateOnly(2026, 9, 26), resumen.FechaCorteUltimoRecibo);
+        Assert.Equal(675m, resumen.MontoReciboAnterior);
+    }
+
+    [Fact]
     public async Task ObtenerAsync_SinLugares_DevuelveNull()
     {
         Assert.Null(await _servicio.ObtenerAsync(Hoy));

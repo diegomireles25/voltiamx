@@ -7,18 +7,24 @@ namespace VoltiaMX.Core.Services;
 public sealed class AparatoService(IDbContextFactory<VoltiaDbContext> fabrica, ITarifaCalculator calculadora) : IAparatoService
 {
     // EJEMPLO: valores típicos de referencia, no de un aparato real; la persona debe usar los de su etiqueta.
+    // Fase 9d (D3): aparatos típicos de un hogar, de los que más suelen pesar al mes a los que menos (≈ kWh al mes
+    // con estos valores, solo para el orden). SuelenSerVarios: "Elegir mis aparatos" pregunta cuántos hay.
     private static readonly PlantillaAparato[] Plantillas =
     [
-        new("AireAcondicionado", CategoriaAparato.Climatizacion, 1_100m, 8m, 7, 0.9m), // EJEMPLO
-        new("Refrigerador", CategoriaAparato.Refrigeracion, 250m, 24m, 7, 0.5m), // EJEMPLO
-        new("Lavadora", CategoriaAparato.Lavado, 500m, 1m, 3, 1m), // EJEMPLO
-        new("IluminacionLed", CategoriaAparato.Iluminacion, 10m, 6m, 7, 1m), // EJEMPLO
-        new("Televisor", CategoriaAparato.Electronica, 100m, 5m, 7, 1m), // EJEMPLO
-        new("Computadora", CategoriaAparato.Electronica, 150m, 6m, 5, 1m), // EJEMPLO
-        new("Microondas", CategoriaAparato.Cocina, 1_200m, 0.25m, 7, 1m), // EJEMPLO
-        new("Ventilador", CategoriaAparato.Climatizacion, 60m, 8m, 7, 1m), // EJEMPLO
-        new("Plancha", CategoriaAparato.Lavado, 1_000m, 1m, 2, 0.6m), // EJEMPLO
-        new("BombaDeAgua", CategoriaAparato.Otro, 750m, 1m, 7, 1m), // EJEMPLO
+        new("AireAcondicionado", CategoriaAparato.Climatizacion, 1_100m, 8m, 7, 0.9m, SuelenSerVarios: true), // EJEMPLO ≈ 240
+        new("Refrigerador", CategoriaAparato.Refrigeracion, 250m, 24m, 7, 0.5m), // EJEMPLO ≈ 91
+        new("CalentadorDeAgua", CategoriaAparato.Otro, 1_500m, 1m, 7, 1m), // EJEMPLO ≈ 46
+        new("BombaDeAgua", CategoriaAparato.Otro, 750m, 1m, 7, 1m), // EJEMPLO ≈ 23
+        new("Computadora", CategoriaAparato.Electronica, 150m, 6m, 5, 1m, SuelenSerVarios: true), // EJEMPLO ≈ 20
+        new("Televisor", CategoriaAparato.Electronica, 100m, 5m, 7, 1m, SuelenSerVarios: true), // EJEMPLO ≈ 15
+        new("Ventilador", CategoriaAparato.Climatizacion, 60m, 8m, 7, 1m, SuelenSerVarios: true), // EJEMPLO ≈ 15
+        new("Microondas", CategoriaAparato.Cocina, 1_200m, 0.25m, 7, 1m), // EJEMPLO ≈ 9
+        new("Modem", CategoriaAparato.Electronica, 10m, 24m, 7, 1m), // EJEMPLO ≈ 7
+        new("Lavadora", CategoriaAparato.Lavado, 500m, 1m, 3, 1m), // EJEMPLO ≈ 6.5
+        new("Cafetera", CategoriaAparato.Cocina, 800m, 0.25m, 7, 1m), // EJEMPLO ≈ 6
+        new("Plancha", CategoriaAparato.Lavado, 1_000m, 1m, 2, 0.6m), // EJEMPLO ≈ 5
+        new("IluminacionLed", CategoriaAparato.Iluminacion, 10m, 5m, 7, 1m, SuelenSerVarios: true), // EJEMPLO ≈ 1.5 por foco
+        new("Licuadora", CategoriaAparato.Cocina, 400m, 0.1m, 7, 1m), // EJEMPLO ≈ 1.2
     ];
 
     public async Task<IReadOnlyList<Aparato>> ListarAsync(int lugarId, CancellationToken cancellationToken = default)
@@ -112,8 +118,63 @@ public sealed class AparatoService(IDbContextFactory<VoltiaDbContext> fabrica, I
             SugerenciasAhorro.Generar(lugar.Aparatos, calculadora, lugar.Tarifa, lugar.MesesPorPeriodo, medido),
             lugar.Tarifa,
             lugar.MesesPorPeriodo,
-            medido);
+            medido,
+            ConsumoMedido.EsAproximado(lugar, hoy));
     }
 
     public IReadOnlyList<PlantillaAparato> PlantillasDeReferencia() => Plantillas;
+
+    public async Task<ResultadoGuardarElegidos> GuardarElegidosAsync(
+        int lugarId, IReadOnlyList<AparatoElegido> elegidos, IReadOnlyList<int> quitar, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(elegidos);
+        ArgumentNullException.ThrowIfNull(quitar);
+        await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
+        var existentes = await db.Aparatos.Where(a => a.LugarId == lugarId).ToDictionaryAsync(a => a.Id, cancellationToken);
+
+        // Primero se valida todo: con un error no se guarda nada.
+        var errores = new Dictionary<string, IReadOnlyList<CodigoErrorAparato>>();
+        var cambios = new List<(Aparato? Existente, AparatoEditable Editable)>();
+        foreach (var elegido in elegidos)
+        {
+            var existente = elegido.Id is int id ? existentes.GetValueOrDefault(id) : null;
+            var editable = AparatosTipicos.Editable(elegido, lugarId, existente);
+            var deEste = AparatoValidador.Validar(editable);
+            if (deEste.Count > 0)
+            {
+                errores[elegido.Plantilla.Clave] = deEste;
+            }
+
+            cambios.Add((existente, editable));
+        }
+
+        if (errores.Count > 0)
+        {
+            return new ResultadoGuardarElegidos(errores);
+        }
+
+        foreach (var (existente, editable) in cambios)
+        {
+            var entidad = existente ?? db.Aparatos.Add(new Aparato { LugarId = lugarId }).Entity;
+            entidad.Nombre = editable.Nombre.Trim();
+            entidad.Categoria = editable.Categoria;
+            entidad.Cantidad = editable.Cantidad;
+            entidad.Watts = editable.Watts;
+            entidad.HorasPorDia = editable.HorasPorDia;
+            entidad.DiasPorSemana = editable.DiasPorSemana;
+            entidad.CicloDeTrabajo = editable.CicloDeTrabajo;
+        }
+
+        // Solo los que la persona desmarcó, y solo de este lugar.
+        foreach (var id in quitar.Distinct())
+        {
+            if (existentes.TryGetValue(id, out var aparato))
+            {
+                db.Aparatos.Remove(aparato);
+            }
+        }
+
+        await db.SaveChangesAsync(cancellationToken);
+        return new ResultadoGuardarElegidos(errores);
+    }
 }

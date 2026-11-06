@@ -79,6 +79,7 @@ public sealed class ResumenDashboardService(
             ? proyeccion.Proyectar(kwh, diasMedidos, diasDelPeriodo, tarifa, meses)
             : null;
 
+        var estadoInicio = EstadoInicio.Evaluar(cerrados.Count, lugar.Lecturas.Count, inicio, kwhHastaHoy is not null, hoy);
         var resumen = new ResumenDashboard
         {
             LugarId = lugar.Id,
@@ -101,7 +102,8 @@ public sealed class ResumenDashboardService(
             PromedioDiarioKwh = proyectado?.PromedioDiarioKwh,
             DesgloseProyectado = proyectado?.Calculo,
             Historial = Historial(cerrados, inicio, fin, proyectado),
-            EstadoInicio = EstadoInicio.Evaluar(cerrados.Count, lugar.Lecturas.Count, inicio, kwhHastaHoy is not null, hoy),
+            EstadoInicio = estadoInicio,
+            ReciboPorLlegar = EstadoInicio.ReciboPorLlegar(estadoInicio, hoy >= fin),
             UltimoReciboEstimado = cerrados.Count > 0 && cerrados[^1].Estimado,
             FechaCorteUltimoRecibo = cerrados.Count > 0 ? cerrados[^1].Fin : null,
             // D6: el recibo anterior con la tarifa de hoy, para que la comparación dependa solo del consumo.

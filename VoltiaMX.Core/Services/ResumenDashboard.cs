@@ -135,6 +135,11 @@ public sealed record ResumenDashboard
     public EstadoPantallaInicio EstadoInicio { get; init; } = EstadoPantallaInicio.ConLecturas;
 
     /// <summary>
+    /// Fase 9d (D5): con lecturas y el periodo terminado, el recibo ya debió llegar (<see cref="Services.EstadoInicio.ReciboPorLlegar"/>).
+    /// </summary>
+    public bool ReciboPorLlegar { get; init; }
+
+    /// <summary>
     /// El último recibo cerrado es aproximado (por monto o con la lectura de corte estimada).
     /// </summary>
     public bool UltimoReciboEstimado { get; init; }

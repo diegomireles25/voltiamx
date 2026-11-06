@@ -16,7 +16,8 @@ public sealed record CostosAparatos(bool ConPesos, IReadOnlyList<CostoDeAparato>
 /// <summary>
 /// Lo que Inicio, Aparatos y Metas necesitan de los aparatos de un lugar. <see cref="Tarifa"/>,
 /// <see cref="MesesPorPeriodo"/> y <see cref="ConsumoMedidoMes"/> sirven para calcular el costo de un aparato
-/// que todavía se está escribiendo (vista previa del formulario).
+/// que todavía se está escribiendo (vista previa del formulario). <see cref="ConsumoAproximado"/>: el consumo de
+/// referencia sale de un recibo por monto, así que los costos también son aproximados (Fase 9d, D4).
 /// </summary>
 public sealed record CostosDelLugar(
     RankingAparatos Ranking,
@@ -24,7 +25,8 @@ public sealed record CostosDelLugar(
     SugerenciasDeAhorro Sugerencias,
     Tarifa? Tarifa = null,
     int MesesPorPeriodo = 1,
-    decimal? ConsumoMedidoMes = null)
+    decimal? ConsumoMedidoMes = null,
+    bool ConsumoAproximado = false)
 {
     /// <summary>
     /// Costo mensual de un aparato con la tarifa y el consumo del lugar; null si no se puede calcular en pesos.

@@ -46,4 +46,11 @@ public static class EstadoInicio
 
         return consumoMedido ? EstadoPantallaInicio.ConLecturas : EstadoPantallaInicio.ReciboSinLecturas;
     }
+
+    /// <summary>
+    /// Fase 9d (D5): con lecturas y el recibo actual ya terminado (sin la lectura de su día de corte), el recibo ya
+    /// debió llegar: Inicio pide agregarlo en lugar de mostrar "DÍA n DE n".
+    /// </summary>
+    public static bool ReciboPorLlegar(EstadoPantallaInicio estado, bool periodoTerminado)
+        => estado == EstadoPantallaInicio.ConLecturas && periodoTerminado;
 }

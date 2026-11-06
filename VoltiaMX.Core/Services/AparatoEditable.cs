@@ -23,7 +23,8 @@ public sealed record ResultadoGuardarAparato(int? Id, IReadOnlyList<CodigoErrorA
 
 /// <summary>
 /// Valores típicos de referencia para empezar a capturar un aparato. El nombre visible sale de
-/// los recursos de la app con <see cref="Clave"/>.
+/// los recursos de la app con <see cref="Clave"/>. <see cref="SuelenSerVarios"/>: en una casa suele haber más de
+/// uno (focos, ventiladores, televisiones), así que "Elegir mis aparatos" pregunta cuántos hay (Fase 9d).
 /// </summary>
 public sealed record PlantillaAparato(
     string Clave,
@@ -31,4 +32,5 @@ public sealed record PlantillaAparato(
     decimal Watts,
     decimal HorasPorDia,
     int DiasPorSemana,
-    decimal CicloDeTrabajo);
+    decimal CicloDeTrabajo,
+    bool SuelenSerVarios = false);

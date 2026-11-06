@@ -55,4 +55,23 @@ public sealed class EstadoInicioTests
     {
         Assert.Equal(EstadoPantallaInicio.ReciboSinLecturas, EstadoInicio.Evaluar(1, 0, Hoy, false, Hoy));
     }
+
+    // ---- Fase 9d (D5): el recibo ya debió llegar ----
+
+    [Fact]
+    public void ReciboPorLlegar_ConLecturasYElPeriodoTerminado()
+    {
+        Assert.True(EstadoInicio.ReciboPorLlegar(EstadoPantallaInicio.ConLecturas, periodoTerminado: true));
+    }
+
+    [Theory]
+    [InlineData(EstadoPantallaInicio.ConLecturas, false)]
+    [InlineData(EstadoPantallaInicio.ReciboSinLecturas, true)]
+    [InlineData(EstadoPantallaInicio.SinRecibo, true)]
+    [InlineData(EstadoPantallaInicio.FechaFutura, true)]
+    public void ReciboPorLlegar_SoloConLecturas(EstadoPantallaInicio estado, bool periodoTerminado)
+    {
+        // Sin lecturas, "Si sigues igual…" ya habla del recibo anterior; con el periodo en curso no falta nada.
+        Assert.False(EstadoInicio.ReciboPorLlegar(estado, periodoTerminado));
+    }
 }
