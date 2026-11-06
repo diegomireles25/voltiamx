@@ -16,255 +16,257 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel
-            MaxWidth="{StaticResource ContentMaxWidth}"
-            Padding="{StaticResource PagePadding}"
-            Spacing="{StaticResource Spacing40}">
+        <!-- Contenido centrado con ancho máximo (Styles/Controls.xaml, PageContentHostStyle) -->
+        <helpers:PanelCentrado Style="{StaticResource PageContentHostStyle}">
+            <StackPanel
+                Padding="{StaticResource PagePadding}"
+                Spacing="{StaticResource Spacing40}">
 
-            <StackPanel Spacing="{StaticResource Spacing16}">
-                <Button
-                    x:Uid="Reportes_VolverConfiguracion"
-                    Command="{x:Bind ViewModel.IrAConfiguracionCommand}"
-                    Style="{StaticResource TextLinkButtonSmStyle}" />
-                <TextBlock
-                    x:Uid="Respaldo_Titulo"
-                    AutomationProperties.HeadingLevel="Level1"
-                    Style="{StaticResource HeadingLgTextStyle}" />
-                <TextBlock
-                    x:Uid="Respaldo_Privacidad"
-                    Foreground="{StaticResource SlateBrush}"
-                    Style="{StaticResource BodySmTextStyle}"
-                    TextWrapping="Wrap" />
-                <TextBlock
-                    x:Uid="Respaldo_ExcelNoRestaura"
-                    Foreground="{StaticResource SlateBrush}"
-                    Style="{StaticResource BodySmTextStyle}"
-                    TextWrapping="Wrap" />
-                <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
-            </StackPanel>
-
-            <!-- Después de restaurar: sin datos viejos, solo el aviso de cerrar la app -->
-            <TextBlock
-                x:Uid="Respaldo_RestauradoPagina"
-                AutomationProperties.LiveSetting="Assertive"
-                Style="{StaticResource BodyTextStyle}"
-                TextWrapping="Wrap"
-                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Restaurado), Mode=OneWay}" />
-
-            <StackPanel Spacing="{StaticResource Spacing40}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarContenido), Mode=OneWay}">
-
-                <!-- Crear y restaurar -->
-                <Border Style="{StaticResource HairlineListStyle}">
-                    <StackPanel>
-                        <Border Style="{StaticResource HairlineRowStyle}">
-                            <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Spacing="{StaticResource Spacing8}">
-                                    <TextBlock
-                                        x:Uid="Respaldo_CrearTitulo"
-                                        AutomationProperties.HeadingLevel="Level2"
-                                        Style="{StaticResource CaptionTextStyle}" />
-                                    <TextBlock
-                                        x:Uid="Respaldo_CrearTexto"
-                                        Foreground="{StaticResource SlateBrush}"
-                                        Style="{StaticResource BodySmTextStyle}"
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-                                <Button
-                                    x:Uid="Respaldo_Crear"
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Command="{x:Bind ViewModel.CrearRespaldoCommand}"
-                                    Style="{StaticResource PrimaryButtonStyle}" />
-                            </Grid>
-                        </Border>
-                        <Border Style="{StaticResource HairlineRowStyle}">
-                            <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Spacing="{StaticResource Spacing8}">
-                                    <TextBlock
-                                        x:Uid="Respaldo_RestaurarTitulo"
-                                        AutomationProperties.HeadingLevel="Level2"
-                                        Style="{StaticResource CaptionTextStyle}" />
-                                    <TextBlock
-                                        x:Uid="Respaldo_RestaurarTexto"
-                                        Foreground="{StaticResource SlateBrush}"
-                                        Style="{StaticResource BodySmTextStyle}"
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-                                <Button
-                                    x:Uid="Respaldo_Elegir"
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Command="{x:Bind ViewModel.ElegirRespaldoCommand}"
-                                    Style="{StaticResource GhostButtonStyle}" />
-                            </Grid>
-                        </Border>
-
-                        <!-- Contenido del respaldo validado -->
-                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Contenido}">
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="vm:FilaDatoRespaldo">
-                                    <Border Style="{StaticResource HairlineRowStyle}">
-                                        <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                Foreground="{StaticResource SlateBrush}"
-                                                Style="{StaticResource BodySmTextStyle}"
-                                                Text="{x:Bind Etiqueta}" />
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                VerticalAlignment="Center"
-                                                Style="{StaticResource SubheadingTextStyle}"
-                                                Text="{x:Bind Valor}" />
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
-                        </ItemsRepeater>
-
-                        <!-- Motivo del rechazo -->
-                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Rechazo), Mode=OneWay}">
-                            <Grid ColumnSpacing="{StaticResource Spacing16}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <ContentPresenter x:Uid="Respaldo_EtiquetaRechazo" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
-                                <TextBlock
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    AutomationProperties.LiveSetting="Assertive"
-                                    Style="{StaticResource BodyTextStyle}"
-                                    Text="{x:Bind ViewModel.Rechazo, Mode=OneWay}"
-                                    TextWrapping="Wrap" />
-                            </Grid>
-                        </Border>
-                    </StackPanel>
-                </Border>
-
-                <!-- La única tarjeta: la advertencia antes de restaurar -->
-                <ContentPresenter Style="{StaticResource InvertedCardStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.RespaldoValido), Mode=OneWay}">
-                    <Grid ColumnSpacing="{StaticResource Spacing24}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Spacing="{StaticResource Spacing8}">
-                            <TextBlock x:Uid="Respaldo_AdvertenciaTitulo" Style="{StaticResource HeadingSmTextStyle}" TextWrapping="Wrap" />
-                            <TextBlock x:Uid="Respaldo_AdvertenciaTexto" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
-                        </StackPanel>
-                        <Button
-                            x:Uid="Respaldo_Restaurar"
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            Command="{x:Bind ViewModel.RestaurarCommand}"
-                            Style="{StaticResource PrimaryOnDarkButtonStyle}" />
-                    </Grid>
-                </ContentPresenter>
-
-                <!-- Estado, resultado y errores -->
-                <StackPanel Spacing="{StaticResource Spacing8}">
-                    <TextBlock
-                        x:Uid="Respaldo_Trabajando"
-                        AutomationProperties.LiveSetting="Polite"
-                        Style="{StaticResource BodyTextStyle}"
-                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Trabajando), Mode=OneWay}" />
-                    <TextBlock
-                        AutomationProperties.LiveSetting="Polite"
-                        Style="{StaticResource BodyTextStyle}"
-                        Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
-                        TextWrapping="Wrap"
-                        Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
-                    <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
-                        <Grid ColumnSpacing="{StaticResource Spacing16}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
-                            <TextBlock
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                AutomationProperties.LiveSetting="Assertive"
-                                Style="{StaticResource BodyTextStyle}"
-                                Text="{x:Bind ViewModel.Error, Mode=OneWay}"
-                                TextWrapping="Wrap" />
-                        </Grid>
-                    </Border>
-                    <!-- Solo en Debug: la página agrega aquí las rutas para pruebas automatizadas -->
-                    <StackPanel x:Name="ZonaDepuracion" Spacing="{StaticResource Spacing8}" />
-                </StackPanel>
-
-                <!-- Copias automáticas -->
                 <StackPanel Spacing="{StaticResource Spacing16}">
+                    <Button
+                        x:Uid="Reportes_VolverConfiguracion"
+                        Command="{x:Bind ViewModel.IrAConfiguracionCommand}"
+                        Style="{StaticResource TextLinkButtonSmStyle}" />
                     <TextBlock
-                        x:Uid="Respaldo_CopiasTitulo"
-                        AutomationProperties.HeadingLevel="Level2"
-                        Style="{StaticResource CaptionTextStyle}" />
+                        x:Uid="Respaldo_Titulo"
+                        AutomationProperties.HeadingLevel="Level1"
+                        Style="{StaticResource HeadingLgTextStyle}" />
                     <TextBlock
-                        x:Uid="Respaldo_CopiasTexto"
+                        x:Uid="Respaldo_Privacidad"
                         Foreground="{StaticResource SlateBrush}"
                         Style="{StaticResource BodySmTextStyle}"
                         TextWrapping="Wrap" />
+                    <TextBlock
+                        x:Uid="Respaldo_ExcelNoRestaura"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodySmTextStyle}"
+                        TextWrapping="Wrap" />
+                    <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
+                </StackPanel>
+
+                <!-- Después de restaurar: sin datos viejos, solo el aviso de cerrar la app -->
+                <TextBlock
+                    x:Uid="Respaldo_RestauradoPagina"
+                    AutomationProperties.LiveSetting="Assertive"
+                    Style="{StaticResource BodyTextStyle}"
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Restaurado), Mode=OneWay}" />
+
+                <StackPanel Spacing="{StaticResource Spacing40}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarContenido), Mode=OneWay}">
+
+                    <!-- Crear y restaurar -->
                     <Border Style="{StaticResource HairlineListStyle}">
                         <StackPanel>
-                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Copias}">
+                            <Border Style="{StaticResource HairlineRowStyle}">
+                                <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Spacing="{StaticResource Spacing8}">
+                                        <TextBlock
+                                            x:Uid="Respaldo_CrearTitulo"
+                                            AutomationProperties.HeadingLevel="Level2"
+                                            Style="{StaticResource CaptionTextStyle}" />
+                                        <TextBlock
+                                            x:Uid="Respaldo_CrearTexto"
+                                            Foreground="{StaticResource SlateBrush}"
+                                            Style="{StaticResource BodySmTextStyle}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <Button
+                                        x:Uid="Respaldo_Crear"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Command="{x:Bind ViewModel.CrearRespaldoCommand}"
+                                        Style="{StaticResource PrimaryButtonStyle}" />
+                                </Grid>
+                            </Border>
+                            <Border Style="{StaticResource HairlineRowStyle}">
+                                <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Spacing="{StaticResource Spacing8}">
+                                        <TextBlock
+                                            x:Uid="Respaldo_RestaurarTitulo"
+                                            AutomationProperties.HeadingLevel="Level2"
+                                            Style="{StaticResource CaptionTextStyle}" />
+                                        <TextBlock
+                                            x:Uid="Respaldo_RestaurarTexto"
+                                            Foreground="{StaticResource SlateBrush}"
+                                            Style="{StaticResource BodySmTextStyle}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <Button
+                                        x:Uid="Respaldo_Elegir"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Command="{x:Bind ViewModel.ElegirRespaldoCommand}"
+                                        Style="{StaticResource GhostButtonStyle}" />
+                                </Grid>
+                            </Border>
+
+                            <!-- Contenido del respaldo validado -->
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Contenido}">
                                 <ItemsRepeater.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:FilaCopiaRespaldo">
+                                    <DataTemplate x:DataType="vm:FilaDatoRespaldo">
                                         <Border Style="{StaticResource HairlineRowStyle}">
                                             <Grid ColumnSpacing="{StaticResource Spacing24}">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     VerticalAlignment="Center"
-                                                    Style="{StaticResource SubheadingTextStyle}"
-                                                    Text="{x:Bind Fecha}" />
+                                                    Foreground="{StaticResource SlateBrush}"
+                                                    Style="{StaticResource BodySmTextStyle}"
+                                                    Text="{x:Bind Etiqueta}" />
                                                 <TextBlock
                                                     Grid.Column="1"
                                                     VerticalAlignment="Center"
-                                                    Style="{StaticResource CaptionTextStyle}"
-                                                    Text="{x:Bind Tipo}" />
-                                                <TextBlock
-                                                    Grid.Column="2"
-                                                    VerticalAlignment="Center"
-                                                    Foreground="{StaticResource SlateBrush}"
-                                                    Style="{StaticResource BodySmTextStyle}"
-                                                    Text="{x:Bind Tamano}" />
+                                                    Style="{StaticResource SubheadingTextStyle}"
+                                                    Text="{x:Bind Valor}" />
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsRepeater.ItemTemplate>
                             </ItemsRepeater>
-                            <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.HayCopias), Mode=OneWay}">
-                                <TextBlock
-                                    x:Uid="Respaldo_SinCopias"
-                                    Foreground="{StaticResource SlateBrush}"
-                                    Style="{StaticResource BodySmTextStyle}"
-                                    TextWrapping="Wrap" />
+
+                            <!-- Motivo del rechazo -->
+                            <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Rechazo), Mode=OneWay}">
+                                <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter x:Uid="Respaldo_EtiquetaRechazo" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.LiveSetting="Assertive"
+                                        Style="{StaticResource BodyTextStyle}"
+                                        Text="{x:Bind ViewModel.Rechazo, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
+                                </Grid>
                             </Border>
                         </StackPanel>
                     </Border>
-                    <Button
-                        x:Uid="Respaldo_AbrirCarpeta"
-                        Command="{x:Bind ViewModel.AbrirCarpetaCommand}"
-                        Style="{StaticResource TextLinkButtonStyle}"
-                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.HayCopias), Mode=OneWay}" />
+
+                    <!-- La única tarjeta: la advertencia antes de restaurar -->
+                    <ContentPresenter Style="{StaticResource InvertedCardStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.RespaldoValido), Mode=OneWay}">
+                        <Grid ColumnSpacing="{StaticResource Spacing24}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Spacing="{StaticResource Spacing8}">
+                                <TextBlock x:Uid="Respaldo_AdvertenciaTitulo" Style="{StaticResource HeadingSmTextStyle}" TextWrapping="Wrap" />
+                                <TextBlock x:Uid="Respaldo_AdvertenciaTexto" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
+                            </StackPanel>
+                            <Button
+                                x:Uid="Respaldo_Restaurar"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Command="{x:Bind ViewModel.RestaurarCommand}"
+                                Style="{StaticResource PrimaryOnDarkButtonStyle}" />
+                        </Grid>
+                    </ContentPresenter>
+
+                    <!-- Estado, resultado y errores -->
+                    <StackPanel Spacing="{StaticResource Spacing8}">
+                        <TextBlock
+                            x:Uid="Respaldo_Trabajando"
+                            AutomationProperties.LiveSetting="Polite"
+                            Style="{StaticResource BodyTextStyle}"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Trabajando), Mode=OneWay}" />
+                        <TextBlock
+                            AutomationProperties.LiveSetting="Polite"
+                            Style="{StaticResource BodyTextStyle}"
+                            Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
+                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
+                            <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    AutomationProperties.LiveSetting="Assertive"
+                                    Style="{StaticResource BodyTextStyle}"
+                                    Text="{x:Bind ViewModel.Error, Mode=OneWay}"
+                                    TextWrapping="Wrap" />
+                            </Grid>
+                        </Border>
+                        <!-- Solo en Debug: la página agrega aquí las rutas para pruebas automatizadas -->
+                        <StackPanel x:Name="ZonaDepuracion" Spacing="{StaticResource Spacing8}" />
+                    </StackPanel>
+
+                    <!-- Copias automáticas -->
+                    <StackPanel Spacing="{StaticResource Spacing16}">
+                        <TextBlock
+                            x:Uid="Respaldo_CopiasTitulo"
+                            AutomationProperties.HeadingLevel="Level2"
+                            Style="{StaticResource CaptionTextStyle}" />
+                        <TextBlock
+                            x:Uid="Respaldo_CopiasTexto"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            TextWrapping="Wrap" />
+                        <Border Style="{StaticResource HairlineListStyle}">
+                            <StackPanel>
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Copias}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:FilaCopiaRespaldo">
+                                            <Border Style="{StaticResource HairlineRowStyle}">
+                                                <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource SubheadingTextStyle}"
+                                                        Text="{x:Bind Fecha}" />
+                                                    <TextBlock
+                                                        Grid.Column="1"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource CaptionTextStyle}"
+                                                        Text="{x:Bind Tipo}" />
+                                                    <TextBlock
+                                                        Grid.Column="2"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="{StaticResource SlateBrush}"
+                                                        Style="{StaticResource BodySmTextStyle}"
+                                                        Text="{x:Bind Tamano}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                                <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.HayCopias), Mode=OneWay}">
+                                    <TextBlock
+                                        x:Uid="Respaldo_SinCopias"
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource BodySmTextStyle}"
+                                        TextWrapping="Wrap" />
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                        <Button
+                            x:Uid="Respaldo_AbrirCarpeta"
+                            Command="{x:Bind ViewModel.AbrirCarpetaCommand}"
+                            Style="{StaticResource TextLinkButtonStyle}"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.HayCopias), Mode=OneWay}" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </helpers:PanelCentrado>
     </ScrollViewer>
 </Page>

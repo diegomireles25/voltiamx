@@ -16,144 +16,146 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel
-            MaxWidth="{StaticResource ContentMaxWidth}"
-            Padding="{StaticResource PagePadding}"
-            Spacing="{StaticResource Spacing40}">
-
-            <StackPanel Spacing="{StaticResource Spacing16}">
-                <TextBlock
-                    x:Uid="Predictor_Titulo"
-                    AutomationProperties.HeadingLevel="Level1"
-                    Style="{StaticResource HeadingLgTextStyle}" />
-                <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
-                <local:AvisoPreciosDeEjemplo Comando="{x:Bind ViewModel.IrATarifasCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PreciosDeEjemplo), Mode=OneWay}" />
-            </StackPanel>
-
-            <!-- Sin base para proyectar -->
-            <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneProyeccion), Mode=OneWay}">
-                <TextBlock x:Uid="Predictor_VacioTitulo" Style="{StaticResource SubheadingLgTextStyle}" />
-                <TextBlock
-                    x:Uid="Predictor_VacioTexto"
-                    Foreground="{StaticResource SlateBrush}"
-                    Style="{StaticResource BodyTextStyle}"
-                    TextWrapping="Wrap" />
-                <Button
-                    x:Uid="Predictor_IrALecturas"
-                    Command="{x:Bind ViewModel.IrALecturasCommand}"
-                    Style="{StaticResource TextLinkButtonStyle}" />
-            </StackPanel>
-
-            <!-- Pago proyectado y recibo explicado -->
-            <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneProyeccion), Mode=OneWay}">
-                <StackPanel Spacing="{StaticResource Spacing8}">
-                    <TextBlock x:Uid="Predictor_PagoTitulo" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
-                    <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.MontoTexto, Mode=OneWay}" />
-                    <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.KwhTexto, Mode=OneWay}" />
-                </StackPanel>
+        <!-- Contenido centrado con ancho máximo (Styles/Controls.xaml, PageContentHostStyle) -->
+        <helpers:PanelCentrado Style="{StaticResource PageContentHostStyle}">
+            <StackPanel
+                Padding="{StaticResource PagePadding}"
+                Spacing="{StaticResource Spacing40}">
 
                 <StackPanel Spacing="{StaticResource Spacing16}">
-                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                    <TextBlock
+                        x:Uid="Predictor_Titulo"
+                        AutomationProperties.HeadingLevel="Level1"
+                        Style="{StaticResource HeadingLgTextStyle}" />
+                    <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
+                    <local:AvisoPreciosDeEjemplo Comando="{x:Bind ViewModel.IrATarifasCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PreciosDeEjemplo), Mode=OneWay}" />
+                </StackPanel>
+
+                <!-- Sin base para proyectar -->
+                <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneProyeccion), Mode=OneWay}">
+                    <TextBlock x:Uid="Predictor_VacioTitulo" Style="{StaticResource SubheadingLgTextStyle}" />
+                    <TextBlock
+                        x:Uid="Predictor_VacioTexto"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodyTextStyle}"
+                        TextWrapping="Wrap" />
+                    <Button
+                        x:Uid="Predictor_IrALecturas"
+                        Command="{x:Bind ViewModel.IrALecturasCommand}"
+                        Style="{StaticResource TextLinkButtonStyle}" />
+                </StackPanel>
+
+                <!-- Pago proyectado y recibo explicado -->
+                <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneProyeccion), Mode=OneWay}">
+                    <StackPanel Spacing="{StaticResource Spacing8}">
+                        <TextBlock x:Uid="Predictor_PagoTitulo" Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" />
+                        <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.MontoTexto, Mode=OneWay}" />
+                        <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind ViewModel.KwhTexto, Mode=OneWay}" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="{StaticResource Spacing16}">
+                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                            <TextBlock
+                                x:Uid="Predictor_ReciboTitulo"
+                                VerticalAlignment="Center"
+                                AutomationProperties.HeadingLevel="Level2"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource CaptionTextStyle}" />
+                            <local:TerminoAyuda Clave="TramosDePrecio" />
+                        </StackPanel>
+                        <Border Style="{StaticResource HairlineListStyle}">
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Recibo}">
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:FilaRecibo">
+                                        <Border Style="{StaticResource HairlineRowStyle}">
+                                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    VerticalAlignment="Center"
+                                                    Style="{x:Bind helpers:Conversiones.EstiloFilaRecibo(EsTotal)}"
+                                                    Text="{x:Bind Concepto}" />
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    VerticalAlignment="Center"
+                                                    Style="{x:Bind helpers:Conversiones.EstiloFilaRecibo(EsTotal)}"
+                                                    Text="{x:Bind Detalle}" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                        </Border>
+                        <StackPanel Spacing="{StaticResource Spacing8}">
+                            <TextBlock
+                                x:Uid="Predictor_NotaMontos"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource CaptionTextStyle}"
+                                TextWrapping="Wrap" />
+                            <local:TerminoAyuda Clave="AntesDeImpuestos" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Riesgo DAC -->
+                <StackPanel Spacing="{StaticResource Spacing16}">
+                    <Grid>
                         <TextBlock
-                            x:Uid="Predictor_ReciboTitulo"
+                            x:Uid="Predictor_DacTitulo"
                             VerticalAlignment="Center"
                             AutomationProperties.HeadingLevel="Level2"
                             Foreground="{StaticResource SlateBrush}"
                             Style="{StaticResource CaptionTextStyle}" />
-                        <local:TerminoAyuda Clave="TramosDePrecio" />
-                    </StackPanel>
+                        <ContentPresenter
+                            HorizontalAlignment="Right"
+                            Content="{x:Bind ViewModel.TextoNivelDac, Mode=OneWay}"
+                            Style="{x:Bind helpers:Conversiones.EstiloDac(ViewModel.NivelDac), Mode=OneWay}"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDac), Mode=OneWay}" />
+                    </Grid>
+
                     <Border Style="{StaticResource HairlineListStyle}">
-                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Recibo}">
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="vm:FilaRecibo">
-                                    <Border Style="{StaticResource HairlineRowStyle}">
-                                        <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                Style="{x:Bind helpers:Conversiones.EstiloFilaRecibo(EsTotal)}"
-                                                Text="{x:Bind Concepto}" />
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                VerticalAlignment="Center"
-                                                Style="{x:Bind helpers:Conversiones.EstiloFilaRecibo(EsTotal)}"
-                                                Text="{x:Bind Detalle}" />
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
-                        </ItemsRepeater>
+                        <StackPanel>
+                            <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDac), Mode=OneWay}">
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind ViewModel.PromedioDacTexto, Mode=OneWay}" TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource BodySmTextStyle}"
+                                        Text="{x:Bind ViewModel.MargenDacTexto, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.DacNoAplica), Mode=OneWay}">
+                                <TextBlock x:Uid="Predictor_DacNoAplica" Style="{StaticResource BodyTextStyle}" TextWrapping="Wrap" />
+                            </Border>
+                            <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.DacSinDatos), Mode=OneWay}">
+                                <TextBlock x:Uid="Predictor_DacSinDatos" Style="{StaticResource BodyTextStyle}" TextWrapping="Wrap" />
+                            </Border>
+                            <Border Style="{StaticResource HairlineRowStyle}">
+                                <TextBlock
+                                    x:Uid="Predictor_DacNota"
+                                    Foreground="{StaticResource SlateBrush}"
+                                    Style="{StaticResource CaptionTextStyle}"
+                                    TextWrapping="Wrap" />
+                            </Border>
+                        </StackPanel>
                     </Border>
-                    <StackPanel Spacing="{StaticResource Spacing8}">
-                        <TextBlock
-                            x:Uid="Predictor_NotaMontos"
-                            Foreground="{StaticResource SlateBrush}"
-                            Style="{StaticResource CaptionTextStyle}"
-                            TextWrapping="Wrap" />
-                        <local:TerminoAyuda Clave="AntesDeImpuestos" />
-                    </StackPanel>
+
+                    <!-- La única tarjeta de la pantalla -->
+                    <ContentPresenter Style="{StaticResource CardStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.DacNoAplica), Mode=OneWay}">
+                        <StackPanel Spacing="{StaticResource Spacing8}">
+                            <TextBlock x:Uid="Predictor_DacExplicacionTitulo" Style="{StaticResource SubheadingTextStyle}" />
+                            <TextBlock
+                                x:Uid="Predictor_DacExplicacion"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource BodyTextStyle}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </ContentPresenter>
                 </StackPanel>
             </StackPanel>
-
-            <!-- Riesgo DAC -->
-            <StackPanel Spacing="{StaticResource Spacing16}">
-                <Grid>
-                    <TextBlock
-                        x:Uid="Predictor_DacTitulo"
-                        VerticalAlignment="Center"
-                        AutomationProperties.HeadingLevel="Level2"
-                        Foreground="{StaticResource SlateBrush}"
-                        Style="{StaticResource CaptionTextStyle}" />
-                    <ContentPresenter
-                        HorizontalAlignment="Right"
-                        Content="{x:Bind ViewModel.TextoNivelDac, Mode=OneWay}"
-                        Style="{x:Bind helpers:Conversiones.EstiloDac(ViewModel.NivelDac), Mode=OneWay}"
-                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDac), Mode=OneWay}" />
-                </Grid>
-
-                <Border Style="{StaticResource HairlineListStyle}">
-                    <StackPanel>
-                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDac), Mode=OneWay}">
-                            <StackPanel Spacing="{StaticResource Spacing8}">
-                                <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind ViewModel.PromedioDacTexto, Mode=OneWay}" TextWrapping="Wrap" />
-                                <TextBlock
-                                    Foreground="{StaticResource SlateBrush}"
-                                    Style="{StaticResource BodySmTextStyle}"
-                                    Text="{x:Bind ViewModel.MargenDacTexto, Mode=OneWay}"
-                                    TextWrapping="Wrap" />
-                            </StackPanel>
-                        </Border>
-                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.DacNoAplica), Mode=OneWay}">
-                            <TextBlock x:Uid="Predictor_DacNoAplica" Style="{StaticResource BodyTextStyle}" TextWrapping="Wrap" />
-                        </Border>
-                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.DacSinDatos), Mode=OneWay}">
-                            <TextBlock x:Uid="Predictor_DacSinDatos" Style="{StaticResource BodyTextStyle}" TextWrapping="Wrap" />
-                        </Border>
-                        <Border Style="{StaticResource HairlineRowStyle}">
-                            <TextBlock
-                                x:Uid="Predictor_DacNota"
-                                Foreground="{StaticResource SlateBrush}"
-                                Style="{StaticResource CaptionTextStyle}"
-                                TextWrapping="Wrap" />
-                        </Border>
-                    </StackPanel>
-                </Border>
-
-                <!-- La única tarjeta de la pantalla -->
-                <ContentPresenter Style="{StaticResource CardStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.DacNoAplica), Mode=OneWay}">
-                    <StackPanel Spacing="{StaticResource Spacing8}">
-                        <TextBlock x:Uid="Predictor_DacExplicacionTitulo" Style="{StaticResource SubheadingTextStyle}" />
-                        <TextBlock
-                            x:Uid="Predictor_DacExplicacion"
-                            Foreground="{StaticResource SlateBrush}"
-                            Style="{StaticResource BodyTextStyle}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
-                </ContentPresenter>
-            </StackPanel>
-        </StackPanel>
+        </helpers:PanelCentrado>
     </ScrollViewer>
 </Page>

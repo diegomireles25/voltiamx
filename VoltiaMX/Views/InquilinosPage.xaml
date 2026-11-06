@@ -16,240 +16,242 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel
-            MaxWidth="{StaticResource ContentMaxWidth}"
-            Padding="{StaticResource PagePadding}"
-            Spacing="{StaticResource Spacing40}">
+        <!-- Contenido centrado con ancho máximo (Styles/Controls.xaml, PageContentHostStyle) -->
+        <helpers:PanelCentrado Style="{StaticResource PageContentHostStyle}">
+            <StackPanel
+                Padding="{StaticResource PagePadding}"
+                Spacing="{StaticResource Spacing40}">
 
-            <StackPanel Spacing="{StaticResource Spacing16}">
-                <Grid ColumnSpacing="{StaticResource Spacing24}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock
-                        x:Uid="Inquilinos_Titulo"
-                        AutomationProperties.HeadingLevel="Level1"
-                        Style="{StaticResource HeadingLgTextStyle}" />
-                    <Button
-                        x:Uid="Inquilinos_NuevoReparto"
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Command="{x:Bind ViewModel.NuevoRepartoCommand}"
-                        Style="{StaticResource PrimaryButtonStyle}" />
-                </Grid>
-                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
-                    <TextBlock
-                        x:Uid="Inquilinos_MedidorPropio"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource BodySmTextStyle}" />
-                    <local:TerminoAyuda Clave="MedidorPropio" />
-                </StackPanel>
-                <TextBlock
-                    x:Uid="Inquilinos_Privacidad"
-                    Foreground="{StaticResource SlateBrush}"
-                    Style="{StaticResource BodySmTextStyle}"
-                    TextWrapping="Wrap" />
-                <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
-            </StackPanel>
-
-            <!-- Agregar o editar -->
-            <StackPanel Spacing="{StaticResource Spacing16}">
-                <Grid ColumnSpacing="{StaticResource Spacing16}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBox
-                        x:Uid="Inquilinos_Nombre"
-                        IsEnabled="{x:Bind ViewModel.TieneLugar, Mode=OneWay}"
-                        KeyUp="AlSoltarTeclaEnCampo"
-                        MaxLength="40"
-                        Style="{StaticResource InputStyle}"
-                        Text="{x:Bind ViewModel.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button
-                        Grid.Column="1"
-                        VerticalAlignment="Bottom"
-                        Command="{x:Bind ViewModel.GuardarCommand}"
-                        Content="{x:Bind ViewModel.TextoGuardar, Mode=OneWay}"
-                        Style="{StaticResource GhostButtonStyle}" />
-                    <Button
-                        x:Uid="Inquilinos_Cancelar"
-                        Grid.Column="2"
-                        VerticalAlignment="Bottom"
-                        Command="{x:Bind ViewModel.CancelarCommand}"
-                        Style="{StaticResource TextLinkButtonStyle}"
-                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EnEdicion), Mode=OneWay}" />
-                </Grid>
-
-                <!-- Errores de validación: filas destacadas -->
-                <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneErrores), Mode=OneWay}">
-                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Errores}">
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Border Style="{StaticResource HairlineRowStyle}">
-                                    <Grid ColumnSpacing="{StaticResource Spacing16}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            AutomationProperties.LiveSetting="Assertive"
-                                            Style="{StaticResource BodyTextStyle}"
-                                            Text="{x:Bind}"
-                                            TextWrapping="Wrap" />
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
-                </Border>
-
-                <TextBlock
-                    AutomationProperties.LiveSetting="Polite"
-                    Style="{StaticResource BodyTextStyle}"
-                    Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
-                    TextWrapping="Wrap"
-                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
-                <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
-                    <Grid ColumnSpacing="{StaticResource Spacing16}">
+                <StackPanel Spacing="{StaticResource Spacing16}">
+                    <Grid ColumnSpacing="{StaticResource Spacing24}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
                         <TextBlock
+                            x:Uid="Inquilinos_Titulo"
+                            AutomationProperties.HeadingLevel="Level1"
+                            Style="{StaticResource HeadingLgTextStyle}" />
+                        <Button
+                            x:Uid="Inquilinos_NuevoReparto"
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            AutomationProperties.LiveSetting="Assertive"
-                            Style="{StaticResource BodyTextStyle}"
-                            Text="{x:Bind ViewModel.Error, Mode=OneWay}"
-                            TextWrapping="Wrap" />
+                            Command="{x:Bind ViewModel.NuevoRepartoCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}" />
                     </Grid>
-                </Border>
-                <!-- Solo en Debug: la página agrega aquí la carpeta de salida para pruebas automatizadas -->
-                <StackPanel x:Name="ZonaDepuracion" Spacing="{StaticResource Spacing8}" />
-            </StackPanel>
-
-            <!-- Tus inquilinos -->
-            <StackPanel Spacing="{StaticResource Spacing16}">
-                <TextBlock
-                    x:Uid="Inquilinos_ListaTitulo"
-                    AutomationProperties.HeadingLevel="Level2"
-                    Style="{StaticResource CaptionTextStyle}" />
-                <Border Style="{StaticResource HairlineListStyle}">
-                    <StackPanel>
-                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Filas}">
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="vm:FilaInquilino">
-                                    <Border Style="{StaticResource HairlineRowStyle}">
-                                        <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                Style="{StaticResource SubheadingTextStyle}"
-                                                Text="{x:Bind Nombre}"
-                                                TextTrimming="CharacterEllipsis" />
-                                            <Grid Grid.Column="1" VerticalAlignment="Center">
-                                                <ContentPresenter x:Uid="Inquilinos_EtiquetaActivo" Style="{StaticResource MintTagStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(Activo)}" />
-                                                <ContentPresenter x:Uid="Inquilinos_EtiquetaBaja" Style="{StaticResource YellowTagStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(Activo)}" />
-                                            </Grid>
-                                            <StackPanel
-                                                Grid.Column="2"
-                                                VerticalAlignment="Center"
-                                                Orientation="Horizontal"
-                                                Spacing="{StaticResource Spacing16}">
-                                                <Button x:Uid="Inquilinos_Editar" Command="{x:Bind Editar}" Style="{StaticResource TextLinkButtonSmStyle}" />
-                                                <Button Command="{x:Bind AccionEstado}" Content="{x:Bind TextoEstado}" Style="{StaticResource TextLinkButtonSmStyle}" />
-                                                <Button
-                                                    x:Uid="Inquilinos_Eliminar"
-                                                    Command="{x:Bind Eliminar}"
-                                                    Style="{StaticResource TextLinkButtonSmStyle}"
-                                                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(PuedeEliminar)}" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
-                        </ItemsRepeater>
-                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarVacio), Mode=OneWay}">
-                            <StackPanel Spacing="{StaticResource Spacing8}">
-                                <TextBlock x:Uid="Inquilinos_VacioTitulo" Style="{StaticResource SubheadingTextStyle}" />
-                                <TextBlock
-                                    x:Uid="Inquilinos_VacioTexto"
-                                    Foreground="{StaticResource SlateBrush}"
-                                    Style="{StaticResource BodySmTextStyle}"
-                                    TextWrapping="Wrap" />
-                            </StackPanel>
-                        </Border>
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                        <TextBlock
+                            x:Uid="Inquilinos_MedidorPropio"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodySmTextStyle}" />
+                        <local:TerminoAyuda Clave="MedidorPropio" />
                     </StackPanel>
-                </Border>
-            </StackPanel>
+                    <TextBlock
+                        x:Uid="Inquilinos_Privacidad"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodySmTextStyle}"
+                        TextWrapping="Wrap" />
+                    <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
+                </StackPanel>
 
-            <!-- Historial de repartos -->
-            <StackPanel Spacing="{StaticResource Spacing16}">
-                <TextBlock
-                    x:Uid="Inquilinos_HistorialTitulo"
-                    AutomationProperties.HeadingLevel="Level2"
-                    Style="{StaticResource CaptionTextStyle}" />
-                <TextBlock
-                    x:Uid="Inquilinos_HistorialTexto"
-                    Foreground="{StaticResource SlateBrush}"
-                    Style="{StaticResource BodySmTextStyle}"
-                    TextWrapping="Wrap" />
-                <Border Style="{StaticResource HairlineListStyle}">
-                    <StackPanel>
-                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Repartos}">
+                <!-- Agregar o editar -->
+                <StackPanel Spacing="{StaticResource Spacing16}">
+                    <Grid ColumnSpacing="{StaticResource Spacing16}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox
+                            x:Uid="Inquilinos_Nombre"
+                            IsEnabled="{x:Bind ViewModel.TieneLugar, Mode=OneWay}"
+                            KeyUp="AlSoltarTeclaEnCampo"
+                            MaxLength="40"
+                            Style="{StaticResource InputStyle}"
+                            Text="{x:Bind ViewModel.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button
+                            Grid.Column="1"
+                            VerticalAlignment="Bottom"
+                            Command="{x:Bind ViewModel.GuardarCommand}"
+                            Content="{x:Bind ViewModel.TextoGuardar, Mode=OneWay}"
+                            Style="{StaticResource GhostButtonStyle}" />
+                        <Button
+                            x:Uid="Inquilinos_Cancelar"
+                            Grid.Column="2"
+                            VerticalAlignment="Bottom"
+                            Command="{x:Bind ViewModel.CancelarCommand}"
+                            Style="{StaticResource TextLinkButtonStyle}"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EnEdicion), Mode=OneWay}" />
+                    </Grid>
+
+                    <!-- Errores de validación: filas destacadas -->
+                    <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneErrores), Mode=OneWay}">
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Errores}">
                             <ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="vm:FilaReparto">
+                                <DataTemplate x:DataType="x:String">
                                     <Border Style="{StaticResource HairlineRowStyle}">
-                                        <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                        <Grid ColumnSpacing="{StaticResource Spacing16}">
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <StackPanel Spacing="{StaticResource Spacing8}">
-                                                <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Periodo}" />
-                                                <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" Text="{x:Bind Detalle}" />
-                                            </StackPanel>
+                                            <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
                                             <TextBlock
                                                 Grid.Column="1"
                                                 VerticalAlignment="Center"
-                                                Style="{StaticResource SubheadingTextStyle}"
-                                                Text="{x:Bind Total}" />
-                                            <StackPanel
-                                                Grid.Column="2"
-                                                VerticalAlignment="Center"
-                                                Orientation="Horizontal"
-                                                Spacing="{StaticResource Spacing16}">
-                                                <Button x:Uid="Inquilinos_Ver" Command="{x:Bind Ver}" Style="{StaticResource TextLinkButtonSmStyle}" />
-                                                <Button x:Uid="Inquilinos_ExportarPdf" Command="{x:Bind ExportarPdf}" Style="{StaticResource TextLinkButtonSmStyle}" />
-                                                <Button x:Uid="Inquilinos_EliminarReparto" Command="{x:Bind Eliminar}" Style="{StaticResource TextLinkButtonSmStyle}" />
-                                            </StackPanel>
+                                                AutomationProperties.LiveSetting="Assertive"
+                                                Style="{StaticResource BodyTextStyle}"
+                                                Text="{x:Bind}"
+                                                TextWrapping="Wrap" />
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
                             </ItemsRepeater.ItemTemplate>
                         </ItemsRepeater>
-                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SinRepartos), Mode=OneWay}">
+                    </Border>
+
+                    <TextBlock
+                        AutomationProperties.LiveSetting="Polite"
+                        Style="{StaticResource BodyTextStyle}"
+                        Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
+                    <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
+                        <Grid ColumnSpacing="{StaticResource Spacing16}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
                             <TextBlock
-                                x:Uid="Inquilinos_SinRepartos"
-                                Foreground="{StaticResource SlateBrush}"
-                                Style="{StaticResource BodySmTextStyle}"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                AutomationProperties.LiveSetting="Assertive"
+                                Style="{StaticResource BodyTextStyle}"
+                                Text="{x:Bind ViewModel.Error, Mode=OneWay}"
                                 TextWrapping="Wrap" />
-                        </Border>
-                    </StackPanel>
-                </Border>
+                        </Grid>
+                    </Border>
+                    <!-- Solo en Debug: la página agrega aquí la carpeta de salida para pruebas automatizadas -->
+                    <StackPanel x:Name="ZonaDepuracion" Spacing="{StaticResource Spacing8}" />
+                </StackPanel>
+
+                <!-- Tus inquilinos -->
+                <StackPanel Spacing="{StaticResource Spacing16}">
+                    <TextBlock
+                        x:Uid="Inquilinos_ListaTitulo"
+                        AutomationProperties.HeadingLevel="Level2"
+                        Style="{StaticResource CaptionTextStyle}" />
+                    <Border Style="{StaticResource HairlineListStyle}">
+                        <StackPanel>
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Filas}">
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:FilaInquilino">
+                                        <Border Style="{StaticResource HairlineRowStyle}">
+                                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    VerticalAlignment="Center"
+                                                    Style="{StaticResource SubheadingTextStyle}"
+                                                    Text="{x:Bind Nombre}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                                <Grid Grid.Column="1" VerticalAlignment="Center">
+                                                    <ContentPresenter x:Uid="Inquilinos_EtiquetaActivo" Style="{StaticResource MintTagStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(Activo)}" />
+                                                    <ContentPresenter x:Uid="Inquilinos_EtiquetaBaja" Style="{StaticResource YellowTagStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(Activo)}" />
+                                                </Grid>
+                                                <StackPanel
+                                                    Grid.Column="2"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal"
+                                                    Spacing="{StaticResource Spacing16}">
+                                                    <Button x:Uid="Inquilinos_Editar" Command="{x:Bind Editar}" Style="{StaticResource TextLinkButtonSmStyle}" />
+                                                    <Button Command="{x:Bind AccionEstado}" Content="{x:Bind TextoEstado}" Style="{StaticResource TextLinkButtonSmStyle}" />
+                                                    <Button
+                                                        x:Uid="Inquilinos_Eliminar"
+                                                        Command="{x:Bind Eliminar}"
+                                                        Style="{StaticResource TextLinkButtonSmStyle}"
+                                                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(PuedeEliminar)}" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                            <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarVacio), Mode=OneWay}">
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <TextBlock x:Uid="Inquilinos_VacioTitulo" Style="{StaticResource SubheadingTextStyle}" />
+                                    <TextBlock
+                                        x:Uid="Inquilinos_VacioTexto"
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource BodySmTextStyle}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Historial de repartos -->
+                <StackPanel Spacing="{StaticResource Spacing16}">
+                    <TextBlock
+                        x:Uid="Inquilinos_HistorialTitulo"
+                        AutomationProperties.HeadingLevel="Level2"
+                        Style="{StaticResource CaptionTextStyle}" />
+                    <TextBlock
+                        x:Uid="Inquilinos_HistorialTexto"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodySmTextStyle}"
+                        TextWrapping="Wrap" />
+                    <Border Style="{StaticResource HairlineListStyle}">
+                        <StackPanel>
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Repartos}">
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:FilaReparto">
+                                        <Border Style="{StaticResource HairlineRowStyle}">
+                                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                                    <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Periodo}" />
+                                                    <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" Text="{x:Bind Detalle}" />
+                                                </StackPanel>
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    VerticalAlignment="Center"
+                                                    Style="{StaticResource SubheadingTextStyle}"
+                                                    Text="{x:Bind Total}" />
+                                                <StackPanel
+                                                    Grid.Column="2"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal"
+                                                    Spacing="{StaticResource Spacing16}">
+                                                    <Button x:Uid="Inquilinos_Ver" Command="{x:Bind Ver}" Style="{StaticResource TextLinkButtonSmStyle}" />
+                                                    <Button x:Uid="Inquilinos_ExportarPdf" Command="{x:Bind ExportarPdf}" Style="{StaticResource TextLinkButtonSmStyle}" />
+                                                    <Button x:Uid="Inquilinos_EliminarReparto" Command="{x:Bind Eliminar}" Style="{StaticResource TextLinkButtonSmStyle}" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                            <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SinRepartos), Mode=OneWay}">
+                                <TextBlock
+                                    x:Uid="Inquilinos_SinRepartos"
+                                    Foreground="{StaticResource SlateBrush}"
+                                    Style="{StaticResource BodySmTextStyle}"
+                                    TextWrapping="Wrap" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </helpers:PanelCentrado>
     </ScrollViewer>
 </Page>

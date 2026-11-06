@@ -12,7 +12,16 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:helpers="using:VoltiaMX.Helpers"
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI">
+
+    <!--
+        Contenido de cada pantalla: hasta ContentMaxWidth de ancho y centrado en la ventana con ese ancho real
+        (ver Helpers/PanelCentrado.cs). Más angosta que eso, usa todo el ancho; el relleno lo pone la página.
+    -->
+    <Style x:Key="PageContentHostStyle" TargetType="helpers:PanelCentrado">
+        <Setter Property="AnchoMaximo" Value="{StaticResource ContentMaxWidth}" />
+    </Style>
 
     <!-- Apaga la sombra por defecto de flyouts y popups -->
     <x:Boolean x:Key="IsDefaultShadowEnabled">False</x:Boolean>

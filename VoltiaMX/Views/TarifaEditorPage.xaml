@@ -38,196 +38,198 @@
         </VisualStateManager.VisualStateGroups>
 
         <ScrollViewer>
-            <StackPanel
-                MaxWidth="{StaticResource ContentMaxWidth}"
-                Padding="{StaticResource PagePadding}"
-                Spacing="{StaticResource Spacing40}">
+            <!-- Contenido centrado con ancho máximo (Styles/Controls.xaml, PageContentHostStyle) -->
+            <helpers:PanelCentrado Style="{StaticResource PageContentHostStyle}">
+                <StackPanel
+                    Padding="{StaticResource PagePadding}"
+                    Spacing="{StaticResource Spacing40}">
 
-                <StackPanel Spacing="{StaticResource Spacing16}">
-                    <TextBlock
-                        AutomationProperties.HeadingLevel="Level1"
-                        Style="{StaticResource HeadingLgTextStyle}"
-                        Text="{x:Bind ViewModel.Titulo, Mode=OneWay}" />
-                    <TextBlock
-                        x:Uid="Tarifas_SinIvaNiDap"
-                        Foreground="{StaticResource SlateBrush}"
-                        Style="{StaticResource BodySmTextStyle}"
-                        TextWrapping="Wrap" />
-                </StackPanel>
-
-                <Grid ColumnSpacing="{StaticResource Spacing48}" RowSpacing="{StaticResource Spacing32}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <StackPanel x:Name="Formulario" Spacing="{StaticResource Spacing24}">
-                        <TextBox x:Uid="TarifaEditor_Nombre" Style="{StaticResource InputStyle}" Text="{x:Bind ViewModel.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <ComboBox
-                            x:Uid="TarifaEditor_Tipo"
-                            HorizontalAlignment="Stretch"
-                            ItemsSource="{x:Bind ViewModel.Tipos}"
-                            SelectedItem="{x:Bind ViewModel.TipoElegido, Mode=TwoWay}"
-                            Style="{StaticResource ComboBoxStyle}" />
-                        <CalendarDatePicker
-                            x:Uid="TarifaEditor_Vigencia"
-                            HorizontalAlignment="Stretch"
-                            Date="{x:Bind ViewModel.Vigencia, Mode=TwoWay}"
-                            Style="{StaticResource DatePickerStyle}" />
-                        <NumberBox x:Uid="TarifaEditor_CargoFijo" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.CargoFijo, Mode=TwoWay}" />
-                        <NumberBox
-                            x:Uid="TarifaEditor_LimiteDac"
-                            Style="{StaticResource NumberBoxStyle}"
-                            Value="{x:Bind ViewModel.LimiteDac, Mode=TwoWay}"
-                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDomestica), Mode=OneWay}" />
+                    <StackPanel Spacing="{StaticResource Spacing16}">
+                        <TextBlock
+                            AutomationProperties.HeadingLevel="Level1"
+                            Style="{StaticResource HeadingLgTextStyle}"
+                            Text="{x:Bind ViewModel.Titulo, Mode=OneWay}" />
+                        <TextBlock
+                            x:Uid="Tarifas_SinIvaNiDap"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            TextWrapping="Wrap" />
                     </StackPanel>
 
-                    <!-- La única tarjeta de la pantalla -->
-                    <ContentPresenter
-                        x:Name="ZonaPrevia"
-                        Grid.Column="1"
-                        VerticalAlignment="Top"
-                        Style="{StaticResource CardStyle}">
-                        <StackPanel Spacing="{StaticResource Spacing16}">
-                            <TextBlock x:Uid="TarifaEditor_AsiSeVeria" Style="{StaticResource CaptionTextStyle}" />
+                    <Grid ColumnSpacing="{StaticResource Spacing48}" RowSpacing="{StaticResource Spacing32}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel x:Name="Formulario" Spacing="{StaticResource Spacing24}">
+                            <TextBox x:Uid="TarifaEditor_Nombre" Style="{StaticResource InputStyle}" Text="{x:Bind ViewModel.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <ComboBox
+                                x:Uid="TarifaEditor_Tipo"
+                                HorizontalAlignment="Stretch"
+                                ItemsSource="{x:Bind ViewModel.Tipos}"
+                                SelectedItem="{x:Bind ViewModel.TipoElegido, Mode=TwoWay}"
+                                Style="{StaticResource ComboBoxStyle}" />
+                            <CalendarDatePicker
+                                x:Uid="TarifaEditor_Vigencia"
+                                HorizontalAlignment="Stretch"
+                                Date="{x:Bind ViewModel.Vigencia, Mode=TwoWay}"
+                                Style="{StaticResource DatePickerStyle}" />
+                            <NumberBox x:Uid="TarifaEditor_CargoFijo" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.CargoFijo, Mode=TwoWay}" />
+                            <NumberBox
+                                x:Uid="TarifaEditor_LimiteDac"
+                                Style="{StaticResource NumberBoxStyle}"
+                                Value="{x:Bind ViewModel.LimiteDac, Mode=TwoWay}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDomestica), Mode=OneWay}" />
+                        </StackPanel>
+
+                        <!-- La única tarjeta de la pantalla -->
+                        <ContentPresenter
+                            x:Name="ZonaPrevia"
+                            Grid.Column="1"
+                            VerticalAlignment="Top"
+                            Style="{StaticResource CardStyle}">
+                            <StackPanel Spacing="{StaticResource Spacing16}">
+                                <TextBlock x:Uid="TarifaEditor_AsiSeVeria" Style="{StaticResource CaptionTextStyle}" />
+                                <TextBlock
+                                    x:Uid="TarifaEditor_AsiSeVeriaTexto"
+                                    Foreground="{StaticResource SlateBrush}"
+                                    Style="{StaticResource BodySmTextStyle}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    x:Uid="TarifaEditor_SinVistaPrevia"
+                                    Foreground="{StaticResource SlateBrush}"
+                                    Style="{StaticResource BodyTextStyle}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneVistaPrevia), Mode=OneWay}" />
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.VistaPrevia}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:FilaVistaTarifa">
+                                            <Border Style="{StaticResource HairlineRowStyle}">
+                                                <Grid>
+                                                    <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind Consumo}" />
+                                                    <TextBlock HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Monto}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </StackPanel>
+                        </ContentPresenter>
+                    </Grid>
+
+                    <!-- Rangos -->
+                    <StackPanel Spacing="{StaticResource Spacing16}">
+                        <Grid>
                             <TextBlock
-                                x:Uid="TarifaEditor_AsiSeVeriaTexto"
+                                x:Uid="TarifaEditor_Rangos"
+                                VerticalAlignment="Center"
+                                AutomationProperties.HeadingLevel="Level2"
                                 Foreground="{StaticResource SlateBrush}"
-                                Style="{StaticResource BodySmTextStyle}"
-                                TextWrapping="Wrap" />
-                            <TextBlock
-                                x:Uid="TarifaEditor_SinVistaPrevia"
-                                Foreground="{StaticResource SlateBrush}"
-                                Style="{StaticResource BodyTextStyle}"
-                                TextWrapping="Wrap"
-                                Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneVistaPrevia), Mode=OneWay}" />
-                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.VistaPrevia}">
+                                Style="{StaticResource CaptionTextStyle}" />
+                            <Button
+                                x:Uid="TarifaEditor_AgregarRango"
+                                HorizontalAlignment="Right"
+                                Command="{x:Bind ViewModel.AgregarRangoCommand}"
+                                Style="{StaticResource GhostButtonStyle}" />
+                        </Grid>
+                        <Border Style="{StaticResource HairlineListStyle}">
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Rangos}">
                                 <ItemsRepeater.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:FilaVistaTarifa">
+                                    <DataTemplate x:DataType="vm:RangoEnEdicion">
                                         <Border Style="{StaticResource HairlineRowStyle}">
-                                            <Grid>
-                                                <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind Consumo}" />
-                                                <TextBlock HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Monto}" />
+                                            <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="2*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    VerticalAlignment="Center"
+                                                    Foreground="{StaticResource SlateBrush}"
+                                                    Style="{StaticResource CaptionTextStyle}"
+                                                    Text="{x:Bind Numero, Mode=OneWay}" />
+                                                <TextBox
+                                                    x:Uid="TarifaEditor_RangoNombre"
+                                                    Grid.Column="1"
+                                                    Style="{StaticResource InputStyle}"
+                                                    Text="{x:Bind Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                <TextBlock
+                                                    Grid.Column="2"
+                                                    VerticalAlignment="Bottom"
+                                                    Foreground="{StaticResource SlateBrush}"
+                                                    Style="{StaticResource CaptionTextStyle}"
+                                                    Text="{x:Bind DesdeTexto, Mode=OneWay}" />
+                                                <NumberBox
+                                                    x:Uid="TarifaEditor_RangoHasta"
+                                                    Grid.Column="3"
+                                                    IsEnabled="{x:Bind HastaEditable, Mode=OneWay}"
+                                                    Style="{StaticResource NumberBoxStyle}"
+                                                    Value="{x:Bind Hasta, Mode=TwoWay}" />
+                                                <NumberBox
+                                                    x:Uid="TarifaEditor_RangoPrecio"
+                                                    Grid.Column="4"
+                                                    Style="{StaticResource NumberBoxStyle}"
+                                                    Value="{x:Bind Precio, Mode=TwoWay}" />
+                                                <Button
+                                                    x:Uid="TarifaEditor_QuitarRango"
+                                                    Grid.Column="5"
+                                                    VerticalAlignment="Bottom"
+                                                    Command="{x:Bind Quitar}"
+                                                    Style="{StaticResource TextLinkButtonSmStyle}" />
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsRepeater.ItemTemplate>
                             </ItemsRepeater>
-                        </StackPanel>
-                    </ContentPresenter>
-                </Grid>
+                        </Border>
+                    </StackPanel>
 
-                <!-- Rangos -->
-                <StackPanel Spacing="{StaticResource Spacing16}">
-                    <Grid>
-                        <TextBlock
-                            x:Uid="TarifaEditor_Rangos"
-                            VerticalAlignment="Center"
-                            AutomationProperties.HeadingLevel="Level2"
-                            Foreground="{StaticResource SlateBrush}"
-                            Style="{StaticResource CaptionTextStyle}" />
-                        <Button
-                            x:Uid="TarifaEditor_AgregarRango"
-                            HorizontalAlignment="Right"
-                            Command="{x:Bind ViewModel.AgregarRangoCommand}"
-                            Style="{StaticResource GhostButtonStyle}" />
-                    </Grid>
-                    <Border Style="{StaticResource HairlineListStyle}">
-                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Rangos}">
+                    <!-- Errores de validación: filas destacadas -->
+                    <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneErrores), Mode=OneWay}">
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Errores}">
                             <ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="vm:RangoEnEdicion">
+                                <DataTemplate x:DataType="x:String">
                                     <Border Style="{StaticResource HairlineRowStyle}">
                                         <Grid ColumnSpacing="{StaticResource Spacing16}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="2*" />
                                                 <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
+                                            <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
                                             <TextBlock
-                                                VerticalAlignment="Center"
-                                                Foreground="{StaticResource SlateBrush}"
-                                                Style="{StaticResource CaptionTextStyle}"
-                                                Text="{x:Bind Numero, Mode=OneWay}" />
-                                            <TextBox
-                                                x:Uid="TarifaEditor_RangoNombre"
                                                 Grid.Column="1"
-                                                Style="{StaticResource InputStyle}"
-                                                Text="{x:Bind Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                            <TextBlock
-                                                Grid.Column="2"
-                                                VerticalAlignment="Bottom"
-                                                Foreground="{StaticResource SlateBrush}"
-                                                Style="{StaticResource CaptionTextStyle}"
-                                                Text="{x:Bind DesdeTexto, Mode=OneWay}" />
-                                            <NumberBox
-                                                x:Uid="TarifaEditor_RangoHasta"
-                                                Grid.Column="3"
-                                                IsEnabled="{x:Bind HastaEditable, Mode=OneWay}"
-                                                Style="{StaticResource NumberBoxStyle}"
-                                                Value="{x:Bind Hasta, Mode=TwoWay}" />
-                                            <NumberBox
-                                                x:Uid="TarifaEditor_RangoPrecio"
-                                                Grid.Column="4"
-                                                Style="{StaticResource NumberBoxStyle}"
-                                                Value="{x:Bind Precio, Mode=TwoWay}" />
-                                            <Button
-                                                x:Uid="TarifaEditor_QuitarRango"
-                                                Grid.Column="5"
-                                                VerticalAlignment="Bottom"
-                                                Command="{x:Bind Quitar}"
-                                                Style="{StaticResource TextLinkButtonSmStyle}" />
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource BodyTextStyle}"
+                                                Text="{x:Bind}"
+                                                TextWrapping="Wrap" />
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
                             </ItemsRepeater.ItemTemplate>
                         </ItemsRepeater>
                     </Border>
-                </StackPanel>
 
-                <!-- Errores de validación: filas destacadas -->
-                <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneErrores), Mode=OneWay}">
-                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Errores}">
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Border Style="{StaticResource HairlineRowStyle}">
-                                    <Grid ColumnSpacing="{StaticResource Spacing16}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            Style="{StaticResource BodyTextStyle}"
-                                            Text="{x:Bind}"
-                                            TextWrapping="Wrap" />
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
-                </Border>
-
-                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}">
-                    <Button
-                        x:Uid="TarifaEditor_GuardarBoton"
-                        Command="{x:Bind ViewModel.GuardarCommand}"
-                        Style="{StaticResource PrimaryButtonStyle}" />
-                    <Button
-                        x:Uid="TarifaEditor_Cancelar"
-                        VerticalAlignment="Center"
-                        Command="{x:Bind ViewModel.CancelarCommand}"
-                        Style="{StaticResource TextLinkButtonStyle}" />
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}">
+                        <Button
+                            x:Uid="TarifaEditor_GuardarBoton"
+                            Command="{x:Bind ViewModel.GuardarCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}" />
+                        <Button
+                            x:Uid="TarifaEditor_Cancelar"
+                            VerticalAlignment="Center"
+                            Command="{x:Bind ViewModel.CancelarCommand}"
+                            Style="{StaticResource TextLinkButtonStyle}" />
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
+            </helpers:PanelCentrado>
         </ScrollViewer>
     </Grid>
 </Page>

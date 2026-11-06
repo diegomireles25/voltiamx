@@ -15,134 +15,136 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel
-            MaxWidth="{StaticResource ContentMaxWidth}"
-            Padding="{StaticResource PagePadding}"
-            Spacing="{StaticResource Spacing40}">
+        <!-- Contenido centrado con ancho máximo (Styles/Controls.xaml, PageContentHostStyle) -->
+        <helpers:PanelCentrado Style="{StaticResource PageContentHostStyle}">
+            <StackPanel
+                Padding="{StaticResource PagePadding}"
+                Spacing="{StaticResource Spacing40}">
 
-            <StackPanel Spacing="{StaticResource Spacing16}">
-                <Button
-                    x:Uid="Reportes_VolverConfiguracion"
-                    Command="{x:Bind ViewModel.IrAConfiguracionCommand}"
-                    Style="{StaticResource TextLinkButtonSmStyle}" />
-                <TextBlock
-                    x:Uid="Reportes_Titulo"
-                    AutomationProperties.HeadingLevel="Level1"
-                    Style="{StaticResource HeadingLgTextStyle}" />
-                <TextBlock
-                    x:Uid="Reportes_Local"
-                    Foreground="{StaticResource SlateBrush}"
-                    Style="{StaticResource BodySmTextStyle}"
-                    TextWrapping="Wrap" />
-                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                <StackPanel Spacing="{StaticResource Spacing16}">
+                    <Button
+                        x:Uid="Reportes_VolverConfiguracion"
+                        Command="{x:Bind ViewModel.IrAConfiguracionCommand}"
+                        Style="{StaticResource TextLinkButtonSmStyle}" />
                     <TextBlock
-                        x:Uid="Reportes_AntesDeImpuestos"
-                        VerticalAlignment="Center"
+                        x:Uid="Reportes_Titulo"
+                        AutomationProperties.HeadingLevel="Level1"
+                        Style="{StaticResource HeadingLgTextStyle}" />
+                    <TextBlock
+                        x:Uid="Reportes_Local"
                         Foreground="{StaticResource SlateBrush}"
-                        Style="{StaticResource BodySmTextStyle}" />
-                    <local:TerminoAyuda VerticalAlignment="Center" Clave="AntesDeImpuestos" />
-                </StackPanel>
-                <TextBlock
-                    x:Uid="Reportes_Privacidad"
-                    Foreground="{StaticResource SlateBrush}"
-                    Style="{StaticResource BodySmTextStyle}"
-                    TextWrapping="Wrap" />
-                <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
-            </StackPanel>
-
-            <!-- Las dos exportaciones -->
-            <Border Style="{StaticResource HairlineListStyle}">
-                <StackPanel>
-                    <Border Style="{StaticResource HairlineRowStyle}">
-                        <Grid ColumnSpacing="{StaticResource Spacing24}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Spacing="{StaticResource Spacing8}">
-                                <TextBlock
-                                    x:Uid="Reportes_PdfTitulo"
-                                    AutomationProperties.HeadingLevel="Level2"
-                                    Style="{StaticResource CaptionTextStyle}" />
-                                <TextBlock
-                                    x:Uid="Reportes_PdfTexto"
-                                    Foreground="{StaticResource SlateBrush}"
-                                    Style="{StaticResource BodySmTextStyle}"
-                                    TextWrapping="Wrap" />
-                            </StackPanel>
-                            <Button
-                                x:Uid="Reportes_ExportarPdf"
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                Command="{x:Bind ViewModel.ExportarPdfCommand}"
-                                Style="{StaticResource PrimaryButtonStyle}" />
-                        </Grid>
-                    </Border>
-                    <Border Style="{StaticResource HairlineRowStyle}">
-                        <Grid ColumnSpacing="{StaticResource Spacing24}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Spacing="{StaticResource Spacing8}">
-                                <TextBlock
-                                    x:Uid="Reportes_ExcelTitulo"
-                                    AutomationProperties.HeadingLevel="Level2"
-                                    Style="{StaticResource CaptionTextStyle}" />
-                                <TextBlock
-                                    x:Uid="Reportes_ExcelTexto"
-                                    Foreground="{StaticResource SlateBrush}"
-                                    Style="{StaticResource BodySmTextStyle}"
-                                    TextWrapping="Wrap" />
-                            </StackPanel>
-                            <Button
-                                x:Uid="Reportes_ExportarExcel"
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                Command="{x:Bind ViewModel.ExportarExcelCommand}"
-                                Style="{StaticResource GhostButtonStyle}" />
-                        </Grid>
-                    </Border>
-                </StackPanel>
-            </Border>
-
-            <!-- Estado, resultado y errores -->
-            <StackPanel Spacing="{StaticResource Spacing8}">
-                <TextBlock
-                    x:Uid="Reportes_Generando"
-                    AutomationProperties.LiveSetting="Polite"
-                    Style="{StaticResource BodyTextStyle}"
-                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Generando), Mode=OneWay}" />
-                <TextBlock
-                    AutomationProperties.LiveSetting="Polite"
-                    Style="{StaticResource BodyTextStyle}"
-                    Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
-                    TextWrapping="Wrap"
-                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
-                <Button
-                    x:Uid="Reportes_AbrirCarpeta"
-                    Command="{x:Bind ViewModel.AbrirCarpetaCommand}"
-                    Style="{StaticResource TextLinkButtonStyle}"
-                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
-                <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
-                    <Grid ColumnSpacing="{StaticResource Spacing16}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
+                        Style="{StaticResource BodySmTextStyle}"
+                        TextWrapping="Wrap" />
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
                         <TextBlock
-                            Grid.Column="1"
+                            x:Uid="Reportes_AntesDeImpuestos"
                             VerticalAlignment="Center"
-                            AutomationProperties.LiveSetting="Assertive"
-                            Style="{StaticResource BodyTextStyle}"
-                            Text="{x:Bind ViewModel.Error, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                    </Grid>
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}" />
+                        <local:TerminoAyuda VerticalAlignment="Center" Clave="AntesDeImpuestos" />
+                    </StackPanel>
+                    <TextBlock
+                        x:Uid="Reportes_Privacidad"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodySmTextStyle}"
+                        TextWrapping="Wrap" />
+                    <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
+                </StackPanel>
+
+                <!-- Las dos exportaciones -->
+                <Border Style="{StaticResource HairlineListStyle}">
+                    <StackPanel>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <TextBlock
+                                        x:Uid="Reportes_PdfTitulo"
+                                        AutomationProperties.HeadingLevel="Level2"
+                                        Style="{StaticResource CaptionTextStyle}" />
+                                    <TextBlock
+                                        x:Uid="Reportes_PdfTexto"
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource BodySmTextStyle}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                                <Button
+                                    x:Uid="Reportes_ExportarPdf"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Command="{x:Bind ViewModel.ExportarPdfCommand}"
+                                    Style="{StaticResource PrimaryButtonStyle}" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <TextBlock
+                                        x:Uid="Reportes_ExcelTitulo"
+                                        AutomationProperties.HeadingLevel="Level2"
+                                        Style="{StaticResource CaptionTextStyle}" />
+                                    <TextBlock
+                                        x:Uid="Reportes_ExcelTexto"
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource BodySmTextStyle}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                                <Button
+                                    x:Uid="Reportes_ExportarExcel"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Command="{x:Bind ViewModel.ExportarExcelCommand}"
+                                    Style="{StaticResource GhostButtonStyle}" />
+                            </Grid>
+                        </Border>
+                    </StackPanel>
                 </Border>
-                <!-- Solo en Debug: la página agrega aquí la carpeta de salida para pruebas automatizadas -->
-                <StackPanel x:Name="ZonaDepuracion" Spacing="{StaticResource Spacing8}" />
+
+                <!-- Estado, resultado y errores -->
+                <StackPanel Spacing="{StaticResource Spacing8}">
+                    <TextBlock
+                        x:Uid="Reportes_Generando"
+                        AutomationProperties.LiveSetting="Polite"
+                        Style="{StaticResource BodyTextStyle}"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Generando), Mode=OneWay}" />
+                    <TextBlock
+                        AutomationProperties.LiveSetting="Polite"
+                        Style="{StaticResource BodyTextStyle}"
+                        Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
+                    <Button
+                        x:Uid="Reportes_AbrirCarpeta"
+                        Command="{x:Bind ViewModel.AbrirCarpetaCommand}"
+                        Style="{StaticResource TextLinkButtonStyle}"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
+                    <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
+                        <Grid ColumnSpacing="{StaticResource Spacing16}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                AutomationProperties.LiveSetting="Assertive"
+                                Style="{StaticResource BodyTextStyle}"
+                                Text="{x:Bind ViewModel.Error, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </Border>
+                    <!-- Solo en Debug: la página agrega aquí la carpeta de salida para pruebas automatizadas -->
+                    <StackPanel x:Name="ZonaDepuracion" Spacing="{StaticResource Spacing8}" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </helpers:PanelCentrado>
     </ScrollViewer>
 </Page>

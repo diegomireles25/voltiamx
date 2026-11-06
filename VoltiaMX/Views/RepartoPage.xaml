@@ -16,323 +16,325 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel
-            MaxWidth="{StaticResource ContentMaxWidth}"
-            Padding="{StaticResource PagePadding}"
-            Spacing="{StaticResource Spacing40}">
+        <!-- Contenido centrado con ancho máximo (Styles/Controls.xaml, PageContentHostStyle) -->
+        <helpers:PanelCentrado Style="{StaticResource PageContentHostStyle}">
+            <StackPanel
+                Padding="{StaticResource PagePadding}"
+                Spacing="{StaticResource Spacing40}">
 
-            <StackPanel Spacing="{StaticResource Spacing16}">
-                <Button
-                    x:Uid="Reparto_Volver"
-                    Command="{x:Bind ViewModel.CancelarCommand}"
-                    Style="{StaticResource TextLinkButtonSmStyle}" />
-                <TextBlock
-                    AutomationProperties.HeadingLevel="Level1"
-                    Style="{StaticResource HeadingLgTextStyle}"
-                    Text="{x:Bind ViewModel.Titulo, Mode=OneWay}" />
-                <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
-                <TextBlock
-                    x:Uid="Reparto_CopiaFija"
-                    Foreground="{StaticResource SlateBrush}"
-                    Style="{StaticResource BodySmTextStyle}"
-                    TextWrapping="Wrap"
-                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SoloLectura), Mode=OneWay}" />
-            </StackPanel>
-
-            <!-- Sin periodos cerrados todavía -->
-            <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SinPeriodos), Mode=OneWay}">
-                <StackPanel Spacing="{StaticResource Spacing8}">
-                    <TextBlock x:Uid="Reparto_SinPeriodosTitulo" Style="{StaticResource SubheadingTextStyle}" />
-                    <TextBlock
-                        x:Uid="Reparto_SinPeriodosTexto"
-                        Foreground="{StaticResource SlateBrush}"
-                        Style="{StaticResource BodySmTextStyle}"
-                        TextWrapping="Wrap" />
-                </StackPanel>
-            </Border>
-
-            <StackPanel Spacing="{StaticResource Spacing40}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.SinPeriodos), Mode=OneWay}">
-
-                <!-- Periodo, total y modo -->
-                <Border Style="{StaticResource HairlineListStyle}">
-                    <StackPanel>
-                        <Border Style="{StaticResource HairlineRowStyle}">
-                            <StackPanel Spacing="{StaticResource Spacing8}">
-                                <ComboBox
-                                    x:Uid="Reparto_Periodo"
-                                    MinWidth="{StaticResource CampoPeriodoMinWidth}"
-                                    ItemsSource="{x:Bind ViewModel.Periodos, Mode=OneWay}"
-                                    SelectedItem="{x:Bind ViewModel.PeriodoElegido, Mode=TwoWay}"
-                                    Style="{StaticResource ComboBoxStyle}"
-                                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Editable), Mode=OneWay}" />
-                                <TextBlock
-                                    Style="{StaticResource SubheadingTextStyle}"
-                                    Text="{x:Bind ViewModel.PeriodoTexto, Mode=OneWay}"
-                                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SoloLectura), Mode=OneWay}" />
-                                <TextBlock
-                                    Foreground="{StaticResource SlateBrush}"
-                                    Style="{StaticResource BodySmTextStyle}"
-                                    Text="{x:Bind ViewModel.PrincipalTexto, Mode=OneWay}" />
-                            </StackPanel>
-                        </Border>
-                        <Border Style="{StaticResource HairlineRowStyle}">
-                            <StackPanel Spacing="{StaticResource Spacing8}">
-                                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
-                                    <NumberBox
-                                        x:Uid="Reparto_Total"
-                                        MinWidth="{StaticResource CampoMontoMinWidth}"
-                                        IsEnabled="{x:Bind ViewModel.Editable, Mode=OneWay}"
-                                        Style="{StaticResource NumberBoxStyle}"
-                                        Value="{x:Bind ViewModel.Total, Mode=TwoWay}" />
-                                    <Grid VerticalAlignment="Bottom">
-                                        <ContentPresenter
-                                            Content="{x:Bind ViewModel.OrigenTexto, Mode=OneWay}"
-                                            Style="{StaticResource YellowTagStyle}"
-                                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.OrigenCalculado), Mode=OneWay}" />
-                                        <ContentPresenter
-                                            Content="{x:Bind ViewModel.OrigenTexto, Mode=OneWay}"
-                                            Style="{StaticResource MintTagStyle}"
-                                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.OrigenOtro), Mode=OneWay}" />
-                                    </Grid>
-                                </StackPanel>
-                                <TextBlock
-                                    x:Uid="Reparto_Recomendacion"
-                                    Foreground="{StaticResource SlateBrush}"
-                                    Style="{StaticResource BodySmTextStyle}"
-                                    TextWrapping="Wrap" />
-                            </StackPanel>
-                        </Border>
-                        <Border Style="{StaticResource HairlineRowStyle}">
-                            <StackPanel Spacing="{StaticResource Spacing8}">
-                                <TextBlock x:Uid="Reparto_ModoTitulo" Style="{StaticResource CaptionTextStyle}" />
-                                <RadioButton
-                                    x:Uid="Reparto_ModoSoloMedido"
-                                    GroupName="ModoReparto"
-                                    IsChecked="{x:Bind ViewModel.ModoSoloMedido, Mode=TwoWay}"
-                                    IsEnabled="{x:Bind ViewModel.Editable, Mode=OneWay}" />
-                                <TextBlock
-                                    x:Uid="Reparto_ModoSoloMedidoTexto"
-                                    Foreground="{StaticResource SlateBrush}"
-                                    Style="{StaticResource BodySmTextStyle}"
-                                    TextWrapping="Wrap" />
-                                <RadioButton
-                                    x:Uid="Reparto_ModoProporcional"
-                                    GroupName="ModoReparto"
-                                    IsChecked="{x:Bind ViewModel.ModoProporcional, Mode=TwoWay}"
-                                    IsEnabled="{x:Bind ViewModel.Editable, Mode=OneWay}" />
-                                <TextBlock
-                                    x:Uid="Reparto_ModoProporcionalTexto"
-                                    Foreground="{StaticResource SlateBrush}"
-                                    Style="{StaticResource BodySmTextStyle}"
-                                    TextWrapping="Wrap" />
-                            </StackPanel>
-                        </Border>
-                    </StackPanel>
-                </Border>
-
-                <!-- Lecturas de los submedidores -->
                 <StackPanel Spacing="{StaticResource Spacing16}">
+                    <Button
+                        x:Uid="Reparto_Volver"
+                        Command="{x:Bind ViewModel.CancelarCommand}"
+                        Style="{StaticResource TextLinkButtonSmStyle}" />
                     <TextBlock
-                        x:Uid="Reparto_LecturasTitulo"
-                        AutomationProperties.HeadingLevel="Level2"
-                        Style="{StaticResource CaptionTextStyle}" />
+                        AutomationProperties.HeadingLevel="Level1"
+                        Style="{StaticResource HeadingLgTextStyle}"
+                        Text="{x:Bind ViewModel.Titulo, Mode=OneWay}" />
+                    <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
                     <TextBlock
-                        x:Uid="Reparto_SinInquilinos"
+                        x:Uid="Reparto_CopiaFija"
                         Foreground="{StaticResource SlateBrush}"
                         Style="{StaticResource BodySmTextStyle}"
                         TextWrapping="Wrap"
-                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SinInquilinos), Mode=OneWay}" />
-                    <Border Style="{StaticResource HairlineListStyle}">
-                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Filas}">
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="vm:FilaLecturaReparto">
-                                    <Border Style="{StaticResource HairlineRowStyle}">
-                                        <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="{StaticResource ColumnaKwhReparto}" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                Style="{StaticResource SubheadingTextStyle}"
-                                                Text="{x:Bind Nombre}"
-                                                TextTrimming="CharacterEllipsis" />
-                                            <NumberBox
-                                                x:Uid="Reparto_LecturaAnterior"
-                                                Grid.Column="1"
-                                                MinWidth="{StaticResource CampoLecturaMinWidth}"
-                                                AutomationProperties.Name="{x:Bind NombreAnterior}"
-                                                IsEnabled="{x:Bind Editable}"
-                                                Style="{StaticResource NumberBoxStyle}"
-                                                Value="{x:Bind Anterior, Mode=TwoWay}" />
-                                            <NumberBox
-                                                x:Uid="Reparto_LecturaActual"
-                                                Grid.Column="2"
-                                                AutomationProperties.Name="{x:Bind NombreActual}"
-                                                MinWidth="{StaticResource CampoLecturaMinWidth}"
-                                                IsEnabled="{x:Bind Editable}"
-                                                Style="{StaticResource NumberBoxStyle}"
-                                                Value="{x:Bind Actual, Mode=TwoWay}" />
-                                            <TextBlock
-                                                Grid.Column="3"
-                                                VerticalAlignment="Bottom"
-                                                Style="{StaticResource BodyTextStyle}"
-                                                Text="{x:Bind KwhTexto, Mode=OneWay}"
-                                                TextAlignment="Right" />
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
-                        </ItemsRepeater>
-                    </Border>
-                    <TextBlock
-                        AutomationProperties.LiveSetting="Polite"
-                        Foreground="{StaticResource SlateBrush}"
-                        Style="{StaticResource BodySmTextStyle}"
-                        Text="{x:Bind ViewModel.FaltanLecturas, Mode=OneWay}"
-                        Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.FaltanLecturas), Mode=OneWay}" />
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SoloLectura), Mode=OneWay}" />
                 </StackPanel>
 
-                <!-- Avisos del reparto: filas destacadas -->
-                <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneAvisos), Mode=OneWay}">
-                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Avisos}">
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Border Style="{StaticResource HairlineRowStyle}">
-                                    <Grid ColumnSpacing="{StaticResource Spacing16}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            AutomationProperties.LiveSetting="Assertive"
-                                            Style="{StaticResource BodyTextStyle}"
-                                            Text="{x:Bind}"
-                                            TextWrapping="Wrap" />
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
+                <!-- Sin periodos cerrados todavía -->
+                <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SinPeriodos), Mode=OneWay}">
+                    <StackPanel Spacing="{StaticResource Spacing8}">
+                        <TextBlock x:Uid="Reparto_SinPeriodosTitulo" Style="{StaticResource SubheadingTextStyle}" />
+                        <TextBlock
+                            x:Uid="Reparto_SinPeriodosTexto"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
                 </Border>
 
-                <!-- La única tarjeta: el resultado -->
-                <ContentPresenter Style="{StaticResource InvertedCardStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneResultado), Mode=OneWay}">
-                    <StackPanel Spacing="{StaticResource Spacing16}">
-                        <TextBlock x:Uid="Reparto_SeCobra" Style="{StaticResource CaptionTextStyle}" />
-                        <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.TotalCobradoTexto, Mode=OneWay}" />
+                <StackPanel Spacing="{StaticResource Spacing40}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.SinPeriodos), Mode=OneWay}">
+
+                    <!-- Periodo, total y modo -->
+                    <Border Style="{StaticResource HairlineListStyle}">
                         <StackPanel>
-                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Cuotas}">
+                            <Border Style="{StaticResource HairlineRowStyle}">
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <ComboBox
+                                        x:Uid="Reparto_Periodo"
+                                        MinWidth="{StaticResource CampoPeriodoMinWidth}"
+                                        ItemsSource="{x:Bind ViewModel.Periodos, Mode=OneWay}"
+                                        SelectedItem="{x:Bind ViewModel.PeriodoElegido, Mode=TwoWay}"
+                                        Style="{StaticResource ComboBoxStyle}"
+                                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Editable), Mode=OneWay}" />
+                                    <TextBlock
+                                        Style="{StaticResource SubheadingTextStyle}"
+                                        Text="{x:Bind ViewModel.PeriodoTexto, Mode=OneWay}"
+                                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SoloLectura), Mode=OneWay}" />
+                                    <TextBlock
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource BodySmTextStyle}"
+                                        Text="{x:Bind ViewModel.PrincipalTexto, Mode=OneWay}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource HairlineRowStyle}">
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                                        <NumberBox
+                                            x:Uid="Reparto_Total"
+                                            MinWidth="{StaticResource CampoMontoMinWidth}"
+                                            IsEnabled="{x:Bind ViewModel.Editable, Mode=OneWay}"
+                                            Style="{StaticResource NumberBoxStyle}"
+                                            Value="{x:Bind ViewModel.Total, Mode=TwoWay}" />
+                                        <Grid VerticalAlignment="Bottom">
+                                            <ContentPresenter
+                                                Content="{x:Bind ViewModel.OrigenTexto, Mode=OneWay}"
+                                                Style="{StaticResource YellowTagStyle}"
+                                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.OrigenCalculado), Mode=OneWay}" />
+                                            <ContentPresenter
+                                                Content="{x:Bind ViewModel.OrigenTexto, Mode=OneWay}"
+                                                Style="{StaticResource MintTagStyle}"
+                                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.OrigenOtro), Mode=OneWay}" />
+                                        </Grid>
+                                    </StackPanel>
+                                    <TextBlock
+                                        x:Uid="Reparto_Recomendacion"
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource BodySmTextStyle}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource HairlineRowStyle}">
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <TextBlock x:Uid="Reparto_ModoTitulo" Style="{StaticResource CaptionTextStyle}" />
+                                    <RadioButton
+                                        x:Uid="Reparto_ModoSoloMedido"
+                                        GroupName="ModoReparto"
+                                        IsChecked="{x:Bind ViewModel.ModoSoloMedido, Mode=TwoWay}"
+                                        IsEnabled="{x:Bind ViewModel.Editable, Mode=OneWay}" />
+                                    <TextBlock
+                                        x:Uid="Reparto_ModoSoloMedidoTexto"
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource BodySmTextStyle}"
+                                        TextWrapping="Wrap" />
+                                    <RadioButton
+                                        x:Uid="Reparto_ModoProporcional"
+                                        GroupName="ModoReparto"
+                                        IsChecked="{x:Bind ViewModel.ModoProporcional, Mode=TwoWay}"
+                                        IsEnabled="{x:Bind ViewModel.Editable, Mode=OneWay}" />
+                                    <TextBlock
+                                        x:Uid="Reparto_ModoProporcionalTexto"
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource BodySmTextStyle}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Lecturas de los submedidores -->
+                    <StackPanel Spacing="{StaticResource Spacing16}">
+                        <TextBlock
+                            x:Uid="Reparto_LecturasTitulo"
+                            AutomationProperties.HeadingLevel="Level2"
+                            Style="{StaticResource CaptionTextStyle}" />
+                        <TextBlock
+                            x:Uid="Reparto_SinInquilinos"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SinInquilinos), Mode=OneWay}" />
+                        <Border Style="{StaticResource HairlineListStyle}">
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Filas}">
                                 <ItemsRepeater.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:FilaCuotaReparto">
-                                        <Border Style="{StaticResource HairlineRowOnDarkStyle}">
+                                    <DataTemplate x:DataType="vm:FilaLecturaReparto">
+                                        <Border Style="{StaticResource HairlineRowStyle}">
                                             <Grid ColumnSpacing="{StaticResource Spacing24}">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="{StaticResource ColumnaKwhReparto}" />
-                                                    <ColumnDefinition Width="{StaticResource ColumnaCuotaReparto}" />
                                                     <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="{StaticResource ColumnaKwhReparto}" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     VerticalAlignment="Center"
                                                     Style="{StaticResource SubheadingTextStyle}"
                                                     Text="{x:Bind Nombre}"
                                                     TextTrimming="CharacterEllipsis" />
-                                                <TextBlock
+                                                <NumberBox
+                                                    x:Uid="Reparto_LecturaAnterior"
                                                     Grid.Column="1"
-                                                    VerticalAlignment="Center"
-                                                    Style="{StaticResource BodySmTextStyle}"
-                                                    Text="{x:Bind Detalle}"
-                                                    TextAlignment="Right" />
-                                                <TextBlock
+                                                    MinWidth="{StaticResource CampoLecturaMinWidth}"
+                                                    AutomationProperties.Name="{x:Bind NombreAnterior}"
+                                                    IsEnabled="{x:Bind Editable}"
+                                                    Style="{StaticResource NumberBoxStyle}"
+                                                    Value="{x:Bind Anterior, Mode=TwoWay}" />
+                                                <NumberBox
+                                                    x:Uid="Reparto_LecturaActual"
                                                     Grid.Column="2"
-                                                    VerticalAlignment="Center"
-                                                    Style="{StaticResource SubheadingTextStyle}"
-                                                    Text="{x:Bind Cuota}"
-                                                    TextAlignment="Right" />
-                                                <Button
-                                                    x:Uid="Reparto_ReciboPdf"
+                                                    AutomationProperties.Name="{x:Bind NombreActual}"
+                                                    MinWidth="{StaticResource CampoLecturaMinWidth}"
+                                                    IsEnabled="{x:Bind Editable}"
+                                                    Style="{StaticResource NumberBoxStyle}"
+                                                    Value="{x:Bind Actual, Mode=TwoWay}" />
+                                                <TextBlock
                                                     Grid.Column="3"
-                                                    VerticalAlignment="Center"
-                                                    Command="{x:Bind ExportarRecibo}"
-                                                    Style="{StaticResource GhostOnDarkButtonStyle}"
-                                                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(PuedeExportar)}" />
+                                                    VerticalAlignment="Bottom"
+                                                    Style="{StaticResource BodyTextStyle}"
+                                                    Text="{x:Bind KwhTexto, Mode=OneWay}"
+                                                    TextAlignment="Right" />
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsRepeater.ItemTemplate>
                             </ItemsRepeater>
-                            <Border Style="{StaticResource HairlineRowOnDarkStyle}">
-                                <Grid>
-                                    <TextBlock x:Uid="Reparto_Absorbe" Style="{StaticResource BodyTextStyle}" />
-                                    <TextBlock HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind ViewModel.AbsorbeTexto, Mode=OneWay}" />
-                                </Grid>
-                            </Border>
-                            <Border Style="{StaticResource HairlineRowOnDarkStyle}">
-                                <Grid>
-                                    <TextBlock x:Uid="Reparto_PrecioPromedio" Style="{StaticResource BodyTextStyle}" />
-                                    <TextBlock HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind ViewModel.PrecioPromedioTexto, Mode=OneWay}" />
-                                </Grid>
-                            </Border>
-                        </StackPanel>
-                        <TextBlock x:Uid="Reparto_SinRangos" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
+                        </Border>
+                        <TextBlock
+                            AutomationProperties.LiveSetting="Polite"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            Text="{x:Bind ViewModel.FaltanLecturas, Mode=OneWay}"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.FaltanLecturas), Mode=OneWay}" />
                     </StackPanel>
-                </ContentPresenter>
 
-                <!-- Acciones -->
-                <StackPanel Spacing="{StaticResource Spacing16}">
-                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Editable), Mode=OneWay}">
-                        <Button
-                            x:Uid="Reparto_Guardar"
-                            Command="{x:Bind ViewModel.GuardarCommand}"
-                            Style="{StaticResource PrimaryButtonStyle}" />
-                        <Button
-                            x:Uid="Reparto_Cancelar"
-                            VerticalAlignment="Center"
-                            Command="{x:Bind ViewModel.CancelarCommand}"
-                            Style="{StaticResource TextLinkButtonStyle}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Guardado), Mode=OneWay}">
-                        <Button
-                            x:Uid="Reparto_ExportarPdf"
-                            Command="{x:Bind ViewModel.ExportarPdfCommand}"
-                            Style="{StaticResource GhostButtonStyle}" />
-                        <Button
-                            x:Uid="Reparto_ExportarTodos"
-                            Command="{x:Bind ViewModel.ExportarTodosCommand}"
-                            Style="{StaticResource GhostButtonStyle}" />
-                    </StackPanel>
-                    <TextBlock
-                        AutomationProperties.LiveSetting="Polite"
-                        Style="{StaticResource BodyTextStyle}"
-                        Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
-                        TextWrapping="Wrap"
-                        Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
-                    <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
-                        <Grid ColumnSpacing="{StaticResource Spacing16}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
-                            <TextBlock
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                AutomationProperties.LiveSetting="Assertive"
-                                Style="{StaticResource BodyTextStyle}"
-                                Text="{x:Bind ViewModel.Error, Mode=OneWay}"
-                                TextWrapping="Wrap" />
-                        </Grid>
+                    <!-- Avisos del reparto: filas destacadas -->
+                    <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneAvisos), Mode=OneWay}">
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Avisos}">
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Border Style="{StaticResource HairlineRowStyle}">
+                                        <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                AutomationProperties.LiveSetting="Assertive"
+                                                Style="{StaticResource BodyTextStyle}"
+                                                Text="{x:Bind}"
+                                                TextWrapping="Wrap" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
                     </Border>
-                    <!-- Solo en Debug: la página agrega aquí la carpeta de salida para pruebas automatizadas -->
-                    <StackPanel x:Name="ZonaDepuracion" Spacing="{StaticResource Spacing8}" />
+
+                    <!-- La única tarjeta: el resultado -->
+                    <ContentPresenter Style="{StaticResource InvertedCardStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneResultado), Mode=OneWay}">
+                        <StackPanel Spacing="{StaticResource Spacing16}">
+                            <TextBlock x:Uid="Reparto_SeCobra" Style="{StaticResource CaptionTextStyle}" />
+                            <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.TotalCobradoTexto, Mode=OneWay}" />
+                            <StackPanel>
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Cuotas}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:FilaCuotaReparto">
+                                            <Border Style="{StaticResource HairlineRowOnDarkStyle}">
+                                                <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="{StaticResource ColumnaKwhReparto}" />
+                                                        <ColumnDefinition Width="{StaticResource ColumnaCuotaReparto}" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource SubheadingTextStyle}"
+                                                        Text="{x:Bind Nombre}"
+                                                        TextTrimming="CharacterEllipsis" />
+                                                    <TextBlock
+                                                        Grid.Column="1"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource BodySmTextStyle}"
+                                                        Text="{x:Bind Detalle}"
+                                                        TextAlignment="Right" />
+                                                    <TextBlock
+                                                        Grid.Column="2"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource SubheadingTextStyle}"
+                                                        Text="{x:Bind Cuota}"
+                                                        TextAlignment="Right" />
+                                                    <Button
+                                                        x:Uid="Reparto_ReciboPdf"
+                                                        Grid.Column="3"
+                                                        VerticalAlignment="Center"
+                                                        Command="{x:Bind ExportarRecibo}"
+                                                        Style="{StaticResource GhostOnDarkButtonStyle}"
+                                                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(PuedeExportar)}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                                <Border Style="{StaticResource HairlineRowOnDarkStyle}">
+                                    <Grid>
+                                        <TextBlock x:Uid="Reparto_Absorbe" Style="{StaticResource BodyTextStyle}" />
+                                        <TextBlock HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind ViewModel.AbsorbeTexto, Mode=OneWay}" />
+                                    </Grid>
+                                </Border>
+                                <Border Style="{StaticResource HairlineRowOnDarkStyle}">
+                                    <Grid>
+                                        <TextBlock x:Uid="Reparto_PrecioPromedio" Style="{StaticResource BodyTextStyle}" />
+                                        <TextBlock HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind ViewModel.PrecioPromedioTexto, Mode=OneWay}" />
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                            <TextBlock x:Uid="Reparto_SinRangos" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </ContentPresenter>
+
+                    <!-- Acciones -->
+                    <StackPanel Spacing="{StaticResource Spacing16}">
+                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Editable), Mode=OneWay}">
+                            <Button
+                                x:Uid="Reparto_Guardar"
+                                Command="{x:Bind ViewModel.GuardarCommand}"
+                                Style="{StaticResource PrimaryButtonStyle}" />
+                            <Button
+                                x:Uid="Reparto_Cancelar"
+                                VerticalAlignment="Center"
+                                Command="{x:Bind ViewModel.CancelarCommand}"
+                                Style="{StaticResource TextLinkButtonStyle}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Guardado), Mode=OneWay}">
+                            <Button
+                                x:Uid="Reparto_ExportarPdf"
+                                Command="{x:Bind ViewModel.ExportarPdfCommand}"
+                                Style="{StaticResource GhostButtonStyle}" />
+                            <Button
+                                x:Uid="Reparto_ExportarTodos"
+                                Command="{x:Bind ViewModel.ExportarTodosCommand}"
+                                Style="{StaticResource GhostButtonStyle}" />
+                        </StackPanel>
+                        <TextBlock
+                            AutomationProperties.LiveSetting="Polite"
+                            Style="{StaticResource BodyTextStyle}"
+                            Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
+                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
+                            <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    AutomationProperties.LiveSetting="Assertive"
+                                    Style="{StaticResource BodyTextStyle}"
+                                    Text="{x:Bind ViewModel.Error, Mode=OneWay}"
+                                    TextWrapping="Wrap" />
+                            </Grid>
+                        </Border>
+                        <!-- Solo en Debug: la página agrega aquí la carpeta de salida para pruebas automatizadas -->
+                        <StackPanel x:Name="ZonaDepuracion" Spacing="{StaticResource Spacing8}" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </helpers:PanelCentrado>
     </ScrollViewer>
 </Page>

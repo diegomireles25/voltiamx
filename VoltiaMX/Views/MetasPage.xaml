@@ -39,249 +39,251 @@
         </VisualStateManager.VisualStateGroups>
 
         <ScrollViewer>
-            <StackPanel
-                MaxWidth="{StaticResource ContentMaxWidth}"
-                Padding="{StaticResource PagePadding}"
-                Spacing="{StaticResource Spacing40}">
+            <!-- Contenido centrado con ancho máximo (Styles/Controls.xaml, PageContentHostStyle) -->
+            <helpers:PanelCentrado Style="{StaticResource PageContentHostStyle}">
+                <StackPanel
+                    Padding="{StaticResource PagePadding}"
+                    Spacing="{StaticResource Spacing40}">
 
-                <StackPanel Spacing="{StaticResource Spacing16}">
-                    <TextBlock
-                        x:Uid="Metas_Titulo"
-                        AutomationProperties.HeadingLevel="Level1"
-                        Style="{StaticResource HeadingLgTextStyle}" />
-                    <TextBlock
-                        x:Uid="Metas_Explicacion"
-                        Foreground="{StaticResource SlateBrush}"
-                        Style="{StaticResource BodySmTextStyle}"
-                        TextWrapping="Wrap" />
-                    <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
-                    <local:AvisoPreciosDeEjemplo Comando="{x:Bind ViewModel.IrATarifasCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PreciosDeEjemplo), Mode=OneWay}" />
-                </StackPanel>
-
-                <!-- Crear la meta o cambiar el porcentaje; Enter guarda (ver MetasPage.xaml.cs) -->
-                <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarFormulario), Mode=OneWay}">
-                    <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarVacio), Mode=OneWay}">
-                        <TextBlock x:Uid="Metas_VacioTitulo" Style="{StaticResource SubheadingLgTextStyle}" />
+                    <StackPanel Spacing="{StaticResource Spacing16}">
                         <TextBlock
-                            x:Uid="Metas_VacioTexto"
+                            x:Uid="Metas_Titulo"
+                            AutomationProperties.HeadingLevel="Level1"
+                            Style="{StaticResource HeadingLgTextStyle}" />
+                        <TextBlock
+                            x:Uid="Metas_Explicacion"
                             Foreground="{StaticResource SlateBrush}"
-                            Style="{StaticResource BodyTextStyle}"
+                            Style="{StaticResource BodySmTextStyle}"
                             TextWrapping="Wrap" />
+                        <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
+                        <local:AvisoPreciosDeEjemplo Comando="{x:Bind ViewModel.IrATarifasCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PreciosDeEjemplo), Mode=OneWay}" />
                     </StackPanel>
-                    <NumberBox
-                        x:Uid="Metas_Porcentaje"
-                        MaxWidth="{StaticResource TextMaxWidth}"
-                        HorizontalAlignment="Left"
-                        KeyUp="AlSoltarTeclaEnPorcentaje"
-                        Style="{StaticResource NumberBoxStyle}"
-                        Value="{x:Bind ViewModel.Porcentaje, Mode=TwoWay}" />
-                    <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.ErrorPorcentaje), Mode=OneWay}">
-                        <Grid ColumnSpacing="{StaticResource Spacing16}">
+
+                    <!-- Crear la meta o cambiar el porcentaje; Enter guarda (ver MetasPage.xaml.cs) -->
+                    <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarFormulario), Mode=OneWay}">
+                        <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarVacio), Mode=OneWay}">
+                            <TextBlock x:Uid="Metas_VacioTitulo" Style="{StaticResource SubheadingLgTextStyle}" />
+                            <TextBlock
+                                x:Uid="Metas_VacioTexto"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource BodyTextStyle}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                        <NumberBox
+                            x:Uid="Metas_Porcentaje"
+                            MaxWidth="{StaticResource TextMaxWidth}"
+                            HorizontalAlignment="Left"
+                            KeyUp="AlSoltarTeclaEnPorcentaje"
+                            Style="{StaticResource NumberBoxStyle}"
+                            Value="{x:Bind ViewModel.Porcentaje, Mode=TwoWay}" />
+                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.ErrorPorcentaje), Mode=OneWay}">
+                            <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextStyle}"
+                                    Text="{x:Bind ViewModel.ErrorPorcentaje, Mode=OneWay}"
+                                    TextWrapping="Wrap" />
+                            </Grid>
+                        </Border>
+                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}">
+                            <Button
+                                x:Uid="Metas_Crear"
+                                Command="{x:Bind ViewModel.GuardarCommand}"
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarVacio), Mode=OneWay}" />
+                            <Button
+                                x:Uid="Metas_GuardarCambio"
+                                Command="{x:Bind ViewModel.GuardarCommand}"
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarEditor), Mode=OneWay}" />
+                            <Button
+                                x:Uid="Metas_CancelarCambio"
+                                VerticalAlignment="Center"
+                                Command="{x:Bind ViewModel.CancelarCambioCommand}"
+                                Style="{StaticResource TextLinkButtonStyle}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarEditor), Mode=OneWay}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <TextBlock
+                        AutomationProperties.LiveSetting="Polite"
+                        Style="{StaticResource BodyTextStyle}"
+                        Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
+
+                    <!-- Con meta -->
+                    <StackPanel Spacing="{StaticResource Spacing40}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneMeta), Mode=OneWay}">
+                        <Grid ColumnSpacing="{StaticResource Spacing48}" RowSpacing="{StaticResource Spacing32}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
-                            <TextBlock
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource BodyTextStyle}"
-                                Text="{x:Bind ViewModel.ErrorPorcentaje, Mode=OneWay}"
-                                TextWrapping="Wrap" />
-                        </Grid>
-                    </Border>
-                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}">
-                        <Button
-                            x:Uid="Metas_Crear"
-                            Command="{x:Bind ViewModel.GuardarCommand}"
-                            Style="{StaticResource PrimaryButtonStyle}"
-                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarVacio), Mode=OneWay}" />
-                        <Button
-                            x:Uid="Metas_GuardarCambio"
-                            Command="{x:Bind ViewModel.GuardarCommand}"
-                            Style="{StaticResource PrimaryButtonStyle}"
-                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarEditor), Mode=OneWay}" />
-                        <Button
-                            x:Uid="Metas_CancelarCambio"
-                            VerticalAlignment="Center"
-                            Command="{x:Bind ViewModel.CancelarCambioCommand}"
-                            Style="{StaticResource TextLinkButtonStyle}"
-                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarEditor), Mode=OneWay}" />
-                    </StackPanel>
-                </StackPanel>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                <TextBlock
-                    AutomationProperties.LiveSetting="Polite"
-                    Style="{StaticResource BodyTextStyle}"
-                    Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
-                    TextWrapping="Wrap"
-                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
+                            <StackPanel x:Name="ColumnaPrincipal" Spacing="{StaticResource Spacing16}">
+                                <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind ViewModel.MetaTexto, Mode=OneWay}" TextWrapping="Wrap" />
 
-                <!-- Con meta -->
-                <StackPanel Spacing="{StaticResource Spacing40}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneMeta), Mode=OneWay}">
-                    <Grid ColumnSpacing="{StaticResource Spacing48}" RowSpacing="{StaticResource Spacing32}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+                                <!-- La única tarjeta de la pantalla -->
+                                <ContentPresenter Style="{StaticResource InvertedCardStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarTarjeta), Mode=OneWay}">
+                                    <StackPanel Spacing="{StaticResource Spacing16}">
+                                        <ContentPresenter
+                                            HorizontalAlignment="Left"
+                                            Content="{x:Bind ViewModel.EstadoEtiqueta, Mode=OneWay}"
+                                            Style="{x:Bind helpers:Conversiones.EstiloEstadoMeta(ViewModel.Estado), Mode=OneWay}" />
+                                        <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.CifraMeta, Mode=OneWay}" TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Foreground="{StaticResource AshBrush}"
+                                            Style="{StaticResource BodyTextStyle}"
+                                            Text="{x:Bind ViewModel.LeyendaMeta, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+                                        <ProgressBar
+                                            x:Uid="Metas_Progreso"
+                                            Style="{StaticResource ProgressOnDarkStyle}"
+                                            Value="{x:Bind ViewModel.Progreso, Mode=OneWay}" />
+                                        <TextBlock
+                                            Foreground="{StaticResource AshBrush}"
+                                            Style="{StaticResource CaptionTextStyle}"
+                                            Text="{x:Bind ViewModel.ProgresoTexto, Mode=OneWay}" />
+                                    </StackPanel>
+                                </ContentPresenter>
 
-                        <StackPanel x:Name="ColumnaPrincipal" Spacing="{StaticResource Spacing16}">
-                            <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind ViewModel.MetaTexto, Mode=OneWay}" TextWrapping="Wrap" />
-
-                            <!-- La única tarjeta de la pantalla -->
-                            <ContentPresenter Style="{StaticResource InvertedCardStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarTarjeta), Mode=OneWay}">
-                                <StackPanel Spacing="{StaticResource Spacing16}">
-                                    <ContentPresenter
-                                        HorizontalAlignment="Left"
-                                        Content="{x:Bind ViewModel.EstadoEtiqueta, Mode=OneWay}"
-                                        Style="{x:Bind helpers:Conversiones.EstiloEstadoMeta(ViewModel.Estado), Mode=OneWay}" />
-                                    <TextBlock Style="{StaticResource DisplayTextStyle}" Text="{x:Bind ViewModel.CifraMeta, Mode=OneWay}" TextWrapping="Wrap" />
+                                <!-- Sin base o sin consumo medido -->
+                                <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarSinDatos), Mode=OneWay}">
+                                    <TextBlock Style="{StaticResource SubheadingLgTextStyle}" Text="{x:Bind ViewModel.SinDatosTitulo, Mode=OneWay}" TextWrapping="Wrap" />
                                     <TextBlock
-                                        Foreground="{StaticResource AshBrush}"
+                                        Foreground="{StaticResource SlateBrush}"
                                         Style="{StaticResource BodyTextStyle}"
-                                        Text="{x:Bind ViewModel.LeyendaMeta, Mode=OneWay}"
+                                        Text="{x:Bind ViewModel.SinDatosTexto, Mode=OneWay}"
                                         TextWrapping="Wrap" />
-                                    <ProgressBar
-                                        x:Uid="Metas_Progreso"
-                                        Style="{StaticResource ProgressOnDarkStyle}"
-                                        Value="{x:Bind ViewModel.Progreso, Mode=OneWay}" />
-                                    <TextBlock
-                                        Foreground="{StaticResource AshBrush}"
-                                        Style="{StaticResource CaptionTextStyle}"
-                                        Text="{x:Bind ViewModel.ProgresoTexto, Mode=OneWay}" />
+                                    <Button
+                                        x:Uid="Metas_IrALecturas"
+                                        Command="{x:Bind ViewModel.IrALecturasCommand}"
+                                        Style="{StaticResource TextLinkButtonStyle}" />
                                 </StackPanel>
-                            </ContentPresenter>
 
-                            <!-- Sin base o sin consumo medido -->
-                            <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarSinDatos), Mode=OneWay}">
-                                <TextBlock Style="{StaticResource SubheadingLgTextStyle}" Text="{x:Bind ViewModel.SinDatosTitulo, Mode=OneWay}" TextWrapping="Wrap" />
+                                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.MostrarEditor), Mode=OneWay}">
+                                    <Button x:Uid="Metas_CambiarPorcentaje" Command="{x:Bind ViewModel.CambiarPorcentajeCommand}" Style="{StaticResource TextLinkButtonStyle}" />
+                                    <Button x:Uid="Metas_Desactivar" Command="{x:Bind ViewModel.DesactivarCommand}" Style="{StaticResource TextLinkButtonStyle}" />
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- Detalle en filas con línea -->
+                            <StackPanel x:Name="ColumnaDetalle" Grid.Column="1" Spacing="{StaticResource Spacing16}">
+                                <Border Style="{StaticResource HairlineListStyle}">
+                                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Filas}">
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:FilaDetalle">
+                                                <Border Style="{StaticResource HairlineRowStyle}">
+                                                    <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                                        <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextStyle}" Text="{x:Bind Titulo}" />
+                                                        <TextBlock HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Detalle}" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                </Border>
                                 <TextBlock
                                     Foreground="{StaticResource SlateBrush}"
-                                    Style="{StaticResource BodyTextStyle}"
-                                    Text="{x:Bind ViewModel.SinDatosTexto, Mode=OneWay}"
-                                    TextWrapping="Wrap" />
-                                <Button
-                                    x:Uid="Metas_IrALecturas"
-                                    Command="{x:Bind ViewModel.IrALecturasCommand}"
-                                    Style="{StaticResource TextLinkButtonStyle}" />
+                                    Style="{StaticResource BodySmTextStyle}"
+                                    Text="{x:Bind ViewModel.AvisoBase, Mode=OneWay}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.AvisoBase), Mode=OneWay}" />
                             </StackPanel>
+                        </Grid>
 
-                            <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.MostrarEditor), Mode=OneWay}">
-                                <Button x:Uid="Metas_CambiarPorcentaje" Command="{x:Bind ViewModel.CambiarPorcentajeCommand}" Style="{StaticResource TextLinkButtonStyle}" />
-                                <Button x:Uid="Metas_Desactivar" Command="{x:Bind ViewModel.DesactivarCommand}" Style="{StaticResource TextLinkButtonStyle}" />
-                            </StackPanel>
+                        <!-- Cómo lograrlo (D8): las sugerencias calculadas; sin sugerencias no aparece -->
+                        <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneSugerencias), Mode=OneWay}">
+                            <TextBlock
+                                x:Uid="Metas_ComoLograrlo"
+                                AutomationProperties.HeadingLevel="Level2"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource CaptionTextStyle}" />
+                            <Border Style="{StaticResource HairlineListStyle}">
+                                <StackPanel>
+                                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Sugerencias}">
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate x:DataType="x:String">
+                                                <Border Style="{StaticResource HairlineRowStyle}">
+                                                    <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind}" TextWrapping="Wrap" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                    <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.TextoLograrlo), Mode=OneWay}">
+                                        <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind ViewModel.TextoLograrlo, Mode=OneWay}" TextWrapping="Wrap" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock
+                                x:Uid="Sugerencia_Depende"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource BodySmTextStyle}"
+                                TextWrapping="Wrap" />
                         </StackPanel>
 
-                        <!-- Detalle en filas con línea -->
-                        <StackPanel x:Name="ColumnaDetalle" Grid.Column="1" Spacing="{StaticResource Spacing16}">
-                            <Border Style="{StaticResource HairlineListStyle}">
-                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Filas}">
+                        <!-- Historial -->
+                        <StackPanel Spacing="{StaticResource Spacing16}">
+                            <TextBlock
+                                x:Uid="Metas_HistorialTitulo"
+                                AutomationProperties.HeadingLevel="Level2"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource CaptionTextStyle}" />
+                            <TextBlock
+                                x:Uid="Metas_HistorialVacio"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource BodyTextStyle}"
+                                TextWrapping="Wrap"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneHistorial), Mode=OneWay}" />
+                            <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneHistorial), Mode=OneWay}">
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Historial}">
                                     <ItemsRepeater.ItemTemplate>
-                                        <DataTemplate x:DataType="vm:FilaDetalle">
+                                        <DataTemplate x:DataType="vm:FilaHistorialMetaVista">
                                             <Border Style="{StaticResource HairlineRowStyle}">
-                                                <Grid ColumnSpacing="{StaticResource Spacing16}">
-                                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextStyle}" Text="{x:Bind Titulo}" />
-                                                    <TextBlock HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Detalle}" />
+                                                <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextStyle}" Text="{x:Bind Periodo}" />
+                                                    <TextBlock
+                                                        Grid.Column="1"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource SubheadingTextStyle}"
+                                                        Text="{x:Bind Monto}" />
+                                                    <TextBlock
+                                                        Grid.Column="2"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="{StaticResource SlateBrush}"
+                                                        Style="{StaticResource BodyTextStyle}"
+                                                        Text="{x:Bind Reduccion}" />
+                                                    <ContentPresenter
+                                                        Grid.Column="3"
+                                                        VerticalAlignment="Center"
+                                                        Content="{x:Bind Etiqueta}"
+                                                        Style="{x:Bind helpers:Conversiones.EstiloCumplida(Cumplio)}" />
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>
                                     </ItemsRepeater.ItemTemplate>
                                 </ItemsRepeater>
                             </Border>
-                            <TextBlock
-                                Foreground="{StaticResource SlateBrush}"
-                                Style="{StaticResource BodySmTextStyle}"
-                                Text="{x:Bind ViewModel.AvisoBase, Mode=OneWay}"
-                                TextWrapping="Wrap"
-                                Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.AvisoBase), Mode=OneWay}" />
                         </StackPanel>
-                    </Grid>
-
-                    <!-- Cómo lograrlo (D8): las sugerencias calculadas; sin sugerencias no aparece -->
-                    <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneSugerencias), Mode=OneWay}">
-                        <TextBlock
-                            x:Uid="Metas_ComoLograrlo"
-                            AutomationProperties.HeadingLevel="Level2"
-                            Foreground="{StaticResource SlateBrush}"
-                            Style="{StaticResource CaptionTextStyle}" />
-                        <Border Style="{StaticResource HairlineListStyle}">
-                            <StackPanel>
-                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Sugerencias}">
-                                    <ItemsRepeater.ItemTemplate>
-                                        <DataTemplate x:DataType="x:String">
-                                            <Border Style="{StaticResource HairlineRowStyle}">
-                                                <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind}" TextWrapping="Wrap" />
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
-                                </ItemsRepeater>
-                                <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.TextoLograrlo), Mode=OneWay}">
-                                    <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind ViewModel.TextoLograrlo, Mode=OneWay}" TextWrapping="Wrap" />
-                                </Border>
-                            </StackPanel>
-                        </Border>
-                        <TextBlock
-                            x:Uid="Sugerencia_Depende"
-                            Foreground="{StaticResource SlateBrush}"
-                            Style="{StaticResource BodySmTextStyle}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
-
-                    <!-- Historial -->
-                    <StackPanel Spacing="{StaticResource Spacing16}">
-                        <TextBlock
-                            x:Uid="Metas_HistorialTitulo"
-                            AutomationProperties.HeadingLevel="Level2"
-                            Foreground="{StaticResource SlateBrush}"
-                            Style="{StaticResource CaptionTextStyle}" />
-                        <TextBlock
-                            x:Uid="Metas_HistorialVacio"
-                            Foreground="{StaticResource SlateBrush}"
-                            Style="{StaticResource BodyTextStyle}"
-                            TextWrapping="Wrap"
-                            Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneHistorial), Mode=OneWay}" />
-                        <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneHistorial), Mode=OneWay}">
-                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Historial}">
-                                <ItemsRepeater.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:FilaHistorialMetaVista">
-                                        <Border Style="{StaticResource HairlineRowStyle}">
-                                            <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextStyle}" Text="{x:Bind Periodo}" />
-                                                <TextBlock
-                                                    Grid.Column="1"
-                                                    VerticalAlignment="Center"
-                                                    Style="{StaticResource SubheadingTextStyle}"
-                                                    Text="{x:Bind Monto}" />
-                                                <TextBlock
-                                                    Grid.Column="2"
-                                                    VerticalAlignment="Center"
-                                                    Foreground="{StaticResource SlateBrush}"
-                                                    Style="{StaticResource BodyTextStyle}"
-                                                    Text="{x:Bind Reduccion}" />
-                                                <ContentPresenter
-                                                    Grid.Column="3"
-                                                    VerticalAlignment="Center"
-                                                    Content="{x:Bind Etiqueta}"
-                                                    Style="{x:Bind helpers:Conversiones.EstiloCumplida(Cumplio)}" />
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsRepeater.ItemTemplate>
-                            </ItemsRepeater>
-                        </Border>
                     </StackPanel>
                 </StackPanel>
-            </StackPanel>
+            </helpers:PanelCentrado>
         </ScrollViewer>
     </Grid>
 </Page>

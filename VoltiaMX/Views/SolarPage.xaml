@@ -16,234 +16,236 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel
-            MaxWidth="{StaticResource ContentMaxWidth}"
-            Padding="{StaticResource PagePadding}"
-            Spacing="{StaticResource Spacing40}">
+        <!-- Contenido centrado con ancho máximo (Styles/Controls.xaml, PageContentHostStyle) -->
+        <helpers:PanelCentrado Style="{StaticResource PageContentHostStyle}">
+            <StackPanel
+                Padding="{StaticResource PagePadding}"
+                Spacing="{StaticResource Spacing40}">
 
-            <StackPanel Spacing="{StaticResource Spacing16}">
-                <TextBlock
-                    x:Uid="Solar_Titulo"
-                    AutomationProperties.HeadingLevel="Level1"
-                    Style="{StaticResource HeadingLgTextStyle}" />
-                <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
-            </StackPanel>
-
-            <Grid ColumnSpacing="{StaticResource Spacing48}" RowSpacing="{StaticResource Spacing40}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <!-- Tus supuestos -->
                 <StackPanel Spacing="{StaticResource Spacing16}">
                     <TextBlock
-                        x:Uid="Solar_SupuestosTitulo"
-                        AutomationProperties.HeadingLevel="Level2"
-                        Style="{StaticResource CaptionTextStyle}" />
-                    <TextBlock
-                        x:Uid="Solar_ValoresEjemplo"
-                        Foreground="{StaticResource SlateBrush}"
-                        Style="{StaticResource BodySmTextStyle}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        x:Uid="Solar_SinConsumoMedido"
-                        AutomationProperties.LiveSetting="Polite"
-                        Style="{StaticResource BodyTextStyle}"
-                        TextWrapping="Wrap"
-                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SinConsumoMedido), Mode=OneWay}" />
-                    <Border Style="{StaticResource HairlineListStyle}">
-                        <StackPanel>
-                            <Border Style="{StaticResource HairlineRowStyle}">
-                                <NumberBox x:Uid="Solar_Consumo" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Consumo, Mode=TwoWay}" />
-                            </Border>
-                            <Border Style="{StaticResource HairlineRowStyle}">
-                                <NumberBox x:Uid="Solar_Porcentaje" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Porcentaje, Mode=TwoWay}" />
-                            </Border>
-                            <Border Style="{StaticResource HairlineRowStyle}">
-                                <StackPanel Spacing="{StaticResource Spacing8}">
-                                    <NumberBox x:Uid="Solar_Horas" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Horas, Mode=TwoWay}" />
-                                    <local:TerminoAyuda Clave="HorasDeSol" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource HairlineRowStyle}">
-                                <NumberBox x:Uid="Solar_Eficiencia" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Eficiencia, Mode=TwoWay}" />
-                            </Border>
-                            <Border Style="{StaticResource HairlineRowStyle}">
-                                <NumberBox x:Uid="Solar_WattsPanel" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.WattsPanel, Mode=TwoWay}" />
-                            </Border>
-                            <Border Style="{StaticResource HairlineRowStyle}">
-                                <StackPanel Spacing="{StaticResource Spacing8}">
-                                    <NumberBox x:Uid="Solar_Costo" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Costo, Mode=TwoWay}" />
-                                    <local:TerminoAyuda Clave="Kwp" />
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Errores de validación: filas destacadas -->
-                    <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneErrores), Mode=OneWay}">
-                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Errores}">
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="x:String">
-                                    <Border Style="{StaticResource HairlineRowStyle}">
-                                        <Grid ColumnSpacing="{StaticResource Spacing16}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                VerticalAlignment="Center"
-                                                AutomationProperties.LiveSetting="Assertive"
-                                                Style="{StaticResource BodyTextStyle}"
-                                                Text="{x:Bind}"
-                                                TextWrapping="Wrap" />
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
-                        </ItemsRepeater>
-                    </Border>
+                        x:Uid="Solar_Titulo"
+                        AutomationProperties.HeadingLevel="Level1"
+                        Style="{StaticResource HeadingLgTextStyle}" />
+                    <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
                 </StackPanel>
 
-                <!-- Resultado y avisos -->
-                <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing24}">
-                    <ContentPresenter Style="{StaticResource InvertedCardStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneResultado), Mode=OneWay}">
-                        <StackPanel Spacing="{StaticResource Spacing16}">
-                            <TextBlock x:Uid="Solar_PanelesTitulo" Foreground="{StaticResource AshBrush}" Style="{StaticResource CaptionTextStyle}" />
-                            <TextBlock
-                                AutomationProperties.LiveSetting="Polite"
-                                Style="{StaticResource DisplayTextStyle}"
-                                Text="{x:Bind ViewModel.PanelesTexto, Mode=OneWay}" />
-                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.FilasResultado}">
+                <Grid ColumnSpacing="{StaticResource Spacing48}" RowSpacing="{StaticResource Spacing40}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Tus supuestos -->
+                    <StackPanel Spacing="{StaticResource Spacing16}">
+                        <TextBlock
+                            x:Uid="Solar_SupuestosTitulo"
+                            AutomationProperties.HeadingLevel="Level2"
+                            Style="{StaticResource CaptionTextStyle}" />
+                        <TextBlock
+                            x:Uid="Solar_ValoresEjemplo"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            x:Uid="Solar_SinConsumoMedido"
+                            AutomationProperties.LiveSetting="Polite"
+                            Style="{StaticResource BodyTextStyle}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.SinConsumoMedido), Mode=OneWay}" />
+                        <Border Style="{StaticResource HairlineListStyle}">
+                            <StackPanel>
+                                <Border Style="{StaticResource HairlineRowStyle}">
+                                    <NumberBox x:Uid="Solar_Consumo" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Consumo, Mode=TwoWay}" />
+                                </Border>
+                                <Border Style="{StaticResource HairlineRowStyle}">
+                                    <NumberBox x:Uid="Solar_Porcentaje" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Porcentaje, Mode=TwoWay}" />
+                                </Border>
+                                <Border Style="{StaticResource HairlineRowStyle}">
+                                    <StackPanel Spacing="{StaticResource Spacing8}">
+                                        <NumberBox x:Uid="Solar_Horas" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Horas, Mode=TwoWay}" />
+                                        <local:TerminoAyuda Clave="HorasDeSol" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource HairlineRowStyle}">
+                                    <NumberBox x:Uid="Solar_Eficiencia" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Eficiencia, Mode=TwoWay}" />
+                                </Border>
+                                <Border Style="{StaticResource HairlineRowStyle}">
+                                    <NumberBox x:Uid="Solar_WattsPanel" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.WattsPanel, Mode=TwoWay}" />
+                                </Border>
+                                <Border Style="{StaticResource HairlineRowStyle}">
+                                    <StackPanel Spacing="{StaticResource Spacing8}">
+                                        <NumberBox x:Uid="Solar_Costo" Style="{StaticResource NumberBoxStyle}" Value="{x:Bind ViewModel.Costo, Mode=TwoWay}" />
+                                        <local:TerminoAyuda Clave="Kwp" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Errores de validación: filas destacadas -->
+                        <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneErrores), Mode=OneWay}">
+                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Errores}">
                                 <ItemsRepeater.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:FilaDetalle">
-                                        <Border Style="{StaticResource HairlineRowOnDarkStyle}">
+                                    <DataTemplate x:DataType="x:String">
+                                        <Border Style="{StaticResource HairlineRowStyle}">
                                             <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
                                                 <TextBlock
+                                                    Grid.Column="1"
                                                     VerticalAlignment="Center"
-                                                    Foreground="{StaticResource AshBrush}"
+                                                    AutomationProperties.LiveSetting="Assertive"
                                                     Style="{StaticResource BodyTextStyle}"
-                                                    Text="{x:Bind Titulo}" />
-                                                <TextBlock HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Detalle}" />
+                                                    Text="{x:Bind}"
+                                                    TextWrapping="Wrap" />
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsRepeater.ItemTemplate>
                             </ItemsRepeater>
-                            <TextBlock
-                                Style="{StaticResource BodySmTextStyle}"
-                                Text="{x:Bind ViewModel.SinPesosTexto, Mode=OneWay}"
-                                TextWrapping="Wrap"
-                                Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.SinPesosTexto), Mode=OneWay}" />
-                            <TextBlock
-                                x:Uid="Solar_NotaExcedente"
-                                Foreground="{StaticResource AshBrush}"
-                                Style="{StaticResource BodySmTextStyle}"
-                                TextWrapping="Wrap" />
-
-                            <!-- DAC antes y después (estimación) -->
-                            <Border Style="{StaticResource HairlineRowOnDarkStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDac), Mode=OneWay}">
-                                <StackPanel Spacing="{StaticResource Spacing8}">
-                                    <TextBlock x:Uid="Simulador_DacTitulo" Foreground="{StaticResource AshBrush}" Style="{StaticResource CaptionTextStyle}" />
-                                    <Grid ColumnSpacing="{StaticResource Spacing16}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock x:Uid="Simulador_DacAntes" VerticalAlignment="Center" Style="{StaticResource BodyTextStyle}" />
-                                        <ContentPresenter
-                                            Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            Content="{x:Bind ViewModel.DacAntesEtiqueta, Mode=OneWay}"
-                                            Style="{x:Bind helpers:Conversiones.EstiloDac(ViewModel.DacAntesNivel), Mode=OneWay}" />
-                                        <TextBlock
-                                            Grid.Column="2"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Center"
-                                            Style="{StaticResource BodyTextStyle}"
-                                            Text="{x:Bind ViewModel.DacAntesTexto, Mode=OneWay}" />
-                                    </Grid>
-                                    <Grid ColumnSpacing="{StaticResource Spacing16}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock x:Uid="Solar_DacConPaneles" VerticalAlignment="Center" Style="{StaticResource BodyTextStyle}" />
-                                        <ContentPresenter
-                                            Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            Content="{x:Bind ViewModel.DacDespuesEtiqueta, Mode=OneWay}"
-                                            Style="{x:Bind helpers:Conversiones.EstiloDac(ViewModel.DacDespuesNivel), Mode=OneWay}" />
-                                        <TextBlock
-                                            Grid.Column="2"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Center"
-                                            Style="{StaticResource BodyTextStyle}"
-                                            Text="{x:Bind ViewModel.DacDespuesTexto, Mode=OneWay}" />
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-                    </ContentPresenter>
-
-                    <!-- Avisos: siempre junto al resultado -->
-                    <StackPanel Spacing="{StaticResource Spacing8}">
-                        <TextBlock x:Uid="Solar_AvisoEstimacionTexto" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
-                        <TextBlock x:Uid="Solar_AvisoNoIncluyeTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
-                        <TextBlock x:Uid="Solar_SinSupuestos" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
+                        </Border>
                     </StackPanel>
 
-                    <!-- Exportar -->
-                    <StackPanel Spacing="{StaticResource Spacing16}">
-                        <Grid ColumnSpacing="{StaticResource Spacing16}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBox
-                                x:Uid="Solar_Referencia"
-                                MaxLength="40"
-                                Style="{StaticResource InputStyle}"
-                                Text="{x:Bind ViewModel.Referencia, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <Button
-                                x:Uid="Solar_ExportarPdf"
-                                Grid.Column="1"
-                                VerticalAlignment="Bottom"
-                                Command="{x:Bind ViewModel.ExportarPdfCommand}"
-                                Style="{StaticResource GhostButtonStyle}" />
-                        </Grid>
-                        <TextBlock
-                            AutomationProperties.LiveSetting="Polite"
-                            Style="{StaticResource BodyTextStyle}"
-                            Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
-                            TextWrapping="Wrap"
-                            Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
-                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
+                    <!-- Resultado y avisos -->
+                    <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing24}">
+                        <ContentPresenter Style="{StaticResource InvertedCardStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneResultado), Mode=OneWay}">
+                            <StackPanel Spacing="{StaticResource Spacing16}">
+                                <TextBlock x:Uid="Solar_PanelesTitulo" Foreground="{StaticResource AshBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                <TextBlock
+                                    AutomationProperties.LiveSetting="Polite"
+                                    Style="{StaticResource DisplayTextStyle}"
+                                    Text="{x:Bind ViewModel.PanelesTexto, Mode=OneWay}" />
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.FilasResultado}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:FilaDetalle">
+                                            <Border Style="{StaticResource HairlineRowOnDarkStyle}">
+                                                <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                                    <TextBlock
+                                                        VerticalAlignment="Center"
+                                                        Foreground="{StaticResource AshBrush}"
+                                                        Style="{StaticResource BodyTextStyle}"
+                                                        Text="{x:Bind Titulo}" />
+                                                    <TextBlock HorizontalAlignment="Right" Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Detalle}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                                <TextBlock
+                                    Style="{StaticResource BodySmTextStyle}"
+                                    Text="{x:Bind ViewModel.SinPesosTexto, Mode=OneWay}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.SinPesosTexto), Mode=OneWay}" />
+                                <TextBlock
+                                    x:Uid="Solar_NotaExcedente"
+                                    Foreground="{StaticResource AshBrush}"
+                                    Style="{StaticResource BodySmTextStyle}"
+                                    TextWrapping="Wrap" />
+
+                                <!-- DAC antes y después (estimación) -->
+                                <Border Style="{StaticResource HairlineRowOnDarkStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDac), Mode=OneWay}">
+                                    <StackPanel Spacing="{StaticResource Spacing8}">
+                                        <TextBlock x:Uid="Simulador_DacTitulo" Foreground="{StaticResource AshBrush}" Style="{StaticResource CaptionTextStyle}" />
+                                        <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock x:Uid="Simulador_DacAntes" VerticalAlignment="Center" Style="{StaticResource BodyTextStyle}" />
+                                            <ContentPresenter
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                Content="{x:Bind ViewModel.DacAntesEtiqueta, Mode=OneWay}"
+                                                Style="{x:Bind helpers:Conversiones.EstiloDac(ViewModel.DacAntesNivel), Mode=OneWay}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource BodyTextStyle}"
+                                                Text="{x:Bind ViewModel.DacAntesTexto, Mode=OneWay}" />
+                                        </Grid>
+                                        <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock x:Uid="Solar_DacConPaneles" VerticalAlignment="Center" Style="{StaticResource BodyTextStyle}" />
+                                            <ContentPresenter
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                Content="{x:Bind ViewModel.DacDespuesEtiqueta, Mode=OneWay}"
+                                                Style="{x:Bind helpers:Conversiones.EstiloDac(ViewModel.DacDespuesNivel), Mode=OneWay}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource BodyTextStyle}"
+                                                Text="{x:Bind ViewModel.DacDespuesTexto, Mode=OneWay}" />
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ContentPresenter>
+
+                        <!-- Avisos: siempre junto al resultado -->
+                        <StackPanel Spacing="{StaticResource Spacing8}">
+                            <TextBlock x:Uid="Solar_AvisoEstimacionTexto" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
+                            <TextBlock x:Uid="Solar_AvisoNoIncluyeTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
+                            <TextBlock x:Uid="Solar_SinSupuestos" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <!-- Exportar -->
+                        <StackPanel Spacing="{StaticResource Spacing16}">
                             <Grid ColumnSpacing="{StaticResource Spacing16}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
-                                <TextBlock
+                                <TextBox
+                                    x:Uid="Solar_Referencia"
+                                    MaxLength="40"
+                                    Style="{StaticResource InputStyle}"
+                                    Text="{x:Bind ViewModel.Referencia, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <Button
+                                    x:Uid="Solar_ExportarPdf"
                                     Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    AutomationProperties.LiveSetting="Assertive"
-                                    Style="{StaticResource BodyTextStyle}"
-                                    Text="{x:Bind ViewModel.Error, Mode=OneWay}"
-                                    TextWrapping="Wrap" />
+                                    VerticalAlignment="Bottom"
+                                    Command="{x:Bind ViewModel.ExportarPdfCommand}"
+                                    Style="{StaticResource GhostButtonStyle}" />
                             </Grid>
-                        </Border>
-                        <!-- Solo en Debug: la página agrega aquí la carpeta de salida para pruebas automatizadas -->
-                        <StackPanel x:Name="ZonaDepuracion" Spacing="{StaticResource Spacing8}" />
+                            <TextBlock
+                                AutomationProperties.LiveSetting="Polite"
+                                Style="{StaticResource BodyTextStyle}"
+                                Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
+                                TextWrapping="Wrap"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
+                            <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
+                                <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.LiveSetting="Assertive"
+                                        Style="{StaticResource BodyTextStyle}"
+                                        Text="{x:Bind ViewModel.Error, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
+                                </Grid>
+                            </Border>
+                            <!-- Solo en Debug: la página agrega aquí la carpeta de salida para pruebas automatizadas -->
+                            <StackPanel x:Name="ZonaDepuracion" Spacing="{StaticResource Spacing8}" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-            </Grid>
-        </StackPanel>
+                </Grid>
+            </StackPanel>
+        </helpers:PanelCentrado>
     </ScrollViewer>
 </Page>
