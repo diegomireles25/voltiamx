@@ -165,6 +165,7 @@ namespace VoltiaMX
             servicios.AddTransient<ReciboPorMontoViewModel>();
             servicios.AddTransient<AgregarReciboViewModel>();
             servicios.AddTransient<AgregarReciboPaginaViewModel>();
+            servicios.AddTransient<ElegirAparatosViewModel>();
             servicios.AddTransient<ReportesViewModel>();
             servicios.AddTransient<RespaldoViewModel>();
             servicios.AddTransient<InquilinosViewModel>();

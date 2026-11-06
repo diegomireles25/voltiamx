@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Elegir mis aparatos (Fase 9d, D1 y D2): la lista de aparatos típicos, en filas con línea sobre el lienzo. Se marca
+    "Lo tengo" y se contestan las horas al día (y cuántos, si suele haber varios). La potencia, los días y el ciclo
+    salen de la plantilla; quien conozca los datos de su aparato los ajusta después en el editor completo de Aparatos.
+-->
+<Page
+    x:Class="VoltiaMX.Views.ElegirAparatosPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:local="using:VoltiaMX.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:VoltiaMX.ViewModels"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <!-- Contenido centrado con ancho máximo (Styles/Controls.xaml, PageContentHostStyle) -->
+        <helpers:PanelCentrado Style="{StaticResource PageContentHostStyle}">
+            <StackPanel
+                Padding="{StaticResource PagePadding}"
+                Spacing="{StaticResource Spacing40}">
+
+                <StackPanel Spacing="{StaticResource Spacing16}">
+                    <Button
+                        x:Uid="ElegirAparatos_Volver"
+                        Command="{x:Bind ViewModel.CancelarCommand}"
+                        Style="{StaticResource TextLinkButtonSmStyle}" />
+                    <TextBlock
+                        x:Uid="ElegirAparatos_Titulo"
+                        AutomationProperties.HeadingLevel="Level1"
+                        Style="{StaticResource HeadingLgTextStyle}" />
+                    <TextBlock
+                        x:Uid="ElegirAparatos_Texto"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodyTextStyle}"
+                        TextWrapping="Wrap" />
+                    <!-- D2: lo aproximado, con su explicación -->
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                        <TextBlock
+                            x:Uid="Aparatos_ValoresTipicos"
+                            VerticalAlignment="Center"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            TextWrapping="Wrap" />
+                        <local:TerminoAyuda VerticalAlignment="Center" Clave="ValoresTipicos" />
+                    </StackPanel>
+                </StackPanel>
+
+                <TextBlock
+                    x:Uid="ElegirAparatos_SinLugar"
+                    Style="{StaticResource BodyTextStyle}"
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneLugar), Mode=OneWay}" />
+
+                <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLugar), Mode=OneWay}">
+                    <Border Style="{StaticResource HairlineListStyle}">
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Filas}">
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="vm:FilaAparatoTipico">
+                                    <Border Style="{StaticResource HairlineRowStyle}">
+                                        <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <CheckBox
+                                                VerticalAlignment="Center"
+                                                AutomationProperties.Name="{x:Bind NombreCasilla}"
+                                                IsChecked="{x:Bind Marcado, Mode=TwoWay}">
+                                                <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Nombre}" />
+                                            </CheckBox>
+                                            <NumberBox
+                                                x:Uid="ElegirAparatos_Horas"
+                                                Grid.Column="1"
+                                                MinWidth="{StaticResource CampoLecturaMinWidth}"
+                                                AutomationProperties.Name="{x:Bind NombreHoras}"
+                                                Style="{StaticResource NumberBoxStyle}"
+                                                Value="{x:Bind Horas, Mode=TwoWay}"
+                                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(EstaMarcado), Mode=OneWay}" />
+                                            <NumberBox
+                                                x:Uid="ElegirAparatos_Cantidad"
+                                                Grid.Column="2"
+                                                MinWidth="{StaticResource CampoLecturaMinWidth}"
+                                                AutomationProperties.Name="{x:Bind NombreCantidad}"
+                                                Style="{StaticResource NumberBoxStyle}"
+                                                Value="{x:Bind Cantidad, Mode=TwoWay}"
+                                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(MostrarCantidad), Mode=OneWay}" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </Border>
+
+                    <TextBlock
+                        x:Uid="Aparatos_NotaReferencia"
+                        Foreground="{StaticResource SlateBrush}"
+                        Style="{StaticResource BodySmTextStyle}"
+                        TextWrapping="Wrap" />
+
+                    <!-- Error en una fila destacada; lo marcado no se pierde -->
+                    <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Error), Mode=OneWay}">
+                        <Grid ColumnSpacing="{StaticResource Spacing16}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter x:Uid="TarifaEditor_EtiquetaRevisa" VerticalAlignment="Center" Style="{StaticResource RiskHighTagStyle}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                AutomationProperties.LiveSetting="Polite"
+                                Style="{StaticResource BodyTextStyle}"
+                                Text="{x:Bind ViewModel.Error, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </Border>
+
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                        <Button x:Uid="ElegirAparatos_Guardar" Command="{x:Bind ViewModel.GuardarCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+                        <Button x:Uid="Aparatos_Cancelar" Command="{x:Bind ViewModel.CancelarCommand}" Style="{StaticResource GhostButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </helpers:PanelCentrado>
+    </ScrollViewer>
+</Page>

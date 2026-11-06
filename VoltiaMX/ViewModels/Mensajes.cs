@@ -87,6 +87,15 @@ public static class SeccionesAparatos
             && int.TryParse(seccion[PrefijoSimulador.Length..], out var id)
                 ? id
                 : null;
+
+    // "Elegir mis aparatos" (Fase 9d, D1): de dónde se abrió, para volver ahí al guardar o cancelar.
+    public const string ElegirDesdeAparatos = "Elegir:Aparatos";
+
+    public const string ElegirDesdeInicio = "Elegir:Inicio";
+
+    public static bool EsElegir(string? seccion) => seccion is ElegirDesdeAparatos or ElegirDesdeInicio;
+
+    public static bool ElegirVuelveAInicio(string? seccion) => seccion == ElegirDesdeInicio;
 }
 
 /// <summary>

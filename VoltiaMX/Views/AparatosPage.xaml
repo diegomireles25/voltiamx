@@ -59,7 +59,29 @@
                         <local:AvisoPreciosDeEjemplo Comando="{x:Bind ViewModel.IrATarifasCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PreciosDeEjemplo), Mode=OneWay}" />
                     </StackPanel>
 
-                    <!-- Agregar -->
+                    <!-- Fase 9d (D1, D2): elegir de la lista de aparatos típicos, con lo aproximado explicado -->
+                    <StackPanel Spacing="{StaticResource Spacing16}">
+                        <Button
+                            x:Uid="Aparatos_ElegirMisAparatos"
+                            Command="{x:Bind ViewModel.ElegirAparatosCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}" />
+                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                            <TextBlock
+                                x:Uid="Aparatos_ValoresTipicos"
+                                VerticalAlignment="Center"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource BodySmTextStyle}"
+                                TextWrapping="Wrap" />
+                            <local:TerminoAyuda VerticalAlignment="Center" Clave="ValoresTipicos" />
+                        </StackPanel>
+                        <TextBlock
+                            x:Uid="Aparatos_Afinar"
+                            Foreground="{StaticResource SlateBrush}"
+                            Style="{StaticResource BodySmTextStyle}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <!-- Agregar con el formulario completo (para quien conoce los datos de su aparato) -->
                     <StackPanel Spacing="{StaticResource Spacing8}">
                         <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
                             <ComboBox
@@ -236,11 +258,20 @@
 
                     <!-- Ranking: contra lo que mide el medidor, sin barras (la barra de la app es la del Dashboard) -->
                     <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneRanking), Mode=OneWay}">
-                        <TextBlock
-                            x:Uid="Ranking_Titulo"
-                            AutomationProperties.HeadingLevel="Level2"
-                            Foreground="{StaticResource SlateBrush}"
-                            Style="{StaticResource CaptionTextStyle}" />
+                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                            <TextBlock
+                                x:Uid="Ranking_Titulo"
+                                VerticalAlignment="Center"
+                                AutomationProperties.HeadingLevel="Level2"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource CaptionTextStyle}" />
+                            <!-- D4: con un recibo por monto, los costos son aproximados -->
+                            <ContentPresenter
+                                x:Uid="Aparatos_Aproximado"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource MintTagStyle}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.RankingAproximado), Mode=OneWay}" />
+                        </StackPanel>
                         <TextBlock
                             Foreground="{StaticResource SlateBrush}"
                             Style="{StaticResource BodySmTextStyle}"
@@ -322,7 +353,11 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <StackPanel Spacing="{StaticResource Spacing8}">
-                                                    <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Nombre}" />
+                                                    <!-- D2: tocar el aparato abre el editor completo para ajustar su potencia -->
+                                                    <Button
+                                                        Command="{x:Bind Editar}"
+                                                        Content="{x:Bind Nombre}"
+                                                        Style="{StaticResource TextLinkButtonStyle}" />
                                                     <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" Text="{x:Bind Categoria}" />
                                                     <TextBlock Foreground="{StaticResource SlateBrush}" Style="{StaticResource CaptionTextStyle}" Text="{x:Bind Detalle}" />
                                                 </StackPanel>

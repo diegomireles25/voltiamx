@@ -84,6 +84,11 @@ public sealed partial class AparatosViewModel(
     // ---- Ranking: porcentajes contra el consumo medido ----
 
     [ObservableProperty] public partial bool TieneRanking { get; set; }
+
+    /// <summary>
+    /// D4: los costos salen de un recibo por monto (consumo aproximado): el ranking lleva la etiqueta APROXIMADO.
+    /// </summary>
+    [ObservableProperty] public partial bool RankingAproximado { get; set; }
     [ObservableProperty] public partial string TextoRanking { get; set; } = string.Empty;
     [ObservableProperty] public partial bool SumaExcedeMedido { get; set; }
     [ObservableProperty] public partial bool TieneSinIdentificar { get; set; }
@@ -171,7 +176,7 @@ public sealed partial class AparatosViewModel(
         FilasRanking.Clear();
         if (_costos is not { } costos || !TieneAparatos)
         {
-            TieneRanking = SumaExcedeMedido = TieneSinIdentificar = false;
+            TieneRanking = SumaExcedeMedido = TieneSinIdentificar = RankingAproximado = false;
             return;
         }
 
@@ -188,7 +193,9 @@ public sealed partial class AparatosViewModel(
         SinIdentificarTexto = ranking.SinIdentificar is decimal sinIdentificar
             ? FormatoRanking.Porcentaje(sinIdentificar, textos)
             : string.Empty;
-        TextoRanking = textos[costos.Costos.ConPesos ? "Aparatos_NoSumanRecibo" : "Ranking_SinConsumo"];
+        // D4: sin recibo, la lista con la explicación; con un recibo por monto, los costos con APROXIMADO.
+        TextoRanking = textos[costos.Costos.ConPesos ? "Aparatos_NoSumanRecibo" : "Aparatos_SinReciboCostos"];
+        RankingAproximado = costos.Costos.ConPesos && costos.ConsumoAproximado;
     }
 
     partial void OnNombreChanged(string value) => ProgramarValidacion();
@@ -406,6 +413,13 @@ public sealed partial class AparatosViewModel(
 
     [RelayCommand]
     private void IrAConfiguracion() => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje());
+
+    /// <summary>
+    /// "Elegir mis aparatos" (Fase 9d, D1): la lista de aparatos típicos; al guardar vuelve aquí.
+    /// </summary>
+    [RelayCommand(CanExecute = nameof(TieneLugar))]
+    private void ElegirAparatos()
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Aparatos, SeccionesAparatos.ElegirDesdeAparatos));
 
     /// <summary>
     /// Aviso breve (la vista lo anuncia al lector de pantalla); se borra solo.

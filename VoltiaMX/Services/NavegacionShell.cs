@@ -64,6 +64,10 @@ public sealed class NavegacionShell : INavegacionShell
                 {
                     IrA(typeof(SimuladorPage), SeccionesAparatos.AparatoDe(seccion));
                 }
+                else if (SeccionesAparatos.EsElegir(seccion))
+                {
+                    IrA(typeof(ElegirAparatosPage), seccion);
+                }
                 else
                 {
                     IrA(typeof(AparatosPage));

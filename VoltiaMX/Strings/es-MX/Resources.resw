@@ -1446,7 +1446,7 @@
     <value>Agrega tu primer aparato</value>
   </data>
   <data name="Aparatos_VacioTexto.Text" xml:space="preserve">
-    <value>Elige una plantilla o agrégalo a mano para calcular cuánto consume al mes.</value>
+    <value>Toca «Elegir mis aparatos» y marca los que tienes en casa.</value>
   </data>
   <data name="Aparatos_Detalle" xml:space="preserve">
     <value>{0} × {1:N0} W · {2:0.##} h/día · {3} días/sem</value>
@@ -3817,5 +3817,68 @@
   </data>
   <data name="Plantilla_IluminacionLed_Anterior" xml:space="preserve">
     <value>Iluminación LED</value>
+  </data>
+  <data name="ElegirAparatos_Volver.Content" xml:space="preserve">
+    <value>Volver</value>
+  </data>
+  <data name="ElegirAparatos_Titulo.Text" xml:space="preserve">
+    <value>ELIGE TUS APARATOS</value>
+  </data>
+  <data name="ElegirAparatos_Texto.Text" xml:space="preserve">
+    <value>Marca los que tienes y dinos cuántas horas al día los usas.</value>
+  </data>
+  <data name="ElegirAparatos_SinLugar.Text" xml:space="preserve">
+    <value>Contesta las preguntas iniciales para poder elegir tus aparatos.</value>
+  </data>
+  <data name="ElegirAparatos_Horas.Header" xml:space="preserve">
+    <value>Horas al día</value>
+  </data>
+  <data name="ElegirAparatos_Cantidad.Header" xml:space="preserve">
+    <value>¿Cuántos tienes?</value>
+  </data>
+  <data name="ElegirAparatos_Guardar.Content" xml:space="preserve">
+    <value>Guardar mis aparatos</value>
+  </data>
+  <data name="ElegirAparatos_LoTengo" xml:space="preserve">
+    <value>{0}, lo tengo</value>
+  </data>
+  <data name="ElegirAparatos_HorasDe" xml:space="preserve">
+    <value>Horas al día de {0}</value>
+  </data>
+  <data name="ElegirAparatos_CuantosDe" xml:space="preserve">
+    <value>Cuántos tienes de {0}</value>
+  </data>
+  <data name="ElegirAparatos_QuitarTitulo" xml:space="preserve">
+    <value>Quitar aparatos</value>
+  </data>
+  <data name="ElegirAparatos_QuitarTexto" xml:space="preserve">
+    <value>Se quitarán de tu lista: {0}. Esta acción no se puede deshacer.</value>
+  </data>
+  <data name="ElegirAparatos_QuitarConfirmar" xml:space="preserve">
+    <value>Quitar</value>
+  </data>
+  <data name="ElegirAparatos_Error" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Aparatos_ElegirMisAparatos.Content" xml:space="preserve">
+    <value>Elegir mis aparatos</value>
+  </data>
+  <data name="Aparatos_ValoresTipicos.Text" xml:space="preserve">
+    <value>Usamos valores típicos para cada aparato. Tus cifras serán aproximadas.</value>
+  </data>
+  <data name="Aparatos_Afinar.Text" xml:space="preserve">
+    <value>Si conoces la potencia de tu aparato, tócalo para ajustarla.</value>
+  </data>
+  <data name="Aparatos_Aproximado.Content" xml:space="preserve">
+    <value>APROXIMADO</value>
+  </data>
+  <data name="Aparatos_SinReciboCostos" xml:space="preserve">
+    <value>Cuando registres tu recibo, aquí verás cuánto cuesta cada uno.</value>
+  </data>
+  <data name="Ayuda_Termino_ValoresTipicos" xml:space="preserve">
+    <value>Valores típicos</value>
+  </data>
+  <data name="Ayuda_ValoresTipicos" xml:space="preserve">
+    <value>Cada aparato usa una potencia y un uso típicos. El tuyo puede gastar más o menos. Si conoces su potencia, ajústala en Aparatos.</value>
   </data>
 </root>
