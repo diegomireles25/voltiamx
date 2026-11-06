@@ -748,7 +748,7 @@
     <value>QUÉ GASTA MÁS</value>
   </data>
   <data name="Dashboard_AparatosVacio.Text" xml:space="preserve">
-    <value>Agrega tus aparatos para ver cuáles gastan más.</value>
+    <value>Elige los aparatos de tu casa para ver cuáles gastan más.</value>
   </data>
 
   <!-- Dashboard: cierre -->
@@ -1551,7 +1551,7 @@
     <value>Agregar aparatos</value>
   </data>
   <data name="Dashboard_VerTodosAparatos.Content" xml:space="preserve">
-    <value>Ver todos</value>
+    <value>Ver aparatos</value>
   </data>
   <data name="Ranking_Titulo.Text" xml:space="preserve">
     <value>LO QUE MÁS GASTA</value>
@@ -3781,5 +3781,8 @@
   </data>
   <data name="Lecturas_AnotarMedidor.Content" xml:space="preserve">
     <value>Anotar lo que marca mi medidor (opcional)</value>
+  </data>
+  <data name="Dashboard_ComoSeCalcula.Content" xml:space="preserve">
+    <value>Cómo se calcula tu recibo</value>
   </data>
 </root>

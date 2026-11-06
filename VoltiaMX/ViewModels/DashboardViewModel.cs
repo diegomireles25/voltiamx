@@ -133,6 +133,11 @@ public sealed partial class DashboardViewModel(
 
     // Para ahorrar (D5, D6): hasta 3 acciones calculadas y, con dos o más, su ahorro junto.
     [ObservableProperty] public partial bool TieneSugerencias { get; set; }
+
+    /// <summary>
+    /// Inicio muestra una sola acción para ahorrar (Fase 9c, D4): la primera sugerencia, con su texto de siempre.
+    /// </summary>
+    [ObservableProperty] public partial string PrimeraSugerencia { get; set; } = string.Empty;
     [ObservableProperty] public partial string TextoCombinado { get; set; } = string.Empty;
 
     public ObservableCollection<string> Sugerencias { get; } = [];
@@ -339,17 +344,11 @@ public sealed partial class DashboardViewModel(
         EtiquetaTarifa = textos.Formato(
             resumen.TarifaPorConfirmar ? "Dashboard_TarifaPorConfirmar" : "Dashboard_Tarifa", resumen.NombreTarifa);
         // Sin lecturas (o con la fecha de corte en el futuro) no se muestran días del recibo: nunca días negativos.
-        LeyendaPeriodo = (estado == EstadoPantallaInicio.ConLecturas
-            ? textos.Formato(
-                "Dashboard_LeyendaPeriodo",
-                textos[$"TipoLugar_{resumen.TipoLugar}"],
-                NombrePeriodo(resumen.InicioPeriodo, resumen.MesesDelPeriodo),
-                resumen.DiaDelPeriodo,
-                resumen.DiasDelPeriodo)
-            : textos.Formato(
-                "Dashboard_LeyendaPeriodoSinDia",
-                textos[$"TipoLugar_{resumen.TipoLugar}"],
-                NombrePeriodo(resumen.InicioPeriodo, resumen.MesesDelPeriodo))).ToUpper(Cultura);
+        // Fase 9c (D4): un solo "DÍA n DE m", el de debajo de la barra (solo con lecturas); la leyenda ya no lo repite.
+        LeyendaPeriodo = textos.Formato(
+            "Dashboard_LeyendaPeriodoSinDia",
+            textos[$"TipoLugar_{resumen.TipoLugar}"],
+            NombrePeriodo(resumen.InicioPeriodo, resumen.MesesDelPeriodo)).ToUpper(Cultura);
 
         AplicarProyeccion(resumen);
         if (EsSiSiguesIgual)
@@ -528,6 +527,7 @@ public sealed partial class DashboardViewModel(
         Aparatos.Clear();
         Sugerencias.Clear();
         TieneSugerencias = AparatosConPesos = false;
+        PrimeraSugerencia = string.Empty;
         TextoCombinado = string.Empty;
         AvisoAparatos = string.Empty;
         var lugar = MostrarAparatos ? await lecturas.ObtenerLugarPrincipalAsync() : null;
@@ -569,6 +569,7 @@ public sealed partial class DashboardViewModel(
         }
 
         TieneSugerencias = Sugerencias.Count > 0;
+        PrimeraSugerencia = TieneSugerencias ? Sugerencias[0] : string.Empty;
         TextoCombinado = sugerencias.AhorroCombinadoMensual is decimal combinado && Sugerencias.Count > 1
             ? textos.Formato(Sugerencias.Count == 3 ? "Sugerencia_CombinadoTres" : "Sugerencia_CombinadoDos", combinado)
             : string.Empty;
