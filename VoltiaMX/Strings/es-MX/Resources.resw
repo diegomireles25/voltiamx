@@ -951,7 +951,7 @@
 
   <!-- Historial (Lecturas) -->
   <data name="Lecturas_Historial.Text" xml:space="preserve">
-    <value>HISTORIAL</value>
+    <value>TUS RECIBOS</value>
   </data>
   <data name="Historial_EnKwh.Content" xml:space="preserve">
     <value>kWh</value>
@@ -3784,5 +3784,20 @@
   </data>
   <data name="Dashboard_ComoSeCalcula.Content" xml:space="preserve">
     <value>Cómo se calcula tu recibo</value>
+  </data>
+  <data name="Lecturas_ComparacionTitulo.Text" xml:space="preserve">
+    <value>COMPARADO CON TU RECIBO ANTERIOR</value>
+  </data>
+  <data name="Lecturas_ComparacionSinLecturas" xml:space="preserve">
+    <value>Anota lo que marca tu medidor para comparar este recibo con el anterior.</value>
+  </data>
+  <data name="Lecturas_HistorialVacioTitulo.Text" xml:space="preserve">
+    <value>Agrega tu primer recibo</value>
+  </data>
+  <data name="Lecturas_HistorialVacioTexto.Text" xml:space="preserve">
+    <value>Con lo que pagaste en tu último recibo te decimos cuánto vas a pagar.</value>
+  </data>
+  <data name="Lecturas_MedidorTitulo.Text" xml:space="preserve">
+    <value>LO QUE MARCA TU MEDIDOR</value>
   </data>
 </root>

@@ -392,30 +392,7 @@ public sealed partial class DashboardViewModel(
     /// recalculado con la tarifa actual, con las reglas de <see cref="ComparacionRecibo"/>.
     /// </summary>
     private void AplicarComparacion(ResumenDashboard resumen)
-    {
-        // D6: en pesos, contra el recibo anterior recalculado con la tarifa actual.
-        var comparacion = ComparacionRecibo.Evaluar(resumen.MontoProyectado, resumen.MontoReciboAnterior, resumen.DiaDelPeriodo);
-        TieneComparacion = comparacion.Estado != EstadoComparacion.SinReciboAnterior;
-
-        // "unos $N": se redondean los dos montos y la diferencia es la de los redondeados, para que la frase cuadre.
-        var ritmo = Math.Round(comparacion.MontoARitmo, MidpointRounding.AwayFromZero);
-        var anterior = Math.Round(comparacion.MontoAnterior, MidpointRounding.AwayFromZero);
-        var diferencia = Math.Abs(ritmo - anterior);
-        (CifraComparacion, TextoComparacion) = comparacion.Estado switch
-        {
-            EstadoComparacion.MasAlto => (
-                textos.Formato("Dashboard_ComparacionCifraArriba", diferencia),
-                textos.Formato("Dashboard_ComparacionArriba", ritmo, anterior, diferencia)),
-            EstadoComparacion.MasBajo => (
-                textos.Formato("Dashboard_ComparacionCifraAbajo", diferencia),
-                textos.Formato("Dashboard_ComparacionAbajo", ritmo, anterior, diferencia)),
-            EstadoComparacion.Igual => (
-                textos["Dashboard_ComparacionCifraIgual"],
-                textos.Formato("Dashboard_ComparacionIgual", ritmo, anterior)),
-            EstadoComparacion.AunEsPronto => (string.Empty, textos.Formato("Dashboard_ComparacionPronto", comparacion.Dias)),
-            _ => (string.Empty, string.Empty),
-        };
-    }
+        => (TieneComparacion, CifraComparacion, TextoComparacion) = TextosComparacion.Armar(textos, resumen);
 
     // D7: el historial de Inicio va siempre en pesos (antes de impuestos).
     private void AplicarHistorial(ResumenDashboard resumen)

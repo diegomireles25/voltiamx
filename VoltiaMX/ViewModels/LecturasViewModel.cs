@@ -126,6 +126,7 @@ public static class SeccionesLecturas
 public sealed partial class LecturasViewModel(
     ILecturaService lecturas,
     IHistorialService historiales,
+    IResumenDashboardService resumenes,
     IPerfilService perfiles,
     ITextos textos,
     IDialogos dialogos) : ObservableObject
@@ -153,6 +154,14 @@ public sealed partial class LecturasViewModel(
     /// "LO QUE MARCA TU MEDIDOR" abierto: con lecturas o después de "Anotar lo que marca mi medidor".
     /// </summary>
     [ObservableProperty] public partial bool MostrarMedidor { get; set; }
+
+    // "COMPARADO CON TU RECIBO ANTERIOR" (Fase 9c, D5): la misma lógica en pesos que tenía Inicio.
+    [ObservableProperty] public partial string CifraComparacion { get; set; } = string.Empty;
+    [ObservableProperty] public partial string TextoComparacion { get; set; } = string.Empty;
+
+    // "TUS RECIBOS" sin historial: sin ningún recibo ("Agrega tu primer recibo") o con uno solo.
+    [ObservableProperty] public partial bool HistorialSinRecibos { get; set; }
+    [ObservableProperty] public partial bool HistorialConPocos { get; set; }
     [ObservableProperty] public partial bool EsDemo { get; set; }
     [ObservableProperty] public partial bool TieneLecturas { get; set; }
     [ObservableProperty] public partial bool TieneVistaPrevia { get; set; }
@@ -212,7 +221,29 @@ public sealed partial class LecturasViewModel(
         LimpiarFormulario();
         await CargarListaAsync();
         await CargarHistorialAsync();
+        await CargarComparacionAsync();
         MostrarMedidor = TieneLecturas;
+    }
+
+    private async Task CargarComparacionAsync()
+    {
+        CifraComparacion = string.Empty;
+        TextoComparacion = textos["Dashboard_ComparacionSinAnterior/Text"];
+        if (_lugarId is not int lugarId || await resumenes.ObtenerDeLugarAsync(lugarId, Hoy) is not { } resumen)
+        {
+            return;
+        }
+
+        var (tiene, cifra, texto) = TextosComparacion.Armar(textos, resumen);
+        if (!tiene)
+        {
+            return;
+        }
+
+        // Sin lecturas en este recibo no hay "a este ritmo": se dice qué falta en lugar de "Aún es pronto".
+        (CifraComparacion, TextoComparacion) = resumen.MontoProyectado is null
+            ? (string.Empty, textos["Lecturas_ComparacionSinLecturas"])
+            : (cifra, texto);
     }
 
     private bool ValorValido() => _lugarId is not null && Fecha is not null && !double.IsNaN(ValorKwh) && ValorKwh >= 0;
@@ -445,6 +476,8 @@ public sealed partial class LecturasViewModel(
     {
         _historial = _lugarId is int lugarId ? await historiales.ObtenerAsync(lugarId, Hoy) : null;
         TieneHistorial = _historial?.PeriodosCerrados >= PeriodosParaHistorial;
+        HistorialSinRecibos = (_historial?.PeriodosCerrados ?? 0) == 0;
+        HistorialConPocos = !TieneHistorial && !HistorialSinRecibos;
         ArmarBarras();
         ArmarTabla();
         ArmarAcumulado();

@@ -81,170 +81,36 @@
                         <local:AvisoDatosEjemplo Comando="{x:Bind ViewModel.IrAConfiguracionCommand}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDemo), Mode=OneWay}" />
                     </StackPanel>
 
-                    <Grid
-                        ColumnSpacing="{StaticResource Spacing48}"
-                        RowSpacing="{StaticResource Spacing32}"
-                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLugar), Mode=OneWay}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <!-- Formulario; Enter en los campos numéricos guarda (ver LecturasPage.xaml.cs) -->
-                        <StackPanel x:Name="Formulario" Spacing="{StaticResource Spacing24}">
-                            <CalendarDatePicker
-                                x:Uid="Lecturas_Fecha"
-                                HorizontalAlignment="Stretch"
-                                Date="{x:Bind ViewModel.Fecha, Mode=TwoWay}"
-                                MaxDate="{x:Bind ViewModel.FechaMaxima}"
-                                Style="{StaticResource DatePickerStyle}" />
-                            <NumberBox
-                                x:Uid="Lecturas_Valor"
-                                KeyUp="AlSoltarTeclaEnCampo"
-                                Style="{StaticResource NumberBoxStyle}"
-                                Value="{x:Bind ViewModel.ValorKwh, Mode=TwoWay}" />
-                            <local:TerminoAyuda Clave="LoQueMarcaTuMedidor" />
-                            <NumberBox
-                                x:Uid="Lecturas_Monto"
-                                KeyUp="AlSoltarTeclaEnCampo"
-                                Style="{StaticResource NumberBoxStyle}"
-                                Value="{x:Bind ViewModel.MontoRecibo, Mode=TwoWay}" />
-                            <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
-                                <Button
-                                    x:Uid="Lecturas_Previsualizar"
-                                    Command="{x:Bind ViewModel.PrevisualizarCommand}"
-                                    Style="{StaticResource GhostButtonStyle}" />
-                                <Button
-                                    x:Uid="Lecturas_Guardar"
-                                    Command="{x:Bind ViewModel.GuardarCommand}"
-                                    Style="{StaticResource PrimaryButtonStyle}" />
-                            </StackPanel>
-                            <!-- Aviso breve tras guardar o eliminar; el lector de pantalla lo anuncia -->
-                            <TextBlock
-                                AutomationProperties.LiveSetting="Polite"
-                                Style="{StaticResource BodyTextStyle}"
-                                Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
-                                TextWrapping="Wrap"
-                                Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
-                        </StackPanel>
-
-                        <!-- La única tarjeta de la pantalla -->
-                        <ContentPresenter
-                            x:Name="ZonaPrevia"
-                            Grid.Column="1"
-                            VerticalAlignment="Top"
-                            Style="{x:Bind helpers:Conversiones.EstiloTarjetaPrevia(ViewModel.VistaPreviaConCierres), Mode=OneWay}">
-                            <StackPanel Spacing="{StaticResource Spacing16}">
-                                <TextBlock x:Uid="Lecturas_VistaPrevia" Style="{StaticResource CaptionTextStyle}" />
-                                <TextBlock
-                                    x:Uid="Lecturas_VistaPreviaVacia"
-                                    Foreground="{StaticResource SlateBrush}"
-                                    Style="{StaticResource BodyTextStyle}"
-                                    TextWrapping="Wrap"
-                                    Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneVistaPrevia), Mode=OneWay}" />
-                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.VistaPrevia}">
-                                    <ItemsRepeater.ItemTemplate>
-                                        <DataTemplate x:DataType="vm:FilaVistaPrevia">
-                                            <Border Style="{x:Bind helpers:Conversiones.EstiloFilaPrevia(EnTarjetaOscura)}">
-                                                <Grid ColumnSpacing="{StaticResource Spacing16}">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <StackPanel Spacing="{StaticResource Spacing8}">
-                                                        <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Titulo}" TextWrapping="Wrap" />
-                                                        <TextBlock
-                                                            Foreground="{x:Bind helpers:Conversiones.BrochaSecundaria(EnTarjetaOscura)}"
-                                                            Style="{StaticResource BodySmTextStyle}"
-                                                            Text="{x:Bind Detalle}"
-                                                            TextWrapping="Wrap"
-                                                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(TieneDetalle)}" />
-                                                    </StackPanel>
-                                                    <ContentPresenter
-                                                        Grid.Column="1"
-                                                        VerticalAlignment="Top"
-                                                        Style="{x:Bind helpers:Conversiones.EstiloEtiquetaLectura(TipoEtiqueta)}"
-                                                        Content="{x:Bind Etiqueta}"
-                                                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(TieneEtiqueta)}" />
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
-                                </ItemsRepeater>
-                            </StackPanel>
-                        </ContentPresenter>
-                    </Grid>
-
-                    <!-- Últimas lecturas -->
+                    <!-- COMPARADO CON TU RECIBO ANTERIOR (D5): la lógica en pesos de siempre, en una fila sobre el lienzo -->
                     <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLugar), Mode=OneWay}">
-                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
-                            <TextBlock
-                                x:Uid="Lecturas_Ultimas"
-                                VerticalAlignment="Center"
-                                AutomationProperties.HeadingLevel="Level2"
-                                Foreground="{StaticResource SlateBrush}"
-                                Style="{StaticResource CaptionTextStyle}" />
-                            <local:TerminoAyuda Clave="DiaDeCorte" />
-                        </StackPanel>
-
-                        <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneLecturas), Mode=OneWay}">
-                            <TextBlock x:Uid="Lecturas_VacioTitulo" Style="{StaticResource SubheadingLgTextStyle}" />
-                            <TextBlock
-                                x:Uid="Lecturas_VacioTexto"
-                                Foreground="{StaticResource SlateBrush}"
-                                Style="{StaticResource BodyTextStyle}"
-                                TextWrapping="Wrap" />
-                        </StackPanel>
-
-                        <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLecturas), Mode=OneWay}">
-                            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Lecturas}">
-                                <ItemsRepeater.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:FilaLectura">
-                                        <Border Style="{StaticResource HairlineRowStyle}">
-                                            <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextStyle}" Text="{x:Bind Fecha}" />
-                                                <TextBlock
-                                                    Grid.Column="1"
-                                                    VerticalAlignment="Center"
-                                                    Style="{StaticResource SubheadingTextStyle}"
-                                                    Text="{x:Bind Valor}" />
-                                                <TextBlock
-                                                    Grid.Column="2"
-                                                    VerticalAlignment="Center"
-                                                    Foreground="{StaticResource SlateBrush}"
-                                                    Style="{StaticResource CaptionTextStyle}"
-                                                    Text="{x:Bind Consumo}" />
-                                                <ContentPresenter
-                                                    Grid.Column="3"
-                                                    VerticalAlignment="Center"
-                                                    Style="{x:Bind helpers:Conversiones.EstiloEtiquetaLectura(TipoEtiqueta)}"
-                                                    Content="{x:Bind Etiqueta}"
-                                                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(TieneEtiqueta)}" />
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsRepeater.ItemTemplate>
-                            </ItemsRepeater>
+                        <TextBlock
+                            x:Uid="Lecturas_ComparacionTitulo"
+                            AutomationProperties.HeadingLevel="Level2"
+                            Style="{StaticResource SectionTitleTextStyle}" />
+                        <Border Style="{StaticResource HairlineListStyle}">
+                            <Border Style="{StaticResource HairlineRowStyle}">
+                                <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource BodyTextStyle}"
+                                        Text="{x:Bind ViewModel.TextoComparacion, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource FigureTextStyle}"
+                                        Text="{x:Bind ViewModel.CifraComparacion, Mode=OneWay}"
+                                        Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.CifraComparacion), Mode=OneWay}" />
+                                </Grid>
+                            </Border>
                         </Border>
-
-                        <Button
-                            x:Uid="Lecturas_EliminarUltima"
-                            Command="{x:Bind ViewModel.EliminarUltimaCommand}"
-                            Style="{StaticResource TextLinkButtonSmStyle}"
-                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLecturas), Mode=OneWay}" />
                     </StackPanel>
 
-                    <!-- Historial: barras por periodo, su versión en texto y el acumulado del periodo actual -->
+                    <!-- TUS RECIBOS (D5): barras por recibo (en pesos por defecto), su versión en texto y el acumulado del actual -->
                     <StackPanel
                         x:Name="SeccionHistorial"
                         Spacing="{StaticResource Spacing24}"
@@ -258,8 +124,7 @@
                                 x:Uid="Lecturas_Historial"
                                 VerticalAlignment="Center"
                                 AutomationProperties.HeadingLevel="Level2"
-                                Foreground="{StaticResource SlateBrush}"
-                                Style="{StaticResource CaptionTextStyle}" />
+                                Style="{StaticResource SectionTitleTextStyle}" />
                             <StackPanel
                                 Grid.Column="1"
                                 Orientation="Horizontal"
@@ -270,12 +135,20 @@
                             </StackPanel>
                         </Grid>
 
+                        <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.HistorialSinRecibos), Mode=OneWay}">
+                            <TextBlock x:Uid="Lecturas_HistorialVacioTitulo" Style="{StaticResource SubheadingLgTextStyle}" />
+                            <TextBlock
+                                x:Uid="Lecturas_HistorialVacioTexto"
+                                Foreground="{StaticResource SlateBrush}"
+                                Style="{StaticResource BodyTextStyle}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
                         <TextBlock
                             x:Uid="Historial_Vacio"
                             Foreground="{StaticResource SlateBrush}"
                             Style="{StaticResource BodyTextStyle}"
                             TextWrapping="Wrap"
-                            Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneHistorial), Mode=OneWay}" />
+                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.HistorialConPocos), Mode=OneWay}" />
 
                         <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneHistorial), Mode=OneWay}">
                             <lvc:CartesianChart
@@ -350,6 +223,177 @@
                                 Style="{StaticResource BodyTextStyle}"
                                 Text="{x:Bind ViewModel.ResumenAcumulado, Mode=OneWay}"
                                 TextWrapping="Wrap" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- LO QUE MARCA TU MEDIDOR (D5): opcional; plegado hasta que haya lecturas o se pulse "Anotar…" -->
+                    <StackPanel
+                        Spacing="{StaticResource Spacing32}"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarMedidor), Mode=OneWay}">
+                        <TextBlock
+                            x:Uid="Lecturas_MedidorTitulo"
+                            AutomationProperties.HeadingLevel="Level2"
+                            Style="{StaticResource SectionTitleTextStyle}" />
+                        <Grid
+                            ColumnSpacing="{StaticResource Spacing48}"
+                            RowSpacing="{StaticResource Spacing32}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Formulario; Enter en los campos numéricos guarda (ver LecturasPage.xaml.cs) -->
+                            <StackPanel x:Name="Formulario" Spacing="{StaticResource Spacing24}">
+                                <CalendarDatePicker
+                                    x:Uid="Lecturas_Fecha"
+                                    HorizontalAlignment="Stretch"
+                                    Date="{x:Bind ViewModel.Fecha, Mode=TwoWay}"
+                                    MaxDate="{x:Bind ViewModel.FechaMaxima}"
+                                    Style="{StaticResource DatePickerStyle}" />
+                                <NumberBox
+                                    x:Uid="Lecturas_Valor"
+                                    KeyUp="AlSoltarTeclaEnCampo"
+                                    Style="{StaticResource NumberBoxStyle}"
+                                    Value="{x:Bind ViewModel.ValorKwh, Mode=TwoWay}" />
+                                <local:TerminoAyuda Clave="LoQueMarcaTuMedidor" />
+                                <NumberBox
+                                    x:Uid="Lecturas_Monto"
+                                    KeyUp="AlSoltarTeclaEnCampo"
+                                    Style="{StaticResource NumberBoxStyle}"
+                                    Value="{x:Bind ViewModel.MontoRecibo, Mode=TwoWay}" />
+                                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                                    <Button
+                                        x:Uid="Lecturas_Previsualizar"
+                                        Command="{x:Bind ViewModel.PrevisualizarCommand}"
+                                        Style="{StaticResource GhostButtonStyle}" />
+                                    <Button
+                                        x:Uid="Lecturas_Guardar"
+                                        Command="{x:Bind ViewModel.GuardarCommand}"
+                                        Style="{StaticResource PrimaryButtonStyle}" />
+                                </StackPanel>
+                                <!-- Aviso breve tras guardar o eliminar; el lector de pantalla lo anuncia -->
+                                <TextBlock
+                                    AutomationProperties.LiveSetting="Polite"
+                                    Style="{StaticResource BodyTextStyle}"
+                                    Text="{x:Bind ViewModel.Aviso, Mode=OneWay}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
+                            </StackPanel>
+
+                            <!-- La única tarjeta de la pantalla -->
+                            <ContentPresenter
+                                x:Name="ZonaPrevia"
+                                Grid.Column="1"
+                                VerticalAlignment="Top"
+                                Style="{x:Bind helpers:Conversiones.EstiloTarjetaPrevia(ViewModel.VistaPreviaConCierres), Mode=OneWay}">
+                                <StackPanel Spacing="{StaticResource Spacing16}">
+                                    <TextBlock x:Uid="Lecturas_VistaPrevia" Style="{StaticResource CaptionTextStyle}" />
+                                    <TextBlock
+                                        x:Uid="Lecturas_VistaPreviaVacia"
+                                        Foreground="{StaticResource SlateBrush}"
+                                        Style="{StaticResource BodyTextStyle}"
+                                        TextWrapping="Wrap"
+                                        Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneVistaPrevia), Mode=OneWay}" />
+                                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.VistaPrevia}">
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:FilaVistaPrevia">
+                                                <Border Style="{x:Bind helpers:Conversiones.EstiloFilaPrevia(EnTarjetaOscura)}">
+                                                    <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel Spacing="{StaticResource Spacing8}">
+                                                            <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Titulo}" TextWrapping="Wrap" />
+                                                            <TextBlock
+                                                                Foreground="{x:Bind helpers:Conversiones.BrochaSecundaria(EnTarjetaOscura)}"
+                                                                Style="{StaticResource BodySmTextStyle}"
+                                                                Text="{x:Bind Detalle}"
+                                                                TextWrapping="Wrap"
+                                                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(TieneDetalle)}" />
+                                                        </StackPanel>
+                                                        <ContentPresenter
+                                                            Grid.Column="1"
+                                                            VerticalAlignment="Top"
+                                                            Style="{x:Bind helpers:Conversiones.EstiloEtiquetaLectura(TipoEtiqueta)}"
+                                                            Content="{x:Bind Etiqueta}"
+                                                            Visibility="{x:Bind helpers:Conversiones.VisibleSi(TieneEtiqueta)}" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                </StackPanel>
+                            </ContentPresenter>
+                        </Grid>
+
+                        <!-- Últimas lecturas -->
+                        <StackPanel Spacing="{StaticResource Spacing16}">
+                            <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                                <TextBlock
+                                    x:Uid="Lecturas_Ultimas"
+                                    VerticalAlignment="Center"
+                                    AutomationProperties.HeadingLevel="Level2"
+                                    Foreground="{StaticResource SlateBrush}"
+                                    Style="{StaticResource CaptionTextStyle}" />
+                                <local:TerminoAyuda Clave="DiaDeCorte" />
+                            </StackPanel>
+
+                            <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSiNo(ViewModel.TieneLecturas), Mode=OneWay}">
+                                <TextBlock x:Uid="Lecturas_VacioTitulo" Style="{StaticResource SubheadingLgTextStyle}" />
+                                <TextBlock
+                                    x:Uid="Lecturas_VacioTexto"
+                                    Foreground="{StaticResource SlateBrush}"
+                                    Style="{StaticResource BodyTextStyle}"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+
+                            <Border Style="{StaticResource HairlineListStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLecturas), Mode=OneWay}">
+                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Lecturas}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:FilaLectura">
+                                            <Border Style="{StaticResource HairlineRowStyle}">
+                                                <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextStyle}" Text="{x:Bind Fecha}" />
+                                                    <TextBlock
+                                                        Grid.Column="1"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource SubheadingTextStyle}"
+                                                        Text="{x:Bind Valor}" />
+                                                    <TextBlock
+                                                        Grid.Column="2"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="{StaticResource SlateBrush}"
+                                                        Style="{StaticResource CaptionTextStyle}"
+                                                        Text="{x:Bind Consumo}" />
+                                                    <ContentPresenter
+                                                        Grid.Column="3"
+                                                        VerticalAlignment="Center"
+                                                        Style="{x:Bind helpers:Conversiones.EstiloEtiquetaLectura(TipoEtiqueta)}"
+                                                        Content="{x:Bind Etiqueta}"
+                                                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(TieneEtiqueta)}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </Border>
+
+                            <Button
+                                x:Uid="Lecturas_EliminarUltima"
+                                Command="{x:Bind ViewModel.EliminarUltimaCommand}"
+                                Style="{StaticResource TextLinkButtonSmStyle}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneLecturas), Mode=OneWay}" />
                         </StackPanel>
                     </StackPanel>
 
