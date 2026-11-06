@@ -12,6 +12,18 @@ namespace VoltiaMX.Views
         {
             ViewModel = App.Servicios.GetRequiredService<AparatosViewModel>();
             this.InitializeComponent();
+
+            // Fase 9g (D5): el editor está arriba de la lista. Al abrirlo desde una fila de abajo ("Editar" o el nombre),
+            // la página no se movía y parecía que no pasaba nada: se trae a la vista y se pone el foco en el nombre.
+            ViewModel.PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName == nameof(AparatosViewModel.EnEdicion) && ViewModel.EnEdicion && IsLoaded)
+                {
+                    UpdateLayout();
+                    Editor.StartBringIntoView(new BringIntoViewOptions { VerticalAlignmentRatio = 0, AnimationDesired = false });
+                    CampoNombre.Focus(FocusState.Programmatic);
+                }
+            };
         }
 
         public AparatosViewModel ViewModel { get; }

@@ -9,31 +9,94 @@ using VoltiaMX.Services;
 namespace VoltiaMX.ViewModels;
 
 /// <summary>
-/// Un aparato típico en "Elegir mis aparatos": "Lo tengo", las horas al día y, si suele haber varios, cuántos.
+/// Una unidad de un aparato típico que se usa distinto (Fase 9g): su nombre opcional ("Sala") y sus horas al día.
+/// Los nombres accesibles incluyen el aparato y el número de la unidad.
+/// </summary>
+public sealed partial class FilaUnidad : ObservableObject
+{
+    public FilaUnidad(string aparato, int numero, int? id, string apodo, double horas, ITextos textos)
+    {
+        Id = id;
+        Apodo = apodo;
+        Horas = horas;
+        NombreApodo = textos.Formato("ElegirAparatos_ApodoDe", aparato, numero);
+        NombreHoras = textos.Formato("ElegirAparatos_HorasDeUnidad", aparato, numero);
+    }
+
+    /// <summary>
+    /// El aparato guardado que corresponde a esta unidad (se actualiza) o null (es nueva).
+    /// </summary>
+    public int? Id { get; }
+
+    public string NombreApodo { get; }
+
+    public string NombreHoras { get; }
+
+    [ObservableProperty] public partial string Apodo { get; set; }
+
+    [ObservableProperty] public partial double Horas { get; set; }
+}
+
+/// <summary>
+/// Un aparato típico en "Elegir mis aparatos": "Lo tengo", cuántos tiene y sus horas al día. Fase 9g: con más de uno,
+/// "¿Los usas las mismas horas?"; con "No, cada uno distinto", una fila por unidad con su nombre y sus horas.
 /// Los nombres accesibles incluyen el aparato ("Aire acondicionado, lo tengo", "Horas al día de Aire acondicionado").
 /// </summary>
 public sealed partial class FilaAparatoTipico : ObservableObject
 {
+    private readonly ITextos _textos;
+
     public FilaAparatoTipico(AparatoTipico tipico, ITextos textos)
     {
+        _textos = textos;
         Tipico = tipico;
         Nombre = tipico.Nombre;
-        PreguntarCantidad = tipico.Plantilla.SuelenSerVarios;
         NombreCasilla = textos.Formato("ElegirAparatos_LoTengo", Nombre);
         NombreHoras = textos.Formato("ElegirAparatos_HorasDe", Nombre);
         NombreCantidad = textos.Formato("ElegirAparatos_CuantosDe", Nombre);
+        NombreMismas = textos.Formato("ElegirAparatos_MismasDe", Nombre);
+        NombreDistintas = textos.Formato("ElegirAparatos_DistintasDe", Nombre);
+        GrupoHoras = "Horas_" + tipico.Plantilla.Clave;
 
-        // Un aparato que ya existe aparece marcado con sus horas y su cantidad.
-        Marcado = tipico.Existente is not null;
+        // Lo que ya está guardado: un aparato con su cantidad (mismas horas) o una unidad por aparato.
+        var registros = tipico.Registros;
+        Marcado = registros.Count > 0;
         Horas = (double)(tipico.Existente?.HorasPorDia ?? tipico.Plantilla.HorasPorDia);
-        Cantidad = tipico.Existente?.Cantidad ?? 1;
+        if (registros.Count > 1)
+        {
+            for (var i = 0; i < registros.Count; i++)
+            {
+                var apodo = AparatosTipicos.ApodoDe(registros[i].Nombre, Nombre);
+                // "· 2" sin apodo: se muestra vacío para que la persona escriba uno si quiere.
+                if (apodo == (i + 1).ToString(System.Globalization.CultureInfo.InvariantCulture))
+                {
+                    apodo = string.Empty;
+                }
+
+                Unidades.Add(new FilaUnidad(Nombre, i + 1, registros[i].Id, apodo, (double)registros[i].HorasPorDia, textos));
+            }
+
+            _cargando = true;
+            Cantidad = registros.Count;
+            CadaUnoDistinto = true;
+            MismasHoras = false;
+            _cargando = false;
+        }
+        else
+        {
+            _cargando = true;
+            Cantidad = tipico.Existente?.Cantidad ?? 1;
+            MismasHoras = true;
+            CadaUnoDistinto = false;
+            _cargando = false;
+        }
     }
+
+    private bool _cargando;
 
     public AparatoTipico Tipico { get; }
 
     public string Nombre { get; }
-
-    public bool PreguntarCantidad { get; }
 
     public string NombreCasilla { get; }
 
@@ -41,28 +104,133 @@ public sealed partial class FilaAparatoTipico : ObservableObject
 
     public string NombreCantidad { get; }
 
+    public string NombreMismas { get; }
+
+    public string NombreDistintas { get; }
+
+    /// <summary>
+    /// El grupo de "Sí" y "No, cada uno distinto" de esta fila (uno por aparato).
+    /// </summary>
+    public string GrupoHoras { get; }
+
+    public ObservableCollection<FilaUnidad> Unidades { get; } = [];
+
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(EstaMarcado), nameof(MostrarCantidad))]
+    [NotifyPropertyChangedFor(nameof(EstaMarcado), nameof(PreguntarMismas), nameof(MostrarHorasUnicas), nameof(MostrarUnidades))]
     public partial bool? Marcado { get; set; }
 
     public bool EstaMarcado => Marcado == true;
 
-    public bool MostrarCantidad => EstaMarcado && PreguntarCantidad;
-
     [ObservableProperty] public partial double Horas { get; set; }
 
-    [ObservableProperty] public partial double Cantidad { get; set; }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(PreguntarMismas), nameof(MostrarHorasUnicas), nameof(MostrarUnidades))]
+    public partial double Cantidad { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(MostrarHorasUnicas), nameof(MostrarUnidades))]
+    public partial bool? MismasHoras { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(MostrarHorasUnicas), nameof(MostrarUnidades))]
+    public partial bool? CadaUnoDistinto { get; set; }
+
+    /// <summary>
+    /// Cuántos tiene (al menos 1; un campo vacío cuenta como 1).
+    /// </summary>
+    public int CantidadEntera => double.IsNaN(Cantidad) || Cantidad < 1 ? 1 : (int)Math.Round(Cantidad);
+
+    public bool PreguntarMismas => EstaMarcado && CantidadEntera > 1;
+
+    public bool UsaUnidades => CantidadEntera > 1 && CadaUnoDistinto == true;
+
+    public bool MostrarHorasUnicas => EstaMarcado && !UsaUnidades;
+
+    public bool MostrarUnidades => EstaMarcado && UsaUnidades;
 
     /// <summary>
     /// Ya existía y la persona lo desmarcó: al guardar se elimina, previa confirmación.
     /// </summary>
-    public bool Desmarcado => Tipico.Existente is not null && !EstaMarcado;
+    public bool Desmarcado => Tipico.Registros.Count > 0 && !EstaMarcado;
+
+    partial void OnCantidadChanged(double value) => AjustarUnidades();
+
+    partial void OnCadaUnoDistintoChanged(bool? value)
+    {
+        if (value == true)
+        {
+            MismasHoras = false;
+            AjustarUnidades();
+        }
+    }
+
+    partial void OnMismasHorasChanged(bool? value)
+    {
+        if (value != true)
+        {
+            return;
+        }
+
+        CadaUnoDistinto = false;
+
+        // Precisión (1): al volver a "mismas horas", las horas del primero.
+        if (!_cargando && Unidades.Count > 0 && !double.IsNaN(Unidades[0].Horas))
+        {
+            Horas = Unidades[0].Horas;
+        }
+    }
+
+    // Cambiar la cantidad agrega o quita filas de unidades; las nuevas empiezan con las horas del aparato.
+    private void AjustarUnidades()
+    {
+        if (_cargando || CadaUnoDistinto != true)
+        {
+            return;
+        }
+
+        var objetivo = CantidadEntera;
+        while (Unidades.Count > objetivo)
+        {
+            Unidades.RemoveAt(Unidades.Count - 1);
+        }
+
+        while (Unidades.Count < objetivo)
+        {
+            var numero = Unidades.Count + 1;
+            var id = Tipico.Registros.Count >= numero ? Tipico.Registros[numero - 1].Id : (int?)null;
+            Unidades.Add(new FilaUnidad(Nombre, numero, id, string.Empty, Horas, _textos));
+        }
+    }
+
+    /// <summary>
+    /// Lo que se manda a guardar: un aparato con su cantidad (mismas horas) o una unidad por aparato.
+    /// </summary>
+    public AparatoElegido Elegido()
+    {
+        var registros = Tipico.Registros;
+        var horas = double.IsNaN(Horas) ? 0m : (decimal)Horas;
+        if (!UsaUnidades)
+        {
+            return new AparatoElegido(
+                Tipico.Plantilla, Nombre, horas, CantidadEntera, registros.FirstOrDefault()?.Id, registros.Skip(1).Select(r => r.Id).ToList());
+        }
+
+        return new AparatoElegido(
+            Tipico.Plantilla,
+            Nombre,
+            horas,
+            CantidadEntera,
+            null,
+            registros.Select(r => r.Id).ToList(),
+            Unidades.Select(u => new UnidadElegida(u.Id, u.Apodo ?? string.Empty, double.IsNaN(u.Horas) ? 0m : (decimal)u.Horas)).ToList());
+    }
 }
 
 /// <summary>
-/// "Elegir mis aparatos" (Fase 9d, D1): la lista de aparatos típicos para marcar los que hay en casa y contestar
-/// cuántas horas al día se usan. Nada de potencia, días ni ciclo: salen de la plantilla. Se guarda con
-/// <see cref="IAparatoService.GuardarElegidosAsync"/> y vuelve a la pantalla de origen.
+/// "Elegir mis aparatos" (Fase 9d, D1; Fase 9g): la lista de aparatos típicos para marcar los que hay en casa,
+/// cuántos son y cuántas horas al día se usan (todos iguales o cada uno distinto). Nada de potencia, días ni ciclo:
+/// salen de la plantilla. Se guarda con <see cref="IAparatoService.GuardarElegidosAsync"/> y vuelve a la pantalla de
+/// origen. Los cambios de forma y lo que se quita se confirman una sola vez.
 /// </summary>
 public sealed partial class ElegirAparatosViewModel(
     IAparatoService aparatos,
@@ -150,29 +318,39 @@ public sealed partial class ElegirAparatosViewModel(
 
         Error = string.Empty;
         var quitar = Filas.Where(f => f.Desmarcado).ToList();
-        if (quitar.Count > 0 && !await dialogos.ConfirmarAsync(
-                textos["ElegirAparatos_QuitarTitulo"],
-                textos.Formato("ElegirAparatos_QuitarTexto", string.Join(", ", quitar.Select(f => f.Nombre))),
-                textos["ElegirAparatos_QuitarConfirmar"],
+        var marcadas = Filas.Where(f => f.EstaMarcado).ToList();
+        var elegidos = marcadas.Select(f => f.Elegido()).ToList();
+
+        // Una sola confirmación con todo lo que se reemplaza o se quita (Fase 9g, D2).
+        var avisos = new List<string>();
+        for (var i = 0; i < marcadas.Count; i++)
+        {
+            if (AparatosTipicos.Cambios(elegidos[i], marcadas[i].Tipico.Registros) is { } cambio)
+            {
+                avisos.Add(TextoCambio(cambio));
+            }
+        }
+
+        if (quitar.Count > 0)
+        {
+            avisos.Add(textos.Formato("ElegirAparatos_QuitarTexto", string.Join(", ", quitar.Select(f => f.Nombre))));
+        }
+
+        if (avisos.Count > 0 && !await dialogos.ConfirmarAsync(
+                textos["ElegirAparatos_CambiosTitulo"],
+                string.Join("\n\n", avisos),
+                textos["ElegirAparatos_CambiosConfirmar"],
                 textos["Aparatos_Cancelar/Content"]))
         {
             return;
         }
 
-        var elegidos = Filas.Where(f => f.EstaMarcado)
-            .Select(f => new AparatoElegido(
-                f.Tipico.Plantilla,
-                f.Nombre,
-                double.IsNaN(f.Horas) ? 0m : (decimal)f.Horas,
-                f.PreguntarCantidad && !double.IsNaN(f.Cantidad) ? (int)Math.Round(f.Cantidad) : f.Tipico.Existente?.Cantidad ?? 1,
-                f.Tipico.Existente?.Id))
-            .ToList();
-
         Guardando = true;
         ResultadoGuardarElegidos resultado;
         try
         {
-            resultado = await aparatos.GuardarElegidosAsync(lugarId, elegidos, quitar.Select(f => f.Tipico.Existente!.Id).ToList());
+            resultado = await aparatos.GuardarElegidosAsync(
+                lugarId, elegidos, quitar.SelectMany(f => f.Tipico.Registros.Select(r => r.Id)).ToList());
         }
         finally
         {
@@ -190,6 +368,15 @@ public sealed partial class ElegirAparatosViewModel(
 
         Volver();
     }
+
+    // Lo que cambia, en palabras sencillas (precisión 1 de la Fase 9g).
+    private string TextoCambio(CambioAparato cambio) => cambio.Tipo switch
+    {
+        TipoCambioAparato.AUnoConMismasHoras => textos.Formato(
+            "ElegirAparatos_CambioAUno", cambio.RegistrosAntes, cambio.Nombre, cambio.Cantidad, cambio.HorasPorDia),
+        TipoCambioAparato.AUnidades => textos.Formato("ElegirAparatos_CambioAUnidades", cambio.Nombre, cambio.RegistrosDespues),
+        _ => textos.Formato("ElegirAparatos_QuitarTexto", string.Join(", ", cambio.Quitadas)),
+    };
 
     [RelayCommand]
     private void Cancelar() => Volver();

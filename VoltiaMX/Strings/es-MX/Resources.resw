@@ -3983,4 +3983,40 @@
   <data name="Ayuda_Espacio" xml:space="preserve">
     <value>Es el espacio que ocuparían los paneles, no el área de techo libre que necesitas. La superficie de cada panel y el espacio de paso son de ejemplo: cámbialos en «Ajustar supuestos».</value>
   </data>
+  <data name="ElegirAparatos_MismasPregunta.Text" xml:space="preserve">
+    <value>¿Los usas las mismas horas?</value>
+  </data>
+  <data name="ElegirAparatos_Mismas.Content" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="ElegirAparatos_Distintas.Content" xml:space="preserve">
+    <value>No, cada uno distinto</value>
+  </data>
+  <data name="ElegirAparatos_MismasDe" xml:space="preserve">
+    <value>{0}: sí, las mismas horas</value>
+  </data>
+  <data name="ElegirAparatos_DistintasDe" xml:space="preserve">
+    <value>{0}: no, cada uno distinto</value>
+  </data>
+  <data name="ElegirAparatos_Apodo.Header" xml:space="preserve">
+    <value>Nombre (opcional, por ejemplo: Sala)</value>
+  </data>
+  <data name="ElegirAparatos_ApodoDe" xml:space="preserve">
+    <value>Nombre de {0}, unidad {1}</value>
+  </data>
+  <data name="ElegirAparatos_HorasDeUnidad" xml:space="preserve">
+    <value>Horas al día de {0}, unidad {1}</value>
+  </data>
+  <data name="ElegirAparatos_CambiosTitulo" xml:space="preserve">
+    <value>Revisa los cambios</value>
+  </data>
+  <data name="ElegirAparatos_CambiosConfirmar" xml:space="preserve">
+    <value>Guardar cambios</value>
+  </data>
+  <data name="ElegirAparatos_CambioAUno" xml:space="preserve">
+    <value>Tus {0} unidades de {1} pasarán a ser 1 aparato con cantidad {2}. Usará las horas del primero: {3:0.##} al día. Se perderán las horas de cada uno. La potencia que ajustaste se conserva.</value>
+  </data>
+  <data name="ElegirAparatos_CambioAUnidades" xml:space="preserve">
+    <value>Tu {0} pasará a ser {1} aparatos, cada uno con sus horas. La potencia que ajustaste se conserva.</value>
+  </data>
 </root>

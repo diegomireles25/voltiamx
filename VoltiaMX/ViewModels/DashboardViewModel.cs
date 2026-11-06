@@ -565,10 +565,11 @@ public sealed partial class DashboardViewModel(
 
         // D7: los primeros por costo con "unos $N al mes"; sin pesos, solo los nombres (por consumo estimado).
         var costos = await aparatos.ObtenerCostosAsync(lugar.Id, DateOnly.FromDateTime(DateTime.Today));
-        foreach (var fila in costos.Costos.Filas.Take(AparatosEnElDashboard))
+        // Fase 9g (D3): las unidades de un mismo aparato, en una fila con el costo del grupo.
+        foreach (var grupo in aparatos.Agrupar(costos).Take(AparatosEnElDashboard))
         {
             Aparatos.Add(new FilaDetalle(
-                fila.Nombre, fila.CostoMensual is decimal costo ? textos.Formato("Aparatos_CostoMes", costo) : string.Empty));
+                grupo.Nombre, grupo.CostoMensual is decimal costo ? textos.Formato("Aparatos_CostoMes", costo) : string.Empty));
         }
 
         TieneAparatos = Aparatos.Count > 0;

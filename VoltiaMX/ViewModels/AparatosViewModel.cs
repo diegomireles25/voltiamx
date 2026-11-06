@@ -181,10 +181,12 @@ public sealed partial class AparatosViewModel(
         }
 
         var ranking = costos.Ranking;
-        foreach (var fila in costos.Costos.Filas)
+        // Fase 9g (D3): las unidades de un mismo aparato, en una fila ("Aire acondicionado · 3") con el costo del
+        // grupo; "TUS APARATOS" sigue mostrando cada unidad con su costo.
+        foreach (var grupo in aparatos.Agrupar(costos))
         {
             FilasRanking.Add(new FilaDetalle(
-                fila.Nombre, fila.CostoMensual is decimal costo ? textos.Formato("Aparatos_CostoMes", costo) : string.Empty));
+                grupo.Nombre, grupo.CostoMensual is decimal costo ? textos.Formato("Aparatos_CostoMes", costo) : string.Empty));
         }
 
         TieneRanking = FilasRanking.Count > 0;
@@ -275,6 +277,9 @@ public sealed partial class AparatosViewModel(
         DiasPorSemana = valores.DiasPorSemana;
         CicloDeTrabajo = (double)valores.CicloDeTrabajo;
         _cargando = false;
+
+        // Fase 9g (D5): si ya estaba abierto, se vuelve a avisar para que la vista lo traiga otra vez a la vista.
+        EnEdicion = false;
         EnEdicion = true;
         Validar();
     }

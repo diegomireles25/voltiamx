@@ -110,8 +110,8 @@
                             Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.Aviso), Mode=OneWay}" />
                     </StackPanel>
 
-                    <!-- Editor -->
-                    <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EnEdicion), Mode=OneWay}">
+                    <!-- Editor; al abrirse, la página lo trae a la vista (Fase 9g, D5: ver AparatosPage.xaml.cs) -->
+                    <StackPanel x:Name="Editor" Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EnEdicion), Mode=OneWay}">
                         <TextBlock
                             AutomationProperties.HeadingLevel="Level2"
                             Foreground="{StaticResource SlateBrush}"
@@ -130,6 +130,7 @@
 
                             <StackPanel x:Name="Formulario" Spacing="{StaticResource Spacing24}">
                                 <TextBox
+                                    x:Name="CampoNombre"
                                     x:Uid="Aparatos_Nombre"
                                     KeyUp="AlSoltarTeclaEnCampo"
                                     Style="{StaticResource InputStyle}"
@@ -183,6 +184,18 @@
                                         Value="{x:Bind ViewModel.CicloDeTrabajo, Mode=TwoWay}" />
                                 </Grid>
                                 <local:TerminoAyuda Clave="QueParteDelTiempo" />
+                                <!-- Fase 9g (D5): Guardar y Cancelar justo después de los campos, para que el editor quepa en la ventana -->
+                                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}">
+                                    <Button
+                                        x:Uid="Aparatos_Guardar"
+                                        Command="{x:Bind ViewModel.GuardarCommand}"
+                                        Style="{StaticResource PrimaryButtonStyle}" />
+                                    <Button
+                                        x:Uid="Aparatos_Cancelar"
+                                        VerticalAlignment="Center"
+                                        Command="{x:Bind ViewModel.CancelarCommand}"
+                                        Style="{StaticResource TextLinkButtonStyle}" />
+                                </StackPanel>
                                 <TextBlock
                                     x:Uid="Aparatos_AyudaCampos"
                                     Foreground="{StaticResource SlateBrush}"
@@ -243,17 +256,6 @@
                             </ItemsRepeater>
                         </Border>
 
-                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}">
-                            <Button
-                                x:Uid="Aparatos_Guardar"
-                                Command="{x:Bind ViewModel.GuardarCommand}"
-                                Style="{StaticResource PrimaryButtonStyle}" />
-                            <Button
-                                x:Uid="Aparatos_Cancelar"
-                                VerticalAlignment="Center"
-                                Command="{x:Bind ViewModel.CancelarCommand}"
-                                Style="{StaticResource TextLinkButtonStyle}" />
-                        </StackPanel>
                     </StackPanel>
 
                     <!-- Ranking: contra lo que mide el medidor, sin barras (la barra de la app es la del Dashboard) -->

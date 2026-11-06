@@ -61,35 +61,83 @@
                             <ItemsRepeater.ItemTemplate>
                                 <DataTemplate x:DataType="vm:FilaAparatoTipico">
                                     <Border Style="{StaticResource HairlineRowStyle}">
-                                        <Grid ColumnSpacing="{StaticResource Spacing24}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <CheckBox
-                                                VerticalAlignment="Center"
-                                                AutomationProperties.Name="{x:Bind NombreCasilla}"
-                                                IsChecked="{x:Bind Marcado, Mode=TwoWay}">
-                                                <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Nombre}" />
-                                            </CheckBox>
-                                            <NumberBox
-                                                x:Uid="ElegirAparatos_Horas"
-                                                Grid.Column="1"
-                                                MinWidth="{StaticResource CampoLecturaMinWidth}"
-                                                AutomationProperties.Name="{x:Bind NombreHoras}"
-                                                Style="{StaticResource NumberBoxStyle}"
-                                                Value="{x:Bind Horas, Mode=TwoWay}"
-                                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(EstaMarcado), Mode=OneWay}" />
-                                            <NumberBox
-                                                x:Uid="ElegirAparatos_Cantidad"
-                                                Grid.Column="2"
-                                                MinWidth="{StaticResource CampoLecturaMinWidth}"
-                                                AutomationProperties.Name="{x:Bind NombreCantidad}"
-                                                Style="{StaticResource NumberBoxStyle}"
-                                                Value="{x:Bind Cantidad, Mode=TwoWay}"
-                                                Visibility="{x:Bind helpers:Conversiones.VisibleSi(MostrarCantidad), Mode=OneWay}" />
-                                        </Grid>
+                                        <StackPanel Spacing="{StaticResource Spacing16}">
+                                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox
+                                                    VerticalAlignment="Center"
+                                                    AutomationProperties.Name="{x:Bind NombreCasilla}"
+                                                    IsChecked="{x:Bind Marcado, Mode=TwoWay}">
+                                                    <TextBlock Style="{StaticResource SubheadingTextStyle}" Text="{x:Bind Nombre}" />
+                                                </CheckBox>
+                                                <!-- Fase 9g (D1): todos los aparatos preguntan cuántos hay -->
+                                                <NumberBox
+                                                    x:Uid="ElegirAparatos_Cantidad"
+                                                    Grid.Column="1"
+                                                    MinWidth="{StaticResource CampoLecturaMinWidth}"
+                                                    AutomationProperties.Name="{x:Bind NombreCantidad}"
+                                                    Style="{StaticResource NumberBoxStyle}"
+                                                    Value="{x:Bind Cantidad, Mode=TwoWay}"
+                                                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(EstaMarcado), Mode=OneWay}" />
+                                                <NumberBox
+                                                    x:Uid="ElegirAparatos_Horas"
+                                                    Grid.Column="2"
+                                                    MinWidth="{StaticResource CampoLecturaMinWidth}"
+                                                    AutomationProperties.Name="{x:Bind NombreHoras}"
+                                                    Style="{StaticResource NumberBoxStyle}"
+                                                    Value="{x:Bind Horas, Mode=TwoWay}"
+                                                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(MostrarHorasUnicas), Mode=OneWay}" />
+                                            </Grid>
+                                            <!-- Con más de uno: ¿los usas las mismas horas? -->
+                                            <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(PreguntarMismas), Mode=OneWay}">
+                                                <TextBlock x:Uid="ElegirAparatos_MismasPregunta" Style="{StaticResource BodyTextStyle}" />
+                                                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing24}">
+                                                    <RadioButton
+                                                        x:Uid="ElegirAparatos_Mismas"
+                                                        AutomationProperties.Name="{x:Bind NombreMismas}"
+                                                        GroupName="{x:Bind GrupoHoras}"
+                                                        IsChecked="{x:Bind MismasHoras, Mode=TwoWay}" />
+                                                    <RadioButton
+                                                        x:Uid="ElegirAparatos_Distintas"
+                                                        AutomationProperties.Name="{x:Bind NombreDistintas}"
+                                                        GroupName="{x:Bind GrupoHoras}"
+                                                        IsChecked="{x:Bind CadaUnoDistinto, Mode=TwoWay}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <!-- "No, cada uno distinto": una fila por unidad con su nombre y sus horas -->
+                                            <ItemsRepeater ItemsSource="{x:Bind Unidades}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(MostrarUnidades), Mode=OneWay}">
+                                                <ItemsRepeater.Layout>
+                                                    <StackLayout Spacing="{StaticResource Spacing16}" />
+                                                </ItemsRepeater.Layout>
+                                                <ItemsRepeater.ItemTemplate>
+                                                    <DataTemplate x:DataType="vm:FilaUnidad">
+                                                        <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBox
+                                                                x:Uid="ElegirAparatos_Apodo"
+                                                                AutomationProperties.Name="{x:Bind NombreApodo}"
+                                                                MaxLength="20"
+                                                                Style="{StaticResource InputStyle}"
+                                                                Text="{x:Bind Apodo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                            <NumberBox
+                                                                x:Uid="ElegirAparatos_Horas"
+                                                                Grid.Column="1"
+                                                                MinWidth="{StaticResource CampoLecturaMinWidth}"
+                                                                AutomationProperties.Name="{x:Bind NombreHoras}"
+                                                                Style="{StaticResource NumberBoxStyle}"
+                                                                Value="{x:Bind Horas, Mode=TwoWay}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ItemsRepeater.ItemTemplate>
+                                            </ItemsRepeater>
+                                        </StackPanel>
                                     </Border>
                                 </DataTemplate>
                             </ItemsRepeater.ItemTemplate>
