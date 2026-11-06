@@ -58,6 +58,36 @@ public sealed partial class DashboardViewModel(
     // Secciones
     [ObservableProperty] public partial bool MostrarHogar { get; set; }
     [ObservableProperty] public partial bool MostrarVacio { get; set; }
+
+    // Fase 9b (D6): qué muestra Inicio. Con lecturas, todo como antes.
+    [ObservableProperty] public partial bool EsSinRecibo { get; set; }
+    [ObservableProperty] public partial bool EsSiSiguesIgual { get; set; }
+    [ObservableProperty] public partial bool EsFechaFutura { get; set; }
+
+    /// <summary>
+    /// La cifra grande: con lecturas (a este ritmo) o con el recibo anterior ("Si sigues igual…").
+    /// </summary>
+    [ObservableProperty] public partial bool MostrarCifra { get; set; }
+
+    /// <summary>
+    /// La tarjeta "Comparado con tu recibo anterior": solo con lecturas.
+    /// </summary>
+    [ObservableProperty] public partial bool MostrarComparacion { get; set; }
+
+    /// <summary>
+    /// El estado vacío de siempre ("Agrega tu primera lectura"): sin datos y con alguna lectura suelta.
+    /// </summary>
+    [ObservableProperty] public partial bool MostrarVacioLecturas { get; set; }
+
+    [ObservableProperty] public partial bool ReciboAproximado { get; set; }
+    [ObservableProperty] public partial string TextoFechaFutura { get; set; } = string.Empty;
+
+    [RelayCommand]
+    private void IrAReciboPorMonto()
+        => WeakReferenceMessenger.Default.Send(new IrAModuloMensaje(ModuloApp.Lecturas, SeccionesLecturas.PorMonto));
+
+    [RelayCommand]
+    private void IrAConfiguracion() => WeakReferenceMessenger.Default.Send(new IrAConfiguracionMensaje());
     [ObservableProperty] public partial bool MostrarRentas { get; set; }
     [ObservableProperty] public partial bool MostrarSolar { get; set; }
     [ObservableProperty] public partial bool MostrarAparatos { get; set; }
@@ -275,6 +305,19 @@ public sealed partial class DashboardViewModel(
         Historial.Clear();
         Avisos.Clear();
 
+        // D6: sin recibo, con recibo y sin lecturas, con lecturas o con la fecha de corte en el futuro.
+        var estado = resumen?.EstadoInicio ?? EstadoPantallaInicio.SinRecibo;
+        EsSinRecibo = MostrarHogar && estado == EstadoPantallaInicio.SinRecibo;
+        EsSiSiguesIgual = MostrarHogar && estado == EstadoPantallaInicio.ReciboSinLecturas;
+        EsFechaFutura = MostrarHogar && estado == EstadoPantallaInicio.FechaFutura;
+        MostrarVacioLecturas = MostrarVacio && !EsSinRecibo;
+        MostrarCifra = TieneDatos && estado is EstadoPantallaInicio.ConLecturas or EstadoPantallaInicio.ReciboSinLecturas;
+        MostrarComparacion = TieneDatos && estado == EstadoPantallaInicio.ConLecturas;
+        ReciboAproximado = EsSiSiguesIgual && resumen?.UltimoReciboEstimado == true;
+        TextoFechaFutura = EsFechaFutura && resumen?.FechaCorteUltimoRecibo is DateOnly corte
+            ? textos.Formato("Dashboard_FechaFutura", corte)
+            : string.Empty;
+
         if (resumen is null)
         {
             TieneProyeccion = TieneComparacion = TieneHistorial = MostrarDac = MostrarMeta = TieneAvisos = false;
@@ -284,14 +327,30 @@ public sealed partial class DashboardViewModel(
         TarifaPorConfirmar = resumen.TarifaPorConfirmar;
         EtiquetaTarifa = textos.Formato(
             resumen.TarifaPorConfirmar ? "Dashboard_TarifaPorConfirmar" : "Dashboard_Tarifa", resumen.NombreTarifa);
-        LeyendaPeriodo = textos.Formato(
-            "Dashboard_LeyendaPeriodo",
-            textos[$"TipoLugar_{resumen.TipoLugar}"],
-            NombrePeriodo(resumen.InicioPeriodo, resumen.MesesDelPeriodo),
-            resumen.DiaDelPeriodo,
-            resumen.DiasDelPeriodo).ToUpper(Cultura);
+        // Sin lecturas (o con la fecha de corte en el futuro) no se muestran días del recibo: nunca días negativos.
+        LeyendaPeriodo = (estado == EstadoPantallaInicio.ConLecturas
+            ? textos.Formato(
+                "Dashboard_LeyendaPeriodo",
+                textos[$"TipoLugar_{resumen.TipoLugar}"],
+                NombrePeriodo(resumen.InicioPeriodo, resumen.MesesDelPeriodo),
+                resumen.DiaDelPeriodo,
+                resumen.DiasDelPeriodo)
+            : textos.Formato(
+                "Dashboard_LeyendaPeriodoSinDia",
+                textos[$"TipoLugar_{resumen.TipoLugar}"],
+                NombrePeriodo(resumen.InicioPeriodo, resumen.MesesDelPeriodo))).ToUpper(Cultura);
 
         AplicarProyeccion(resumen);
+        if (EsSiSiguesIgual)
+        {
+            // "Si sigues igual que tu recibo anterior, pagarías unos $N": el último recibo con la tarifa actual,
+            // antes de impuestos (ResumenDashboard.MontoReciboAnterior). Sin barra ni días.
+            TituloPago = textos["Dashboard_SiSiguesIgualTitulo"];
+            MontoPago = resumen.MontoReciboAnterior is decimal anterior ? textos.Formato("Formato_Monto", anterior) : textos["Dashboard_SinCifra"];
+            TextoMeta = string.Empty;
+            TieneProyeccion = false;
+        }
+
         AplicarComparacion(resumen);
         AplicarHistorial(resumen);
         AplicarEstado(resumen, objetivo);

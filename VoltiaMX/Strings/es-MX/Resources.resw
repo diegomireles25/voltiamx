@@ -1902,7 +1902,7 @@
     <value>Escanear recibo</value>
   </data>
   <data name="Escanear_VolverLecturas.Content" xml:space="preserve">
-    <value>Volver a lecturas</value>
+    <value>Volver a Mis recibos</value>
   </data>
   <data name="Escanear_Titulo.Text" xml:space="preserve">
     <value>ESCANEAR RECIBO</value>
@@ -3249,7 +3249,7 @@
     <value>Prueba la app con una casa de ejemplo.</value>
   </data>
   <data name="Mas_ModoTexto.Text" xml:space="preserve">
-    <value>Muestra herramientas de metas, reportes, paneles solares e inquilinos.</value>
+    <value>Muestra herramientas extra: reportes, metas y paneles solares.</value>
   </data>
   <data name="Mas_OnboardingTexto.Text" xml:space="preserve">
     <value>Corrige tu recibo o cambia tus respuestas.</value>
@@ -3685,5 +3685,71 @@
   </data>
   <data name="Resumen_SinRecibo" xml:space="preserve">
     <value>Sin recibo todavía</value>
+  </data>
+  <data name="Dashboard_LeyendaPeriodoSinDia" xml:space="preserve">
+    <value>{0} · {1}</value>
+  </data>
+  <data name="Dashboard_SiSiguesIgualTitulo" xml:space="preserve">
+    <value>SI SIGUES IGUAL QUE TU RECIBO ANTERIOR, PAGARÍAS UNOS</value>
+  </data>
+  <data name="Dashboard_Aproximado.Content" xml:space="preserve">
+    <value>APROXIMADO</value>
+  </data>
+  <data name="Dashboard_ParaAfinar.Text" xml:space="preserve">
+    <value>Para afinar, anota lo que marca tu medidor en unos días.</value>
+  </data>
+  <data name="Dashboard_IrAMisRecibos.Content" xml:space="preserve">
+    <value>Ir a Mis recibos</value>
+  </data>
+  <data name="Dashboard_SinReciboTitulo.Text" xml:space="preserve">
+    <value>AGREGA TU RECIBO</value>
+  </data>
+  <data name="Dashboard_SinReciboTexto.Text" xml:space="preserve">
+    <value>Con lo que pagaste en tu último recibo te decimos cuánto vas a pagar.</value>
+  </data>
+  <data name="Dashboard_EscanearMiRecibo.Content" xml:space="preserve">
+    <value>Escanear mi recibo</value>
+  </data>
+  <data name="Dashboard_EscribirCuantoPague.Content" xml:space="preserve">
+    <value>Escribir cuánto pagué</value>
+  </data>
+  <data name="Dashboard_ProbarDemo.Content" xml:space="preserve">
+    <value>Probar con datos de ejemplo</value>
+  </data>
+  <data name="Dashboard_FechaFuturaTitulo.Text" xml:space="preserve">
+    <value>REVISA TU ÚLTIMO RECIBO</value>
+  </data>
+  <data name="Dashboard_FechaFutura" xml:space="preserve">
+    <value>La fecha de corte de tu último recibo ({0:d 'de' MMMM}) todavía no llega. Si la escribiste mal, corrígela.</value>
+  </data>
+  <data name="Dashboard_FechaFuturaIrAConfiguracion.Content" xml:space="preserve">
+    <value>Ir a Configuración</value>
+  </data>
+  <data name="Mas_BorrarTitulo.Text" xml:space="preserve">
+    <value>Borrar mis datos y empezar de nuevo</value>
+  </data>
+  <data name="Mas_BorrarTexto.Text" xml:space="preserve">
+    <value>Borra tus datos y vuelve a empezar. Antes guardamos una copia.</value>
+  </data>
+  <data name="Mas_BorrarBoton.Content" xml:space="preserve">
+    <value>Borrar mis datos</value>
+  </data>
+  <data name="Mas_BorrarConfirmar" xml:space="preserve">
+    <value>Borrar mis datos</value>
+  </data>
+  <data name="Mas_BorrarConfirmarTexto" xml:space="preserve">
+    <value>Se borran tus recibos, lecturas, aparatos, metas e inquilinos. Se conservan tus tarifas. Antes guardamos una copia en {0}.</value>
+  </data>
+  <data name="Mas_BorrarSinCopia" xml:space="preserve">
+    <value>No pudimos guardar la copia previa, así que no borramos nada. {0}</value>
+  </data>
+  <data name="Mas_BorrarFallo" xml:space="preserve">
+    <value>No pudimos borrar tus datos. {0} Tu copia está en {1}.</value>
+  </data>
+  <data name="Mas_BorradoTitulo" xml:space="preserve">
+    <value>Datos borrados</value>
+  </data>
+  <data name="Mas_BorradoTexto" xml:space="preserve">
+    <value>Tus datos se borraron. Cierra VoltiaMX y vuelve a abrirla para empezar de nuevo.</value>
   </data>
 </root>

@@ -86,6 +86,11 @@ public enum TipoCopia
 {
     AntesDeMigrar,
     AntesDeRestaurar,
+
+    /// <summary>
+    /// Antes de "Borrar mis datos y empezar de nuevo" (Fase 9b).
+    /// </summary>
+    AntesDeBorrar,
 }
 
 /// <summary>
@@ -101,3 +106,9 @@ public enum EstadoCopiaPrevia
 }
 
 public sealed record ResultadoCopiaPrevia(EstadoCopiaPrevia Estado, string? Ruta, ErrorRespaldo? Error);
+
+/// <summary>
+/// Resultado de borrar los datos: la copia previa (siempre se crea antes de borrar) o el error. Si la copia falla,
+/// <see cref="CopiaPrevia"/> es null y no se borró nada.
+/// </summary>
+public sealed record ResultadoBorrado(string? CopiaPrevia, ErrorRespaldo? Error);

@@ -321,6 +321,80 @@ public sealed class RespaldoServiceTests : IDisposable
         Assert.False(File.Exists(actual + ".restaurando"));
     }
 
+    // ---- Fase 9b (D8): "Borrar mis datos y empezar de nuevo" ----
+
+    private static readonly string[] TablasBorradas =
+        ["Lugares", "Periodos", "Lecturas", "Aparatos", "Metas", "AvisosEnviados", "Perfiles", "PerfilUsos"];
+
+    /// <summary>
+    /// Base con datos, un perfil y la tarifa 1C editada por la persona (precio 9.99, ya no de ejemplo).
+    /// </summary>
+    private async Task<string> BaseParaBorrarAsync()
+    {
+        var ruta = await BaseConDatosAsync("voltia.db");
+        await using (var db = Contexto(ruta))
+        {
+            db.Perfiles.Add(new Core.Models.PerfilUsuario
+            {
+                OnboardingCompletado = true,
+                Usos = [new Core.Models.PerfilUso { Uso = Core.Models.UsoApp.Casa }],
+            });
+            await db.SaveChangesAsync();
+        }
+
+        await EjecutarAsync(ruta, "UPDATE TarifaRangos SET PrecioPorKwh = '9.99' WHERE TarifaId = 2 AND Orden = 1;");
+        return ruta;
+    }
+
+    [Fact]
+    public async Task BorrarDatos_GuardaUnaCopiaYBorraTodoMenosLasTarifas()
+    {
+        var ruta = await BaseParaBorrarAsync();
+        var antes = await ConteosAsync(ruta);
+        var servicio = Servicio(ruta);
+
+        var resultado = await servicio.BorrarDatosAsync();
+
+        Assert.Null(resultado.Error);
+        var copia = Assert.Single(servicio.ListarCopias());
+        Assert.Equal(TipoCopia.AntesDeBorrar, copia.Tipo);
+        Assert.Equal(copia.Ruta, resultado.CopiaPrevia);
+
+        await using (var db = Contexto(ruta))
+        {
+            foreach (var tabla in TablasBorradas)
+            {
+                Assert.Equal(0, await db.Database.SqlQueryRaw<int>($"SELECT COUNT(*) AS Value FROM {tabla}").SingleAsync());
+            }
+
+            // Las tarifas se conservan, con los precios que escribió la persona.
+            Assert.Equal(antes["Tarifas"], await db.Tarifas.LongCountAsync());
+            Assert.Equal(antes["TarifaRangos"], await db.TarifaRangos.LongCountAsync());
+            Assert.Equal(9.99m, (await db.TarifaRangos.SingleAsync(r => r.TarifaId == 2 && r.Orden == 1)).PrecioPorKwh);
+        }
+
+        // La copia previa es un respaldo válido con los datos de antes.
+        Assert.True((await servicio.ValidarAsync(copia.Ruta)).EsValido);
+    }
+
+    [Fact]
+    public async Task BorrarDatos_SiLaCopiaPreviaFalla_NoBorraNada()
+    {
+        var ruta = await BaseParaBorrarAsync();
+        var antes = await ConteosAsync(ruta);
+        // La carpeta de respaldos es un archivo: no se puede crear la copia.
+        var noEsCarpeta = Ruta("no-es-carpeta");
+        await File.WriteAllTextAsync(noEsCarpeta, "x");
+
+        var resultado = await Servicio(ruta, noEsCarpeta).BorrarDatosAsync();
+
+        Assert.NotNull(resultado.Error);
+        Assert.Null(resultado.CopiaPrevia);
+        Assert.Equal(antes, await ConteosAsync(ruta));
+        await using var db = Contexto(ruta);
+        Assert.Equal(1, await db.Perfiles.CountAsync());
+    }
+
     [Fact]
     public async Task Restaurar_CreaLaCopiaPreviaConLosDatosAnterioresYSePuedeAbrir()
     {

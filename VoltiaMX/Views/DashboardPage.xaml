@@ -82,19 +82,37 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <!-- Con datos -->
-                        <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDatos), Mode=OneWay}">
-                            <TextBlock Style="{StaticResource HeadingLgTextStyle}" Text="{x:Bind ViewModel.TituloPago, Mode=OneWay}" />
-                            <TextBlock
-                                x:Name="CifraPago"
-                                AutomationProperties.HeadingLevel="Level1"
-                                Style="{StaticResource DisplayTextStyle}"
-                                Text="{x:Bind ViewModel.MontoPago, Mode=OneWay}" />
+                        <!-- Con datos: a este ritmo (con lecturas) o "Si sigues igual…" (con recibo y sin lecturas) -->
+                        <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarCifra), Mode=OneWay}">
+                            <TextBlock Style="{StaticResource HeadingLgTextStyle}" Text="{x:Bind ViewModel.TituloPago, Mode=OneWay}" TextWrapping="Wrap" />
+                            <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                                <TextBlock
+                                    x:Name="CifraPago"
+                                    AutomationProperties.HeadingLevel="Level1"
+                                    Style="{StaticResource DisplayTextStyle}"
+                                    Text="{x:Bind ViewModel.MontoPago, Mode=OneWay}" />
+                                <ContentPresenter
+                                    x:Uid="Dashboard_Aproximado"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource MintTagStyle}"
+                                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.ReciboAproximado), Mode=OneWay}" />
+                            </StackPanel>
                             <TextBlock
                                 MaxWidth="{StaticResource HeroTextMaxWidth}"
                                 HorizontalAlignment="Left"
                                 Style="{StaticResource LeadTextStyle}"
-                                Text="{x:Bind ViewModel.TextoMeta, Mode=OneWay}" />
+                                Text="{x:Bind ViewModel.TextoMeta, Mode=OneWay}"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.TextoMeta), Mode=OneWay}" />
+                            <!-- Con recibo y sin lecturas: cómo afinar la cifra -->
+                            <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsSiSiguesIgual), Mode=OneWay}">
+                                <TextBlock
+                                    x:Uid="Dashboard_ParaAfinar"
+                                    MaxWidth="{StaticResource HeroTextMaxWidth}"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource BodyTextStyle}"
+                                    TextWrapping="Wrap" />
+                                <Button x:Uid="Dashboard_IrAMisRecibos" Command="{x:Bind ViewModel.IrALecturasCommand}" Style="{StaticResource TextLinkButtonSmStyle}" />
+                            </StackPanel>
                             <StackPanel
                                 Width="{StaticResource HeroTextMaxWidth}"
                                 HorizontalAlignment="Left"
@@ -126,8 +144,47 @@
                                 Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PreciosDeEjemplo), Mode=OneWay}" />
                         </StackPanel>
 
-                        <!-- Sin datos -->
-                        <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarVacio), Mode=OneWay}">
+                        <!-- Sin recibo (D6): una sola tarjeta con las dos entradas -->
+                        <ContentPresenter Style="{StaticResource CardStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsSinRecibo), Mode=OneWay}">
+                            <StackPanel Spacing="{StaticResource Spacing24}">
+                                <TextBlock
+                                    x:Uid="Dashboard_SinReciboTitulo"
+                                    AutomationProperties.HeadingLevel="Level1"
+                                    Style="{StaticResource HeadingLgTextStyle}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    x:Uid="Dashboard_SinReciboTexto"
+                                    MaxWidth="{StaticResource HeroTextMaxWidth}"
+                                    HorizontalAlignment="Left"
+                                    Foreground="{StaticResource SlateBrush}"
+                                    Style="{StaticResource BodyTextStyle}"
+                                    TextWrapping="Wrap" />
+                                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+                                    <Button x:Uid="Dashboard_EscanearMiRecibo" Command="{x:Bind ViewModel.EscanearReciboCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+                                    <Button x:Uid="Dashboard_EscribirCuantoPague" Command="{x:Bind ViewModel.IrAReciboPorMontoCommand}" Style="{StaticResource GhostButtonStyle}" />
+                                </StackPanel>
+                                <Button x:Uid="Dashboard_ProbarDemo" Command="{x:Bind ViewModel.CargarDemoCommand}" Style="{StaticResource TextLinkButtonSmStyle}" />
+                            </StackPanel>
+                        </ContentPresenter>
+
+                        <!-- La fecha de corte del último recibo todavía no llega (D6): explicación, sin números negativos -->
+                        <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsFechaFutura), Mode=OneWay}">
+                            <TextBlock
+                                x:Uid="Dashboard_FechaFuturaTitulo"
+                                AutomationProperties.HeadingLevel="Level1"
+                                Style="{StaticResource HeadingLgTextStyle}"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                MaxWidth="{StaticResource HeroTextMaxWidth}"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource BodyTextStyle}"
+                                Text="{x:Bind ViewModel.TextoFechaFutura, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                            <Button x:Uid="Dashboard_FechaFuturaIrAConfiguracion" Command="{x:Bind ViewModel.IrAConfiguracionCommand}" Style="{StaticResource TextLinkButtonStyle}" />
+                        </StackPanel>
+
+                        <!-- Sin datos, con alguna lectura suelta: como antes -->
+                        <StackPanel Spacing="{StaticResource Spacing24}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarVacioLecturas), Mode=OneWay}">
                             <TextBlock
                                 x:Uid="Dashboard_VacioTitulo"
                                 AutomationProperties.HeadingLevel="Level1"
@@ -145,11 +202,11 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <!-- Comparado con tu recibo anterior -->
+                    <!-- Comparado con tu recibo anterior (solo con lecturas: sin ellas no hay "Aún es pronto") -->
                     <ContentPresenter
                         Grid.Column="1"
                         Style="{StaticResource InvertedCardLgStyle}"
-                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneDatos), Mode=OneWay}">
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarComparacion), Mode=OneWay}">
                         <Grid RowSpacing="{StaticResource Spacing24}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />

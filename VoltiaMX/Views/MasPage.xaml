@@ -245,6 +245,36 @@
                     </Border>
                 </StackPanel>
 
+                <!-- Borrar mis datos y empezar de nuevo (D8): debajo de Modo avanzado y arriba de la versión -->
+                <StackPanel Spacing="{StaticResource Spacing16}">
+                    <Border Style="{StaticResource HairlineListStyle}">
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing24}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="{StaticResource Spacing8}">
+                                    <TextBlock x:Uid="Mas_BorrarTitulo" Style="{StaticResource SubheadingTextStyle}" />
+                                    <TextBlock x:Uid="Mas_BorrarTexto" Foreground="{StaticResource SlateBrush}" Style="{StaticResource BodySmTextStyle}" TextWrapping="Wrap" />
+                                </StackPanel>
+                                <Button
+                                    x:Uid="Mas_BorrarBoton"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Command="{x:Bind ViewModel.BorrarDatosCommand}"
+                                    Style="{StaticResource GhostButtonStyle}" />
+                            </Grid>
+                        </Border>
+                    </Border>
+                    <TextBlock
+                        AutomationProperties.LiveSetting="Assertive"
+                        Style="{StaticResource BodyTextStyle}"
+                        Text="{x:Bind ViewModel.ErrorBorrado, Mode=OneWay}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.ErrorBorrado), Mode=OneWay}" />
+                </StackPanel>
+
                 <Border Style="{StaticResource HairlineListStyle}">
                     <!-- Versión: siempre al final, también en Release -->
                     <Border Style="{StaticResource HairlineRowStyle}">

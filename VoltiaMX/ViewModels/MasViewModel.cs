@@ -23,6 +23,9 @@ public sealed partial class MasViewModel(
     IDatosDemoService datosDemo,
     INavegacionShell navegacion,
     ProgramadorAvisos avisos,
+    IRespaldoService respaldo,
+    IDialogos dialogos,
+    IAplicacion aplicacion,
     ITextos textos) : ObservableObject
 {
     /// <summary>
@@ -148,6 +151,59 @@ public sealed partial class MasViewModel(
 
     [RelayCommand]
     private void AbrirGaleria() => navegacion.AbrirGaleriaDeDiseno();
+
+    // ---- Borrar mis datos y empezar de nuevo (Fase 9b, D8) ----
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(BorrarDatosCommand))]
+    public partial bool Borrando { get; set; }
+
+    [ObservableProperty] public partial string ErrorBorrado { get; set; } = string.Empty;
+
+    private bool PuedeBorrar() => !Borrando;
+
+    /// <summary>
+    /// Pregunta, guarda una copia previa en Respaldos (si falla, no borra nada), borra los datos y conserva las
+    /// tarifas; después solo queda cerrar y volver a abrir la app, que pide el primer uso.
+    /// </summary>
+    [RelayCommand(CanExecute = nameof(PuedeBorrar))]
+    private async Task BorrarDatosAsync()
+    {
+        ErrorBorrado = string.Empty;
+        if (!await dialogos.ConfirmarAsync(
+                textos["Mas_BorrarTitulo/Text"],
+                textos.Formato("Mas_BorrarConfirmarTexto", respaldo.CarpetaRespaldos),
+                textos["Mas_BorrarConfirmar"],
+                textos["Respaldo_Cancelar"]))
+        {
+            return;
+        }
+
+        Borrando = true;
+        ResultadoBorrado resultado;
+        try
+        {
+            await aplicacion.PausarTareasAsync();
+            resultado = await respaldo.BorrarDatosAsync();
+        }
+        finally
+        {
+            Borrando = false;
+        }
+
+        if (resultado.Error is { } error)
+        {
+            aplicacion.ReanudarTareas();
+            var motivo = textos[$"Respaldo_Error_{error}"];
+            ErrorBorrado = resultado.CopiaPrevia is null
+                ? textos.Formato("Mas_BorrarSinCopia", motivo)
+                : textos.Formato("Mas_BorrarFallo", motivo, resultado.CopiaPrevia);
+            return;
+        }
+
+        await dialogos.AvisarAsync(textos["Mas_BorradoTitulo"], textos["Mas_BorradoTexto"], textos["Respaldo_CerrarApp"]);
+        aplicacion.Cerrar();
+    }
 
     [RelayCommand]
     private void AbrirReportes()

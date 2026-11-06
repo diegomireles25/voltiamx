@@ -44,6 +44,13 @@ public interface IRespaldoService
     /// Copias automáticas de la carpeta Respaldos, de la más nueva a la más antigua.
     /// </summary>
     IReadOnlyList<CopiaAutomatica> ListarCopias();
+
+    /// <summary>
+    /// "Borrar mis datos y empezar de nuevo" (Fase 9b): primero una copia en Respaldos (como antes de restaurar);
+    /// si la copia falla, no borra nada. Borra recibos, lecturas, aparatos, metas, inquilinos, avisos y el perfil;
+    /// conserva las tarifas (con los precios que escribió la persona).
+    /// </summary>
+    Task<ResultadoBorrado> BorrarDatosAsync(CancellationToken cancellationToken = default);
 }
 
 /// <summary>
@@ -186,6 +193,41 @@ public sealed partial class RespaldoService(OpcionesRespaldo opciones, TimeProvi
         }
     }
 
+    public async Task<ResultadoBorrado> BorrarDatosAsync(CancellationToken cancellationToken = default)
+    {
+        var copia = await Task.Run(() => CrearCopiaAutomatica(TipoCopia.AntesDeBorrar), cancellationToken);
+        if (copia.Error is { } error)
+        {
+            return new ResultadoBorrado(null, error);
+        }
+
+        try
+        {
+            await using var db = Contexto(opciones.RutaBase);
+            await using var transaccion = await db.Database.BeginTransactionAsync(cancellationToken);
+            // De las hojas a la raíz; las tarifas y sus rangos no se tocan.
+            await db.RepartoInquilinos.ExecuteDeleteAsync(cancellationToken);
+            await db.Repartos.ExecuteDeleteAsync(cancellationToken);
+            await db.Inquilinos.ExecuteDeleteAsync(cancellationToken);
+            await db.AvisosEnviados.ExecuteDeleteAsync(cancellationToken);
+            await db.Metas.ExecuteDeleteAsync(cancellationToken);
+            await db.Aparatos.ExecuteDeleteAsync(cancellationToken);
+            await db.Lecturas.ExecuteDeleteAsync(cancellationToken);
+            await db.Periodos.ExecuteDeleteAsync(cancellationToken);
+            await db.Lugares.ExecuteDeleteAsync(cancellationToken);
+            await db.PerfilModulos.ExecuteDeleteAsync(cancellationToken);
+            await db.PerfilUsos.ExecuteDeleteAsync(cancellationToken);
+            await db.Objetivos.ExecuteDeleteAsync(cancellationToken);
+            await db.Perfiles.ExecuteDeleteAsync(cancellationToken);
+            await transaccion.CommitAsync(cancellationToken);
+            return new ResultadoBorrado(copia.Ruta, null);
+        }
+        catch (Exception ex)
+        {
+            return new ResultadoBorrado(copia.Ruta, Clasificar(ex));
+        }
+    }
+
     public IReadOnlyList<CopiaAutomatica> ListarCopias()
     {
         if (!Directory.Exists(opciones.CarpetaRespaldos))
@@ -203,7 +245,12 @@ public sealed partial class RespaldoService(OpcionesRespaldo opciones, TimeProvi
                 continue;
             }
 
-            var tipo = partes.Groups["tipo"].Value == "migrar" ? TipoCopia.AntesDeMigrar : TipoCopia.AntesDeRestaurar;
+            var tipo = partes.Groups["tipo"].Value switch
+            {
+                "migrar" => TipoCopia.AntesDeMigrar,
+                "borrar" => TipoCopia.AntesDeBorrar,
+                _ => TipoCopia.AntesDeRestaurar,
+            };
             var sufijo = partes.Groups["n"].Success ? int.Parse(partes.Groups["n"].Value, CultureInfo.InvariantCulture) : 1;
             copias.Add((new CopiaAutomatica(archivo.FullName, tipo, fecha, archivo.Length), sufijo));
         }
@@ -215,7 +262,7 @@ public sealed partial class RespaldoService(OpcionesRespaldo opciones, TimeProvi
             .ToList();
     }
 
-    [GeneratedRegex(@"^antes-de-(?<tipo>migrar|restaurar)-(?<fecha>\d{8}-\d{6})(-(?<n>\d+))?\.voltiabak$", RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"^antes-de-(?<tipo>migrar|restaurar|borrar)-(?<fecha>\d{8}-\d{6})(-(?<n>\d+))?\.voltiabak$", RegexOptions.CultureInvariant)]
     private static partial Regex NombreDeCopia();
 
     // ---- Crear ----
@@ -269,7 +316,8 @@ public sealed partial class RespaldoService(OpcionesRespaldo opciones, TimeProvi
         try
         {
             Directory.CreateDirectory(opciones.CarpetaRespaldos);
-            var prefijo = $"antes-de-{(tipo == TipoCopia.AntesDeMigrar ? "migrar" : "restaurar")}-{_reloj.GetLocalNow().DateTime.ToString(FormatoFecha, CultureInfo.InvariantCulture)}";
+            var nombreTipo = tipo switch { TipoCopia.AntesDeMigrar => "migrar", TipoCopia.AntesDeBorrar => "borrar", _ => "restaurar" };
+            var prefijo = $"antes-de-{nombreTipo}-{_reloj.GetLocalNow().DateTime.ToString(FormatoFecha, CultureInfo.InvariantCulture)}";
             var ruta = Path.Combine(opciones.CarpetaRespaldos, prefijo + Extension);
             for (var n = 2; File.Exists(ruta); n++)
             {
