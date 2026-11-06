@@ -262,6 +262,17 @@ public sealed class PerfilServiceTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task GuardarOnboardingAsync_ConFechaDeCorteDelRecibo_ElDiaDeCorteSaleDeEsaFecha()
+    {
+        // Fase 9b: el onboarding guarda el lugar y después agrega el recibo por su monto.
+        await _servicio.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa], FechaCorteRecibo = new DateOnly(2026, 10, 14) });
+
+        var lugar = await LugarPrincipalAsync();
+        Assert.Equal(14, lugar.DiaCorte);
+        Assert.Empty(lugar.Periodos);
+    }
+
+    [Fact]
     public async Task GuardarOnboardingAsync_ReciboMensual_ElLugarQuedaMensual()
     {
         var recibo = new ReciboCapturado(new DateOnly(2026, 9, 30), MesesDelPeriodo: 1, Kwh: 300m, Monto: 410m);

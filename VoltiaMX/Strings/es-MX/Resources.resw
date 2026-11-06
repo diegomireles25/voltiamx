@@ -516,7 +516,7 @@
     <value>TARIFA</value>
   </data>
   <data name="Resumen_TarifaPorConfirmar" xml:space="preserve">
-    <value>1 · por confirmar</value>
+    <value>1 · por confirmar en tu recibo</value>
   </data>
   <data name="Resumen_Recibo" xml:space="preserve">
     <value>RECIBO</value>
@@ -3604,5 +3604,86 @@
   </data>
   <data name="Escanear_Error_FechaCorteFutura" xml:space="preserve">
     <value>La fecha de corte no puede ser posterior a hoy. Escribe la del recibo que ya recibiste.</value>
+  </data>
+  <data name="Bienvenida_ProbarDemo.Content" xml:space="preserve">
+    <value>Probar con datos de ejemplo</value>
+  </data>
+  <data name="OnboardingRecibo_Titulo.Text" xml:space="preserve">
+    <value>TU RECIBO</value>
+  </data>
+  <data name="OnboardingRecibo_Ayuda.Text" xml:space="preserve">
+    <value>Con lo que pagaste en tu último recibo calculamos cuánto vas a pagar.</value>
+  </data>
+  <data name="OnboardingRecibo_EscribirTitulo.Text" xml:space="preserve">
+    <value>ESCRIBIR CUÁNTO PAGUÉ</value>
+  </data>
+  <data name="OnboardingRecibo_EscribirTexto.Text" xml:space="preserve">
+    <value>Escribe el total y la fecha de corte de tu último recibo.</value>
+  </data>
+  <data name="OnboardingRecibo_EscanearTitulo.Text" xml:space="preserve">
+    <value>ESCANEAR MI RECIBO</value>
+  </data>
+  <data name="OnboardingRecibo_EscanearTexto.Text" xml:space="preserve">
+    <value>FOTO O PDF</value>
+  </data>
+  <data name="OnboardingRecibo_ElegirArchivo.Content" xml:space="preserve">
+    <value>Elegir foto o PDF</value>
+  </data>
+  <data name="OnboardingRecibo_Leyendo.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Leyendo tu recibo</value>
+  </data>
+  <data name="OnboardingRecibo_Total.Header" xml:space="preserve">
+    <value>Total a pagar</value>
+  </data>
+  <data name="OnboardingRecibo_Total.PlaceholderText" xml:space="preserve">
+    <value>Ej. 1020</value>
+  </data>
+  <data name="OnboardingRecibo_Fecha.Header" xml:space="preserve">
+    <value>Fecha de corte</value>
+  </data>
+  <data name="OnboardingRecibo_Fecha.PlaceholderText" xml:space="preserve">
+    <value>Elige la fecha</value>
+  </data>
+  <data name="OnboardingRecibo_Aproximado.Text" xml:space="preserve">
+    <value>Calculamos tu consumo de forma aproximada a partir de lo que pagaste.</value>
+  </data>
+  <data name="OnboardingRecibo_SinRecibo.Content" xml:space="preserve">
+    <value>Todavía no tengo mi recibo</value>
+  </data>
+  <data name="OnboardingRecibo_Revisa" xml:space="preserve">
+    <value>Revisa que coincidan con tu recibo.</value>
+  </data>
+  <data name="OnboardingRecibo_SinTotal" xml:space="preserve">
+    <value>No pudimos leer el total de tu recibo. Escríbelo abajo.</value>
+  </data>
+  <data name="OnboardingRecibo_Incompleto" xml:space="preserve">
+    <value>Escribe el total y la fecha de corte de tu recibo.</value>
+  </data>
+  <data name="Ayuda_Termino_ConsumoAproximado" xml:space="preserve">
+    <value>Consumo aproximado</value>
+  </data>
+  <data name="Ayuda_ConsumoAproximado" xml:space="preserve">
+    <value>Con tu total y los precios de tu tarifa calculamos cuánto consumiste. Es aproximado: tu recibo también trae impuestos y otros cargos.</value>
+  </data>
+  <data name="OnboardingTarifa_Titulo.Text" xml:space="preserve">
+    <value>TU TARIFA</value>
+  </data>
+  <data name="OnboardingTarifa_Ayuda.Text" xml:space="preserve">
+    <value>Con tu tarifa sabemos cuánto cuesta lo que consumes.</value>
+  </data>
+  <data name="Ayuda_Termino_DondeTarifa" xml:space="preserve">
+    <value>Tu tarifa</value>
+  </data>
+  <data name="AyudaEnlace_DondeTarifa" xml:space="preserve">
+    <value>¿Dónde la veo en mi recibo?</value>
+  </data>
+  <data name="Ayuda_DondeTarifa" xml:space="preserve">
+    <value>Tu tarifa viene impresa en tu recibo de CFE. Suele ser un número, o un número con una letra, como 1 o 1C.</value>
+  </data>
+  <data name="Resumen_ReciboTotalYFecha" xml:space="preserve">
+    <value>${0:N0} · corte del {1:d 'de' MMMM 'de' yyyy}</value>
+  </data>
+  <data name="Resumen_SinRecibo" xml:space="preserve">
+    <value>Sin recibo todavía</value>
   </data>
 </root>

@@ -37,6 +37,12 @@ public sealed record DatosOnboarding
 
     public ReciboCapturado? Recibo { get; init; }
 
+    /// <summary>
+    /// Fecha de corte del recibo que se agrega después por su monto (Fase 9b): de ella sale el día de corte del
+    /// lugar. Null sin recibo. Si viene <see cref="Recibo"/>, manda la de ese recibo.
+    /// </summary>
+    public DateOnly? FechaCorteRecibo { get; init; }
+
     public TipoObjetivo? Objetivo { get; init; }
 
     public decimal? PresupuestoMax { get; init; }

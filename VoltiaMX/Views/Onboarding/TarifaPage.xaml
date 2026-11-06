@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Tu tarifa (Fase 9b): la tarifa de tu recibo, o "No sé mi tarifa" (se usa la 1 por confirmar) -->
+<Page
+    x:Class="VoltiaMX.Views.Onboarding.TarifaPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:VoltiaMX.Helpers"
+    xmlns:local="using:VoltiaMX.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel Padding="{StaticResource ScrollAccentPadding}" Spacing="{StaticResource Spacing32}">
+            <StackPanel Spacing="{StaticResource Spacing16}">
+                <TextBlock
+                    x:Uid="OnboardingTarifa_Titulo"
+                    AutomationProperties.HeadingLevel="Level1"
+                    Style="{StaticResource HeadingLgTextStyle}" />
+                <TextBlock
+                    x:Uid="OnboardingTarifa_Ayuda"
+                    Foreground="{StaticResource SlateBrush}"
+                    Style="{StaticResource BodyTextStyle}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel MaxWidth="{StaticResource HeroTextMaxWidth}" HorizontalAlignment="Left" Spacing="{StaticResource Spacing16}">
+                <ComboBox
+                    x:Uid="Ubicacion_Tarifa"
+                    HorizontalAlignment="Stretch"
+                    IsEnabled="{x:Bind helpers:Conversiones.No(ViewModel.NoSeMiTarifa), Mode=OneWay}"
+                    ItemsSource="{x:Bind ViewModel.Tarifas}"
+                    SelectedItem="{x:Bind ViewModel.TarifaSeleccionada, Mode=TwoWay}"
+                    Style="{StaticResource ComboBoxStyle}" />
+                <local:TerminoAyuda Clave="DondeTarifa" />
+            </StackPanel>
+
+            <StackPanel Spacing="{StaticResource Spacing8}">
+                <CheckBox x:Uid="Ubicacion_NoSe" IsChecked="{x:Bind ViewModel.NoSeMiTarifa, Mode=TwoWay}" />
+                <TextBlock
+                    x:Uid="Ubicacion_NoSeAyuda"
+                    Foreground="{StaticResource SlateBrush}"
+                    Style="{StaticResource BodySmTextStyle}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

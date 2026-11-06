@@ -78,6 +78,12 @@
                 HorizontalAlignment="Center"
                 Command="{x:Bind ViewModel.SiguienteCommand}"
                 Style="{StaticResource PrimaryButtonStyle}" />
+            <!-- Fase 9b: carga la demo y entra a Inicio -->
+            <Button
+                x:Uid="Bienvenida_ProbarDemo"
+                HorizontalAlignment="Center"
+                Command="{x:Bind ViewModel.ProbarDemoCommand}"
+                Style="{StaticResource TextLinkButtonSmStyle}" />
             <TextBlock
                 x:Uid="Bienvenida_Rasgos"
                 Foreground="{StaticResource SlateBrush}"

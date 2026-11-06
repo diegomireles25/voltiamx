@@ -1,8 +1,8 @@
 namespace VoltiaMX.ViewModels.Onboarding;
 
 /// <summary>
-/// Pasos del onboarding en orden. Los tres del medio son las preguntas numeradas (desde la Fase 7a ya no
-/// hay pasos de objetivo ni de presupuesto).
+/// Pasos del onboarding. Desde la Fase 9b el flujo es Bienvenida, Recibo, Tarifa y Listo (el orden lo lleva
+/// OnboardingViewModel); Uso y Ubicacion ya no se muestran, pero sus páginas siguen en el proyecto.
 /// </summary>
 public enum PasoOnboarding
 {
@@ -10,11 +10,12 @@ public enum PasoOnboarding
     Uso,
     Ubicacion,
     Recibo,
+    Tarifa,
     Listo
 }
 
 /// <summary>
-/// Tarifa elegible en el paso de ubicación.
+/// Tarifa elegible en el paso Tu tarifa.
 /// </summary>
 public sealed record OpcionTarifa(int Id, string Nombre)
 {

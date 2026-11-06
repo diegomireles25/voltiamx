@@ -227,6 +227,10 @@ public sealed class PerfilService(IDbContextFactory<VoltiaDbContext> fabrica) : 
         {
             GuardarPeriodoDelRecibo(lugar, recibo);
         }
+        else if (datos.FechaCorteRecibo is DateOnly fechaCorte)
+        {
+            lugar.DiaCorte = fechaCorte.Day;
+        }
     }
 
     private static void GuardarPeriodoDelRecibo(Lugar lugar, ReciboCapturado recibo)

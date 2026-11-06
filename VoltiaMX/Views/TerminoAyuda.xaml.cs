@@ -9,6 +9,19 @@ namespace VoltiaMX.Views
     /// </summary>
     public sealed partial class TerminoAyuda : UserControl
     {
+        // En Windows App SDK, GetString lanza una excepción si la clave no existe.
+        private static string? TextoOpcional(string clave)
+        {
+            try
+            {
+                return Recursos.GetString(clave);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         private static readonly ResourceLoader Recursos = new();
 
         public static readonly DependencyProperty ClaveProperty = DependencyProperty.Register(
@@ -32,7 +45,9 @@ namespace VoltiaMX.Views
                 return;
             }
 
-            var enlace = Recursos.GetString("Ayuda_QueEsEsto");
+            // Un término puede tener su propio texto de enlace (AyudaEnlace_{Clave}); si no, "¿Qué es esto?".
+            var propio = TextoOpcional($"AyudaEnlace_{Clave}");
+            var enlace = string.IsNullOrEmpty(propio) ? Recursos.GetString("Ayuda_QueEsEsto") : propio;
             var explicacion = Recursos.GetString($"Ayuda_{Clave}");
             Enlace.Content = enlace;
             Explicacion.Text = explicacion;
