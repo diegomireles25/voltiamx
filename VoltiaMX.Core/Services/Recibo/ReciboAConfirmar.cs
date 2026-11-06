@@ -18,6 +18,11 @@ public enum ErrorConfirmacionRecibo
     FaltaFecha,
     FaltaLecturaActual,
     LecturaNegativa,
+
+    /// <summary>
+    /// La fecha de corte (o la de la lectura) es posterior a hoy (Fase 9b, D5).
+    /// </summary>
+    FechaCorteFutura,
 }
 
 public sealed record ResultadoConfirmacionRecibo(NuevaLectura? Lectura, IReadOnlyList<ErrorConfirmacionRecibo> Errores);
@@ -83,12 +88,18 @@ public sealed class ReciboAConfirmar
     /// <summary>
     /// La lectura actual como lectura del medidor, con origen OCR y el total del recibo.
     /// </summary>
-    public ResultadoConfirmacionRecibo ANuevaLectura(int lugarId)
+    public ResultadoConfirmacionRecibo ANuevaLectura(int lugarId, DateOnly hoy)
     {
         var errores = new List<ErrorConfirmacionRecibo>();
         if (FechaLectura is null)
         {
             errores.Add(ErrorConfirmacionRecibo.FaltaFecha);
+        }
+
+        if ((FechaCorte is DateOnly corte && ValidadorFechaCorte.Validar(corte, hoy) is not null)
+            || (FechaLectura is DateOnly fecha && ValidadorFechaCorte.Validar(fecha, hoy) is not null))
+        {
+            errores.Add(ErrorConfirmacionRecibo.FechaCorteFutura);
         }
 
         if (LecturaActual is null)

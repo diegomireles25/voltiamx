@@ -87,7 +87,7 @@ public class ReciboCoherenciaTests
     [Fact]
     public void ANuevaLectura_FechaDelFinDelPeriodoOrigenOcrYTotalDelRecibo()
     {
-        var resultado = Completo().ANuevaLectura(lugarId: 7);
+        var resultado = Completo().ANuevaLectura(lugarId: 7, new DateOnly(2026, 11, 5));
 
         Assert.Empty(resultado.Errores);
         Assert.Equal(new NuevaLectura(7, new DateOnly(2026, 9, 12), 48_623m, OrigenLectura.Ocr, 871.51m), resultado.Lectura);
@@ -100,7 +100,7 @@ public class ReciboCoherenciaTests
         recibo.FechaLectura = null;
         recibo.LecturaActual = null;
 
-        var resultado = recibo.ANuevaLectura(7);
+        var resultado = recibo.ANuevaLectura(7, new DateOnly(2026, 11, 5));
 
         Assert.Null(resultado.Lectura);
         Assert.Equal([ErrorConfirmacionRecibo.FaltaFecha, ErrorConfirmacionRecibo.FaltaLecturaActual], resultado.Errores);
@@ -112,7 +112,7 @@ public class ReciboCoherenciaTests
         var recibo = Completo();
         recibo.LecturaActual = -5m;
 
-        Assert.Equal([ErrorConfirmacionRecibo.LecturaNegativa], recibo.ANuevaLectura(7).Errores);
+        Assert.Equal([ErrorConfirmacionRecibo.LecturaNegativa], recibo.ANuevaLectura(7, new DateOnly(2026, 11, 5)).Errores);
     }
 
     [Fact]
@@ -121,7 +121,7 @@ public class ReciboCoherenciaTests
         var recibo = Completo();
         recibo.Total = null;
 
-        Assert.Null(recibo.ANuevaLectura(7).Lectura!.MontoRecibo);
+        Assert.Null(recibo.ANuevaLectura(7, new DateOnly(2026, 11, 5)).Lectura!.MontoRecibo);
     }
 
     [Fact]

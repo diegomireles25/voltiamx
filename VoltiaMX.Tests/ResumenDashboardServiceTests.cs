@@ -84,6 +84,74 @@ public sealed class ResumenDashboardServiceTests : IAsyncLifetime
         Assert.Equal(675m, resumen!.MontoReciboAnterior);
     }
 
+    // Fase 9b (D6): el estado de Inicio. Hoy es 19 de octubre; tarifa 1C bimestral (0–300 a $1, 300–900 a $1.25).
+    private async Task<Lugar> LugarConReciboAsync(DateOnly fin, decimal kwh = 600m, bool estimado = true, params Lectura[] lecturas)
+    {
+        var tarifa = await TarifaAsync("1C");
+        var lugar = new Lugar
+        {
+            Nombre = "Mi casa",
+            TarifaId = tarifa.Id,
+            DiaCorte = fin.Day,
+            MesesPorPeriodo = 2,
+            Periodos = [new Periodo { Inicio = fin.AddMonths(-2).AddDays(1), Fin = fin, KwhTotales = kwh, Monto = 999m, Estimado = estimado }],
+            Lecturas = [.. lecturas],
+        };
+        await AgregarLugarAsync(lugar);
+        return lugar;
+    }
+
+    [Fact]
+    public async Task Estado_SinReciboNiLecturas_SinRecibo()
+    {
+        await _perfiles.GuardarOnboardingAsync(new DatosOnboarding { Usos = [UsoApp.Casa] });
+
+        Assert.Equal(EstadoPantallaInicio.SinRecibo, (await _servicio.ObtenerAsync(Hoy))!.EstadoInicio);
+    }
+
+    [Fact]
+    public async Task Estado_ReciboSinLecturas_SiSiguesIgualConLaTarifaActual()
+    {
+        // Recibo aproximado (por monto) de 600 kWh que cerró el 26 de septiembre; sin lecturas.
+        // Si sigues igual: 300 × $1 + 300 × $1.25 = $675 (no los $999 guardados).
+        await LugarConReciboAsync(new DateOnly(2026, 9, 26));
+
+        var resumen = await _servicio.ObtenerAsync(Hoy);
+
+        Assert.Equal(EstadoPantallaInicio.ReciboSinLecturas, resumen!.EstadoInicio);
+        Assert.Equal(675m, resumen.MontoReciboAnterior);
+        Assert.True(resumen.UltimoReciboEstimado);
+        Assert.Equal(new DateOnly(2026, 9, 26), resumen.FechaCorteUltimoRecibo);
+    }
+
+    [Fact]
+    public async Task Estado_ReciboConFechaDeCorteFutura_FechaFutura()
+    {
+        // Corte guardado el 8 de noviembre: el recibo actual empezaría el 9, después de hoy (19 de octubre).
+        await LugarConReciboAsync(new DateOnly(2026, 11, 8), estimado: false);
+
+        var resumen = await _servicio.ObtenerAsync(Hoy);
+
+        Assert.Equal(EstadoPantallaInicio.FechaFutura, resumen!.EstadoInicio);
+        Assert.Equal(new DateOnly(2026, 11, 8), resumen.FechaCorteUltimoRecibo);
+        Assert.False(resumen.UltimoReciboEstimado);
+    }
+
+    [Fact]
+    public async Task Estado_DosLecturasDentroDelReciboActual_ConLecturas()
+    {
+        await LugarConReciboAsync(new DateOnly(2026, 9, 26), lecturas:
+        [
+            new Lectura { Fecha = new DateOnly(2026, 10, 1), ValorKwh = 1_000m },
+            new Lectura { Fecha = new DateOnly(2026, 10, 15), ValorKwh = 1_140m },
+        ]);
+
+        var resumen = await _servicio.ObtenerAsync(Hoy);
+
+        Assert.Equal(EstadoPantallaInicio.ConLecturas, resumen!.EstadoInicio);
+        Assert.NotNull(resumen.MontoProyectado);
+    }
+
     [Fact]
     public async Task ObtenerAsync_SinLugares_DevuelveNull()
     {

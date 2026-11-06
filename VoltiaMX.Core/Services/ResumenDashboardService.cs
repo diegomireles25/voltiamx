@@ -101,6 +101,9 @@ public sealed class ResumenDashboardService(
             PromedioDiarioKwh = proyectado?.PromedioDiarioKwh,
             DesgloseProyectado = proyectado?.Calculo,
             Historial = Historial(cerrados, inicio, fin, proyectado),
+            EstadoInicio = EstadoInicio.Evaluar(cerrados.Count, lugar.Lecturas.Count, inicio, kwhHastaHoy is not null, hoy),
+            UltimoReciboEstimado = cerrados.Count > 0 && cerrados[^1].Estimado,
+            FechaCorteUltimoRecibo = cerrados.Count > 0 ? cerrados[^1].Fin : null,
             // D6: el recibo anterior con la tarifa de hoy, para que la comparación dependa solo del consumo.
             MontoReciboAnterior = cerrados.Count > 0 ? calculadora.Calcular(cerrados[^1].KwhTotales, tarifa, meses).Total : null,
             VariacionVsPeriodoAnterior = cerrados.Count > 0 && cerrados[^1].KwhTotales > 0m

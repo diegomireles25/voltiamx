@@ -3576,7 +3576,7 @@
     <value>Con ese monto no sale consumo: no alcanza ni para el cargo fijo de tu tarifa.</value>
   </data>
   <data name="ReciboMonto_Error_FechaFutura" xml:space="preserve">
-    <value>La fecha de corte no puede ser después de hoy.</value>
+    <value>La fecha de corte no puede ser posterior a hoy. Escribe la del recibo que ya recibiste.</value>
   </data>
   <data name="ReciboMonto_Error_Traslape" xml:space="preserve">
     <value>Ya tienes un recibo en esas fechas. Elige otra fecha de corte.</value>
@@ -3601,5 +3601,8 @@
   </data>
   <data name="Mas_Modulo_Reportes_Texto" xml:space="preserve">
     <value>Descarga tu reporte en PDF y tus datos en Excel.</value>
+  </data>
+  <data name="Escanear_Error_FechaCorteFutura" xml:space="preserve">
+    <value>La fecha de corte no puede ser posterior a hoy. Escribe la del recibo que ya recibiste.</value>
   </data>
 </root>

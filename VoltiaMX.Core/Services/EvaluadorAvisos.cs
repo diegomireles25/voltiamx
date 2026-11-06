@@ -40,12 +40,14 @@ public static class EvaluadorAvisos
 
     /// <param name="clavesEnviadas">Claves que ya se avisaron en este lugar.</param>
     /// <param name="notificacionesActivas">Preferencia del perfil; apagada no avisa ni olvida nada.</param>
+    /// <param name="metasActivas">El módulo Metas está activo (modo avanzado): sin él no hay avisos de meta.</param>
     public static ResultadoAvisos Evaluar(
         ResumenDashboard? resumen,
         ProgresoMeta? meta,
         DateOnly hoy,
         IReadOnlySet<string> clavesEnviadas,
-        bool notificacionesActivas)
+        bool notificacionesActivas,
+        bool metasActivas)
     {
         ArgumentNullException.ThrowIfNull(clavesEnviadas);
         if (!notificacionesActivas || resumen is null || resumen.EsDemo)
@@ -80,7 +82,7 @@ public static class EvaluadorAvisos
         }
 
         // Meta: en riesgo o superada en este periodo.
-        if (meta?.Estado is EstadoMeta.EnRiesgo or EstadoMeta.Superada)
+        if (metasActivas && meta?.Estado is EstadoMeta.EnRiesgo or EstadoMeta.Superada)
         {
             candidatos.Add(new AvisoPendiente(TipoAviso.Meta, $"Meta:{meta.Estado}:{finTexto}", fin, EstadoMeta: meta.Estado));
         }

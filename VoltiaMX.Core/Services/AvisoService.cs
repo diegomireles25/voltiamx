@@ -30,16 +30,18 @@ public sealed class AvisoService(
 {
     public async Task<AvisosDelLugar> EvaluarAsync(DateOnly hoy, CancellationToken cancellationToken = default)
     {
-        bool activas;
+        bool activas, metasActivas;
         await using (var db = await fabrica.CreateDbContextAsync(cancellationToken))
         {
-            var perfil = await db.Perfiles.AsNoTracking().OrderBy(p => p.Id).FirstOrDefaultAsync(cancellationToken);
+            var perfil = await db.Perfiles.AsNoTracking().Include(p => p.Usos).OrderBy(p => p.Id).FirstOrDefaultAsync(cancellationToken);
             if (perfil is null)
             {
                 return new AvisosDelLugar(null, []);
             }
 
             activas = perfil.NotificacionesActivas;
+            // Fase 9b (D7): sin el módulo Metas (modo avanzado apagado) no hay avisos de meta.
+            metasActivas = ModulosPorUso.Calcular(perfil.Usos.Select(u => u.Uso), perfil.ModoAvanzado).Contains(ModuloApp.Metas);
         }
 
         var resumen = await resumenes.ObtenerAsync(hoy, cancellationToken);
@@ -57,7 +59,7 @@ public sealed class AvisoService(
             .Select(a => a.Clave)
             .ToListAsync(cancellationToken)).ToHashSet();
 
-        var resultado = EvaluadorAvisos.Evaluar(resumen, meta, hoy, enviadas, activas);
+        var resultado = EvaluadorAvisos.Evaluar(resumen, meta, hoy, enviadas, activas, metasActivas);
         foreach (var olvidar in resultado.ARestablecer.Where(r => enviadas.Contains(r.Clave)))
         {
             await contexto.AvisosEnviados

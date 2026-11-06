@@ -56,6 +56,14 @@ public static class EstimadorPorMonto
             : porcentaje is < 0m or > CargosMaximos ? ErrorReciboPorMonto.CargosFueraDeRango
             : null;
 
+    /// <summary>
+    /// El total y la fecha de corte de un recibo por monto, antes de estimar (el onboarding lo usa en el paso
+    /// "Tu recibo"). El total se revisa primero.
+    /// </summary>
+    public static ErrorReciboPorMonto? ValidarRecibo(decimal total, DateOnly fechaCorte, DateOnly hoy)
+        => Validar(total, CargosPorDefecto)
+            ?? (ValidadorFechaCorte.Validar(fechaCorte, hoy) is null ? null : ErrorReciboPorMonto.FechaFutura);
+
     /// <param name="dias">Días del recibo (solo los pide el inverso para su reparto diario).</param>
     public static EstimacionPorMonto Estimar(
         IPresupuestoInversoService inverso, ITarifaCalculator calculadora, Tarifa tarifa, int meses, int dias, decimal total, decimal porcentaje)

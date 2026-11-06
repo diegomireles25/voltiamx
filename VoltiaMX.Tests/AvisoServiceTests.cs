@@ -65,6 +65,27 @@ public sealed class AvisoServiceTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task EvaluarAsync_MetaSuperada_SoloAvisaConElModoAvanzado()
+    {
+        // Fase 9b (D7). Base 1,200 kWh y meta del 10 %: objetivo 1,080. Desde el corte del 1 de septiembre ya
+        // van 1,100 kWh (más que 1,080): meta superada.
+        var lugarId = await LugarConDacAltoAsync();
+        await new MetaService(_fabrica, null!, new TarifaCalculator()).GuardarAsync(lugarId, 10, new DateOnly(2026, 5, 1));
+        await using (var db = _fabrica.CreateDbContext())
+        {
+            db.Lecturas.Add(new Lectura { LugarId = lugarId, Fecha = new(2026, 9, 1), ValorKwh = 10_000m });
+            db.Lecturas.Add(new Lectura { LugarId = lugarId, Fecha = new(2026, 9, 30), ValorKwh = 11_100m });
+            await db.SaveChangesAsync();
+        }
+
+        Assert.DoesNotContain((await _servicio.EvaluarAsync(Hoy)).Pendientes, a => a.Tipo == TipoAviso.Meta);
+
+        await _perfiles.CambiarModoAvanzadoAsync(true);
+
+        Assert.Contains((await _servicio.EvaluarAsync(Hoy)).Pendientes, a => a.Tipo == TipoAviso.Meta);
+    }
+
+    [Fact]
     public async Task EvaluarAsync_YaMarcado_NoSeDevuelve()
     {
         var lugarId = await LugarConDacAltoAsync();

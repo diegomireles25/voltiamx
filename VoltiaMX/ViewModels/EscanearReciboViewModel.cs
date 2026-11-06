@@ -387,7 +387,7 @@ public sealed partial class EscanearReciboViewModel : ObservableObject
         TieneAvisos = Avisos.Count > 0;
         TarifaNoRegistrada = Avisos.Any(a => a.AbrirTarifas);
 
-        var errores = recibo.ANuevaLectura(_lugarId ?? 0).Errores;
+        var errores = recibo.ANuevaLectura(_lugarId ?? 0, DateOnly.FromDateTime(DateTime.Today)).Errores;
         PorQueNoSeGuarda = EsDemo
             ? _textos["Escanear_NoSeGuardaDemo"]
             : string.Join(" ", errores.Select(e => _textos[$"Escanear_Error_{e}"]));
@@ -397,12 +397,12 @@ public sealed partial class EscanearReciboViewModel : ObservableObject
 
     private bool PuedeGuardar()
         => TieneFormulario && !EsDemo && !Guardando && _lugarId is not null
-            && AConfirmar().ANuevaLectura(_lugarId.Value).Errores.Count == 0;
+            && AConfirmar().ANuevaLectura(_lugarId.Value, DateOnly.FromDateTime(DateTime.Today)).Errores.Count == 0;
 
     [RelayCommand(CanExecute = nameof(PuedeGuardar))]
     private async Task GuardarLecturaAsync()
     {
-        if (_lugarId is not int lugarId || AConfirmar().ANuevaLectura(lugarId).Lectura is not { } lectura)
+        if (_lugarId is not int lugarId || AConfirmar().ANuevaLectura(lugarId, DateOnly.FromDateTime(DateTime.Today)).Lectura is not { } lectura)
         {
             return;
         }

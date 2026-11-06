@@ -66,7 +66,7 @@ public sealed class RecibosService(
         var meses = Math.Max(lugar.MesesPorPeriodo, 1);
         var fin = fechaCorte ?? VentanaPeriodo.CorteEnOAntesDe(lugar.DiaCorte, hoy);
         var inicio = fin.AddMonths(-meses).AddDays(1);
-        if (fin > hoy)
+        if (ValidadorFechaCorte.Validar(fin, hoy) is not null)
         {
             return ResultadoReciboPorMonto.Rechazado(ErrorReciboPorMonto.FechaFutura, inicio, fin);
         }

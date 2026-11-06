@@ -33,8 +33,19 @@ public class EvaluadorAvisosTests
         => new(estado, 10, 500m, false, 450m, 300m, 480m, 10m, null, [], 0);
 
     private static ResultadoAvisos Evaluar(
-        ResumenDashboard? resumen, ProgresoMeta? meta = null, IReadOnlySet<string>? enviadas = null, bool activas = true)
-        => EvaluadorAvisos.Evaluar(resumen, meta, Hoy, enviadas ?? new HashSet<string>(), activas);
+        ResumenDashboard? resumen, ProgresoMeta? meta = null, IReadOnlySet<string>? enviadas = null, bool activas = true,
+        bool metasActivas = true)
+        => EvaluadorAvisos.Evaluar(resumen, meta, Hoy, enviadas ?? new HashSet<string>(), activas, metasActivas);
+
+    [Theory]
+    [InlineData(EstadoMeta.EnRiesgo)]
+    [InlineData(EstadoMeta.Superada)]
+    public void Meta_ConElModuloMetasInactivo_NoAvisa(EstadoMeta estado)
+    {
+        // Fase 9b (D7): sin modo avanzado no hay pantalla de metas, así que tampoco avisos de meta.
+        Assert.DoesNotContain(Evaluar(Resumen(), Meta(estado), metasActivas: false).Pendientes, a => a.Tipo == TipoAviso.Meta);
+        Assert.Contains(Evaluar(Resumen(), Meta(estado)).Pendientes, a => a.Tipo == TipoAviso.Meta);
+    }
 
     private static IReadOnlyList<string> Claves(ResultadoAvisos resultado) => resultado.Pendientes.Select(a => a.Clave).ToList();
 

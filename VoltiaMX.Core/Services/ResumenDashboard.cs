@@ -128,6 +128,22 @@ public sealed record ResumenDashboard
     /// </summary>
     public decimal? MontoReciboAnterior { get; init; }
 
+    /// <summary>
+    /// Qué muestra Inicio (Fase 9b): sin recibo, con recibo y sin lecturas, como siempre o con la fecha de
+    /// corte del último recibo en el futuro.
+    /// </summary>
+    public EstadoPantallaInicio EstadoInicio { get; init; } = EstadoPantallaInicio.ConLecturas;
+
+    /// <summary>
+    /// El último recibo cerrado es aproximado (por monto o con la lectura de corte estimada).
+    /// </summary>
+    public bool UltimoReciboEstimado { get; init; }
+
+    /// <summary>
+    /// Fecha de corte del último recibo cerrado; null si no hay.
+    /// </summary>
+    public DateOnly? FechaCorteUltimoRecibo { get; init; }
+
     public bool TieneDatos => Historial.Count > 0 || KwhHastaHoy is not null;
 }
 
