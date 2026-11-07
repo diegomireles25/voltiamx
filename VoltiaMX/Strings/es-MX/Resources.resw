@@ -4019,4 +4019,13 @@
   <data name="ElegirAparatos_CambioAUnidades" xml:space="preserve">
     <value>Tu {0} pasará a ser {1} aparatos, cada uno con sus horas. La potencia que ajustaste se conserva.</value>
   </data>
+  <data name="ReciboMonto_Error_CorteRepetido" xml:space="preserve">
+    <value>Ya tienes un recibo con corte el {0:d 'de' MMMM}.</value>
+  </data>
+  <data name="ReciboMonto_Error_CorteMuyCerca" xml:space="preserve">
+    <value>Tu recibo con corte el {0:d 'de' MMMM} queda muy cerca de esta fecha. Revisa que sea la de otro recibo.</value>
+  </data>
+  <data name="ReciboMonto_Error_DentroDeLecturas" xml:space="preserve">
+    <value>Esa fecha cae dentro de tu recibo del {0:d 'de' MMMM} al {1:d 'de' MMMM}, que ya tiene lecturas.</value>
+  </data>
 </root>

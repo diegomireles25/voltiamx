@@ -3,10 +3,14 @@ namespace VoltiaMX.Core.Services;
 /// <summary>
 /// Resultado de un recibo por monto: el error, o los kWh aproximados, su monto con la tarifa y sus fechas.
 /// </summary>
-public sealed record ResultadoReciboPorMonto(ErrorReciboPorMonto? Error, decimal Kwh, decimal Monto, DateOnly Inicio, DateOnly Fin)
+/// <remarks>Fase 9i: con un rechazo por otro recibo, <see cref="ChoqueInicio"/> y <see cref="ChoqueFin"/> son las fechas de ese
+/// recibo (para decir con cuál choca).</remarks>
+public sealed record ResultadoReciboPorMonto(
+    ErrorReciboPorMonto? Error, decimal Kwh, decimal Monto, DateOnly Inicio, DateOnly Fin, DateOnly? ChoqueInicio = null, DateOnly? ChoqueFin = null)
 {
-    public static ResultadoReciboPorMonto Rechazado(ErrorReciboPorMonto error, DateOnly inicio = default, DateOnly fin = default)
-        => new(error, 0m, 0m, inicio, fin);
+    public static ResultadoReciboPorMonto Rechazado(
+        ErrorReciboPorMonto error, DateOnly inicio = default, DateOnly fin = default, DateOnly? choqueInicio = null, DateOnly? choqueFin = null)
+        => new(error, 0m, 0m, inicio, fin, choqueInicio, choqueFin);
 }
 
 public interface IRecibosService

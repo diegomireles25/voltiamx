@@ -89,9 +89,9 @@ public sealed partial class ReciboPorMontoViewModel(
 
     private void Mostrar(ResultadoReciboPorMonto resultado)
     {
-        if (resultado.Error is { } error)
+        if (resultado.Error is not null)
         {
-            Error = textos[$"ReciboMonto_Error_{error}"];
+            Error = TextosRecibo.Error(textos, resultado);
             return;
         }
 

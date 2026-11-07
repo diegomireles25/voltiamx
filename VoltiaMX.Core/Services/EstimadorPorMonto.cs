@@ -22,11 +22,27 @@ public enum ErrorReciboPorMonto
     FechaFutura,
 
     /// <summary>
-    /// Las fechas del recibo se cruzan con un recibo que ya está registrado.
+    /// Las fechas del recibo se cruzan con un recibo que ya está registrado. Desde la Fase 9i ya no se usa: los
+    /// recibos se acomodan por sus fechas de corte (<see cref="CortesDeRecibos"/>).
     /// </summary>
     Traslape,
 
     LugarNoExiste,
+
+    /// <summary>
+    /// Ya hay un recibo con esa fecha de corte (Fase 9i).
+    /// </summary>
+    CorteRepetido,
+
+    /// <summary>
+    /// Hay un recibo con corte a menos de <see cref="CortesDeRecibos.DiasMinimosEntreCortes"/> días (Fase 9i).
+    /// </summary>
+    CorteMuyCerca,
+
+    /// <summary>
+    /// La fecha cae dentro de un recibo cerrado con lecturas (Fase 9i).
+    /// </summary>
+    DentroDeLecturas,
 }
 
 /// <summary>

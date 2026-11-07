@@ -64,6 +64,7 @@ public sealed class RecibosService(
         var lugar = await db.Lugares
             .Include(l => l.Tarifa).ThenInclude(t => t!.Rangos)
             .Include(l => l.Periodos)
+            .Include(l => l.Lecturas)
             .AsSplitQuery()
             .FirstOrDefaultAsync(l => l.Id == lugarId, cancellationToken);
         if (lugar?.Tarifa is not { } tarifa)
@@ -77,18 +78,20 @@ public sealed class RecibosService(
             lugar.MesesPorPeriodo = mesesPorPeriodo.Value;
         }
 
-        // El recibo cubre los meses del periodo que terminan en la fecha de corte (igual que en el onboarding).
+        // Fase 9i: el recibo termina en su fecha de corte y empieza al día siguiente del corte del recibo anterior
+        // (sin anterior, sus meses antes); las fechas reales no caen a meses exactos.
         var meses = Math.Max(lugar.MesesPorPeriodo, 1);
         var fin = fechaCorte ?? VentanaPeriodo.CorteEnOAntesDe(lugar.DiaCorte, hoy);
-        var inicio = fin.AddMonths(-meses).AddDays(1);
         if (ValidadorFechaCorte.Validar(fin, hoy) is not null)
         {
-            return ResultadoReciboPorMonto.Rechazado(ErrorReciboPorMonto.FechaFutura, inicio, fin);
+            return ResultadoReciboPorMonto.Rechazado(ErrorReciboPorMonto.FechaFutura, fin.AddMonths(-meses).AddDays(1), fin);
         }
 
-        if (lugar.Periodos.Any(p => p.Inicio <= fin && inicio <= p.Fin))
+        var ubicacion = CortesDeRecibos.Ubicar([.. lugar.Periodos], lugar.Lecturas.Select(l => l.Fecha).ToHashSet(), fin, meses);
+        var inicio = ubicacion.Inicio;
+        if (ubicacion.Error is { } choque)
         {
-            return ResultadoReciboPorMonto.Rechazado(ErrorReciboPorMonto.Traslape, inicio, fin);
+            return ResultadoReciboPorMonto.Rechazado(choque, inicio, fin, ubicacion.ChoqueInicio, ubicacion.ChoqueFin);
         }
 
         var estimacion = EstimadorPorMonto.Estimar(
@@ -100,6 +103,12 @@ public sealed class RecibosService(
 
         if (guardar)
         {
+            // El recibo siguiente (por monto) empieza al día siguiente del corte nuevo; sus kWh y su monto no cambian.
+            if (ubicacion is { Siguiente: { } siguiente, NuevoInicioSiguiente: DateOnly nuevoInicio })
+            {
+                siguiente.Inicio = nuevoInicio;
+            }
+
             lugar.Periodos.Add(new Periodo
             {
                 Inicio = inicio,

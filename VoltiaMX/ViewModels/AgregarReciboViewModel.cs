@@ -276,9 +276,9 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
         if (lugarId is int id)
         {
             var previa = await recibos.PrevisualizarPorMontoAsync(id, recibo.Total, recibo.Fecha, EstimadorPorMonto.CargosPorDefecto, Hoy, MesesElegidos);
-            if (previa.Error is { } errorPrevia)
+            if (previa.Error is not null)
             {
-                return textos[$"ReciboMonto_Error_{errorPrevia}"];
+                return TextosRecibo.Error(textos, previa);
             }
         }
 
@@ -297,7 +297,7 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
 
         var resultado = await recibos.AgregarPorMontoAsync(
             lugarId, recibo.Total, recibo.Fecha, EstimadorPorMonto.CargosPorDefecto, Hoy, MesesElegidos);
-        ErrorRecibo = resultado.Error is { } error ? textos[$"ReciboMonto_Error_{error}"] : string.Empty;
+        ErrorRecibo = resultado.Error is not null ? TextosRecibo.Error(textos, resultado) : string.Empty;
         return ErrorRecibo.Length > 0 ? ErrorRecibo : null;
     }
 

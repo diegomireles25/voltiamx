@@ -82,18 +82,23 @@ public sealed class RecibosServiceTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Traslape_ConUnPeriodoExistente_SeRechaza()
+    public async Task OtroCorte_SeAcomodaPorFechas_YLaMismaFechaSeRechaza()
     {
+        // Fase 9i (antes "Traslape_ConUnPeriodoExistente_SeRechaza"): ya no se rechaza un corte por cruzarse con los
+        // meses calculados de otro recibo. Existente 26 sep (27 jul – 26 sep). Un corte el 26 ago (31 días antes) se
+        // acepta: 27 jun – 26 ago, y el existente pasa a empezar el 27 ago. La misma fecha (26 sep) sí se rechaza.
         var lugarId = await LugarAsync();
         await _servicio.AgregarPorMontoAsync(lugarId, 1_000m, new DateOnly(2026, 9, 26), 16m, Hoy);
 
-        // 27 jun – 26 ago se cruza con 27 jul – 26 sep; 27 may – 26 jul no.
-        var cruzado = await _servicio.AgregarPorMontoAsync(lugarId, 900m, new DateOnly(2026, 8, 26), 16m, Hoy);
-        var anterior = await _servicio.AgregarPorMontoAsync(lugarId, 900m, new DateOnly(2026, 7, 26), 16m, Hoy);
+        var otro = await _servicio.AgregarPorMontoAsync(lugarId, 900m, new DateOnly(2026, 8, 26), 16m, Hoy);
+        var repetido = await _servicio.AgregarPorMontoAsync(lugarId, 900m, new DateOnly(2026, 9, 26), 16m, Hoy);
 
-        Assert.Equal(ErrorReciboPorMonto.Traslape, cruzado.Error);
-        Assert.Null(anterior.Error);
-        Assert.Equal(2, (await PeriodosAsync(lugarId)).Count);
+        Assert.Null(otro.Error);
+        Assert.Equal(ErrorReciboPorMonto.CorteRepetido, repetido.Error);
+        var periodos = await PeriodosAsync(lugarId);
+        Assert.Equal(
+            [(new DateOnly(2026, 6, 27), new DateOnly(2026, 8, 26)), (new DateOnly(2026, 8, 27), new DateOnly(2026, 9, 26))],
+            periodos.Select(p => (p.Inicio, p.Fin)));
     }
 
     [Fact]
