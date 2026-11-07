@@ -15,10 +15,10 @@
     <UserControl>
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <!--
-                Menos de 1200 de ancho: solo el rayo de la marca, botón más compacto y la pastilla en
-                una columna con ancho limitado para que el NavigationView use su menú "..." en lugar de
-                cortar la cabecera. El relleno de los ítems no cambia: WinUI lo toma de un ThemeResource
-                que no responde al ancho de la ventana.
+                Menos de 1200 de ancho: solo el rayo de la marca y el botón más compacto. Las columnas siguen
+                siendo *, Auto y *, así que la pastilla queda centrada en la ventana: el menú tiene siempre 4
+                pestañas y caben desde 1100 (el ancho mínimo), sin menú "...". El relleno de los ítems no cambia:
+                WinUI lo toma de un ThemeResource que no responde al ancho de la ventana.
             -->
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="AnchoVentana">
@@ -33,9 +33,6 @@
                         </VisualState.StateTriggers>
                         <VisualState.Setters>
                             <Setter Target="Marca.Visibility" Value="Collapsed" />
-                            <Setter Target="ColumnaMarca.Width" Value="Auto" />
-                            <Setter Target="ColumnaNavegacion.Width" Value="*" />
-                            <Setter Target="ColumnaAccion.Width" Value="Auto" />
                             <Setter Target="NuevaLectura.Padding" Value="{StaticResource PrimaryButtonCompactPadding}" />
                         </VisualState.Setters>
                     </VisualState>
@@ -79,6 +76,7 @@
 
                 <ContentPresenter Grid.Column="1" Style="{StaticResource NavPillContainerStyle}">
                     <NavigationView
+                        x:Name="Navegacion"
                         x:Uid="Shell_Navegacion"
                         ItemInvoked="AlInvocarElemento"
                         MenuItemsSource="{x:Bind ViewModel.Elementos, Mode=OneWay}"

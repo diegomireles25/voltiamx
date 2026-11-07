@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.Windows.ApplicationModel.Resources;
 using VoltiaMX.Helpers;
 using VoltiaMX.Services;
@@ -17,6 +18,22 @@ namespace VoltiaMX.Views
 
             App.Servicios.GetRequiredService<NavegacionShell>().Marco = Contenido;
             _ = ViewModel.IniciarAsync();
+            Activated += AlActivarPorPrimeraVez;
+        }
+
+        // Al abrirse, WinUI le da el foco a la primera pestaña y la marca con el anillo de foco, como si se hubiera
+        // llegado con el teclado. El foco se vuelve a poner con FocusState.Programmatic, que no muestra el anillo:
+        // con Tab y las flechas aparece como siempre.
+        private void AlActivarPorPrimeraVez(object sender, WindowActivatedEventArgs args)
+        {
+            Activated -= AlActivarPorPrimeraVez;
+            DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+            {
+                if (FocusManager.GetFocusedElement(Navegacion.XamlRoot) is NavigationViewItem item)
+                {
+                    item.Focus(FocusState.Programmatic);
+                }
+            });
         }
 
         public ShellViewModel ViewModel { get; }

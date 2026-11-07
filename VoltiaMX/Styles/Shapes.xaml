@@ -16,7 +16,7 @@
     <CornerRadius x:Key="RadiusCardXl">64</CornerRadius>
     <!-- Decisión del proyecto (CLAUDE.md): etiquetas rectangulares, no pastillas como en DESIGN.md -->
     <CornerRadius x:Key="RadiusTag">8</CornerRadius>
-    <CornerRadius x:Key="RadiusNavPill">48</CornerRadius>
+    <CornerRadius x:Key="RadiusNavPill">16</CornerRadius>
     <!-- Solo esquinas superiores: la tarjeta "emerge" desde abajo -->
     <CornerRadius x:Key="RadiusTopArc">64,64,0,0</CornerRadius>
 
@@ -134,7 +134,7 @@
     <x:Double x:Key="DotSize">10</x:Double>
     <x:Double x:Key="DotStrokeThickness">1.5</x:Double>
     <!-- Ítem seleccionado del nav: pastilla negra de 40 de alto -->
-    <CornerRadius x:Key="RadiusNavItem">40</CornerRadius>
+    <CornerRadius x:Key="RadiusNavItem">10</CornerRadius>
     <!-- Barra de progreso de 8: extremos redondos -->
     <CornerRadius x:Key="RadiusProgress">4</CornerRadius>
 </ResourceDictionary>

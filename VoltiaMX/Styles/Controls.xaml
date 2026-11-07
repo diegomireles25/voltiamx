@@ -581,6 +581,13 @@
 
     <!-- Medidas del nav de WinUI ajustadas a mockup-dashboard.html: ítems de 40 y 20 de relleno lateral -->
     <x:Double x:Key="NavigationViewTopPaneHeight">40</x:Double>
+    <!--
+        La plantilla del NavigationView en modo Top reserva, después de las pestañas, una columna de contenido propio
+        con MinWidth = TopNavigationViewPaneCustomContentMinWidth (48 en WinUI): dejaba 48 px vacíos a la derecha de
+        "Configuración" y las pestañas se veían corridas a la izquierda dentro de la pastilla. La app no usa ese
+        contenido: en 0, el espacio a los dos lados de las pestañas es el mismo.
+    -->
+    <x:Double x:Key="TopNavigationViewPaneCustomContentMinWidth">0</x:Double>
     <StaticResource x:Key="TopNavigationViewItemContentPresenterMargin" ResourceKey="NavItemContentMargin" />
     <StaticResource x:Key="TopNavigationViewItemMargin" ResourceKey="NavItemMargin" />
 
