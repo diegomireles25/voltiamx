@@ -64,7 +64,21 @@ public sealed partial class MasViewModel(
     // Evita guardar el modo mientras se carga el valor inicial.
     private bool _cargando;
 
-    [ObservableProperty] public partial bool ModoAvanzado { get; set; }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(MostrarHerramientas))]
+    public partial bool ModoAvanzado { get; set; }
+
+    /// <summary>
+    /// La fila "Modo avanzado" y la galería de diseño: ocultas en el modo presentación (<see cref="OpcionesDePresentacion"/>).
+    /// </summary>
+    public bool MostrarModoAvanzado => !OpcionesDePresentacion.ModoPresentacion;
+
+    public bool MostrarGaleria => EsDebug && !OpcionesDePresentacion.ModoPresentacion;
+
+    /// <summary>
+    /// "HERRAMIENTAS AVANZADAS": con el modo avanzado y fuera del modo presentación.
+    /// </summary>
+    public bool MostrarHerramientas => ModoAvanzado && !OpcionesDePresentacion.ModoPresentacion;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(CargarDemoCommand), nameof(QuitarDemoCommand))]

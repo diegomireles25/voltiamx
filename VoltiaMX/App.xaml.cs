@@ -76,7 +76,15 @@ namespace VoltiaMX
                 programador.AbrirAlIniciar(Notificador.TipoDe(desdeNotificacion.Arguments));
             }
 
-            var perfil = await Servicios.GetRequiredService<IPerfilService>().ObtenerPerfilAsync();
+            var perfiles = Servicios.GetRequiredService<IPerfilService>();
+            var perfil = await perfiles.ObtenerPerfilAsync();
+
+            // Modo presentación: el modo avanzado queda apagado antes de armar el menú (OpcionesDePresentacion).
+            if (OpcionesDePresentacion.ModoPresentacion && perfil?.ModoAvanzado == true)
+            {
+                await perfiles.CambiarModoAvanzadoAsync(false);
+            }
+
             Mostrar(perfil?.OnboardingCompletado == true ? new ShellWindow() : new OnboardingWindow());
             programador.Iniciar(DispatcherQueue.GetForCurrentThread());
         }

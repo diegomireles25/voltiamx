@@ -165,8 +165,8 @@
                         </Border>
 
 
-                        <!-- Solo en compilaciones Debug -->
-                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.EsDebug)}">
+                        <!-- Solo en compilaciones Debug (y fuera del modo presentación) -->
+                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarGaleria)}">
                             <Grid ColumnSpacing="{StaticResource Spacing24}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -186,8 +186,8 @@
                         </Border>
 
 
-                        <!-- Modo avanzado: siempre la última fila antes de la versión -->
-                        <Border Style="{StaticResource HairlineRowStyle}">
+                        <!-- Modo avanzado: siempre la última fila antes de la versión (oculta en el modo presentación) -->
+                        <Border Style="{StaticResource HairlineRowStyle}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarModoAvanzado)}">
                             <Grid ColumnSpacing="{StaticResource Spacing24}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -210,7 +210,7 @@
                 </Border>
 
                 <!-- Con el modo avanzado: herramientas que no son del día a día de una casa -->
-                <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.ModoAvanzado), Mode=OneWay}">
+                <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.MostrarHerramientas), Mode=OneWay}">
                     <TextBlock
                         x:Uid="Mas_HerramientasTitulo"
                         AutomationProperties.HeadingLevel="Level2"
