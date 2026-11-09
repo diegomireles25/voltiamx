@@ -373,7 +373,9 @@ public sealed partial class DashboardViewModel(
         MostrarVacioLecturas = MostrarVacio && !EsSinRecibo;
         MostrarCifra = TieneDatos && estado is EstadoPantallaInicio.ConLecturas or EstadoPantallaInicio.ReciboSinLecturas;
         MostrarComparacion = TieneDatos && estado == EstadoPantallaInicio.ConLecturas;
-        ReciboAproximado = EsSiSiguesIgual && resumen?.UltimoReciboEstimado == true;
+        // El título ya dice "PAGARÍAS APROXIMADAMENTE": la etiqueta APROXIMADO junto a la cifra (que solo salía en
+        // "Si sigues igual") repetiría la palabra, así que ya no se muestra.
+        ReciboAproximado = false;
         ReciboPorLlegar = MostrarHogar && resumen?.ReciboPorLlegar == true;
         TextoOrigenCifra = EsSiSiguesIgual && resumen?.FechaCorteUltimoRecibo is DateOnly corteRecibo
             ? textos.Formato("Dashboard_SegunTuRecibo", corteRecibo)

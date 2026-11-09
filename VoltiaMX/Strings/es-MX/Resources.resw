@@ -730,7 +730,7 @@
     <value>Próximamente</value>
   </data>
   <data name="Propiedad_Detalle" xml:space="preserve">
-    <value>unos ${0:N0}</value>
+    <value>Aproximado ${0:N0}</value>
   </data>
   <data name="Propiedad_SinRecibos" xml:space="preserve">
     <value>Sin recibos todavía</value>
@@ -1869,10 +1869,10 @@
     <value>Escribe un porcentaje de 1 a 50.</value>
   </data>
   <data name="Dashboard_MetaCumpliendo" xml:space="preserve">
-    <value>Vas cumpliendo tu meta del {0}%. Tu recibo debería quedar en unos ${1:N0} o menos, y vas en unos ${2:N0}.</value>
+    <value>Vas cumpliendo tu meta del {0}%. Tu recibo debería quedar en aproximadamente ${1:N0} o menos, y vas en aproximadamente ${2:N0}.</value>
   </data>
   <data name="Dashboard_MetaEnRiesgo" xml:space="preserve">
-    <value>Tu meta del {0}% está en riesgo. Te faltan unos ${1:N0} para lograrla.</value>
+    <value>Tu meta del {0}% está en riesgo. Te faltan aproximadamente ${1:N0} para lograrla.</value>
   </data>
   <data name="Dashboard_MetaSuperada" xml:space="preserve">
     <value>Ya pasaste el objetivo de tu meta del {0}% en este recibo.</value>
@@ -3162,13 +3162,13 @@
     <value>PARECIDO</value>
   </data>
   <data name="Dashboard_ComparacionArriba" xml:space="preserve">
-    <value>A este ritmo pagarías unos ${0:N0}. Tu recibo anterior habría sido de unos ${1:N0}, o sea unos ${2:N0} más.</value>
+    <value>A este ritmo pagarías aproximadamente ${0:N0}. Tu recibo anterior habría sido de aproximadamente ${1:N0}, o sea aproximadamente ${2:N0} más.</value>
   </data>
   <data name="Dashboard_ComparacionAbajo" xml:space="preserve">
-    <value>A este ritmo pagarías unos ${0:N0}. Tu recibo anterior habría sido de unos ${1:N0}, o sea unos ${2:N0} menos.</value>
+    <value>A este ritmo pagarías aproximadamente ${0:N0}. Tu recibo anterior habría sido de aproximadamente ${1:N0}, o sea aproximadamente ${2:N0} menos.</value>
   </data>
   <data name="Dashboard_ComparacionIgual" xml:space="preserve">
-    <value>A este ritmo pagarías unos ${0:N0}. Tu recibo anterior habría sido de unos ${1:N0}: casi lo mismo.</value>
+    <value>A este ritmo pagarías aproximadamente ${0:N0}. Tu recibo anterior habría sido de aproximadamente ${1:N0}: casi lo mismo.</value>
   </data>
   <data name="Dashboard_ComparacionSinAnterior.Text" xml:space="preserve">
     <value>Cuando tengas dos recibos registrados, aquí verás si vas mejor o peor.</value>
@@ -3438,7 +3438,7 @@
     <value>Estos precios son de ejemplo. Escribe los de tu recibo en Tarifas para ver cifras reales.</value>
   </data>
   <data name="Formato_Unos" xml:space="preserve">
-    <value>unos ${0:N0}</value>
+    <value>Aproximado ${0:N0}</value>
   </data>
   <data name="Dashboard_DiaDe" xml:space="preserve">
     <value>DÍA {0} DE {1}</value>
@@ -3456,22 +3456,22 @@
     <value>Estas cifras no suman tu recibo: lo primero que consumes cuesta menos.</value>
   </data>
   <data name="Sugerencia_Accion" xml:space="preserve">
-    <value>Usa {0} 1 hora menos al día y ahorras unos ${1:N0} al mes.</value>
+    <value>Usa {0} una hora menos al día y ahorras aproximadamente ${1:N0} al mes.</value>
   </data>
   <data name="Sugerencia_CombinadoTres" xml:space="preserve">
-    <value>Con las tres ahorrarías unos ${0:N0} al mes.</value>
+    <value>Con las tres ahorrarías aproximadamente ${0:N0} al mes.</value>
   </data>
   <data name="Sugerencia_CombinadoDos" xml:space="preserve">
-    <value>Con las dos ahorrarías unos ${0:N0} al mes.</value>
+    <value>Con las dos ahorrarías aproximadamente ${0:N0} al mes.</value>
   </data>
   <data name="Sugerencia_Depende.Text" xml:space="preserve">
     <value>Depende de lo que registraste en Aparatos.</value>
   </data>
   <data name="Aparatos_CostoMes" xml:space="preserve">
-    <value>unos ${0:N0} al mes</value>
+    <value>Aproximado ${0:N0} al mes</value>
   </data>
   <data name="Aparatos_CostoPrevia" xml:space="preserve">
-    <value>UNOS ${0:N0} AL MES</value>
+    <value>APROXIMADO ${0:N0} AL MES</value>
   </data>
   <data name="Aparatos_PreviaSinPesos" xml:space="preserve">
     <value>Registra un recibo o dos lecturas para ver cuánto te costaría.</value>
@@ -3483,7 +3483,7 @@
     <value>{0:N1} kWh/mes</value>
   </data>
   <data name="Metas_CifraFalta" xml:space="preserve">
-    <value>TE FALTAN UNOS ${0:N0}</value>
+    <value>TE FALTAN APROXIMADAMENTE ${0:N0}</value>
   </data>
   <data name="Metas_CifraDentro" xml:space="preserve">
     <value>VAS DENTRO DE TU META</value>
@@ -3492,22 +3492,22 @@
     <value>YA PASASTE EL OBJETIVO</value>
   </data>
   <data name="Metas_LeyendaPesos" xml:space="preserve">
-    <value>Tu recibo debería quedar en unos ${0:N0} o menos. A este ritmo irías en unos ${1:N0}. Te faltan unos ${2:N0}.</value>
+    <value>Tu recibo debería quedar en aproximadamente ${0:N0} o menos. A este ritmo irías en aproximadamente ${1:N0}. Te faltan aproximadamente ${2:N0}.</value>
   </data>
   <data name="Metas_LeyendaPesosCumplida" xml:space="preserve">
-    <value>Tu recibo debería quedar en unos ${0:N0} o menos. A este ritmo irías en unos ${1:N0}: vas dentro de tu meta.</value>
+    <value>Tu recibo debería quedar en aproximadamente ${0:N0} o menos. A este ritmo irías en aproximadamente ${1:N0}: vas dentro de tu meta.</value>
   </data>
   <data name="Metas_ComoLograrlo.Text" xml:space="preserve">
     <value>CÓMO LOGRARLO</value>
   </data>
   <data name="Metas_LograrloTres" xml:space="preserve">
-    <value>Con las tres ahorrarías unos ${0:N0} por recibo.</value>
+    <value>Con las tres ahorrarías aproximadamente ${0:N0} por recibo.</value>
   </data>
   <data name="Metas_LograrloDos" xml:space="preserve">
-    <value>Con las dos ahorrarías unos ${0:N0} por recibo.</value>
+    <value>Con las dos ahorrarías aproximadamente ${0:N0} por recibo.</value>
   </data>
   <data name="Metas_LograrloUna" xml:space="preserve">
-    <value>Con esta ahorrarías unos ${0:N0} por recibo.</value>
+    <value>Con esta ahorrarías aproximadamente ${0:N0} por recibo.</value>
   </data>
   <data name="Metas_LograrloCubre" xml:space="preserve">
     <value>Eso cubre lo que te falta.</value>
@@ -3555,7 +3555,7 @@
     <value>Escribe el total de tu recibo para ver cuánto consumiste.</value>
   </data>
   <data name="ReciboMonto_Confirmacion" xml:space="preserve">
-    <value>Con ese monto, tu consumo habría sido de unos {0:N0} kWh (aproximado).</value>
+    <value>Con ese monto, tu consumo habría sido de aproximadamente {0:N0} kWh.</value>
   </data>
   <data name="ReciboMonto_Fechas" xml:space="preserve">
     <value>Del {0:d 'de' MMMM} al {1:d 'de' MMMM 'de' yyyy}</value>
@@ -3591,7 +3591,7 @@
     <value>Escribe el total de tu último recibo y calculamos tu consumo.</value>
   </data>
   <data name="Resumen_ReciboPorMonto" xml:space="preserve">
-    <value>Pagaste ${0:N0}: unos {1:N0} kWh (aproximado)</value>
+    <value>Pagaste ${0:N0}: aproximadamente {1:N0} kWh.</value>
   </data>
   <data name="Mas_HerramientasTitulo.Text" xml:space="preserve">
     <value>HERRAMIENTAS AVANZADAS</value>
@@ -3690,7 +3690,7 @@
     <value>{0} · {1}</value>
   </data>
   <data name="Dashboard_SiSiguesIgualTitulo" xml:space="preserve">
-    <value>SI SIGUES IGUAL QUE TU RECIBO ANTERIOR, PAGARÍAS UNOS</value>
+    <value>SI SIGUES IGUAL QUE TU RECIBO ANTERIOR, PAGARÍAS APROXIMADAMENTE</value>
   </data>
   <data name="Dashboard_Aproximado.Content" xml:space="preserve">
     <value>APROXIMADO</value>
@@ -3936,7 +3936,7 @@
     <value>Espacio que ocupan</value>
   </data>
   <data name="Solar_EspacioValor" xml:space="preserve">
-    <value>unos {0:#,##0.#} metros cuadrados</value>
+    <value>Aproximado {0:#,##0.#} metros cuadrados</value>
   </data>
   <data name="Solar_FilaProduccion.Text" xml:space="preserve">
     <value>Lo que producirían al mes</value>
