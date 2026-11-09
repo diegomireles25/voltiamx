@@ -3618,7 +3618,7 @@
     <value>ESCRIBIR CUÁNTO PAGUÉ</value>
   </data>
   <data name="OnboardingRecibo_EscribirTexto.Text" xml:space="preserve">
-    <value>Escribe el total y la fecha de corte de tu último recibo.</value>
+    <value>Escribe el total y la fecha en que termina el periodo de tu último recibo.</value>
   </data>
   <data name="OnboardingRecibo_EscanearTitulo.Text" xml:space="preserve">
     <value>ESCANEAR MI RECIBO</value>
@@ -3639,7 +3639,7 @@
     <value>Ej. 1020</value>
   </data>
   <data name="OnboardingRecibo_Fecha.Header" xml:space="preserve">
-    <value>Fecha de corte</value>
+    <value>Fecha en que termina el periodo de tu recibo</value>
   </data>
   <data name="OnboardingRecibo_Fecha.PlaceholderText" xml:space="preserve">
     <value>Elige la fecha</value>
@@ -3657,7 +3657,7 @@
     <value>No pudimos leer el total de tu recibo. Escríbelo en Total a pagar.</value>
   </data>
   <data name="OnboardingRecibo_Incompleto" xml:space="preserve">
-    <value>Escribe el total y la fecha de corte de tu recibo.</value>
+    <value>Escribe el total y la fecha en que termina el periodo de tu recibo.</value>
   </data>
   <data name="Ayuda_Termino_ConsumoAproximado" xml:space="preserve">
     <value>Consumo aproximado</value>
@@ -4042,5 +4042,50 @@
   </data>
   <data name="AvisoRecibo_TotalSinDesglose" xml:space="preserve">
     <value>Tu total puede incluir saldos anteriores.</value>
+  </data>
+  <data name="Ayuda_Termino_FinDelPeriodo" xml:space="preserve">
+    <value>Fin del periodo</value>
+  </data>
+  <data name="Ayuda_FinDelPeriodo" xml:space="preserve">
+    <value>Está en tu recibo, en 'Periodo facturado': es la fecha del final. No es la del 'corte a partir' ni la del límite de pago.</value>
+  </data>
+  <data name="FormularioRecibo_FechaLeida.Text" xml:space="preserve">
+    <value>Leída de «Periodo facturado»</value>
+  </data>
+  <data name="FormularioRecibo_PeriodoLeido" xml:space="preserve">
+    <value>Del {0:d 'de' MMMM} al {1:d 'de' MMMM}</value>
+  </data>
+  <data name="FormularioRecibo_TarifaLeida" xml:space="preserve">
+    <value>Tarifa {0}</value>
+  </data>
+  <data name="FormularioRecibo_Consumo.Header" xml:space="preserve">
+    <value>Consumo del periodo (kWh)</value>
+  </data>
+  <data name="FormularioRecibo_Consumo.PlaceholderText" xml:space="preserve">
+    <value>Ej. 450</value>
+  </data>
+  <data name="FormularioRecibo_ConsumoLeido" xml:space="preserve">
+    <value>Consumo leído de tu recibo: {0:N0} kWh</value>
+  </data>
+  <data name="FormularioRecibo_TramosTitulo.Text" xml:space="preserve">
+    <value>TRAMOS DE TU RECIBO</value>
+  </data>
+  <data name="FormularioRecibo_Tramo" xml:space="preserve">
+    <value>{0}: {1:N0} kWh a ${2:N3} cada uno, ${3:N2}</value>
+  </data>
+  <data name="FormularioRecibo_TramoSinPrecio" xml:space="preserve">
+    <value>{0}: {1:N0} kWh</value>
+  </data>
+  <data name="FormularioRecibo_EtiquetaAviso.Content" xml:space="preserve">
+    <value>REVISA</value>
+  </data>
+  <data name="FormularioRecibo_ComparacionTitulo.Text" xml:space="preserve">
+    <value>CONTRA TU TARIFA</value>
+  </data>
+  <data name="FormularioRecibo_Comparacion" xml:space="preserve">
+    <value>Tu tarifa da ${0:N2} de energía para {1:N0} kWh; tu recibo dice ${2:N2}.</value>
+  </data>
+  <data name="FormularioRecibo_OtraTemporada" xml:space="preserve">
+    <value>Los precios guardados pueden ser de otra temporada.</value>
   </data>
 </root>

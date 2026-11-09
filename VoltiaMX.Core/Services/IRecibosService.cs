@@ -55,6 +55,13 @@ public interface IRecibosService
         CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Fase 9k (D8): la energía de un recibo contra la tarifa guardada del lugar, sin cambiar nada. Los meses son los
+    /// del lugar, o <paramref name="mesesPorPeriodo"/> si todavía no tiene recibos. Null si el lugar no existe.
+    /// </summary>
+    Task<ComparacionContraTarifa?> CompararConTarifaAsync(
+        int lugarId, decimal kwh, decimal montoEnergia, int? mesesPorPeriodo = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Si el lugar ya tiene algún recibo (periodo) guardado; con recibos ya no se pregunta la periodicidad.
     /// </summary>
     Task<bool> TieneRecibosAsync(int lugarId, CancellationToken cancellationToken = default);

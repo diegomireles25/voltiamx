@@ -68,11 +68,15 @@
                 Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.AvisoEscaneo), Mode=OneWay}" />
         </StackPanel>
 
-        <Grid ColumnSpacing="{StaticResource Spacing24}" RowSpacing="{StaticResource Spacing24}">
+        <Grid ColumnSpacing="{StaticResource Spacing24}" RowSpacing="{StaticResource Spacing8}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
             <NumberBox
                 x:Uid="OnboardingRecibo_Total"
                 Style="{StaticResource NumberBoxStyle}"
@@ -85,7 +89,137 @@
                 Language="es-MX"
                 MaxDate="{x:Bind ViewModel.FechaMaxima}"
                 Style="{StaticResource DatePickerStyle}" />
+
+            <!-- Fase 9k (D9): confianza del importe leído -->
+            <ContentPresenter
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="{x:Bind ViewModel.EstadoImporte.Texto, Mode=OneWay}"
+                Style="{x:Bind helpers:Conversiones.EstiloConfianza(ViewModel.EstadoImporte.Confianza), Mode=OneWay}"
+                Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Leido), Mode=OneWay}" />
+
+            <!-- Qué fecha es (el final de "Periodo facturado") y, si se leyó, de dónde salió -->
+            <StackPanel Grid.Row="1" Grid.Column="1" Spacing="{StaticResource Spacing8}">
+                <local:TerminoAyuda Clave="FinDelPeriodo" />
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="{StaticResource Spacing8}"
+                    Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Leido), Mode=OneWay}">
+                    <ContentPresenter
+                        VerticalAlignment="Center"
+                        Content="{x:Bind ViewModel.EstadoFecha.Texto, Mode=OneWay}"
+                        Style="{x:Bind helpers:Conversiones.EstiloConfianza(ViewModel.EstadoFecha.Confianza), Mode=OneWay}" />
+                    <TextBlock x:Uid="FormularioRecibo_FechaLeida" VerticalAlignment="Center" Style="{StaticResource BodySmTextStyle}" />
+                </StackPanel>
+                <TextBlock
+                    Style="{StaticResource BodySmTextStyle}"
+                    Text="{x:Bind ViewModel.PeriodoLeidoTexto, Mode=OneWay}"
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.PeriodoLeidoTexto), Mode=OneWay}" />
+            </StackPanel>
         </Grid>
+
+        <!-- Fase 9k (D9): lo demás que se leyó; todo se puede cambiar -->
+        <StackPanel Spacing="{StaticResource Spacing16}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.Leido), Mode=OneWay}">
+            <Grid ColumnSpacing="{StaticResource Spacing24}" RowSpacing="{StaticResource Spacing8}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <NumberBox
+                    x:Uid="FormularioRecibo_Consumo"
+                    Style="{StaticResource NumberBoxStyle}"
+                    Value="{x:Bind ViewModel.ConsumoKwh, Mode=TwoWay}" />
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal"
+                    Spacing="{StaticResource Spacing8}"
+                    Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.TarifaLeidaTexto), Mode=OneWay}">
+                    <ContentPresenter
+                        VerticalAlignment="Center"
+                        Content="{x:Bind ViewModel.EstadoTarifa.Texto, Mode=OneWay}"
+                        Style="{x:Bind helpers:Conversiones.EstiloConfianza(ViewModel.EstadoTarifa.Confianza), Mode=OneWay}" />
+                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextStyle}" Text="{x:Bind ViewModel.TarifaLeidaTexto, Mode=OneWay}" />
+                </StackPanel>
+                <ContentPresenter
+                    Grid.Row="1"
+                    HorizontalAlignment="Left"
+                    Content="{x:Bind ViewModel.EstadoConsumo.Texto, Mode=OneWay}"
+                    Style="{x:Bind helpers:Conversiones.EstiloConfianza(ViewModel.EstadoConsumo.Confianza), Mode=OneWay}" />
+            </Grid>
+
+            <!-- Tramos del recibo, en filas sobre el lienzo -->
+            <StackPanel Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneTramos), Mode=OneWay}">
+                <TextBlock x:Uid="FormularioRecibo_TramosTitulo" Style="{StaticResource CaptionTextStyle}" />
+                <ItemsControl ItemsSource="{x:Bind ViewModel.Tramos}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Border Style="{StaticResource HairlineRowStyle}">
+                                <TextBlock Style="{StaticResource BodySmTextStyle}" Text="{x:Bind}" TextWrapping="Wrap" />
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <!-- Avisos de coherencia -->
+            <ItemsControl ItemsSource="{x:Bind ViewModel.Avisos}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneAvisos), Mode=OneWay}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Border Style="{StaticResource HairlineRowStyle}">
+                            <Grid ColumnSpacing="{StaticResource Spacing16}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter x:Uid="FormularioRecibo_EtiquetaAviso" VerticalAlignment="Center" Style="{StaticResource YellowTagStyle}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodySmTextStyle}"
+                                    Text="{x:Bind}"
+                                    TextWrapping="Wrap" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Contra la tarifa guardada del lugar (D8): solo informa -->
+            <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.TieneComparacion), Mode=OneWay}">
+                <TextBlock x:Uid="FormularioRecibo_ComparacionTitulo" Style="{StaticResource CaptionTextStyle}" />
+                <Border Style="{StaticResource HairlineRowStyle}">
+                    <Grid ColumnSpacing="{StaticResource Spacing16}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ContentPresenter
+                            VerticalAlignment="Top"
+                            Content="{x:Bind ViewModel.VeredictoTexto, Mode=OneWay}"
+                            Style="{x:Bind helpers:Conversiones.EstiloVeredicto(ViewModel.Veredicto), Mode=OneWay}" />
+                        <StackPanel Grid.Column="1" Spacing="{StaticResource Spacing8}">
+                            <TextBlock
+                                AutomationProperties.LiveSetting="Polite"
+                                Style="{StaticResource BodyTextStyle}"
+                                Text="{x:Bind ViewModel.ComparacionTexto, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Style="{StaticResource BodySmTextStyle}"
+                                Text="{x:Bind ViewModel.ComparacionTemporada, Mode=OneWay}"
+                                TextWrapping="Wrap"
+                                Visibility="{x:Bind helpers:Conversiones.VisibleSiHayTexto(ViewModel.ComparacionTemporada), Mode=OneWay}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </StackPanel>
 
         <!-- Primer recibo del lugar (Fase 9c, D3): cada cuánto llega; con recibos guardados ya no se pregunta -->
         <StackPanel Spacing="{StaticResource Spacing8}" Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.PreguntarPeriodicidad), Mode=OneWay}">
@@ -120,8 +254,22 @@
             </Grid>
         </Border>
 
-        <!-- Línea honesta con su explicación -->
-        <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing16}">
+        <!-- Línea honesta con su explicación; con el consumo del recibo no es aproximado (Fase 9k, D6) -->
+        <StackPanel
+            Orientation="Horizontal"
+            Spacing="{StaticResource Spacing16}"
+            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.UsaConsumo), Mode=OneWay}">
+            <TextBlock
+                VerticalAlignment="Center"
+                Style="{StaticResource BodySmTextStyle}"
+                Text="{x:Bind ViewModel.ConsumoLeidoTexto, Mode=OneWay}"
+                TextWrapping="Wrap" />
+            <local:TerminoAyuda VerticalAlignment="Center" Clave="Kwh" />
+        </StackPanel>
+        <StackPanel
+            Orientation="Horizontal"
+            Spacing="{StaticResource Spacing16}"
+            Visibility="{x:Bind helpers:Conversiones.VisibleSi(ViewModel.NoUsaConsumo), Mode=OneWay}">
             <TextBlock
                 x:Uid="OnboardingRecibo_Aproximado"
                 VerticalAlignment="Center"

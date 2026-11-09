@@ -65,6 +65,23 @@ public static class ReciboCoherencia
     public static IReadOnlyList<AvisoCoherencia> Comprobar(ReciboLeido recibo, IEnumerable<string>? tarifasRegistradas = null)
         => Comprobar(ReciboAConfirmar.Desde(recibo), tarifasRegistradas);
 
+    /// <summary>
+    /// Fase 9k (D6): el consumo leído, si se puede guardar tal cual: leído con confianza alta y sin choques con las
+    /// lecturas ni con los tramos. Si no, null (el recibo se guarda por su monto, aproximado).
+    /// </summary>
+    public static decimal? ConsumoConfiable(ReciboLeido recibo)
+    {
+        ArgumentNullException.ThrowIfNull(recibo);
+        if (recibo.ConsumoKwh is not { Valor: decimal kwh, Confianza: Confianza.Alta } || kwh <= 0m)
+        {
+            return null;
+        }
+
+        return Comprobar(recibo).Any(a => a.Codigo is CodigoAvisoRecibo.LecturasNoCuadranConConsumo or CodigoAvisoRecibo.RangosNoSumanConsumo)
+            ? null
+            : kwh;
+    }
+
     public static IReadOnlyList<AvisoCoherencia> Comprobar(ReciboAConfirmar recibo, IEnumerable<string>? tarifasRegistradas = null)
     {
         ArgumentNullException.ThrowIfNull(recibo);

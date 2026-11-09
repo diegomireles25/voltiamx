@@ -34,6 +34,9 @@ public sealed partial class AgregarReciboPaginaViewModel(
     public async Task CargarAsync(string? seccion)
     {
         _seccion = seccion;
+        // Fase 9k (D9): Guardar se apaga solo sin importe o sin fecha.
+        Recibo.PropertyChanged -= AlCambiarRecibo;
+        Recibo.PropertyChanged += AlCambiarRecibo;
         if (SeccionesLecturas.EmpiezaEscaneando(seccion))
         {
             Recibo.ReciboEscanear = true;
@@ -48,7 +51,15 @@ public sealed partial class AgregarReciboPaginaViewModel(
         await Recibo.IniciarAsync(_lugarId, principal?.Id == _lugarId ? principal?.Tarifa?.Tipo : null);
     }
 
-    private bool PuedeGuardar() => !Guardando;
+    private bool PuedeGuardar() => !Guardando && Recibo.PuedeGuardar;
+
+    private void AlCambiarRecibo(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AgregarReciboViewModel.PuedeGuardar))
+        {
+            GuardarCommand.NotifyCanExecuteChanged();
+        }
+    }
 
     [RelayCommand(CanExecute = nameof(PuedeGuardar))]
     private async Task GuardarAsync()

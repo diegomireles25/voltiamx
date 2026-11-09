@@ -38,6 +38,24 @@ public sealed class RecibosService(
         => ProcesarAsync(
             lugarId, importe, kwh, fechaCorte, EstimadorPorMonto.CargosPorDefecto, hoy, mesesPorPeriodo, guardar: true, cancellationToken);
 
+    public async Task<ComparacionContraTarifa?> CompararConTarifaAsync(
+        int lugarId, decimal kwh, decimal montoEnergia, int? mesesPorPeriodo = null, CancellationToken cancellationToken = default)
+    {
+        await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
+        var lugar = await db.Lugares.AsNoTracking()
+            .Include(l => l.Tarifa).ThenInclude(t => t!.Rangos)
+            .Include(l => l.Periodos)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(l => l.Id == lugarId, cancellationToken);
+        if (lugar?.Tarifa is not { } tarifa)
+        {
+            return null;
+        }
+
+        var meses = lugar.Periodos.Count == 0 && mesesPorPeriodo is 1 or 2 ? mesesPorPeriodo.Value : Math.Max(lugar.MesesPorPeriodo, 1);
+        return new ValidadorRecibo(calculadora).Comparar(tarifa, meses, kwh, montoEnergia);
+    }
+
     public async Task<bool> TieneRecibosAsync(int lugarId, CancellationToken cancellationToken = default)
     {
         await using var db = await fabrica.CreateDbContextAsync(cancellationToken);

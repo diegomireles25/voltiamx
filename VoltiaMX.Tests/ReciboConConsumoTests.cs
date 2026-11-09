@@ -144,4 +144,39 @@ public sealed class ReciboConConsumoTests : IAsyncLifetime
 
         Assert.Equal((VeredictoRecibo.NoCoincide, 3_000m), (c.Veredicto, c.SubtotalEnergia));
     }
+
+    [Fact]
+    public async Task CompararConTarifa_UsaLaTarifaYLosMesesDelLugar_SinCambiarNada()
+    {
+        var lugarId = await LugarAsync(CuatroTramos());
+
+        var bimestral = await _servicio.CompararConTarifaAsync(lugarId, 1_000m, 1_510.00m);
+        // Primer recibo con "cada mes": los tramos no se duplican → 150 + 180 + 225 + 550 × 4 = $2,755 → no coincide.
+        var mensual = await _servicio.CompararConTarifaAsync(lugarId, 1_000m, 1_510.00m, mesesPorPeriodo: 1);
+
+        Assert.Equal((VeredictoRecibo.Coincide, 1_510.00m), (bimestral!.Veredicto, bimestral.SubtotalEnergia));
+        Assert.Equal((VeredictoRecibo.NoCoincide, 2_755.00m), (mensual!.Veredicto, mensual.SubtotalEnergia));
+        Assert.Null(await _servicio.CompararConTarifaAsync(9_999, 1_000m, 1_510.00m));
+        Assert.Empty(await PeriodosAsync(lugarId));
+    }
+
+    // ---- Cuándo el consumo leído se usa tal cual (D6) ----
+
+    [Fact]
+    public void ConsumoConfiable_ReciboA_SonLos1000Kwh()
+    {
+        Assert.Equal(1_000m, ReciboCoherencia.ConsumoConfiable(ReciboParser.Analizar(ReciboCfeTests.ReciboA)));
+    }
+
+    [Fact]
+    public void ConsumoConfiable_SiLasLecturasOLosTramosNoCuadran_Null()
+    {
+        // Lecturas que dan 900 kWh contra 1,000 de consumo; y tramos que suman 1,000 contra un consumo de 1,200.
+        var lecturas = ReciboCfeTests.ReciboA.Select(l => l.StartsWith("Energía (kWh)") ? "Energía (kWh) 10,900 10,000 1,000" : l).ToArray();
+        var tramos = ReciboCfeTests.ReciboA.Select(l => l.StartsWith("Energía (kWh)") ? "Energía (kWh) 11,200 10,000 1,200" : l).ToArray();
+
+        Assert.Null(ReciboCoherencia.ConsumoConfiable(ReciboParser.Analizar(lecturas)));
+        Assert.Null(ReciboCoherencia.ConsumoConfiable(ReciboParser.Analizar(tramos)));
+        Assert.Null(ReciboCoherencia.ConsumoConfiable(ReciboParser.Analizar(["PERIODO FACTURADO:12 JUN 26-10 AGO 26"])));
+    }
 }

@@ -84,6 +84,52 @@ public sealed class ReciboCfeTests
     }
 
     [Fact]
+    public void ReciboA_ConLosErroresDelOcr_SeLeeIgual()
+    {
+        // Lo que devolvió el OCR de Windows con una imagen SINTÉTICA del recibo A: 1 → I / l, o → 0, 0 → O, un
+        // espacio antes de la coma de miles y el "16%" del IVA perdido.
+        string[] ocr =
+        [
+            "LIMITE DE PAGO:27 AGO 26",
+            "CORTE A PARTIR:28 AGO 26",
+            "TARIFA:ICNO. MEDIDOR:123ABC",
+            "MULTIPLICADOR:I",
+            "PERIODO FACTURADO:12 JUN 26-10 AGO 26",
+            "Energia (kWh) 11,000 10,000 1,000",
+            "Basico 300 1.000 300.00",
+            "Intermediol 300 1.200 360.00",
+            "Intermedi02 300 1.500 450.00",
+            "Excedente 100 4.000 400.00",
+            "Energia 1,510.OO",
+            "IVA 241.60",
+            "Fac. del Periodo 1,751.60",
+            "Adeudo Anterior 1 ,500.00",
+            "su Pago -1 ,500.OO",
+            "Total 1,751.60",
+            "TOTAL A PAGAR $1 ,752",
+        ];
+
+        var r = ReciboParser.Analizar(ocr);
+
+        Assert.Equal(new CampoTexto("1C", Confianza.Alta), r.Tarifa);
+        Assert.Equal(["Básico", "Intermedio 1", "Intermedio 2", "Excedente"], r.Rangos.Select(x => x.Nombre));
+        Assert.Equal([300.00m, 360.00m, 450.00m, 400.00m], r.Rangos.Select(x => x.Importe.Valor));
+        Assert.Equal((1_510.00m, 241.60m, 1_500.00m, 1_752m), (r.ImporteEnergia.Valor, r.Iva.Valor, r.AdeudoAnterior.Valor, r.Total.Valor));
+        Assert.Equal(new CampoNumero(1_751.60m, Confianza.Alta), r.ImporteRecibo);
+        Assert.Empty(ReciboCoherencia.Comprobar(r));
+        Assert.Equal(1_000m, ReciboCoherencia.ConsumoConfiable(r));
+    }
+
+    [Theory]
+    [InlineData("TARIFA: I", "1")]
+    [InlineData("TARIFA: lA", "1A")]
+    [InlineData("TARIFA: DAC", "DAC")]
+    public void Tarifa_ConElUnoLeidoComoLetra(string linea, string esperada)
+    {
+        Assert.Equal(esperada, ReciboParser.Analizar([linea]).Tarifa.Valor);
+    }
+
+    [Fact]
     public void VarianteB_ElImporteEsElDelPeriodo_YSeAvisaDelTotal()
     {
         var r = ReciboParser.Analizar(ReciboB);

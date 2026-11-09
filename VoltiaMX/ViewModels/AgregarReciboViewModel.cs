@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using VoltiaMX.Core.Models;
@@ -7,11 +8,22 @@ using VoltiaMX.Services;
 namespace VoltiaMX.ViewModels;
 
 /// <summary>
+/// Fase 9k: la confianza de un dato leído del recibo y su etiqueta (LEÍDO, REVISAR o NO ENCONTRADO).
+/// </summary>
+public sealed record EstadoCampoLeido(Confianza Confianza, string Texto)
+{
+    public static EstadoCampoLeido Vacio { get; } = new(Confianza.NoEncontrado, string.Empty);
+}
+
+/// <summary>
 /// Agregar un recibo por lo que se pagó (Fase 9c, D1): el mismo formulario en el onboarding, en Inicio y en Mis
 /// recibos. Dos caminos, "Escribir cuánto pagué" (preseleccionado) y "Escanear mi recibo", que solo prellena el
 /// total, la fecha de corte y la tarifa; todo se puede cambiar. En el primer recibo del lugar pregunta "¿Cada cuánto
 /// te llega el recibo?" (D3). Se guarda con <see cref="IRecibosService.AgregarPorMontoAsync"/> y los impuestos y
 /// cargos por defecto (<see cref="EstimadorPorMonto.CargosPorDefecto"/>).
+/// Fase 9k: lo escaneado prellena el importe del recibo, la fecha en que termina el periodo y el consumo, cada uno
+/// con su confianza; muestra los tramos, los avisos y la comparación con la tarifa del lugar. Con un consumo leído y
+/// coherente, el recibo se guarda con esos kWh (<see cref="IRecibosService.AgregarConConsumoAsync"/>), no aproximado.
 /// </summary>
 public sealed partial class AgregarReciboViewModel : ObservableObject
 {
@@ -39,6 +51,11 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
     // El escáner leyó una fecha de corte posterior a hoy y el calendario quedó vacío: se sigue explicando eso.
     private bool _fechaFuturaLeida;
 
+    // Fase 9k: el lugar (para comparar con su tarifa) y la energía leída del recibo.
+    private int? _lugarId;
+    private decimal? _energiaLeida;
+    private int _comparacionesPedidas;
+
     public AgregarReciboViewModel(
         IRecibosService recibos,
         ITarifaService tarifas,
@@ -59,6 +76,7 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
         CadaDosMeses = true;
         CadaMes = false;
         TotalPagado = double.NaN;
+        ConsumoKwh = double.NaN;
     }
 
     private static DateOnly Hoy => DateOnly.FromDateTime(DateTime.Today);
@@ -75,8 +93,70 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
 
     public bool MostrarEscanear => ReciboEscanear == true;
 
-    [ObservableProperty] public partial double TotalPagado { get; set; }
-    [ObservableProperty] public partial DateTimeOffset? FechaCorte { get; set; }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(PuedeGuardar))]
+    public partial double TotalPagado { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(PuedeGuardar))]
+    public partial DateTimeOffset? FechaCorte { get; set; }
+
+    /// <summary>
+    /// Fase 9k (D9): Guardar solo se apaga sin importe o sin fecha.
+    /// </summary>
+    public bool PuedeGuardar => Elegido() is not null;
+
+    // ---- Fase 9k: lo leído del recibo, cada dato con su confianza ----
+
+    /// <summary>
+    /// Ya se leyó un recibo: se muestran las etiquetas LEÍDO / REVISAR / NO ENCONTRADO y el detalle.
+    /// </summary>
+    [ObservableProperty] public partial bool Leido { get; set; }
+
+    [ObservableProperty] public partial EstadoCampoLeido EstadoImporte { get; set; } = EstadoCampoLeido.Vacio;
+    [ObservableProperty] public partial EstadoCampoLeido EstadoFecha { get; set; } = EstadoCampoLeido.Vacio;
+    [ObservableProperty] public partial EstadoCampoLeido EstadoConsumo { get; set; } = EstadoCampoLeido.Vacio;
+    [ObservableProperty] public partial EstadoCampoLeido EstadoTarifa { get; set; } = EstadoCampoLeido.Vacio;
+
+    /// <summary>
+    /// "Del 12 de junio al 10 de agosto", si se leyó el periodo facturado.
+    /// </summary>
+    [ObservableProperty] public partial string PeriodoLeidoTexto { get; set; } = string.Empty;
+
+    [ObservableProperty] public partial string TarifaLeidaTexto { get; set; } = string.Empty;
+
+    /// <summary>
+    /// El consumo del recibo en kWh; vacío (NaN) si no se leyó o no es confiable. Con valor, se guarda tal cual.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(UsaConsumo), nameof(NoUsaConsumo), nameof(ConsumoLeidoTexto))]
+    public partial double ConsumoKwh { get; set; }
+
+    /// <summary>
+    /// El recibo se guarda con su consumo (exacto), no aproximado por su monto.
+    /// </summary>
+    public bool UsaConsumo => ConsumoUsado() is not null;
+
+    public bool NoUsaConsumo => !UsaConsumo;
+
+    public string ConsumoLeidoTexto => ConsumoUsado() is decimal kwh ? textos.Formato("FormularioRecibo_ConsumoLeido", kwh) : string.Empty;
+
+    public ObservableCollection<string> Tramos { get; } = [];
+
+    [ObservableProperty] public partial bool TieneTramos { get; set; }
+
+    public ObservableCollection<string> Avisos { get; } = [];
+
+    [ObservableProperty] public partial bool TieneAvisos { get; set; }
+
+    // Comparación con la tarifa guardada del lugar (D8): no cambia nada.
+    [ObservableProperty] public partial bool TieneComparacion { get; set; }
+    [ObservableProperty] public partial VeredictoRecibo Veredicto { get; set; }
+    [ObservableProperty] public partial string VeredictoTexto { get; set; } = string.Empty;
+    [ObservableProperty] public partial string ComparacionTexto { get; set; } = string.Empty;
+    [ObservableProperty] public partial string ComparacionTemporada { get; set; } = string.Empty;
+
+    private decimal? ConsumoUsado() => double.IsNaN(ConsumoKwh) || ConsumoKwh <= 0 ? null : (decimal)ConsumoKwh;
 
     /// <summary>
     /// La fecha de corte no puede ser posterior a hoy (Fase 9b, D5).
@@ -112,6 +192,7 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
     /// </summary>
     public async Task IniciarAsync(int? lugarId, TipoTarifa? tipoTarifa)
     {
+        _lugarId = lugarId;
         _tiposDeTarifa = (await tarifas.ObtenerTarifasAsync())
             .GroupBy(t => t.Nombre, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(g => g.Key, g => g.First().Tipo, StringComparer.OrdinalIgnoreCase);
@@ -149,6 +230,7 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
         {
             CadaDosMeses = false;
             _periodicidadElegida |= !_sugiriendo;
+            _ = CompararAsync();
         }
     }
 
@@ -158,6 +240,7 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
         {
             CadaMes = false;
             _periodicidadElegida |= !_sugiriendo;
+            _ = CompararAsync();
         }
     }
 
@@ -197,6 +280,7 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
 
             // Las líneas reconocidas solo viven aquí: no se guardan ni se registran.
             var leido = ReciboParser.Analizar(resultado.Lineas);
+            MostrarLeido(leido);
             var fechaFutura = false;
             if (leido.FechaCorte.Valor is DateOnly fecha)
             {
@@ -218,7 +302,8 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
             _finLeido = leido.PeriodoFin.Valor;
             SugerirPeriodicidad();
 
-            if (leido.Total.Valor is decimal total)
+            // D4: el importe de este recibo (sin saldos anteriores); el total a pagar solo si no hay desglose.
+            if (leido.ImporteRecibo.Valor is decimal total)
             {
                 TotalPagado = (double)total;
                 AvisoEscaneo = textos["OnboardingRecibo_Revisa"];
@@ -232,12 +317,93 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
             {
                 ErrorRecibo = textos[$"ReciboMonto_Error_{ErrorReciboPorMonto.FechaFutura}"];
             }
+
+            await CompararAsync();
         }
         finally
         {
             Leyendo = false;
         }
     }
+
+    /// <summary>
+    /// Fase 9k (D9): cada dato leído con su confianza, el periodo, los tramos y los avisos de coherencia. El consumo
+    /// solo se prellena si es confiable (<see cref="ReciboCoherencia.ConsumoConfiable"/>).
+    /// </summary>
+    private void MostrarLeido(ReciboLeido leido)
+    {
+        Leido = true;
+        EstadoImporte = Estado(leido.ImporteRecibo.Valor is null ? Confianza.NoEncontrado : leido.ImporteRecibo.Confianza);
+        EstadoFecha = Estado(leido.FechaCorte.Valor is null ? Confianza.NoEncontrado : leido.FechaCorte.Confianza);
+        PeriodoLeidoTexto = leido is { PeriodoInicio.Valor: DateOnly inicio, PeriodoFin.Valor: DateOnly fin }
+            ? textos.Formato("FormularioRecibo_PeriodoLeido", inicio.ToDateTime(TimeOnly.MinValue), fin.ToDateTime(TimeOnly.MinValue))
+            : string.Empty;
+
+        var tarifaRegistrada = leido.Tarifa.Valor is { } nombre && _tiposDeTarifa.ContainsKey(nombre);
+        EstadoTarifa = Estado(tarifaRegistrada ? leido.Tarifa.Confianza : Confianza.NoEncontrado);
+        TarifaLeidaTexto = leido.Tarifa.Valor is { } tarifa ? textos.Formato("FormularioRecibo_TarifaLeida", tarifa.ToUpperInvariant()) : string.Empty;
+
+        var confiable = ReciboCoherencia.ConsumoConfiable(leido);
+        ConsumoKwh = confiable is decimal kwh ? (double)kwh : double.NaN;
+        EstadoConsumo = Estado(confiable is not null ? Confianza.Alta
+            : leido.ConsumoKwh.Valor is not null ? Confianza.Baja
+            : Confianza.NoEncontrado);
+        _energiaLeida = leido.ImporteEnergia.Valor;
+
+        Tramos.Clear();
+        foreach (var rango in leido.Rangos)
+        {
+            Tramos.Add(rango is { Kwh.Valor: decimal k, Precio.Valor: decimal precio, Importe.Valor: decimal subtotal }
+                ? textos.Formato("FormularioRecibo_Tramo", rango.Nombre, k, precio, subtotal)
+                : textos.Formato("FormularioRecibo_TramoSinPrecio", rango.Nombre, rango.Kwh.Valor ?? 0m));
+        }
+
+        TieneTramos = Tramos.Count > 0;
+
+        Avisos.Clear();
+        foreach (var aviso in ReciboCoherencia.Comprobar(leido, _tiposDeTarifa.Keys))
+        {
+            Avisos.Add(aviso.Codigo == CodigoAvisoRecibo.TarifaNoRegistrada
+                ? textos.Formato("AvisoRecibo_TarifaNoRegistrada", leido.Tarifa.Valor)
+                : textos.Formato($"AvisoRecibo_{aviso.Codigo}", aviso.Calculado, aviso.Leido));
+        }
+
+        TieneAvisos = Avisos.Count > 0;
+    }
+
+    private EstadoCampoLeido Estado(Confianza confianza) => new(confianza, textos[$"Confianza_{confianza}"]);
+
+    /// <summary>
+    /// D8: la energía del recibo contra la tarifa guardada del lugar (sin lugar, como en el primer uso, no hay con
+    /// qué). Solo informa; no cambia la tarifa.
+    /// </summary>
+    private async Task CompararAsync()
+    {
+        var pedido = ++_comparacionesPedidas;
+        ComparacionContraTarifa? comparacion = null;
+        if (Leido && _lugarId is int lugarId && ConsumoUsado() is decimal kwh && _energiaLeida is decimal energia)
+        {
+            comparacion = await recibos.CompararConTarifaAsync(lugarId, kwh, energia, MesesElegidos);
+        }
+
+        if (pedido != _comparacionesPedidas)
+        {
+            return;
+        }
+
+        TieneComparacion = comparacion is not null;
+        if (comparacion is null || _energiaLeida is not decimal deEnergia)
+        {
+            return;
+        }
+
+        Veredicto = comparacion.Veredicto;
+        VeredictoTexto = textos[$"Validar_Veredicto_{comparacion.Veredicto}"];
+        ComparacionTexto = textos.Formato("FormularioRecibo_Comparacion", comparacion.SubtotalEnergia, ConsumoUsado(), deEnergia);
+        ComparacionTemporada = comparacion.Veredicto == VeredictoRecibo.Coincide ? string.Empty : textos["FormularioRecibo_OtraTemporada"];
+    }
+
+    partial void OnConsumoKwhChanged(double value) => _ = CompararAsync();
 
     // ---- Validar y guardar (Core: EstimadorPorMonto.ValidarRecibo y el traslape de RecibosService) ----
 
@@ -275,7 +441,9 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
 
         if (lugarId is int id)
         {
-            var previa = await recibos.PrevisualizarPorMontoAsync(id, recibo.Total, recibo.Fecha, EstimadorPorMonto.CargosPorDefecto, Hoy, MesesElegidos);
+            var previa = ConsumoUsado() is decimal kwh
+                ? await recibos.PrevisualizarConConsumoAsync(id, kwh, recibo.Total, recibo.Fecha, Hoy, MesesElegidos)
+                : await recibos.PrevisualizarPorMontoAsync(id, recibo.Total, recibo.Fecha, EstimadorPorMonto.CargosPorDefecto, Hoy, MesesElegidos);
             if (previa.Error is not null)
             {
                 return TextosRecibo.Error(textos, previa);
@@ -295,8 +463,10 @@ public sealed partial class AgregarReciboViewModel : ObservableObject
             return await ValidarAsync(lugarId);
         }
 
-        var resultado = await recibos.AgregarPorMontoAsync(
-            lugarId, recibo.Total, recibo.Fecha, EstimadorPorMonto.CargosPorDefecto, Hoy, MesesElegidos);
+        // D6: con el consumo del recibo se guardan esos kWh; si no, aproximado por el monto.
+        var resultado = ConsumoUsado() is decimal kwh
+            ? await recibos.AgregarConConsumoAsync(lugarId, kwh, recibo.Total, recibo.Fecha, Hoy, MesesElegidos)
+            : await recibos.AgregarPorMontoAsync(lugarId, recibo.Total, recibo.Fecha, EstimadorPorMonto.CargosPorDefecto, Hoy, MesesElegidos);
         ErrorRecibo = resultado.Error is not null ? TextosRecibo.Error(textos, resultado) : string.Empty;
         return ErrorRecibo.Length > 0 ? ErrorRecibo : null;
     }

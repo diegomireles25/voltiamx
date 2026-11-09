@@ -46,7 +46,8 @@ public static partial class ReciboParser
     // "Energía (kWh)" es la fila de lecturas y consumo, no el importe de energía.
     [GeneratedRegex(@"^(?:importe (?:de )?|subtotal (?:de )?)?energia\b(?! ?\(kwh\))")] private static partial Regex EtiquetaEnergia();
     [GeneratedRegex(@"\btotal a pagar\b")] private static partial Regex EtiquetaTotal();
-    [GeneratedRegex(@"^(basico|intermedio(?: ?(?:bajo|alto|1|2))?|excedente)(?![a-z0-9])")] private static partial Regex EtiquetaRango();
+    // El OCR lee "Intermedio1" como "Intermediol" y "Intermedio2" como "Intermedi02".
+    [GeneratedRegex(@"^(basico|intermedi[o0](?: ?(?:bajo|alto|[12il]))?|excedente)(?![a-z0-9])")] private static partial Regex EtiquetaRango();
     [GeneratedRegex(@"^energia ?\(kwh\)")] private static partial Regex EtiquetaFilaEnergia();
     [GeneratedRegex(@"\bmultiplicador\b")] private static partial Regex EtiquetaMultiplicador();
     [GeneratedRegex(@"^i\.?v\.?a\.?\b")] private static partial Regex EtiquetaIva();
@@ -60,7 +61,11 @@ public static partial class ReciboParser
     [GeneratedRegex(@"^[\s:$=\-]*(?<n>[0-9oils][0-9oils.,]*?)(?=$|\s|\$|kwh|%)")] private static partial Regex PrimerNumero();
     [GeneratedRegex(@"(?<![a-z0-9.,])(?<n>[0-9oils][0-9oils.,]*)(?=$|[^a-z0-9.,]|kwh)")] private static partial Regex Numeros();
     // Fase 9k (D2): la tarifa termina donde termina su nombre, aunque venga texto pegado ("1CNO. MEDIDOR" da "1C").
-    [GeneratedRegex(@"^[\s:]*(?<t>dac|pdbt|gdbt|gdmto|1[a-f]|1)(?![0-9])")] private static partial Regex ValorTarifa();
+    // El OCR lee el 1 de la tarifa como I o l ("TARIFA:ICNO."): solo se acepta pegado a "no" o sin más letras.
+    [GeneratedRegex(@"^[\s:]*(?<t>dac|pdbt|gdbt|gdmto|1[a-f]|[il][a-f](?=no\b|[^a-z]|$)|1|[il](?=[^a-z0-9]|$))(?![0-9])")] private static partial Regex ValorTarifa();
+
+    // "1 ,752": el OCR deja un espacio antes del separador de un número.
+    [GeneratedRegex(@"(?<=\d) (?=[.,]\d)")] private static partial Regex EspacioAntesDeSeparador();
     [GeneratedRegex(@"(?<!\d)(?<d>\d{1,2})[\s/\-.]+(?<m>[a-z]{3,4}|\d{1,2})[\s/\-.]+(?<a>\d{4}|\d{2})(?!\d)")] private static partial Regex Fecha();
     [GeneratedRegex(@"\s+")] private static partial Regex Espacios();
 
@@ -81,7 +86,7 @@ public static partial class ReciboParser
             .ToList();
 
         var tarifa = Resolver(Candidatos(normalizadas, EtiquetaTarifa(), resto =>
-            ValorTarifa().Match(resto) is { Success: true } m ? m.Groups["t"].Value.ToUpperInvariant() : null));
+            ValorTarifa().Match(resto) is { Success: true } m ? UnoDeTarifa(m.Groups["t"].Value).ToUpperInvariant() : null));
         var (inicio, fin) = Periodo(normalizadas);
         var dias = Numero(normalizadas, EtiquetaDias(), TipoNumero.Entero);
         var anterior = Numero(normalizadas, EtiquetaLecturaAnterior(), TipoNumero.Entero);
@@ -241,8 +246,11 @@ public static partial class ReciboParser
             }
         }
 
-        return Espacios().Replace(sinAcentos.ToString().ToLowerInvariant(), " ").Trim();
+        var limpia = Espacios().Replace(sinAcentos.ToString().ToLowerInvariant(), " ").Trim();
+        return EspacioAntesDeSeparador().Replace(limpia, string.Empty);
     }
+
+    private static string UnoDeTarifa(string tarifa) => tarifa.Length > 0 && tarifa[0] is 'i' or 'l' ? "1" + tarifa[1..] : tarifa;
 
     /// <summary>
     /// Valores junto a cada aparición de la etiqueta: en la misma línea (Alta) o, si ahí no hay
@@ -391,7 +399,7 @@ public static partial class ReciboParser
     }
 
     // "intermedio1" e "intermedio 1" son el mismo tramo: "Intermedio 1".
-    private static string NombreDeRango(string etiqueta) => etiqueta.Replace(" ", string.Empty, StringComparison.Ordinal) switch
+    private static string NombreDeRango(string etiqueta) => SinErroresDeOcr(etiqueta.Replace(" ", string.Empty, StringComparison.Ordinal)) switch
     {
         "basico" => "Básico",
         "excedente" => "Excedente",
@@ -402,6 +410,13 @@ public static partial class ReciboParser
         "intermedioalto" => "Intermedio alto",
         var otro => char.ToUpperInvariant(otro[0]) + otro[1..],
     };
+
+    // "intermedi0…" → "intermedio…"; "intermedioi" / "intermediol" → "intermedio1".
+    private static string SinErroresDeOcr(string etiqueta)
+    {
+        var e = etiqueta.StartsWith("intermedi0", StringComparison.Ordinal) ? "intermedio" + etiqueta[10..] : etiqueta;
+        return e is "intermedioi" or "intermediol" ? "intermedio1" : e;
+    }
 
     /// <summary>
     /// Convierte el texto de un número ya etiquetado; null si no es un número o si es ambiguo.
