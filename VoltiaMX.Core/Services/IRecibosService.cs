@@ -39,6 +39,22 @@ public interface IRecibosService
         CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Lo que se guardaría con <see cref="AgregarConConsumoAsync"/>, sin guardar nada.
+    /// </summary>
+    Task<ResultadoReciboPorMonto> PrevisualizarConConsumoAsync(
+        int lugarId, decimal kwh, decimal importe, DateOnly? fechaCorte, DateOnly hoy, int? mesesPorPeriodo = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Fase 9k (D6): agrega un recibo con el consumo leído de él. Guarda esos kWh exactos (no Estimado),
+    /// Monto = el cálculo con la tarifa del lugar y MontoRecibo = el importe del recibo. Las fechas, los rechazos y la
+    /// periodicidad siguen las mismas reglas que <see cref="AgregarPorMontoAsync"/>.
+    /// </summary>
+    Task<ResultadoReciboPorMonto> AgregarConConsumoAsync(
+        int lugarId, decimal kwh, decimal importe, DateOnly? fechaCorte, DateOnly hoy, int? mesesPorPeriodo = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Si el lugar ya tiene algún recibo (periodo) guardado; con recibos ya no se pregunta la periodicidad.
     /// </summary>
     Task<bool> TieneRecibosAsync(int lugarId, CancellationToken cancellationToken = default);

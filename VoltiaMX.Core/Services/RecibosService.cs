@@ -19,12 +19,24 @@ public sealed class RecibosService(
     public Task<ResultadoReciboPorMonto> PrevisualizarPorMontoAsync(
         int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, int? mesesPorPeriodo = null,
         CancellationToken cancellationToken = default)
-        => ProcesarAsync(lugarId, total, fechaCorte, porcentaje, hoy, mesesPorPeriodo, guardar: false, cancellationToken);
+        => ProcesarAsync(lugarId, total, null, fechaCorte, porcentaje, hoy, mesesPorPeriodo, guardar: false, cancellationToken);
 
     public Task<ResultadoReciboPorMonto> AgregarPorMontoAsync(
         int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, int? mesesPorPeriodo = null,
         CancellationToken cancellationToken = default)
-        => ProcesarAsync(lugarId, total, fechaCorte, porcentaje, hoy, mesesPorPeriodo, guardar: true, cancellationToken);
+        => ProcesarAsync(lugarId, total, null, fechaCorte, porcentaje, hoy, mesesPorPeriodo, guardar: true, cancellationToken);
+
+    public Task<ResultadoReciboPorMonto> PrevisualizarConConsumoAsync(
+        int lugarId, decimal kwh, decimal importe, DateOnly? fechaCorte, DateOnly hoy, int? mesesPorPeriodo = null,
+        CancellationToken cancellationToken = default)
+        => ProcesarAsync(
+            lugarId, importe, kwh, fechaCorte, EstimadorPorMonto.CargosPorDefecto, hoy, mesesPorPeriodo, guardar: false, cancellationToken);
+
+    public Task<ResultadoReciboPorMonto> AgregarConConsumoAsync(
+        int lugarId, decimal kwh, decimal importe, DateOnly? fechaCorte, DateOnly hoy, int? mesesPorPeriodo = null,
+        CancellationToken cancellationToken = default)
+        => ProcesarAsync(
+            lugarId, importe, kwh, fechaCorte, EstimadorPorMonto.CargosPorDefecto, hoy, mesesPorPeriodo, guardar: true, cancellationToken);
 
     public async Task<bool> TieneRecibosAsync(int lugarId, CancellationToken cancellationToken = default)
     {
@@ -52,12 +64,17 @@ public sealed class RecibosService(
     }
 
     private async Task<ResultadoReciboPorMonto> ProcesarAsync(
-        int lugarId, decimal total, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, int? mesesPorPeriodo, bool guardar,
-        CancellationToken cancellationToken)
+        int lugarId, decimal total, decimal? kwhLeido, DateOnly? fechaCorte, decimal porcentaje, DateOnly hoy, int? mesesPorPeriodo,
+        bool guardar, CancellationToken cancellationToken)
     {
         if (EstimadorPorMonto.Validar(total, porcentaje) is { } invalido)
         {
             return ResultadoReciboPorMonto.Rechazado(invalido);
+        }
+
+        if (kwhLeido is <= 0m or > EstimadorPorMonto.ConsumoMaximo)
+        {
+            return ResultadoReciboPorMonto.Rechazado(ErrorReciboPorMonto.ConsumoFueraDeRango);
         }
 
         await using var db = await fabrica.CreateDbContextAsync(cancellationToken);
@@ -94,8 +111,10 @@ public sealed class RecibosService(
             return ResultadoReciboPorMonto.Rechazado(choque, inicio, fin, ubicacion.ChoqueInicio, ubicacion.ChoqueFin);
         }
 
-        var estimacion = EstimadorPorMonto.Estimar(
-            inverso, calculadora, tarifa, meses, fin.DayNumber - inicio.DayNumber + 1, total, porcentaje);
+        // Fase 9k (D6): con el consumo leído del recibo no se estima; su monto es el cálculo con la tarifa del lugar.
+        var estimacion = kwhLeido is decimal kwh
+            ? new EstimacionPorMonto(null, kwh, calculadora.Calcular(kwh, tarifa, meses).Total, total, meses)
+            : EstimadorPorMonto.Estimar(inverso, calculadora, tarifa, meses, fin.DayNumber - inicio.DayNumber + 1, total, porcentaje);
         if (estimacion.Error is { } error)
         {
             return ResultadoReciboPorMonto.Rechazado(error, inicio, fin);
@@ -115,7 +134,7 @@ public sealed class RecibosService(
                 Fin = fin,
                 KwhTotales = estimacion.Kwh,
                 Monto = estimacion.Monto,
-                Estimado = true,
+                Estimado = kwhLeido is null,
                 MontoRecibo = total,
             });
             await db.SaveChangesAsync(cancellationToken);

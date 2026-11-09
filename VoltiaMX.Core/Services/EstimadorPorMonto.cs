@@ -43,6 +43,11 @@ public enum ErrorReciboPorMonto
     /// La fecha cae dentro de un recibo cerrado con lecturas (Fase 9i).
     /// </summary>
     DentroDeLecturas,
+
+    /// <summary>
+    /// Fase 9k: el consumo leído del recibo debe ser mayor a 0 y no pasar de <see cref="EstimadorPorMonto.ConsumoMaximo"/> kWh.
+    /// </summary>
+    ConsumoFueraDeRango,
 }
 
 /// <summary>
@@ -66,6 +71,11 @@ public static class EstimadorPorMonto
     public const decimal CargosMaximos = 40m;
 
     public const decimal TotalMaximo = 1_000_000m;
+
+    /// <summary>
+    /// Fase 9k: tope del consumo de un recibo leído, en kWh.
+    /// </summary>
+    public const decimal ConsumoMaximo = 100_000m;
 
     public static ErrorReciboPorMonto? Validar(decimal total, decimal porcentaje)
         => total is <= 0m or > TotalMaximo ? ErrorReciboPorMonto.TotalFueraDeRango

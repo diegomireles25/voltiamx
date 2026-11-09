@@ -4025,6 +4025,9 @@
   <data name="ReciboMonto_Error_CorteMuyCerca" xml:space="preserve">
     <value>Tu recibo con corte el {0:d 'de' MMMM} queda muy cerca de esta fecha. Revisa que sea la de otro recibo.</value>
   </data>
+  <data name="ReciboMonto_Error_ConsumoFueraDeRango" xml:space="preserve">
+    <value>Escribe un consumo mayor a 0 kWh y de hasta 100,000 kWh.</value>
+  </data>
   <data name="ReciboMonto_Error_DentroDeLecturas" xml:space="preserve">
     <value>Esa fecha cae dentro de tu recibo del {0:d 'de' MMMM} al {1:d 'de' MMMM}, que ya tiene lecturas.</value>
   </data>
