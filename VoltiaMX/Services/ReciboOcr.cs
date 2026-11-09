@@ -1,3 +1,4 @@
+using VoltiaMX.Core.Services;
 using Windows.Data.Pdf;
 using Windows.Globalization;
 using Windows.Graphics.Imaging;
@@ -29,7 +30,8 @@ public enum ErrorOcr
 /// Líneas reconocidas, en el orden en que el OCR las devuelve. <see cref="Idioma"/> es la etiqueta
 /// del idioma usado (p. ej. "es-MX").
 /// </summary>
-public sealed record ResultadoOcr(IReadOnlyList<string> Lineas, string? Idioma, ErrorOcr? Error);
+/// <remarks><see cref="DelTextoDelPdf"/>: las líneas salieron de la capa de texto del PDF (Fase 9k-0), no del OCR.</remarks>
+public sealed record ResultadoOcr(IReadOnlyList<string> Lineas, string? Idioma, ErrorOcr? Error, bool DelTextoDelPdf = false);
 
 /// <summary>
 /// Reconocimiento de texto del recibo, sin internet. No guarda la imagen ni el texto.
@@ -54,6 +56,17 @@ public sealed class ReciboOcr : IReciboOcr
 
     public async Task<ResultadoOcr> LeerAsync(string ruta, CancellationToken cancellationToken = default)
     {
+        // Fase 9k-0: un PDF digital trae su texto; se lee directo y el OCR queda de respaldo (sin texto o sin etiquetas
+        // del recibo). No necesita el idioma del OCR.
+        if (string.Equals(Path.GetExtension(ruta ?? string.Empty), ".pdf", StringComparison.OrdinalIgnoreCase))
+        {
+            var texto = await Task.Run(() => TextoDePdf.Lineas(ruta!), cancellationToken);
+            if (TextoDePdf.TieneTextoUtil(texto))
+            {
+                return new ResultadoOcr(texto, null, null, DelTextoDelPdf: true);
+            }
+        }
+
         var motor = CrearMotor();
         if (motor is null)
         {
