@@ -58,6 +58,20 @@ public sealed class ReciboAConfirmar
 
     public DateOnly? FechaCorte { get; set; }
 
+    // Fase 9k: multiplicador, IVA e importe del recibo (y si salió del total a pagar), para la coherencia.
+    public decimal? Multiplicador { get; set; }
+
+    public decimal? Iva { get; set; }
+
+    public decimal? ImporteRecibo { get; set; }
+
+    /// <summary>
+    /// El importe del recibo es la facturación del periodo leída (no deducida ni tomada del total).
+    /// </summary>
+    public bool ImporteEsFacturacion { get; set; }
+
+    public bool ImporteDesdeTotal { get; set; }
+
     /// <summary>
     /// Fecha de la lectura actual: el fin del periodo facturado, que es cuando se tomó.
     /// </summary>
@@ -82,6 +96,11 @@ public sealed class ReciboAConfirmar
             Total = leido.Total.Valor,
             FechaCorte = leido.FechaCorte.Valor,
             FechaLectura = leido.PeriodoFin.Valor,
+            Multiplicador = leido.Multiplicador.Valor,
+            Iva = leido.Iva.Valor,
+            ImporteRecibo = leido.ImporteRecibo.Valor,
+            ImporteEsFacturacion = leido.FacturacionPeriodo.Valor is not null,
+            ImporteDesdeTotal = leido.ImporteDesdeTotal,
         };
     }
 

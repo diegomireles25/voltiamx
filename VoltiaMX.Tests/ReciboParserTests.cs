@@ -42,7 +42,8 @@ public class ReciboParserTests
         Assert.Equal(new CampoNumero(422m, Confianza.Alta), recibo.ConsumoKwh);
         Assert.Equal(new CampoNumero(751.30m, Confianza.Alta), recibo.ImporteEnergia);
         Assert.Equal(new CampoNumero(871.51m, Confianza.Alta), recibo.Total);
-        Assert.Equal(new CampoFecha(new DateOnly(2026, 9, 28), Confianza.Alta), recibo.FechaCorte);
+        // Fase 9k (D1): la fecha del recibo es el fin del periodo facturado (12 sep), no la "fecha de corte" (28 sep).
+        Assert.Equal(new CampoFecha(new DateOnly(2026, 9, 12), Confianza.Alta), recibo.FechaCorte);
 
         Assert.Equal(["Básico", "Intermedio", "Excedente"], recibo.Rangos.Select(r => r.Nombre));
         Assert.Equal([150m, 150m, 122m], recibo.Rangos.Select(r => r.Kwh.Valor));
@@ -100,11 +101,12 @@ public class ReciboParserTests
         Assert.Equal(new CampoNumero(null, Confianza.NoEncontrado), ReciboParser.Analizar(["TOTAL A PAGAR 1.234"]).Total);
     }
 
+    // Fase 9k (D1): los mismos formatos de fecha, ahora en el periodo facturado (la "fecha de corte" ya no llena la fecha).
     [Theory]
-    [InlineData("FECHA DE CORTE 28 SEP 26")]
-    [InlineData("FECHA DE CORTE 28/09/2026")]
-    [InlineData("Fecha de corte: 28-SEP-2026")]
-    [InlineData("fecha de corte 28 sept 2026")]
+    [InlineData("PERIODO FACTURADO 28 JUL 26 AL 28 SEP 26")]
+    [InlineData("PERIODO FACTURADO 28/07/2026 - 28/09/2026")]
+    [InlineData("Periodo facturado: 28-JUL-2026 - 28-SEP-2026")]
+    [InlineData("periodo facturado 28 jul 2026 al 28 sept 2026")]
     public void Analizar_FormatosDeFecha(string linea)
     {
         Assert.Equal(new CampoFecha(new DateOnly(2026, 9, 28), Confianza.Alta), ReciboParser.Analizar([linea]).FechaCorte);
@@ -209,7 +211,8 @@ public class ReciboParserTests
 
         Assert.Equal(new CampoFecha(new DateOnly(2026, 7, 12), Confianza.Baja), recibo.PeriodoInicio);
         Assert.Equal(new CampoFecha(new DateOnly(2026, 9, 12), Confianza.Baja), recibo.PeriodoFin);
-        Assert.Equal(new CampoFecha(new DateOnly(2026, 9, 28), Confianza.Baja), recibo.FechaCorte);
+        // Fase 9k (D1): la fecha del recibo es el fin del periodo (12 sep, para revisar), no la "fecha de corte".
+        Assert.Equal(new CampoFecha(new DateOnly(2026, 9, 12), Confianza.Baja), recibo.FechaCorte);
     }
 
     [Fact]

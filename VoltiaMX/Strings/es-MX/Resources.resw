@@ -4028,4 +4028,16 @@
   <data name="ReciboMonto_Error_DentroDeLecturas" xml:space="preserve">
     <value>Esa fecha cae dentro de tu recibo del {0:d 'de' MMMM} al {1:d 'de' MMMM}, que ya tiene lecturas.</value>
   </data>
+  <data name="AvisoRecibo_SubtotalNoCuadra" xml:space="preserve">
+    <value>En un renglón, los kWh por el precio dan ${0:N2}, pero el subtotal dice ${1:N2}.</value>
+  </data>
+  <data name="AvisoRecibo_EnergiaMasIvaNoCuadra" xml:space="preserve">
+    <value>La energía más el IVA da ${0:N2}, pero el importe de tu recibo dice ${1:N2}.</value>
+  </data>
+  <data name="AvisoRecibo_TotalIncluyeSaldos" xml:space="preserve">
+    <value>Tu total a pagar incluye saldos anteriores o redondeo. Usamos el importe de este recibo: ${0:N2}.</value>
+  </data>
+  <data name="AvisoRecibo_TotalSinDesglose" xml:space="preserve">
+    <value>Tu total puede incluir saldos anteriores.</value>
+  </data>
 </root>

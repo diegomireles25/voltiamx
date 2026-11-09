@@ -21,6 +21,26 @@ public enum CodigoAvisoRecibo
     /// La tarifa del recibo no está entre tus tarifas.
     /// </summary>
     TarifaNoRegistrada,
+
+    /// <summary>
+    /// Fase 9k: en un tramo, los kWh por el precio no dan su subtotal.
+    /// </summary>
+    SubtotalNoCuadra,
+
+    /// <summary>
+    /// Fase 9k: la energía más el IVA no da el importe del recibo.
+    /// </summary>
+    EnergiaMasIvaNoCuadra,
+
+    /// <summary>
+    /// Fase 9k: el total a pagar incluye saldos anteriores o redondeo; se usa el importe del recibo.
+    /// </summary>
+    TotalIncluyeSaldos,
+
+    /// <summary>
+    /// Fase 9k: no se leyó el desglose y el importe salió del total a pagar, que puede incluir saldos anteriores.
+    /// </summary>
+    TotalSinDesglose,
 }
 
 /// <summary>
@@ -37,6 +57,11 @@ public static class ReciboCoherencia
     public const decimal ToleranciaKwh = 1m;
     public const decimal ToleranciaPesos = 1m;
 
+    /// <summary>
+    /// Fase 9k: kWh por precio contra el subtotal de cada tramo.
+    /// </summary>
+    public const decimal ToleranciaSubtotal = 0.50m;
+
     public static IReadOnlyList<AvisoCoherencia> Comprobar(ReciboLeido recibo, IEnumerable<string>? tarifasRegistradas = null)
         => Comprobar(ReciboAConfirmar.Desde(recibo), tarifasRegistradas);
 
@@ -45,10 +70,12 @@ public static class ReciboCoherencia
         ArgumentNullException.ThrowIfNull(recibo);
         var avisos = new List<AvisoCoherencia>();
 
+        // (actual − anterior) × multiplicador = consumo.
+        var multiplicador = recibo.Multiplicador is > 0m and decimal m ? m : 1m;
         if (recibo.LecturaActual is decimal actual && recibo.LecturaAnterior is decimal anterior && recibo.ConsumoKwh is decimal consumo
-            && Math.Abs(actual - anterior - consumo) > ToleranciaKwh)
+            && Math.Abs((actual - anterior) * multiplicador - consumo) > ToleranciaKwh)
         {
-            avisos.Add(new AvisoCoherencia(CodigoAvisoRecibo.LecturasNoCuadranConConsumo, actual - anterior, consumo));
+            avisos.Add(new AvisoCoherencia(CodigoAvisoRecibo.LecturasNoCuadranConConsumo, (actual - anterior) * multiplicador, consumo));
         }
 
         if (recibo.Rangos.Count > 0 && recibo.Rangos.All(r => r.Kwh is not null) && recibo.ConsumoKwh is decimal leido)
@@ -67,6 +94,31 @@ public static class ReciboCoherencia
             {
                 avisos.Add(new AvisoCoherencia(CodigoAvisoRecibo.ImportesNoSumanEnergia, suma, energia));
             }
+        }
+
+        foreach (var rango in recibo.Rangos)
+        {
+            if (rango.Kwh is decimal kwh && rango.Precio is decimal precio && rango.Importe is decimal subtotal
+                && Math.Abs(kwh * precio - subtotal) > ToleranciaSubtotal)
+            {
+                avisos.Add(new AvisoCoherencia(CodigoAvisoRecibo.SubtotalNoCuadra, kwh * precio, subtotal));
+            }
+        }
+
+        if (recibo.ImporteEsFacturacion && recibo.ImporteEnergia is decimal deEnergia && recibo.Iva is decimal iva
+            && recibo.ImporteRecibo is decimal importe && Math.Abs(deEnergia + iva - importe) > ToleranciaPesos)
+        {
+            avisos.Add(new AvisoCoherencia(CodigoAvisoRecibo.EnergiaMasIvaNoCuadra, deEnergia + iva, importe));
+        }
+
+        if (recibo.ImporteDesdeTotal)
+        {
+            avisos.Add(new AvisoCoherencia(CodigoAvisoRecibo.TotalSinDesglose));
+        }
+        else if (recibo.Total is decimal total && recibo.ImporteRecibo is decimal delRecibo
+            && Math.Abs(total - delRecibo) > ReciboLeido.DiferenciaTotalAvisar)
+        {
+            avisos.Add(new AvisoCoherencia(CodigoAvisoRecibo.TotalIncluyeSaldos, delRecibo, total));
         }
 
         if (tarifasRegistradas is not null && !string.IsNullOrWhiteSpace(recibo.Tarifa)

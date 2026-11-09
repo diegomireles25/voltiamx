@@ -144,6 +144,12 @@ public sealed class ReciboOcr : IReciboOcr
             ExifOrientationMode.RespectExifOrientation, ColorManagementMode.DoNotColorManage);
         cancellationToken.ThrowIfCancellationRequested();
         var resultado = await motor.RecognizeAsync(mapa);
-        return resultado.Lines.Select(l => l.Text).ToList();
+
+        // Fase 9k: las líneas se arman con la posición de cada palabra, para que las columnas de una tabla queden en
+        // su fila aunque el OCR las devuelva en líneas separadas.
+        return LineasPorPosicion.Agrupar(resultado.Lines
+            .SelectMany(l => l.Words)
+            .Select(w => new PalabraUbicada(w.Text, w.BoundingRect.X, w.BoundingRect.Y, w.BoundingRect.Height)))
+            .ToList();
     }
 }
