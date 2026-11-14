@@ -14,7 +14,7 @@
     <CornerRadius x:Key="RadiusCard">24</CornerRadius>
     <CornerRadius x:Key="RadiusCardLg">32</CornerRadius>
     <CornerRadius x:Key="RadiusCardXl">64</CornerRadius>
-    <!-- Decisión del proyecto (CLAUDE.md): etiquetas rectangulares, no pastillas como en DESIGN.md -->
+    <!-- Decisión del proyecto: etiquetas rectangulares, no pastillas como en DESIGN.md -->
     <CornerRadius x:Key="RadiusTag">8</CornerRadius>
     <CornerRadius x:Key="RadiusNavPill">16</CornerRadius>
     <!-- Solo esquinas superiores: la tarjeta "emerge" desde abajo -->
