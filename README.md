@@ -1,38 +1,28 @@
 # VoltiaMX
 
-App de escritorio para Windows que ayuda a entender, predecir y reducir el recibo de luz de la CFE, en casa, en un negocio o en propiedades en renta, sin necesidad de internet.
+App de escritorio para Windows que explica el recibo de luz de la CFE a hogares en México: cuánto vas a pagar, qué aparatos gastan más y cuántos paneles solares necesitarías. Funciona sin internet y todo se guarda en tu equipo.
 
-**Estado: AVANCE (versión 1.1), no es una versión final.**
+**Versión 1.1.**
 
-## Qué ya funciona
+## Qué hace
 
-- Onboarding corto de 3 preguntas (uso, ubicación y tarifa, recibo opcional) con escena 3D de bienvenida.
-- Experiencia simplificada: el menú muestra Inicio, hasta dos módulos principales según tu perfil y Más.
-- Inicio con el pago estimado del recibo, la comparación con tu recibo anterior, la tarifa alta (DAC), el historial y lo que más gasta.
-- Captura de lecturas del medidor con cierre automático de cada recibo en el día de corte.
-- Historial de consumo y gasto con gráficas.
-- "Cómo se calcula tu recibo": el desglose por tramos de precio y la cercanía a la tarifa alta (DAC).
-- Tarifas editables (tramos, precios, cargo fijo y límite de la tarifa alta) y validación contra tu recibo.
-- Aparatos con su consumo aproximado y lo que más gasta contra lo que mide tu medidor.
-- Simulador de ahorro: menos horas de uso o un equipo más eficiente, con pesos según tu tarifa y recuperación de la inversión.
-- Metas de ahorro: gastar menos que el recibo anterior, con progreso, historial y racha.
-- Escanear el recibo (foto o PDF) con reconocimiento de texto local, sin internet: revisas los datos leídos y guardas la lectura.
-- Notificaciones de Windows con los avisos del día de corte, la tarifa alta y la meta (verificación con la versión empaquetada pendiente).
-- Exportar a Excel y PDF: el reporte del recibo en PDF y todos tus datos en Excel, generados en tu equipo.
-- Respaldo y restauración en un solo archivo, con copia automática antes de actualizar la base de datos y antes de restaurar.
-- Inquilinos: reparto del recibo según el medidor propio de cada uno (solo lo medido o proporcional), con un recibo en PDF por inquilino y un resumen.
-- Simulador solar: una estimación de paneles, generación, ahorro y recuperación con supuestos editables, exportable a PDF.
-- En `VoltiaMX.Core`: cálculo por tramos de la tarifa, el ritmo de consumo del recibo y la tarifa alta (DAC) con el promedio de los últimos 12 meses.
-- Pruebas automáticas (`dotnet test`).
-- Base de datos local SQLite.
+- Primer uso corto con escena 3D de bienvenida: eliges tu tarifa y agregas tu último recibo.
+- Cuatro pestañas: **Inicio**, **Mis recibos**, **Aparatos** y **Configuración**.
+- Inicio con el pago estimado del periodo, la comparación con tu recibo anterior, la cercanía a la tarifa alta (DAC), qué gasta más y una sugerencia para ahorrar.
+- Escaneo del recibo (foto o PDF) con lectura de texto local, sin internet. Lee fecha del periodo, tarifa, importe, consumo en kWh y tramos; tú revisas antes de guardar.
+- Validación del recibo contra tu tarifa, con aviso si no coinciden.
+- Historial de recibos con consumo y gasto.
+- Aparatos con su costo aproximado al mes. Soporta varios iguales (por ejemplo tres aires), con las mismas horas o cada uno distinto, y permite editar y eliminar.
+- Tarifas editables: tramos, precios, cargo fijo y límite de la tarifa alta.
+- Simulador solar: paneles, espacio, generación, ahorro y recuperación, con supuestos editables.
+- Exportar a Excel y PDF, y respaldo y restauración en un solo archivo.
+- Lenguaje sencillo: cifras en pesos y marcadas como "aproximado" cuando son estimaciones.
 
-## Qué falta
+El proyecto incluye además módulos que no se muestran en esta versión: modo avanzado, metas de ahorro, simulador de ahorro, reparto entre inquilinos y notificaciones de Windows.
 
-- Verificación con un recibo real.
-- Tarifas oficiales de CFE (hoy son datos de ejemplo editables).
-- Empaquetado e instalación en otro equipo.
+## Manual de usuario
 
-Las secciones que aún no existen aparecen en la app como "Próximamente" o con sus botones deshabilitados.
+Está en `docs/Manual-de-usuario-VoltiaMX.docx`.
 
 ## Cómo ejecutarla
 
@@ -61,7 +51,7 @@ dotnet test
 
 ## Aviso sobre tarifas y cifras
 
-Las tarifas, rangos, cargos y cifras que trae la app son **datos de ejemplo** para probarla. **No son datos oficiales de la CFE.** Verifica siempre las tarifas vigentes en tu recibo o con la CFE antes de tomar decisiones con estos cálculos. Las tarifas se guardan como datos en la base local, no en el código.
+Las cifras de la app son estimaciones. Tu recibo de la CFE es el dato oficial. Los precios de las tarifas se guardan como datos en la base local, no en el código, y pueden no coincidir con los vigentes o con los de tu temporada. Verifica siempre tu tarifa en el recibo y, si hace falta, corrígela en Configuración > Tu tarifa.
 
 ## Estructura
 
@@ -72,8 +62,8 @@ VoltiaMX/              App WinUI 3: vistas, ViewModels, servicios de UI, estilos
   Strings/es-MX/       Textos de la interfaz (Resources.resw)
   Styles/              Colores, tipografía, formas y estilos de controles
 VoltiaMX.Core/         Modelos, base de datos (EF Core + SQLite) y servicios de cálculo
-VoltiaMX.Tests/        Pruebas automáticas (xUnit) de VoltiaMX.Core
-docs/                  Sistema visual (DESIGN.md), mockup del Dashboard y prompts por fase
+VoltiaMX.Tests/        Pruebas automáticas (xUnit) de VoltiaMX.Core, más de 800
+docs/                  Sistema visual (DESIGN.md), manual de usuario y prompts por fase
 ```
 
 ## Créditos de terceros
@@ -81,4 +71,5 @@ docs/                  Sistema visual (DESIGN.md), mockup del Dashboard y prompt
 - **Three.js r128**: copyright 2010-2021 three.js authors, licencia MIT. Ver `VoltiaMX/Assets/Escena3D/LICENSE-three.txt`.
 - **Barlow Condensed**, **Inter** y **JetBrains Mono**: licencia SIL Open Font License 1.1. Ver los textos de licencia en `VoltiaMX/Assets/Fonts/`.
 - **QuestPDF 2026.9.1** (reporte en PDF): QuestPDF Community License, gratuita para individuos, organizaciones sin fines de lucro, proyectos open source y organizaciones con ingresos brutos anuales menores a USD 1,000,000; no aplica a empresas que cotizan en bolsa ni a entidades del sector público. Se declara en el código con `QuestPDF.Settings.License = LicenseType.Community` (`VoltiaMX.Core/Services/Reportes/GeneradorPdf.cs`). Si quien publica la app deja de cumplir esas condiciones, necesita una licencia comercial. Ver https://www.questpdf.com/license.
+- **PdfPig 0.1.16** (lectura de texto de PDF): licencia Apache-2.0.
 - **ClosedXML 0.105.1** (exportación a Excel): licencia MIT.
